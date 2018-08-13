@@ -1,0 +1,65 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
+    <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Framework\" />
+    <Folder Include="Framework\Configurations\" />
+    <Folder Include="Framework\Extensions\" />
+    <Folder Include="Framework\Helpers\" />
+    <Folder Include="ViewModels\Jobs\" />
+    <Folder Include="Views\Credits\" />
+    <Folder Include="Views\Jobs\" />
+    <Folder Include="Views\Jobs\_Partials\" />
+    <Folder Include="Views\UnderMaintenance\" />
+    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Shared\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\css\fonts\" />
+    <Folder Include="wwwroot\css\theme\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\images\sponsors\" />
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\js\jobs\" />
+    <Folder Include="Framework\Filters\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="ViewModels\Account\" />
+    <Folder Include="Views\Account\_Partials\" />
+    <Folder Include="ViewModels\Account\Facebook\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
+    <ProjectReference Include="..\AppService\AppService.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\js\jobs\likes.js" />
+    <Content Remove="wwwroot\js\jobs\new.js" />
+    <Content Remove="wwwroot\js\jobs\wizard.js" />
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove="wwwroot\css\theme\bootstrap-social.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="appsettings.json.template" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\js\jobs\likes.js" />
+    <None Include="wwwroot\js\jobs\new.js" />
+    <None Include="wwwroot\js\jobs\wizard.js" />
+    <None Include="appsettings.json" />
+    <None Include="wwwroot\css\theme\bootstrap-social.min.css" />
+  </ItemGroup>
+</Project>

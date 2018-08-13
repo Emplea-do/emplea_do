@@ -1,0 +1,32 @@
+﻿{
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=../mydb.db;"
+  },
+  "SocialKeys": {
+    "LocalVerificationToken": "",
+    "FacebookAppId": "",
+    "FacebookAppSecret": "",
+    "GoogleClientId": "",
+    "GoogleClientSecret": "",
+    "LinkedInClientId": "",
+    "LinkedInClientSecret": "",
+    "MsClientId": "",
+    "MsClientSecret": "",
+    "TwitterAccessToken": "",
+    "TwitterAccessTokenSecr": "",
+    "TwitterConsumerKey": "",
+    "TwitterConsumerSecret" :  "",
+    "GoogleMapsApiKey" :  "",
+    "ReCaptchaPrivateKey" :  "",
+    "ReCaptchaPublicKey" :  "",
+    "SlackVerificationToken" :  "",
+    "SlackWebhookEndpoint" :  ""
+  },
+  "UnderMaintenance": false
+}

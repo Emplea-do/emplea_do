@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Framework\" />
+    <Folder Include="Framework\Extensions\" />
+    <Folder Include="Services\" />
+    <Folder Include="Framework\Queries\" />
+    <Folder Include="Queries\" />
+    <Folder Include="Framework\Social\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="IMutableService.config" />
+  </ItemGroup>
+</Project>

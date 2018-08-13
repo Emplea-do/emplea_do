@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
+  <ItemGroup>
+    <Folder Include="Framework\" />
+    <Folder Include="Framework\Constants\" />
+    <Folder Include="Framework\Dto\" />
+  </ItemGroup>
+</Project>

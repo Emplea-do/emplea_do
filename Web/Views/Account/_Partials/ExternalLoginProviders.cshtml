@@ -1,0 +1,33 @@
+﻿<section>
+    <div class="container">
+        <div class="row">
+            <div>
+                <h2>Inicia sesión</h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    @using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = ViewBag.ReturnUrl }))
+                    {
+                    @Html.AntiForgeryToken()
+                    <div id="socialLoginList">
+                        <p>
+                            <button name="provider" value="facebook" type="submit" class="btn btn-block btn-social btn-facebook">
+                                <span class="fa fa-facebook-official"></span> Accede con Facebook
+                            </button>
+                            <button name="provider" value="google" type="submit" class="btn btn-block btn-social btn-google">
+                                <span class="fa fa-google-plus"></span> Accede con Google
+                            </button>
+                            <button name="provider" value="microsoft" type="submit" class="btn btn-block btn-social btn-microsoft">
+                                <span class="fa fa-windows"></span> Accede con Microsoft
+                            </button>
+                            <button name="provider" value="linkedin" type="submit" class="btn btn-block btn-social btn-linkedin">
+                                <span class="fa fa-linkedin"></span> Accede con LinkedIn
+                            </button>
+                        </p>
+                    </div>
+                }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
