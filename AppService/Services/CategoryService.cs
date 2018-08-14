@@ -7,11 +7,11 @@ using Domain.Framework;
 
 namespace AppService.Services
 {
-    public class CategoriesService : ICategoriesService
+    public class CategoryService : ICategoryService
     {
         private readonly ICategoryRepository _categoriesRepository;
 
-        public CategoriesService(ICategoryRepository categoriesRepository)
+        public CategoryService(ICategoryRepository categoriesRepository)
         {
             _categoriesRepository = categoriesRepository;
         }
@@ -33,7 +33,7 @@ namespace AppService.Services
         }
     }
 
-    public interface ICategoriesService
+    public interface ICategoryService
     {
         PagingResult<Category> GetByPagination(PaginationFilter paginationFilter);
 

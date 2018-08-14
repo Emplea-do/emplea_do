@@ -19,20 +19,13 @@ namespace Data.Repositories
             Database = database;
         }
 
-        public int CommitChanges()
-        {
-            return Database.SaveChanges();
-        }
+        public int CommitChanges() => Database.SaveChanges();
 
-        public T GetById(int id)
-        {
-            return Database.Set<T>().Find(id);
-        }
+        public T GetById(int id) => Database.Set<T>().Find(id);       
 
-        public IQueryable<T> GetAll()
-        {
-            return Database.Set<T>();
-        }
+        public IQueryable<T> GetAll() => Database.Set<T>();
+       
+        public IQueryable<T> GetAll(params Expression<Func<T, object>>[] include) => Get(null, include);
 
         public IQueryable<T> Get(Expression<Func<T, bool>> where, string includeProperties = "")
         {
@@ -126,22 +119,11 @@ namespace Data.Repositories
             Update(entity);
         }
 
-        public virtual void Delete(T entity)
-        {
-            Database.Set<T>().Remove(entity);
-        }
+        public virtual void Delete(T entity) => Database.Set<T>().Remove(entity);
 
-        public virtual void Delete(int id)
-        {
-            var entity = GetById(id);
-            Delete(entity);
+        public virtual void Delete(int id) => Delete(GetById(id));
 
-        }
-
-        public virtual int Count()
-        {
-            return Database.Set<T>().Count();
-        }
+        public virtual int Count() => Database.Set<T>().Count();
     }
 
     public interface IBaseRepository<T>

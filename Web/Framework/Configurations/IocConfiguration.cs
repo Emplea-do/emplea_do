@@ -1,4 +1,5 @@
 ﻿using System;
+using AppService.Services;
 using Data;
 using Data.Repositories;
 using Domain;
@@ -23,6 +24,13 @@ namespace Web.Framework.Configurations
             services.AddTransient<IJoelTestRepository, JoelTestRepository>();
             services.AddTransient<ILocationRepository, LocationRepository>();
             services.AddTransient<ILoginRepository, LoginRepository>();
+
+            // Services
+            services.AddTransient(typeof(ICategoryService), typeof(CategoryService));
+            services.AddTransient(typeof(IHireTypeService), typeof(HireTypeService));
+            services.AddTransient(typeof(IJobService), typeof(JobService));
+            services.AddTransient(typeof(ISecurityService), typeof(SecurityService));
+            services.AddTransient(typeof(IUserService), typeof(UserService));
         }
     }
 }

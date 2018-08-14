@@ -7,11 +7,11 @@ using Domain.Framework;
 
 namespace AppService.Services
 {
-    public class HireTypesService :  BaseService<HireType>, IHireTypesService
+    public class HireTypeService :  BaseService<HireType>, IHireTypeService
     {
         private readonly IHireTypeRepository _hireTypesRepository;
 
-        public HireTypesService(IHireTypeRepository hireTypesRepository)
+        public HireTypeService(IHireTypeRepository hireTypesRepository)
         {
             _hireTypesRepository = hireTypesRepository;
         }
@@ -33,7 +33,7 @@ namespace AppService.Services
         }
     }
 
-    public interface IHireTypesService
+    public interface IHireTypeService
     {
         PagingResult<HireType> GetByPagination(PaginationFilter paginationFilter);
 

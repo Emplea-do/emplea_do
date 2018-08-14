@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Domain;
+using Domain.Framework.Dto;
+using Sakura.AspNetCore;
 
 namespace Web.ViewModels
 {
@@ -7,13 +10,13 @@ namespace Web.ViewModels
     {
         public string SelectedLocationPlaceId { get; set; }
         public string SelectedLocationName { get; set; }
-        public string SelectedLocationLatitude { get; set; }
-        public string SelectedLocationLongitude { get; set; }
+        public double SelectedLocationLatitude { get; set; }
+        public double SelectedLocationLongitude { get; set; }
         public decimal LocationDistance { get; set; } = 15M;
-        //public IPagedList<Core.Domain.JobOpportunity> Result { get; set; } = new PagedList<Core.Domain.JobOpportunity>(null, 1, 15);
+        public IPagedList<Job> Jobs { get; set; }
         public string Keyword { get; set; }
-        public Category JobCategory { get; set; }
+        public int? CategoryId { get; set; }
         public bool IsRemote { get; set; }
-        //public List<JobCategoryCountDto> CategoriesCount { get; set; }
+        public IEnumerable<CategoryCountDto> CategoriesCount { get; set; }
     }
 }

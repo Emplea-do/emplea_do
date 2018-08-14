@@ -18,6 +18,7 @@ using Web.Framework.Extensions;
 using Domain;
 using AppService.Framework.Social;
 using Web.Framework.Filters;
+using Sakura.AspNetCore.Mvc;
 
 namespace Web
 {
@@ -35,29 +36,10 @@ namespace Web
         {
             //Social network keys
             services.Configure<SocialKeys>(Configuration.GetSection("SocialKeys"));
-
             services.AddSingleton<IConfiguration>(Configuration);
 
             // Add connection string to DbContext
             services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
-            //Mapping instances
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IPermissionRepository, PermissionRepository>();
-
-            services.AddScoped<IJobsService, JobsService>();
-            services.AddScoped<IJobRepository, JobRepository>();
-
-            services.AddScoped<ICategoriesService, CategoriesService>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-
-            services.AddScoped<IHireTypesService, HireTypesService>();
-            services.AddScoped<IHireTypeRepository, HireTypeRepository>();
-
-            services.AddScoped<ISecurityService, SecurityService>();
-            
-            services.AddTransient<EmpleadoDbContext>();
 
             #if DEBUG
             services.AddDbContext<EmpleadoDbContext>(options =>
@@ -75,6 +57,13 @@ namespace Web
             {
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
+            });
+
+            // Add default bootstrap-styled pager implementation
+            services.AddBootstrapPagerGenerator(options =>
+            {
+                // Use default pager options.
+                options.ConfigureDefault();
             });
 
             services.AddDistributedMemoryCache();

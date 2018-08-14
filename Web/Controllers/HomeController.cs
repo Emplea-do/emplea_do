@@ -8,21 +8,29 @@ using AppService.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Web.Framework;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        IJobsService _jobsService;
+        IJobService _jobService;
+
+        public HomeController(IOptions<SocialKeys> socialKeys, IJobService jobsService) : base(socialKeys)
+        {
+            _jobService = jobsService;
+        }
 
         public override IActionResult Index()
         {
-            return View();
-        }
+            ViewBag.SearchViewModel = new JobSearchViewModel()
+            {
+                CategoriesCount = _jobService.GetJobCountByCategory()
+            };
 
-        public HomeController(IOptions<SocialKeys> socialKeys, IJobsService jobsService) : base(socialKeys)
-        {
-            _jobsService = jobsService;
+            var model = _jobService.GetLatestJobs(7);
+
+            return View(model);
         }
     }
 }

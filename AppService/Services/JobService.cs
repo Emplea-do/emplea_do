@@ -7,56 +7,25 @@ using System.Linq;
 using Data.Repositories;
 using AppService.Framework.Extensions;
 using AppService.Queries;
+using System.Collections.Generic;
 
 namespace AppService.Services
 {
-    public class JobsService : BaseService<Job>, IJobsService
+    public class JobService : BaseService<Job>, IJobService
     {
-        readonly IJobRepository _jobsRepository;
-        readonly ICategoriesService _categoriesService;
-        readonly IHireTypesService _hireTypesService;
+        readonly IJobRepository _jobRepository;
+        readonly ICategoryService _categoryService;
+        readonly IHireTypeService _hireTypeService;
         readonly IUserRepository _userRepository;
 
-        public JobsService(IJobRepository jobsRepository, ICategoriesService categoriesService, 
-                           IHireTypesService hireTypesService, IUserRepository userRepository)
+        public JobService(IJobRepository jobsRepository, ICategoryService categoriesService, 
+                           IHireTypeService hireTypesService, IUserRepository userRepository)
         {
-            _jobsRepository = jobsRepository;
-            _categoriesService = categoriesService;
-            _hireTypesService = hireTypesService;
+            _jobRepository = jobsRepository;
+            _categoryService = categoriesService;
+            _hireTypeService = hireTypesService;
             _userRepository = userRepository;
         }
-
-        public PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters)
-        {
-            var queryExpression = new JobsQuery().Build(queryParameters);
-
-            var query = _jobsRepository.GetWithPagination(queryExpression.Compile(),
-                                                          paginationFilter.Page,
-                                                          paginationFilter.ItemsPerPage);
-
-            if (!string.IsNullOrWhiteSpace(paginationFilter.ColumnToOrder))
-            {
-                query = paginationFilter.Ascending
-                    ? query.OrderBy(paginationFilter.ColumnToOrder)
-                    : query.OrderByDescending(paginationFilter.ColumnToOrder);
-            }
-
-
-            return new PagingResult<JobLimited>
-            {
-                TotalItems = query.Count(),
-                Data = query,
-                ItemsPerPage = paginationFilter.ItemsPerPage,
-                Page = paginationFilter.Page
-            };
-        }
-
-        public JobLimited GetById(int id)
-        {
-            return _jobsRepository.GetJobLimitedById(id);
-        }
-
-
 
         public TaskResult ValidateOnUpdate(Job entity)
         {
@@ -65,9 +34,10 @@ namespace AppService.Services
             
             return TaskResult;
         }
+
         public TaskResult Update(Job updatedJob)
         {
-            var oldEntity= _jobsRepository.GetById(updatedJob.Id);
+            var oldEntity= _jobRepository.GetById(updatedJob.Id);
             ValidateOnUpdate(updatedJob);
             if (TaskResult.ExecutedSuccesfully)
             {
@@ -87,10 +57,8 @@ namespace AppService.Services
 
                     if (updatedJob.Location != null)
                     {
-                        oldEntity.Location = oldEntity.Location == null
-                            ? new Location()
-                            : oldEntity.Location;
-
+                        oldEntity.Location = oldEntity.Location ?? new Location()
+;
                         oldEntity.Location.Latitude = updatedJob.Location.Latitude;
                         oldEntity.Location.Longitude = updatedJob.Location.Longitude;
                         oldEntity.Location.Name = updatedJob.Location.Name;
@@ -100,9 +68,7 @@ namespace AppService.Services
                     oldEntity.HireType = updatedJob.HireType;
                     if (updatedJob.JoelTest != null)
                     {
-                        oldEntity.JoelTest = oldEntity.JoelTest == null
-                            ? new JoelTest()
-                            : oldEntity.JoelTest;
+                        oldEntity.JoelTest = oldEntity.JoelTest ?? new JoelTest();
 
                         oldEntity.JoelTest.HasBestTools = updatedJob.JoelTest.HasBestTools;
                         oldEntity.JoelTest.HasBugDatabase = updatedJob.JoelTest.HasBugDatabase;
@@ -117,8 +83,8 @@ namespace AppService.Services
                         oldEntity.JoelTest.HasUpToDateSchedule = updatedJob.JoelTest.HasUpToDateSchedule;
                         oldEntity.JoelTest.HasWrittenTest = updatedJob.JoelTest.HasWrittenTest;
                     }
-                    _jobsRepository.Update(oldEntity);
-                    _jobsRepository.CommitChanges();
+                    _jobRepository.Update(oldEntity);
+                    _jobRepository.CommitChanges();
                 }
                 catch (Exception ex)
                 {
@@ -128,7 +94,6 @@ namespace AppService.Services
             }
             return TaskResult;
         }
-
 
         public TaskResult ValidateOnDelete(Job entity)
         {
@@ -140,14 +105,14 @@ namespace AppService.Services
 
         public TaskResult Delete(int entityId)
         {
-            var entity = _jobsRepository.GetById(entityId);
+            var entity = _jobRepository.GetById(entityId);
             ValidateOnDelete(entity);
             if (TaskResult.ExecutedSuccesfully)
             {
                 try
                 {
-                    _jobsRepository.SoftDelete(entityId);
-                    _jobsRepository.CommitChanges();
+                    _jobRepository.SoftDelete(entityId);
+                    _jobRepository.CommitChanges();
                 }
                 catch (Exception ex)
                 {
@@ -177,8 +142,8 @@ namespace AppService.Services
             {
                 try
                 {
-                    _jobsRepository.Insert(entity);
-                    _jobsRepository.CommitChanges();
+                    _jobRepository.Insert(entity);
+                    _jobRepository.CommitChanges();
                 }
                 catch(Exception ex)
                 {
@@ -188,10 +153,46 @@ namespace AppService.Services
             }
             return TaskResult;
         }
+
+        public PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters)
+        {
+            var queryExpression = new JobsQuery().Build(queryParameters);
+
+            var query = _jobRepository.GetWithPagination(queryExpression.Compile(),
+                                                          paginationFilter.Page,
+                                                          paginationFilter.ItemsPerPage);
+
+            if (!string.IsNullOrWhiteSpace(paginationFilter.ColumnToOrder))
+            {
+                query = paginationFilter.Ascending
+                    ? query.OrderBy(paginationFilter.ColumnToOrder)
+                    : query.OrderByDescending(paginationFilter.ColumnToOrder);
+            }
+
+
+            return new PagingResult<JobLimited>
+            {
+                TotalItems = query.Count(),
+                Data = query,
+                ItemsPerPage = paginationFilter.ItemsPerPage,
+                Page = paginationFilter.Page
+            };
+        }
+
+        public JobLimited GetById(int id) => _jobRepository.GetJobLimitedById(id);
+
+        public IEnumerable<CategoryCountDto> GetJobCountByCategory() => _jobRepository.GetJobCountByCategory();
+
+        public IEnumerable<Job> GetLatestJobs(int quantity) => _jobRepository.GetLatestJobs(quantity);
+
+        public IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobOpportunitiesPagedByFilters(parameter);
     }
-    public interface IJobsService : IMutableService<Job>
+    public interface IJobService : IMutableService<Job>
     {
         PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters);
         JobLimited GetById(int id);
+        IEnumerable<CategoryCountDto> GetJobCountByCategory();
+        IEnumerable<Job> GetLatestJobs(int quantity);
+        IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter);
     }
 }

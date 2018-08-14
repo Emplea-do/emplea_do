@@ -10,9 +10,9 @@ namespace Api.Controllers
     [Route("v1.0/[controller]")]
     public class HireTypesController
     {
-        IHireTypesService _hireTypesService;
+        IHireTypeService _hireTypesService;
 
-        public HireTypesController(IHireTypesService hireTypesService)
+        public HireTypesController(IHireTypeService hireTypesService)
         {
             _hireTypesService = hireTypesService;
         }

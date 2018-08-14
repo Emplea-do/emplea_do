@@ -1,37 +1,36 @@
 ﻿@using Web.ViewModels
 @model List<Domain.Job>
 @{
-ViewBag.Title = "";
+    ViewBag.Title = "";
 }
 
 @* This added here because the partial view _FindsJobPartinal need this JS to work :( *@
 @section scripts
-{
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-<script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
-        var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
-        google.maps.event.addListener(places, 'place_changed', function() {
-            var place = places.getPlace();
-            if (place) {
-                var placeId = place.place_id;
-                var latitude = place.geometry.location.lat();
-                var longitude = place.geometry.location.lng();
+    {
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
+    <script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
+            var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
+            google.maps.event.addListener(places, 'place_changed', function() {
+                var place = places.getPlace();
+                if (place) {
+                    var placeId = place.place_id;
+                    var latitude = place.geometry.location.lat();
+                    var longitude = place.geometry.location.lng();
 
-                $('#location-placeid').val(placeId);
-                $('#location-latitude').val(latitude);
-                $('#location-longitude').val(longitude);
-            } else {
-                $('#location-input').val('');
-                $('#location-placeid').val('');
-            }
-        });
+                    $('#location-placeid').val(placeId);
+                    $('#location-latitude').val(latitude);
+                    $('#location-longitude').val(longitude);
+                } else {
+                    $('#location-input').val('');
+                    $('#location-placeid').val('');
+                }
+            });
 });</script>
 }
 
-
 @Html.Partial("../Jobs/_Partials/FindJobsPartial", (JobSearchViewModel)ViewBag.SearchViewModel)
 
-<div class="container" style="        margin-top: -50px;">
+<div class="container" style="margin-top: -50px;">
     <section id="jobs">
         <div class="container">
             <div class="row">
@@ -40,7 +39,7 @@ ViewBag.Title = "";
                 </div>
                 @Html.Partial("../Jobs/_Partials/JobList", Model)
                 <br />
-                <a class="btn btn-primary" href="@Url.Action("Index", "Jobs")">Mostrar mas empleos</a>
+                <a class="btn btn-primary" asp-controller="Jobs" asp-action="Index">Mostrar mas empleos</a>
             </div>
         </div>
     </section>

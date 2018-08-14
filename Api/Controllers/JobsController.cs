@@ -14,8 +14,8 @@ namespace Api.Controllers
     [Route("v1.0/[controller]")]
     public class JobsController : BaseController
     {
-        IJobsService _jobsService;
-        public JobsController(IJobsService jobsService, ILogger<JobsController> logger) : base(logger)
+        IJobService _jobsService;
+        public JobsController(IJobService jobsService, ILogger<JobsController> logger) : base(logger)
         {
             _jobsService = jobsService;   
         }
