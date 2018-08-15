@@ -18,6 +18,7 @@ using Web.Framework.Extensions;
 using Domain;
 using AppService.Framework.Social;
 using Web.Framework.Filters;
+using AppService.Services.Social;
 using Sakura.AspNetCore.Mvc;
 
 namespace Web
@@ -35,12 +36,17 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             //Social network keys
-            services.Configure<SocialKeys>(Configuration.GetSection("SocialKeys"));
-            services.AddSingleton<IConfiguration>(Configuration);
+            var socialKeys = Configuration.GetSection("SocialKeys");
+            services.Configure<SocialKeys>(socialKeys);
+            services.AddSingleton(Configuration);
 
             // Add connection string to DbContext
             services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.AddScoped<ILoginService, LoginService>();
             #if DEBUG
             services.AddDbContext<EmpleadoDbContext>(options =>
                 options.UseSqlite($"Data Source=../mydb.db")

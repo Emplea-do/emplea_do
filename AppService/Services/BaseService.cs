@@ -3,7 +3,7 @@ using AppService.Framework;
 
 namespace AppService.Services
 {
-    public abstract class BaseService<T>
+    public abstract class BaseService
     {
         protected TaskResult TaskResult { get; set; }
 

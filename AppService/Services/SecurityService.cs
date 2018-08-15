@@ -2,40 +2,113 @@
 using Domain.Framework;
 using AppService.Framework.Extensions;
 using System.Linq;
+using AppService.Services.Social;
+using System;
+using System.Threading.Tasks;
+using AppService.Framework;
+using Domain.Framework.Dto;
+using Domain;
+using System.Collections.Generic;
 
 namespace AppService.Services
 {
     public class SecurityService : ISecurityService
     {
-        readonly IUserRepository _userRepository;
+        readonly IUserService _userService;
+        readonly IFacebookService _facebookService;
+        readonly ILoginService _loginService;
 
-        public SecurityService(IUserRepository userRepository)
+        public SecurityService(IUserService userService, IFacebookService facebookService, ILoginService loginService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
+            _facebookService = facebookService;
+            _loginService = loginService; 
         }
+
+        //private TaskResult CreateSocialUser(string id, )
 
         public LoginResult Login(string username, string password)
         {
             var loginResult = new LoginResult();
-            var user = _userRepository.Get(x => x.Email == username && x.Password == (password + x.Salt).GetHashSha256())
+           /* 
+            var user = _userService.Get(x => x.Email == username && x.Password == (password + x.Salt).GetHashSha256())
                                       .FirstOrDefault();
             if (user != null)
                 return loginResult;
-
-            loginResult.User = user;
-            loginResult.ExecutedSuccessfully = false;
+*/
             return loginResult;
         }
 
-        public LoginResult SocialLogin(string socialId, string socialNetwork)
+        private UserLimited SocialSignup(string provider, string key, string email)
         {
-            throw new System.NotImplementedException();
+            var result = new UserLimited();
+            var socialLogin = _loginService.Get(provider, key);
+
+            //If this login doesn't exist create the new user
+            if(socialLogin == null)
+            {
+                var newUser = new User
+                {
+                    Email = email
+                };
+
+                _userService.Create(newUser);
+
+                var newLogin = new Login
+                {
+                    LoginProvider = provider,
+                    ProviderKey = key,
+                    UserId = newUser.Id
+                };
+                _loginService.Create(newLogin);
+            }
+            //else get it from the database
+            else
+            {
+                var user = _userService.GetById(socialLogin.UserId);
+                result.Id = user.Id;
+                result.Email = user.Email;
+            }
+            return result;
+        }
+        public async Task<LoginResult> FacebookLogin(string code, string redirectUrl)
+        {
+            var loginResult = new LoginResult();
+            try
+            {
+                var codeValidationResult = await _facebookService.ValidateCode(code, redirectUrl);
+                if (codeValidationResult.ExecutedSuccesfully)
+                {
+                    var userInfoResult = await _facebookService.GetUserInformation(codeValidationResult.Data.access_token);
+
+                    if (userInfoResult.ExecutedSuccesfully)
+                    {
+                        var socialInfo = userInfoResult.Data;
+                        loginResult.ExecutedSuccesfully = true;
+                        loginResult.User = SocialSignup("Facebook", socialInfo.id, socialInfo.email);
+                    }
+                    else
+                    {
+                        loginResult.AddErrorMessage(userInfoResult.Message);
+                    }
+                }
+                else
+                {
+                    loginResult.AddErrorMessage(codeValidationResult.Message);
+                }
+            }
+            catch(Exception ex)
+            {
+                loginResult.Exception = ex;
+                loginResult.AddErrorMessage(ex.Message);
+            }
+            return loginResult;
         }
     }
 
     public interface ISecurityService
     {
         LoginResult Login(string username, string password);
-        LoginResult SocialLogin(string socialId, string socialNetwork);
+        Task<LoginResult> FacebookLogin(string code, string redirectUrl);
     }
 }

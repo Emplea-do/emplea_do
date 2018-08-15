@@ -1,5 +1,5 @@
 ﻿using System;
-namespace Web.ViewModels.Account.Facebook
+namespace AppService.Framework.Social.Facebook
 {
     public class TokenResponse
     {

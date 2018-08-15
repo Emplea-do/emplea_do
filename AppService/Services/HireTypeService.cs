@@ -7,7 +7,7 @@ using Domain.Framework;
 
 namespace AppService.Services
 {
-    public class HireTypeService :  BaseService<HireType>, IHireTypeService
+    public class HireTypesService :  BaseService, IHireTypesService
     {
         private readonly IHireTypeRepository _hireTypesRepository;
 

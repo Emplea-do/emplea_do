@@ -11,6 +11,8 @@
     <Folder Include="Framework\Queries\" />
     <Folder Include="Queries\" />
     <Folder Include="Framework\Social\" />
+    <Folder Include="Services\Social\" />
+    <Folder Include="Framework\Social\Facebook\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
@@ -18,5 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="IMutableService.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
   </ItemGroup>
 </Project>

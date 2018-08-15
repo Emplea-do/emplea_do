@@ -40,7 +40,6 @@
     <Folder Include="Views\Account\" />
     <Folder Include="ViewModels\Account\" />
     <Folder Include="Views\Account\_Partials\" />
-    <Folder Include="ViewModels\Account\Facebook\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
@@ -61,7 +60,6 @@
     <None Include="wwwroot\js\jobs\likes.js" />
     <None Include="wwwroot\js\jobs\new.js" />
     <None Include="wwwroot\js\jobs\wizard.js" />
-    <None Include="appsettings.json" />
     <None Include="wwwroot\css\theme\bootstrap-social.min.css" />
   </ItemGroup>
 </Project>

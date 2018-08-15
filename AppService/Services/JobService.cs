@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AppService.Services
 {
-    public class JobService : BaseService<Job>, IJobService
+    public class JobsService : BaseService, IJobsService
     {
         readonly IJobRepository _jobRepository;
         readonly ICategoryService _categoryService;

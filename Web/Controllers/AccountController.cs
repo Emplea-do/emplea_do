@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using Web.Framework;
 using Web.Framework.Extensions;
 using Web.Framework.Helpers.Alerts;
-using Web.ViewModels.Account.Facebook;
 
 namespace Web.Controllers
 {
@@ -49,32 +48,23 @@ namespace Web.Controllers
             switch(provider)
             {
                 case "facebook":
-                    var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account", new { returnUrl });
-                    return Redirect($"https://www.facebook.com/v3.1/dialog/oauth?client_id={_socialKeys.FacebookAppId}&redirect_uri={redirectUrl}&state={_socialKeys.LocalVerificationToken}");
+                    var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
+                    return Redirect($"https://www.facebook.com/v3.1/dialog/oauth?client_id={_socialKeys.FacebookAppId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
             }
             
             return RedirectToAction("Login").WithError(provider);
         }
-        public async Task<ActionResult> FacebookCallback(string response_type, string code, string token, string state, string returnUrl)
+        public async Task<ActionResult> FacebookCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
-            {
-                var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account", new { returnUrl });
-                var url = $"https://graph.facebook.com/v3.1/oauth/access_token?client_id={_socialKeys.FacebookAppId}&redirect_uri={redirectUrl}&client_secret={_socialKeys.FacebookAppSecret}&code={code}";
+            {    
+                var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
 
-                using (var client = new HttpClient())
-                {
-                    try
-                    {
-                        var strResult = await client.GetStringAsync(url);
-                        var result = JsonConvert.DeserializeObject<TokenResponse>(strResult);
-                        //TODO: Confirm token and take data
-                    }
-                    catch(Exception ex)
-                    {
-                        return RedirectToAction("Login").WithError(ex.Message);
-                    }
-                }
+                var result = await _securityService.FacebookLogin(code, redirectUrl);
+                if (result.ExecutedSuccesfully)
+                    _applicationUser.Init(result.User);
+                else
+                    RedirectToAction("Login", "Account").WithError(result.Message);
             }
             return RedirectToAction("Index", "Home");
         }
@@ -90,7 +80,7 @@ namespace Web.Controllers
         [Authorize]
         public override IActionResult Index()
         {
-            var user = _userRepository.GetById(_applicationUser.Id);
+            var user = _userRepository.GetById(_applicationUser.RawId);
 
             return View(user);
         }

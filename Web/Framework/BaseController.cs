@@ -14,6 +14,7 @@ namespace Web.Framework
         public BaseController(IOptions<SocialKeys> socialKeys)
         {
             _socialKeys = socialKeys.Value;
+            _applicationUser = new ApplicationUser();
         }
 
         public abstract IActionResult Index();
