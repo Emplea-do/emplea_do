@@ -3,23 +3,20 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using Domain;
 using Domain.Framework.Dto;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web.Framework
 {
-    public class ApplicationUser : ClaimsPrincipal
+    public class ApplicationUser
     {
-        public string Id { get { return FindFirst("Id").Value; } }
-        public int RawId { get { return Convert.ToInt32(FindFirst("Id").Value); } }
-        public string Email { get { return FindFirst("Email").Value; } }
-
-        public void Init(UserLimited userLimited)
+        private ClaimsPrincipal _user;
+        public ApplicationUser(ClaimsPrincipal user)
         {
-            var claims = new List<Claim> {
-                new Claim("Email", userLimited.Email, ClaimValueTypes.String),
-                new Claim("Id", userLimited.Id.ToString(), ClaimValueTypes.String),
-            };
-
-            AddIdentity(new ClaimsIdentity(claims));
+            _user = user;
         }
+        public string Id { get { return _user.FindFirst("Id").Value; } }
+        public int RawId { get { return Convert.ToInt32(_user.FindFirst("Id").Value); } }
+        public string Email { get { return _user.FindFirst("Email").Value; } }
+
     }
 }

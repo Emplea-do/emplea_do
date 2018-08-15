@@ -1,32 +1,34 @@
 ﻿using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AppService.Framework;
-using AppService.Framework.Social.Facebook;
+using AppService.Framework.Social.LinkedIn;
 using Newtonsoft.Json;
 
 namespace AppService.Services.Social
 {
-    public class FaceBookService : BaseService, IFacebookService
+    public class LinkedinService : ILinkedinService
     {
-        private string _appId;
-        private string _appSecret;
-
-        public FaceBookService(string appId, string secret)
+        private string _clientId;
+        private string _clientSecret;
+        public LinkedinService(string clientId, string clientSecret)
         {
-            _appId = appId;
-            _appSecret = secret;
+            _clientId = clientId;
+            _clientSecret = clientSecret;
         }
 
         public async Task<TaskResult<UserInfo>> GetUserInformation(string accessToken)
         {
             var result = new TaskResult<UserInfo>();
-            var url = $"https://graph.facebook.com/v3.1/me/?access_token={accessToken}&fields=id,name,email";
+            var url = $"https://api.linkedin.com/v1/people/~:(email-address,formatted-name,id)?format=json";
+            //access_token={accessToken}&fields=id,name,email";
 
             using (var client = new HttpClient())
             {
                 try
                 {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
                     var strResult = await client.GetStringAsync(url);
                     result.ExecutedSuccesfully = true;
                     result.Data = JsonConvert.DeserializeObject<UserInfo>(strResult);
@@ -41,10 +43,10 @@ namespace AppService.Services.Social
             }
         }
 
-        public async Task<TaskResult<TokenResponse>> ValidateCode(string code, string redirectUrl)
+        public async Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string redirectUrl)
         {
-            var result = new TaskResult<TokenResponse>();
-            var url = $"https://graph.facebook.com/v3.1/oauth/access_token?client_id={_appId}&client_secret={_appSecret}&code={code}&redirect_uri={redirectUrl}";
+            var result = new TaskResult<AccessTokenResponse>();
+            var url = $"https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&client_id={_clientId}&client_secret={_clientSecret}&code={code}&redirect_uri={redirectUrl}";
 
             using (var client = new HttpClient())
             {
@@ -52,7 +54,7 @@ namespace AppService.Services.Social
                 {
                     var strResult = await client.GetStringAsync(url);
                     result.ExecutedSuccesfully = true;
-                    result.Data = JsonConvert.DeserializeObject<TokenResponse>(strResult);
+                    result.Data = JsonConvert.DeserializeObject<AccessTokenResponse>(strResult);
                 }
                 catch (Exception ex)
                 {
@@ -65,9 +67,9 @@ namespace AppService.Services.Social
         }
     }
 
-    public interface IFacebookService 
+    public interface ILinkedinService
     {
-        Task<TaskResult<TokenResponse>> ValidateCode(string code, string redirectUrl);
+        Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string redirectUrl);
         Task<TaskResult<UserInfo>> GetUserInformation(string accessToken);
     }
 }

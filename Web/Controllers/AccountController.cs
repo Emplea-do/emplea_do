@@ -45,43 +45,97 @@ namespace Web.Controllers
         [HttpPost]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+            var redirectUrl = string.Empty;
             switch(provider)
             {
                 case "facebook":
-                    var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
+                    redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
                     return Redirect($"https://www.facebook.com/v3.1/dialog/oauth?client_id={_socialKeys.FacebookAppId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
+                case "google":
+                    redirectUrl = Url.AbsoluteAction("GoogleCallback", "Account");
+                    return Redirect($"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={_socialKeys.GoogleClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}&scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/plus.me%20https://www.googleapis.com/auth/userinfo.email");  
+                case "linkedin":
+                    redirectUrl = Url.AbsoluteAction("LinkedinCallback", "Account");
+                    return Redirect($"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={_socialKeys.LinkedInClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
+            
             }
             
             return RedirectToAction("Login").WithError(provider);
         }
+
         public async Task<ActionResult> FacebookCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
-            {    
+            {
                 var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
-
                 var result = await _securityService.FacebookLogin(code, redirectUrl);
                 if (result.ExecutedSuccesfully)
-                    _applicationUser.Init(result.User);
+                {
+                    await SignIn(result.User);
+                }
                 else
-                    RedirectToAction("Login", "Account").WithError(result.Message);
+                {
+                    return RedirectToAction("Login", "Account").WithError(result.Message);
+                }
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("New", "Job");
         }
-        public ActionResult LogOff()
+
+        public async Task<ActionResult> LinkedinCallback(string code, string state, string returnUrl)
         {
-            foreach (var cookie in Request.Cookies.Keys)
+            if (state == _socialKeys.LocalVerificationToken)
             {
-                Response.Cookies.Delete(cookie);
+                var redirectUrl = Url.AbsoluteAction("LinkedinCallback", "Account");
+                var result = await _securityService.LinkedInLogin(code, redirectUrl);
+                if (result.ExecutedSuccesfully)
+                {
+                    await SignIn(result.User);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account").WithError(result.Message);
+                }
             }
+            return RedirectToAction("New", "Job");
+        }
+
+
+        public async Task<ActionResult> GoogleCallback(string code, string state, string returnUrl)
+        {
+            if (state == _socialKeys.LocalVerificationToken)
+            {
+                var redirectUrl = Url.AbsoluteAction("GoogleCallback", "Account");
+                var result = await _securityService.GoogleLogin(code, redirectUrl);
+                if (result.ExecutedSuccesfully)
+                {
+                    await SignIn(result.User);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account").WithError(result.Message);
+                }
+            }
+            return RedirectToAction("New", "Job");
+        }
+
+
+
+        public async Task<ActionResult> LogOff()
+        {
+            await SignOut();
             return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
         public override IActionResult Index()
         {
-            var user = _userRepository.GetById(_applicationUser.RawId);
+            return RedirectToAction("Profile");
+        }
 
+        [Authorize]
+        public IActionResult Profile()
+        {
+            var user = _userRepository.GetById(_applicationUser.RawId);
             return View(user);
         }
     }

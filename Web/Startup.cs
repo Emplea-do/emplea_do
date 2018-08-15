@@ -20,6 +20,7 @@ using AppService.Framework.Social;
 using Web.Framework.Filters;
 using AppService.Services.Social;
 using Sakura.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web
 {
@@ -44,6 +45,7 @@ namespace Web
             services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
+            services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<ILoginRepository, LoginRepository>();
             services.AddScoped<ILoginService, LoginService>();
@@ -59,10 +61,13 @@ namespace Web
 
             services.AddIdentity<User, Role>();
 
-            services.Configure<CookiePolicyOptions>(options =>
-            {
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+            services.ConfigureApplicationCookie(options =>
+             {
+                 // Cookie settings
+                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                 options.LoginPath = "/Account/Login";
+                 options.AccessDeniedPath = "/Error/401";
+                 options.SlidingExpiration = true;
             });
 
             // Add default bootstrap-styled pager implementation
@@ -70,15 +75,25 @@ namespace Web
             {
                 // Use default pager options.
                 options.ConfigureDefault();
-            });
+             });
+            services
+                .AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                })
+                .AddCookie(options => {
+                    options.LoginPath = "/Account/Login/";
+                    options.AccessDeniedPath = "/Error/401";
+                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
+                });
+            services.AddDbContext<EmpleadoDbContext>();
 
-            services.AddDistributedMemoryCache();
             services.AddSession();
-            services.AddMvc(options=> {
+            services.AddMvc(options =>
+            {
                 options.Filters.Add(typeof(UnderMaintenanceFilterAttribute));
             }).AddSessionStateTempDataProvider();
-
-            services.AddDbContext<EmpleadoDbContext>();
 
             IocConfiguration.Init(services);
         }
@@ -86,6 +101,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseAuthentication();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -103,6 +119,7 @@ namespace Web
             app.UseCookiePolicy();
             app.UseSession();
             app.ConfigureRoutes();
+            app.UseMvc();
         }
     }
 }

@@ -13,6 +13,8 @@
     <Folder Include="Framework\Social\" />
     <Folder Include="Services\Social\" />
     <Folder Include="Framework\Social\Facebook\" />
+    <Folder Include="Framework\Social\LinkedIn\" />
+    <Folder Include="Framework\Social\Google\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
@@ -20,6 +22,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="IMutableService.config" />
+    <None Remove="Services\Social\LInkedInService.config" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />

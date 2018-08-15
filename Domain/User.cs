@@ -13,8 +13,8 @@ namespace Domain
 
         public string Salt { get; set; }
 
-        IList<Job> Jobs { get; set; }
-        IList<Company> Companies { get; set; }
-        IList<Role> Roles { get; set; }
+        public IList<Job> Jobs { get; set; }
+        public IList<Company> Companies { get; set; }
+        public IList<Role> Roles { get; set; }
     }
 }
