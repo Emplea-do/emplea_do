@@ -64,17 +64,21 @@ namespace Web.Framework.Extensions
         /// <returns>HtmlString</returns>
         public static HtmlString FirstTwoLetters(this IHtmlHelper helper, string value)
         {
-            var splited = Regex.Split(value, @"[_+-.,!@#$%^&*();\/|<> ]|[0-9]");
             var result = string.Empty;
 
-            foreach (var currentValue in splited)
+            if (!String.IsNullOrEmpty(value))
             {
-                if(string.IsNullOrWhiteSpace(currentValue))continue;
+                var splited = Regex.Split(value, @"[_+-.,!@#$%^&*();\/|<> ]|[0-9]");
 
-                result += currentValue.Substring(0, 1);
+                foreach (var currentValue in splited)
+                {
+                    if (string.IsNullOrWhiteSpace(currentValue)) continue;
 
-                if(result.Length.Equals(2))
-                    break;
+                    result += currentValue.Substring(0, 1);
+
+                    if (result.Length.Equals(2))
+                        break;
+                }
             }
 
             return new HtmlString(result);

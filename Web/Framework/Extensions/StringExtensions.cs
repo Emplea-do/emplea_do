@@ -16,9 +16,9 @@ namespace Web.Framework.Extensions
                 : Regex.Replace(strToSanitize, @"[^A-Za-z0-9_~]+", "-");
         }
 
-        public static string SeoUrl(this string urlString, int id, string title)
+        public static string SeoUrl(this string urlString, int id)
         {
-        return string.IsNullOrEmpty(title) ? id.ToString() : $"{id}-{SanitizeUrl(title)}";
+            return string.IsNullOrEmpty(urlString) ? id.ToString() : $"{id}-{SanitizeUrl(urlString)}";
         }
     }
 }

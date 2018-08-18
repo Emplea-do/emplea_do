@@ -10,4 +10,7 @@
     <Folder Include="Framework\Constants\" />
     <Folder Include="Framework\Dto\" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Framework\Dto\NearbyJobOpportunityLocation.cs" />
+  </ItemGroup>
 </Project>

@@ -19,8 +19,8 @@ namespace Domain.Framework.Dto
 
         #region Location
         public string LocationName { get; set; }
-        public string LocationLongitude { get; set; }
-        public string LocationLatitude { get; set; }
+        public double LocationLongitude { get; set; }
+        public double LocationLatitude { get; set; }
         #endregion
 
         #region Metadata and categorization

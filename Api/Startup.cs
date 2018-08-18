@@ -37,13 +37,13 @@ namespace Api
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IPermissionRepository, PermissionRepository>();
 
-            services.AddScoped<IJobsService, JobsService>();
+            services.AddScoped<IJobService, JobService>();
             services.AddScoped<IJobRepository, JobRepository>();
 
-            services.AddScoped<ICategoriesService, CategoriesService>();
+            services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
-            services.AddScoped<IHireTypesService, HireTypesService>();
+            services.AddScoped<IHireTypeService, HireTypeService>();
             services.AddScoped<IHireTypeRepository, HireTypeRepository>();
 
             services.AddScoped<ISecurityService, SecurityService>();

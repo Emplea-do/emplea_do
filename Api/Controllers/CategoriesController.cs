@@ -10,9 +10,9 @@ namespace Api.Controllers
     [Route("v1.0/[controller]")]
     public class CategoriesController
     {
-        ICategoriesService _categoriesService;
+        ICategoryService _categoriesService;
 
-        public CategoriesController(ICategoriesService categoriesService)
+        public CategoriesController(ICategoryService categoriesService)
         {
             _categoriesService = categoriesService;
         }

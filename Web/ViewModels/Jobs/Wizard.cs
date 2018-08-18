@@ -15,8 +15,8 @@ namespace Web.ViewModels.Jobs
         [Required(ErrorMessage = "La Localidad es requerida")]
         [Display(Name = "Localidad")]
         public string LocationName { get; set; }
-        public string LocationLatitude { get; set; }
-        public string LocationLongitude { get; set; }
+        public double LocationLatitude { get; set; }
+        public double LocationLongitude { get; set; }
         public string LocationPlaceId { get; set; }
         public string MapsApiKey { get; set; }
 
@@ -157,8 +157,8 @@ namespace Web.ViewModels.Jobs
                 JobType = entity.HireType,
                 HowToApply = entity.HowToApply,
 
-                LocationLatitude = entity.Location?.Latitude,
-                LocationLongitude = entity.Location?.Longitude,
+                LocationLatitude = entity.Location.Latitude,
+                LocationLongitude = entity.Location.Longitude,
                 LocationName = entity.Location?.Name,
                 LocationPlaceId = entity.Location?.PlaceId
             };      
