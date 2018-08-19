@@ -43,6 +43,7 @@ namespace Web.Framework.Configurations
             services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
             services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
             services.AddScoped<IGoogleService, GoogleService>(x => new GoogleService(socialKeys.GetValue<string>("GoogleClientId"), socialKeys.GetValue<string>("GoogleClientSecret")));
+            services.AddScoped<IMicrosoftService, MicrosoftService>(x => new MicrosoftService(socialKeys.GetValue<string>("MsClientId"), socialKeys.GetValue<string>("MsClientSecret")));
         }
     }
 }

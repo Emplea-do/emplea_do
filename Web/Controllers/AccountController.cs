@@ -57,7 +57,9 @@ namespace Web.Controllers
                 case "linkedin":
                     redirectUrl = Url.AbsoluteAction("LinkedinCallback", "Account");
                     return Redirect($"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={_socialKeys.LinkedInClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
-            
+                case "microsoft":
+                    redirectUrl = Url.AbsoluteAction("MicrosoftCallback", "Account");
+                    return Redirect($"https://login.live.com/oauth20_authorize.srf?response_type=code&client_id={_socialKeys.MsClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}&scope=wl.signin%20wl.basic");//%20mail.read");
             }
             
             return RedirectToAction("Login").WithError(provider);
@@ -118,6 +120,24 @@ namespace Web.Controllers
             return RedirectToAction("New", "Jobs");
         }
 
+
+        public async Task<ActionResult> MicrosoftCallback(string code, string state, string returnUrl)
+        {
+            if (state == _socialKeys.LocalVerificationToken)
+            {
+                var redirectUrl = Url.AbsoluteAction("MicrosoftCallback", "Account");
+                var result = await _securityService.MicrosoftLogin(code, redirectUrl);
+                if (result.ExecutedSuccesfully)
+                {
+                    await SignIn(result.User);
+                }
+                else
+                {
+                    return RedirectToAction("Login", "Account").WithError(result.Message);
+                }
+            }
+            return RedirectToAction("New", "Jobs");
+        }
 
 
         public async Task<ActionResult> LogOff()

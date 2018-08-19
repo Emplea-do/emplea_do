@@ -15,18 +15,20 @@ namespace AppService.Services
     public class SecurityService : ISecurityService
     {
         readonly IUserService _userService;
+        readonly IMicrosoftService _microsoftService;
         readonly IFacebookService _facebookService;
         readonly ILinkedinService _linkedInService;
         readonly IGoogleService _googleService;
         readonly ILoginService _loginService;
 
-        public SecurityService(IUserService userService, IFacebookService facebookService, ILoginService loginService, ILinkedinService linkedInService, IGoogleService googleService)
+        public SecurityService(IUserService userService, IFacebookService facebookService, ILoginService loginService, ILinkedinService linkedInService, IGoogleService googleService, IMicrosoftService microsoftService)
         {
             _userService = userService;
             _facebookService = facebookService;
             _loginService = loginService;
             _linkedInService = linkedInService;
             _googleService = googleService;
+            _microsoftService = microsoftService;
         }
 
         public LoginResult Login(string username, string password)
@@ -165,6 +167,35 @@ namespace AppService.Services
             }
             return loginResult;
         }
+
+        public async Task<LoginResult> MicrosoftLogin(string code, string redirectUrl)
+        {
+            var loginResult = new LoginResult();
+            try
+            {
+                var codeValidationResult = await _microsoftService.RequestTokenAsync(code, redirectUrl);
+                if (codeValidationResult.ExecutedSuccesfully)
+                {
+                    var userInfoResult = await _microsoftService.GetUserInformation(codeValidationResult.Data.access_token);
+                    if (userInfoResult.ExecutedSuccesfully)
+                    {
+                        var socialInfo = userInfoResult.Data;
+                        loginResult.ExecutedSuccesfully = true;
+                        loginResult.User = SocialSignup("Microsoft", socialInfo.id, socialInfo.emails.preferred.Value);
+                    }
+                    else
+                        loginResult.AddErrorMessage(userInfoResult.Message);
+                }
+                else
+                    loginResult.AddErrorMessage(codeValidationResult.Message);
+            }
+            catch (Exception ex)
+            {
+                loginResult.Exception = ex;
+                loginResult.AddErrorMessage(ex.Message);
+            }
+            return loginResult;
+        }
     }
 
     public interface ISecurityService
@@ -173,5 +204,6 @@ namespace AppService.Services
         Task<LoginResult> FacebookLogin(string code, string redirectUrl);
         Task<LoginResult> LinkedInLogin(string code, string redirectUrl);
         Task<LoginResult> GoogleLogin(string code, string redirectUrl);
+        Task<LoginResult> MicrosoftLogin(string code, string redirectUrl);
     }
 }

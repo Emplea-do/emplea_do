@@ -22,7 +22,6 @@ namespace AppService.Services.Social
         {
             var result = new TaskResult<UserInfo>();
             var url = $"https://api.linkedin.com/v1/people/~:(email-address,formatted-name,id)?format=json";
-            //access_token={accessToken}&fields=id,name,email";
 
             using (var client = new HttpClient())
             {

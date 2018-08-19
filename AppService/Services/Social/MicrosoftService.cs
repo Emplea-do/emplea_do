@@ -1,60 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using AppService.Framework;
-using AppService.Framework.Social.Google;
+using AppService.Framework.Social.Microsoft;
 using Newtonsoft.Json;
 
 namespace AppService.Services.Social
 {
-    public class GoogleService : IGoogleService
+    public class MicrosoftService : IMicrosoftService
     {
         private string _clientId;
         private string _clientSecret;
 
-        public GoogleService(string clientId, string clientSecret)
+        public MicrosoftService(string msClientId, string msClientSecret)
         {
-            _clientId = clientId;
-            _clientSecret = clientSecret;
+            _clientId = msClientId;
+            _clientSecret = msClientSecret;
         }
-
-        public TaskResult<UserInfo> GetUserInformation(AccessTokenResponse data)
+        public async Task<TaskResult<UserInfo>> GetUserInformation(string accessToken)
         {
             var result = new TaskResult<UserInfo>();
-            try
+            var url = $"https://apis.live.net/v5.0/me";
+
+            using (var client = new HttpClient())
             {
-                var encodedStr = data.id_token.Split('.')[1];
-                while (encodedStr.Length % 4 > 0)
-                    encodedStr += "=";
-                
-                var buffer = Convert.FromBase64String(encodedStr);
-                var str = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
-
-                var decodedData = JsonConvert.DeserializeObject<dynamic>(str);
-
-                result.ExecutedSuccesfully = true;
-                result.Data = new UserInfo
+                try
                 {
-                    email = decodedData.email,
-                    id = decodedData.sub,
-                    name = decodedData.name
-                };
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+                    var strResult = await client.GetStringAsync(url);
+                    result.ExecutedSuccesfully = true;
+                    result.Data = JsonConvert.DeserializeObject<UserInfo>(strResult);
+                }
+                catch (Exception ex)
+                {
+                    result.Exception = ex;
+                    result.AddErrorMessage(ex.Message);
+                    result.Data = null;
+                }
+                return result;
             }
-            catch (Exception ex)
-            {
-                result.Exception = ex;
-                result.AddErrorMessage(ex.Message);
-                result.Data = null;
-            }
-            return result;
         }
 
         public async Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string redirectUrl)
         {
             var result = new TaskResult<AccessTokenResponse>();
-            var url = $"https://www.googleapis.com/oauth2/v4/token?";
+            var url = $"https://login.live.com/oauth20_token.srf";
 
             using (var client = new HttpClient())
             {
@@ -62,14 +55,15 @@ namespace AppService.Services.Social
                 {
                     var postParams = new Dictionary<string, string>
                     {
-                        {"code", code},
                         {"client_id", _clientId},
-                        {"client_secret", _clientSecret},
+                        {"scope", "wl.signin wl.basic"},
+                        {"code", code},
                         {"redirect_uri", redirectUrl},
-                        {"grant_type", "authorization_code"}
+                        {"grant_type", "authorization_code"},
+                        {"client_secret", _clientSecret},
                     };
                     var requestMessageContent = new FormUrlEncodedContent(postParams);
-                    var strResult = await client.PostAsync(url,requestMessageContent);
+                    var strResult = await client.PostAsync(url, requestMessageContent);
                     result.ExecutedSuccesfully = true;
                     var resultContent = await strResult.Content.ReadAsStringAsync();
                     result.Data = JsonConvert.DeserializeObject<AccessTokenResponse>(resultContent);
@@ -85,9 +79,10 @@ namespace AppService.Services.Social
         }
     }
 
-    public interface IGoogleService
+
+    public interface IMicrosoftService 
     {
         Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string redirectUrl);
-        TaskResult<UserInfo> GetUserInformation(AccessTokenResponse data);
+        Task<TaskResult<UserInfo>> GetUserInformation(string accessToken);
     }
 }
