@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AppService.Framework;
 using Data.Repositories;
@@ -31,6 +32,11 @@ namespace AppService.Services
         {
             return _categoriesRepository.GetById(id);
         }
+
+        public IEnumerable<Category> GetCategories()
+        {
+            return _categoriesRepository.GetAll();
+        }
     }
 
     public interface ICategoryService
@@ -38,5 +44,7 @@ namespace AppService.Services
         PagingResult<Category> GetByPagination(PaginationFilter paginationFilter);
 
         Category GetById(int id);
+
+        IEnumerable<Category> GetCategories();
     }
 }

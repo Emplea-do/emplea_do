@@ -136,7 +136,9 @@ namespace AppService.Services
 
         public TaskResult Create(Job entity)
         {
-            ValidateOnCreate(entity);
+            //TODO removing this for later. Is checking the user login but there is no password column on the DB. 
+            // Before removing something from the user model, We should re-check the SecurityService
+            //ValidateOnCreate(entity);
             if(TaskResult.ExecutedSuccesfully)
             {
                 try

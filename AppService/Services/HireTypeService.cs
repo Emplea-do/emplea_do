@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AppService.Framework;
 using Data.Repositories;
@@ -31,6 +32,11 @@ namespace AppService.Services
                 TotalItems = _hireTypesRepository.Count()
             };
         }
+
+        public IEnumerable<HireType> GetHireTypes()
+        {
+            return _hireTypesRepository.GetAll();
+        }
     }
 
     public interface IHireTypeService
@@ -38,5 +44,7 @@ namespace AppService.Services
         PagingResult<HireType> GetByPagination(PaginationFilter paginationFilter);
 
         HireType GetById(int id);
+
+        IEnumerable<HireType> GetHireTypes();
     }
 }

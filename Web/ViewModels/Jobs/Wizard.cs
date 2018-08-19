@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Domain;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.ViewModels.Jobs
 {
@@ -21,11 +23,15 @@ namespace Web.ViewModels.Jobs
         public string MapsApiKey { get; set; }
 
         [Required(ErrorMessage = "Debes elegir una categoría.")]
+        public int CategoryId { get; set; }
+
         [Display(Name = "Categoría")]
-        public Category Category { get; set; }
+        public IEnumerable<Category> Categories { get; set; } = new List<Category>();
+
+        public int JobTypeId { get; set; }
 
         [Display(Name = "Tipo")]
-        public HireType JobType { get; set; }
+        public IEnumerable<HireType> JobTypes { get; set; } = new List<HireType>();
 
         [Required(ErrorMessage = "Debes especificar al menos un requisito."), StringLength(int.MaxValue)]
         [Display(Name = "Requisitos para aplicar")]
@@ -97,7 +103,7 @@ namespace Web.ViewModels.Jobs
             {
                 Id = Id,
                 Title = Title,
-                Category = Category,
+                CategoryId = CategoryId,
                 Description = Description,
 				Company = new Company{
                     Name = CompanyName,
@@ -107,7 +113,7 @@ namespace Web.ViewModels.Jobs
 				},
                 PublishedDate = DateTime.Now,
                 IsRemote = IsRemote,
-                HireType = JobType,
+                HireTypeId = JobTypeId,
                 HowToApply = HowToApply,
                 JoelTest = new JoelTest
                 {
@@ -147,14 +153,14 @@ namespace Web.ViewModels.Jobs
             {
                 Id = entity.Id,
                 Title = entity.Title,
-                Category = entity.Category,
+                CategoryId = entity.Category.Id,
                 Description = entity.Description,
                 CompanyName = entity.Company.Name,
                 CompanyUrl = entity.Company.Url,
                 CompanyLogoUrl = entity.Company.LogoUrl,
                 CompanyEmail = entity.Company.Email,
                 IsRemote = entity.IsRemote,
-                JobType = entity.HireType,
+                JobTypeId = entity.HireType.Id,
                 HowToApply = entity.HowToApply,
 
                 LocationLatitude = entity.Location.Latitude,

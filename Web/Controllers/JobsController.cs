@@ -13,17 +13,25 @@ using Web.Framework.Helpers.Alerts;
 using Web.ViewModels;
 using Web.ViewModels.Jobs;
 using Sakura.AspNetCore;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using AppService.Framework;
 
 namespace Web.Controllers
 {
     public class JobsController : Controller
     {
         private readonly IJobService _jobService;
+        private readonly ICategoryService _categoryService;
+        private readonly IHireTypeService _hireTypeService;
 
         public JobsController(IOptions<SocialKeys> socialKeys,
-                              IJobService jobsService) //: base(socialKeys)
+                              IJobService jobsService,
+                              ICategoryService categoryService,
+                              IHireTypeService hireTypeService) //: base(socialKeys)
         {
             _jobService = jobsService;
+            _categoryService = categoryService;
+            _hireTypeService = hireTypeService;
         }
 
         public IActionResult Index(JobPagingParameter model)
@@ -49,19 +57,58 @@ namespace Web.Controllers
         //    throw new NotImplementedException();
         //}
 
-        [Authorize]
+        //[Authorize]
         public IActionResult New()
         {
             return RedirectToAction("Wizard");
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         public IActionResult Wizard()
         {
             var viewModel = new Wizard();
+            var categories = _categoryService.GetCategories().ToList();
+            var jobtypes = _hireTypeService.GetHireTypes().ToList();
+            viewModel.Categories = categories;
+            viewModel.JobTypes = jobtypes;
             //viewModel.MapsApiKey = _socialKeys.GoogleMapsApiKey;
             return View(viewModel);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        //[ValidateInput(false)]
+        //[CaptchaValidator(RequiredMessage = "Por favor confirma que no eres un robot", ErrorMessage = "El captcha es incorrecto.")]
+        public IActionResult Wizard(Wizard model)
+        {
+            // HACK - For some reason the View.WithError is returning a blank page. I'm fully validating this on javascript.
+            // Leaving this code for further fix
+            if (!ModelState.IsValid)
+                return View(model)
+                    .WithError("Han ocurrido errores de validación que no permiten continuar el proceso");
+            
+            var jobOpportunity = model.ToEntity();
+            var jobExists = _jobService.GetById(model.Id);
+            if (jobExists == null)
+            {
+                jobOpportunity.Approved = false; // new jobs unapproved by default
+                jobOpportunity.UserId = 1; // TODO this is temporary
+                var result = _jobService.Create(jobOpportunity);
+                if(!result.ExecutedSuccesfully)
+                {
+                    return View(model)
+                        .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
+                }
+            }
+            //await _slackService.PostNewJobOpportunity(jobOpportunity, Url);
+
+            // TODO adding this in the next PR - Carlos Campos
+            //return RedirectToAction(nameof(Detail), new
+            //{
+            //    id = UrlHelperExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title),
+            //    fromWizard = 1
+            //});
+            return RedirectToAction("Index");
         }
 
         /// <summary>

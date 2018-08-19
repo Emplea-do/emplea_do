@@ -40,6 +40,8 @@
     <Folder Include="Views\Account\" />
     <Folder Include="ViewModels\Account\" />
     <Folder Include="Views\Account\_Partials\" />
+    <Folder Include="wwwroot\css\jobs\">
+    </Folder>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
@@ -52,6 +54,51 @@
     <Content Remove="wwwroot\js\jobs\wizard.js" />
     <Content Remove="appsettings.Development.json" />
     <Content Remove="wwwroot\css\theme\bootstrap-social.min.css" />
+    <Content Remove="wwwroot\css\jobs\wizard.css" />
+    <Content Remove="wwwroot\js\i18n\az.js" />
+    <Content Remove="wwwroot\js\i18n\bg.js" />
+    <Content Remove="wwwroot\js\i18n\ca.js" />
+    <Content Remove="wwwroot\js\i18n\cs.js" />
+    <Content Remove="wwwroot\js\i18n\da.js" />
+    <Content Remove="wwwroot\js\i18n\de.js" />
+    <Content Remove="wwwroot\js\i18n\en.js" />
+    <Content Remove="wwwroot\js\i18n\es.js" />
+    <Content Remove="wwwroot\js\i18n\et.js" />
+    <Content Remove="wwwroot\js\i18n\eu.js" />
+    <Content Remove="wwwroot\js\i18n\fa.js" />
+    <Content Remove="wwwroot\js\i18n\fi.js" />
+    <Content Remove="wwwroot\js\i18n\fr.js" />
+    <Content Remove="wwwroot\js\i18n\gl.js" />
+    <Content Remove="wwwroot\js\i18n\he.js" />
+    <Content Remove="wwwroot\js\i18n\hi.js" />
+    <Content Remove="wwwroot\js\i18n\hr.js" />
+    <Content Remove="wwwroot\js\i18n\hu.js" />
+    <Content Remove="wwwroot\js\i18n\id.js" />
+    <Content Remove="wwwroot\js\i18n\is.js" />
+    <Content Remove="wwwroot\js\i18n\it.js" />
+    <Content Remove="wwwroot\js\i18n\ja.js" />
+    <Content Remove="wwwroot\js\i18n\ko.js" />
+    <Content Remove="wwwroot\js\i18n\lt.js" />
+    <Content Remove="wwwroot\js\i18n\lv.js" />
+    <Content Remove="wwwroot\js\i18n\mk.js" />
+    <Content Remove="wwwroot\js\i18n\nb.js" />
+    <Content Remove="wwwroot\js\i18n\nl.js" />
+    <Content Remove="wwwroot\js\i18n\pl.js" />
+    <Content Remove="wwwroot\js\i18n\pt-BR.js" />
+    <Content Remove="wwwroot\js\i18n\pt.js" />
+    <Content Remove="wwwroot\js\i18n\ro.js" />
+    <Content Remove="wwwroot\js\i18n\ru.js" />
+    <Content Remove="wwwroot\js\i18n\sk.js" />
+    <Content Remove="wwwroot\js\i18n\sr.js" />
+    <Content Remove="wwwroot\js\i18n\sv.js" />
+    <Content Remove="wwwroot\js\i18n\th.js" />
+    <Content Remove="wwwroot\js\i18n\tr.js" />
+    <Content Remove="wwwroot\js\i18n\uk.js" />
+    <Content Remove="wwwroot\js\i18n\vi.js" />
+    <Content Remove="wwwroot\js\i18n\zh-CN.js" />
+    <Content Remove="wwwroot\js\i18n\zh-TW.js" />
+    <Content Remove="wwwroot\js\i18n\parsley\es.js" />
+    <Content Remove="wwwroot\js\parsley.min.js" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="appsettings.json.template" />
@@ -61,5 +108,58 @@
     <None Include="wwwroot\js\jobs\new.js" />
     <None Include="wwwroot\js\jobs\wizard.js" />
     <None Include="wwwroot\css\theme\bootstrap-social.min.css" />
+    <None Include="wwwroot\css\jobs\wizard.css" />
+    <None Include="wwwroot\js\i18n\az.js" />
+    <None Include="wwwroot\js\i18n\bg.js" />
+    <None Include="wwwroot\js\i18n\ca.js" />
+    <None Include="wwwroot\js\i18n\cs.js" />
+    <None Include="wwwroot\js\i18n\da.js" />
+    <None Include="wwwroot\js\i18n\de.js" />
+    <None Include="wwwroot\js\i18n\en.js" />
+    <None Include="wwwroot\js\i18n\es.js" />
+    <None Include="wwwroot\js\i18n\et.js" />
+    <None Include="wwwroot\js\i18n\eu.js" />
+    <None Include="wwwroot\js\i18n\fa.js" />
+    <None Include="wwwroot\js\i18n\fi.js" />
+    <None Include="wwwroot\js\i18n\fr.js" />
+    <None Include="wwwroot\js\i18n\gl.js" />
+    <None Include="wwwroot\js\i18n\he.js" />
+    <None Include="wwwroot\js\i18n\hi.js" />
+    <None Include="wwwroot\js\i18n\hr.js" />
+    <None Include="wwwroot\js\i18n\hu.js" />
+    <None Include="wwwroot\js\i18n\id.js" />
+    <None Include="wwwroot\js\i18n\is.js" />
+    <None Include="wwwroot\js\i18n\it.js" />
+    <None Include="wwwroot\js\i18n\ja.js" />
+    <None Include="wwwroot\js\i18n\ko.js" />
+    <None Include="wwwroot\js\i18n\lt.js" />
+    <None Include="wwwroot\js\i18n\lv.js" />
+    <None Include="wwwroot\js\i18n\mk.js" />
+    <None Include="wwwroot\js\i18n\nb.js" />
+    <None Include="wwwroot\js\i18n\nl.js" />
+    <None Include="wwwroot\js\i18n\pl.js" />
+    <None Include="wwwroot\js\i18n\pt-BR.js" />
+    <None Include="wwwroot\js\i18n\pt.js" />
+    <None Include="wwwroot\js\i18n\ro.js" />
+    <None Include="wwwroot\js\i18n\ru.js" />
+    <None Include="wwwroot\js\i18n\sk.js" />
+    <None Include="wwwroot\js\i18n\sr.js" />
+    <None Include="wwwroot\js\i18n\sv.js" />
+    <None Include="wwwroot\js\i18n\th.js" />
+    <None Include="wwwroot\js\i18n\tr.js" />
+    <None Include="wwwroot\js\i18n\uk.js" />
+    <None Include="wwwroot\js\i18n\vi.js" />
+    <None Include="wwwroot\js\i18n\zh-CN.js" />
+    <None Include="wwwroot\js\i18n\zh-TW.js" />
+    <None Include="wwwroot\js\i18n\parsley\es.js" />
+    <None Include="wwwroot\js\parsley.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="appsettings.json.template">
+      <DependentUpon>appsettings.json</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Framework\Helpers\EnumHelper.cs" />
   </ItemGroup>
 </Project>

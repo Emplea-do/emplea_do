@@ -1,0 +1,58 @@
+﻿#wizard input {
+    max-width: 100%;
+}
+
+#wizard {
+    margin-top: 30px;
+}
+
+.parsley-errors-list {
+    color: red;
+}
+
+.tab {
+    background-color: rgb(199, 199, 199);
+    color: white;
+    border-radius: 39px;
+    padding: 11px 16px;
+    display: inline;
+    position: relative;
+    bottom: 33px;
+}
+
+    .tab.section-1 {
+        left: 10%;
+    }
+
+    .tab.section-2 {
+        left: 45%;
+    }
+
+    .tab.section-3 {
+        left: 80%;
+    }
+
+    .tab.active {
+        background-color: #14b1bb;
+    }
+
+@media (max-width: 767px) {
+    .wizard-container {
+        margin-top: 30px;
+    }
+
+    .tab.section-1,
+    .tab.section-2,
+    .tab.section-3 {
+        display: none;
+    }
+
+    .tab.active {
+        text-align: center;
+        font-weight: bold;
+        display: block;
+        position: static;
+        margin: 15px auto;
+        width: 140px;
+    }
+}
