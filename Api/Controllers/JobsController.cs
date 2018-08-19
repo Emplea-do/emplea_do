@@ -50,7 +50,7 @@ namespace Api.Controllers
         {
             try
             {
-                var result = _jobsService.GetById(id);
+                var result = _jobsService.GetLimitedById(id);
 
                 if(result == null)
                     return new NotFoundResult();

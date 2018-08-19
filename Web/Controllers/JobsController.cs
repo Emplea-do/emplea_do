@@ -15,23 +15,30 @@ using Web.ViewModels.Jobs;
 using Sakura.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using AppService.Framework;
+using Domain;
+using Web.Framework.Extensions;
+using Microsoft.AspNetCore.Mvc.Routing;
+using AppService.Services.Social;
 
 namespace Web.Controllers
 {
-    public class JobsController : Controller
+    public class JobsController : BaseController
     {
         private readonly IJobService _jobService;
         private readonly ICategoryService _categoryService;
         private readonly IHireTypeService _hireTypeService;
+        private readonly ISlackService _slackService;
 
         public JobsController(IOptions<SocialKeys> socialKeys,
                               IJobService jobsService,
                               ICategoryService categoryService,
-                              IHireTypeService hireTypeService) //: base(socialKeys)
+                              IHireTypeService hireTypeService,
+                              ISlackService slackServie) : base(socialKeys)
         {
             _jobService = jobsService;
             _categoryService = categoryService;
             _hireTypeService = hireTypeService;
+            _slackService = slackServie;
         }
 
         public IActionResult Index(JobPagingParameter model)
@@ -52,12 +59,7 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
-        //public override IActionResult Index()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //[Authorize]
+        [Authorize]
         public IActionResult New()
         {
             return RedirectToAction("Wizard");
@@ -79,7 +81,7 @@ namespace Web.Controllers
         [HttpPost, ValidateAntiForgeryToken]
         //[ValidateInput(false)]
         //[CaptchaValidator(RequiredMessage = "Por favor confirma que no eres un robot", ErrorMessage = "El captcha es incorrecto.")]
-        public IActionResult Wizard(Wizard model)
+        public async Task<IActionResult> WizardAsync(Wizard model)
         {
             // HACK - For some reason the View.WithError is returning a blank page. I'm fully validating this on javascript.
             // Leaving this code for further fix
@@ -87,29 +89,72 @@ namespace Web.Controllers
                 return View(model)
                     .WithError("Han ocurrido errores de validación que no permiten continuar el proceso");
             
-            var jobOpportunity = model.ToEntity();
+            var job = model.ToEntity();
             var jobExists = _jobService.GetById(model.Id);
             if (jobExists == null)
             {
-                jobOpportunity.Approved = false; // new jobs unapproved by default
-                jobOpportunity.UserId = 1; // TODO this is temporary
-                var result = _jobService.Create(jobOpportunity);
+                job.Approved = false; // new jobs unapproved by default
+                job.UserId = _applicationUser.RawId; // TODO this is temporary
+                var result = _jobService.Create(job);
                 if(!result.ExecutedSuccesfully)
                 {
                     return View(model)
                         .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
                 }
             }
-            //await _slackService.PostNewJobOpportunity(jobOpportunity, Url);
+            var seoUrl = UrlExtensions.SeoUrl(job.Id, job.Title);
+            var url = Url.AbsoluteAction(seoUrl, "jobs");
+
+
+            await _slackService.PostNewJob(job, url);
 
             // TODO adding this in the next PR - Carlos Campos
             //return RedirectToAction(nameof(Detail), new
             //{
-            //    id = UrlHelperExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title),
+            //    id = UrlHelperExtensions.SeoUrl(job.Id, job.Title),
             //    fromWizard = 1
             //});
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        public JsonResult ToggleHide(string title)
+        {
+            var job = GetJobOpportunityFromTitle(title);
+            if (IsJobOpportunityOwner(title))
+            {
+                _jobService.ToggleHideState(job);
+            }
+
+            return Json(new { isHidden = job.IsHidden });
+
+        }
+
+
+        private static int GetIdFromTitle(string title)
+        {
+            int id;
+            var url = title.Split('-');
+
+            if (string.IsNullOrEmpty(title) || url.Length == 0 || !int.TryParse(url[0], out id))
+                return 0;
+
+            return id;
+        }
+
+        private Job GetJobOpportunityFromTitle(string title)
+        {
+            var jobId = GetIdFromTitle(title);
+            return _jobService.GetById(jobId);
+        }
+
+        private bool IsJobOpportunityOwner(string title)
+        {
+            var job = GetJobOpportunityFromTitle(title);
+            var currentUser = _applicationUser.RawId;
+            return (currentUser != null && job.UserId == currentUser);
+        }
+
 
         /// <summary>
         /// Transform JobOpportunityPagingParameter into JobOpportunitySearchViewModel with Locations

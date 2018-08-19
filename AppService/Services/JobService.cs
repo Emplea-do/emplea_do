@@ -180,20 +180,31 @@ namespace AppService.Services
             };
         }
 
-        public JobLimited GetById(int id) => _jobRepository.GetJobLimitedById(id);
+        public JobLimited GetLimitedById(int id) => _jobRepository.GetJobLimitedById(id);
+
+        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
 
         public IEnumerable<CategoryCountDto> GetJobCountByCategory() => _jobRepository.GetJobCountByCategory();
 
         public IEnumerable<Job> GetLatestJobs(int quantity) => _jobRepository.GetLatestJobs(quantity);
 
         public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobsPagedByFilters(parameter);
+
+        public void ToggleHideState(Job jobOpportunity)
+        {
+            jobOpportunity.IsHidden = !jobOpportunity.IsHidden;
+            _jobRepository.Update(jobOpportunity);
+            _jobRepository.CommitChanges();
+        }
     }
     public interface IJobService : IMutableService<Job>
     {
         PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters);
-        JobLimited GetById(int id);
+        JobLimited GetLimitedById(int id);
+        Job GetById(int id);
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
         IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
+        void ToggleHideState(Job jobOpportunity);
     }
 }

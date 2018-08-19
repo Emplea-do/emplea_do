@@ -21,7 +21,7 @@ namespace Web.Controllers
             _jobService = jobsService;
         }
 
-        public override IActionResult Index()
+        public IActionResult Index()
         {
             ViewBag.SearchViewModel = new JobSearchViewModel()
             {

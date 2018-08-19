@@ -147,7 +147,7 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        public override IActionResult Index()
+        public IActionResult Index()
         {
             return RedirectToAction("Profile");
         }
