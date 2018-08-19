@@ -17,14 +17,14 @@
             <ul>
                 @foreach (var m in ViewData.ModelState)
                 {
-                if (m.Value.Errors.Any())
-                {
-                <li>
-                    <a href="javascript:void(0)" data-field="@m.Key" class="text-danger">
-                        @m.Value.Errors.First().ErrorMessage
-                    </a>
-                </li>
-                }
+                    if (m.Value.Errors.Any())
+                    {
+                    <li>
+                        <a href="javascript:void(0)" data-field="@m.Key" class="text-danger">
+                            @m.Value.Errors.First().ErrorMessage
+                        </a>
+                    </li>
+                    }
                 }
             </ul>
         </div>
@@ -38,6 +38,7 @@
         {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.Id)
+        @Html.ValidationSummary()
         <div>
             <span class="h2 section-title"></span>
             <hr class="hidden-xs" />
@@ -75,14 +76,14 @@
                         <b>Tip:</b> Muchos aplicantes visitar&aacute;n tu sitio web y lo tomar&aacute;n
                         como referencia antes de decidirse por t&iacute;. Si tu empresa no tiene un sitio web
                         o crees que necesita unas mejoras, considera buscar un web developer en
-                        <a href="@Url.Action(" Index", "Home" )">emplea.do</a>
+                        <a href="@Url.Action("Index", "Home" )">emplea.do</a>
                     </span>
                     <br />
                     @Html.ValidationMessageFor(m => m.CompanyUrl)
                 </div>
                 <div class="form-group" id="company-logo-group">
                     @Html.LabelFor(m => m.CompanyLogoUrl)
-                    @Html.TextBoxFor(m => m.CompanyLogoUrl, new { @class = "form-control", type = "url", @data_parsley_type = "url", placeholder = "http://companyx.com/logo.png" })
+                    @Html.TextBoxFor(m => m.CompanyLogoUrl, new { @class = "form-control", type = "url", @data_parsley_type = "url", placeholder = "https://companyx.com/logo.png" })
                     <span>
                         Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
                         Si no sabes que es eso, no te preocupes, sube el logo a <a href="https://imgur.com" target="_blank">imgur</a> y pega la url aqu&iacute;
@@ -115,12 +116,12 @@
                     @Html.LabelFor(m => m.LocationName)
                     @Html.TextBoxFor(m => m.LocationName, new
                     {
-                    @class = "form-control",
-                    placeholder = "Selecciona una localidad",
-                    id = "location-input",
-                    required = "true",
-                    @data_parsley_group = "job-details",
-                    autocomplete = "off"
+                        @class = "form-control",
+                        placeholder = "Selecciona una localidad",
+                        id = "location-input",
+                        required = "true",
+                        @data_parsley_group = "job-details",
+                        autocomplete = "off"
                     })
                     @Html.HiddenFor(m => m.LocationLatitude, new { id = "location-latitude", @data_parsley_group = "job-details" })
                     @Html.HiddenFor(m => m.LocationLongitude, new { id = "location-longitude", @data_parsley_group = "job-details" })
@@ -136,8 +137,8 @@
                     @Html.TextAreaFor(m => m.Description, new { @class = "form-control textarea", @data_parsley_group = "job-details", @data_parsley_errors_container = "#description_errors", required = "" })
                     @Html.ValidationMessageFor(m => m.Description)
                     <span>
-                        <b>Tip:</b> Se lo mas explicito posible, si eres de recursos humanos consulta con una persona de
-                        tecnolog&iacute;a sobre cuales son los requerimientos t&eacute;cnicos.
+                        <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
+                        tecnología sobre cuales son los requerimientos técnicos.
                     </span>
                     <span id="description_errors" class="danger"></span>
                 </div>

@@ -77,7 +77,6 @@ namespace Web
                     options.ExpireTimeSpan = TimeSpan.FromDays(30);
                 });
             services.AddDbContext<EmpleadoDbContext>();
-
             services.AddSession();
             services.AddMvc(options =>
             {
@@ -91,24 +90,13 @@ namespace Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseStatusCodePagesWithRedirects("/error/{0}");
-                app.UseExceptionHandler();
-                app.UseHsts();
-            }
             app.ConfigureEnvironment(env);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
             app.ConfigureRoutes();
-            app.UseMvc();
+//            app.UseMvc();
         }
     }
 }

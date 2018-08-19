@@ -28,8 +28,8 @@ namespace Migrations
             Insert.IntoTable(TableName.HireType).WithIdentityInsert()
                 .Row(new { Id = HireTypeConstants.NotApplicable, Name = "N/A", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = HireTypeConstants.Freelance, Name = "Freelance", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
-                .Row(new { Id = HireTypeConstants.PartTime, Name = "Prescencial Medio Tiempo", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
-                .Row(new { Id = HireTypeConstants.FullTime, Name = "Prescencial Tiempo completo", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
+                .Row(new { Id = HireTypeConstants.PartTime, Name = "Presencial Medio Tiempo", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
+                .Row(new { Id = HireTypeConstants.FullTime, Name = "Presencial Tiempo completo", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = HireTypeConstants.PaidInternship, Name = "Pasantía pagada", PaysMoney=true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = HireTypeConstants.Volunteer, Name = "Voluntariado", PaysMoney=false, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = HireTypeConstants.FreeInternship, Name = "Pasantía no pagada", PaysMoney=false, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow });

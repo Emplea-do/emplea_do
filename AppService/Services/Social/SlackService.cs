@@ -14,9 +14,9 @@ namespace AppService.Services.Social
     public class SlackService : ISlackService
     {
         private readonly string _slackWebhookUrl;
+
         public SlackService(string slackWebhookEndpoint)
         {
-            //var slackWebhookEndpoint = ConfigurationManager.AppSettings["slackWebhookEndpoint"];
             _slackWebhookUrl = "https://hooks.slack.com/services/" + slackWebhookEndpoint;
         }
 

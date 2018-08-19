@@ -28,6 +28,7 @@ namespace Web.Controllers
                 CategoriesCount = _jobService.GetJobCountByCategory()
             };
 
+            ViewBag.MapsApiKey = _socialKeys.GoogleMapsApiKey;
             var model = _jobService.GetLatestJobs(7);
 
             return View(model);

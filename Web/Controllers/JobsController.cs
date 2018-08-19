@@ -22,6 +22,8 @@ using AppService.Services.Social;
 
 namespace Web.Controllers
 {
+
+    [Authorize]
     public class JobsController : BaseController
     {
         private readonly IJobService _jobService;
@@ -59,7 +61,6 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
-        [Authorize]
         public IActionResult New()
         {
             return RedirectToAction("Wizard");
@@ -74,20 +75,26 @@ namespace Web.Controllers
             var jobtypes = _hireTypeService.GetHireTypes().ToList();
             viewModel.Categories = categories;
             viewModel.JobTypes = jobtypes;
-            //viewModel.MapsApiKey = _socialKeys.GoogleMapsApiKey;
+            viewModel.MapsApiKey = _socialKeys.GoogleMapsApiKey;
+
             return View(viewModel);
         }
 
         [HttpPost, ValidateAntiForgeryToken]
         //[ValidateInput(false)]
         //[CaptchaValidator(RequiredMessage = "Por favor confirma que no eres un robot", ErrorMessage = "El captcha es incorrecto.")]
-        public async Task<IActionResult> WizardAsync(Wizard model)
+        public async Task<IActionResult> Wizard(Wizard model)
         {
+            var categories = _categoryService.GetCategories().ToList();
+            var jobtypes = _hireTypeService.GetHireTypes().ToList();
+            model.Categories = categories;
+            model.JobTypes = jobtypes;
+            model.MapsApiKey = _socialKeys.GoogleMapsApiKey;
+
             // HACK - For some reason the View.WithError is returning a blank page. I'm fully validating this on javascript.
             // Leaving this code for further fix
             if (!ModelState.IsValid)
-                return View(model)
-                    .WithError("Han ocurrido errores de validación que no permiten continuar el proceso");
+                return View("Wizard", model).WithError("Han ocurrido errores de validación que no permiten continuar el proceso");
             
             var job = model.ToEntity();
             var jobExists = _jobService.GetById(model.Id);
@@ -98,8 +105,8 @@ namespace Web.Controllers
                 var result = _jobService.Create(job);
                 if(!result.ExecutedSuccesfully)
                 {
-                    return View(model)
-                        .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
+                    return await Task.Run(() => 
+                        View(model).WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde"));
                 }
             }
             var seoUrl = UrlExtensions.SeoUrl(job.Id, job.Title);

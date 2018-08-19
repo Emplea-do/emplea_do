@@ -14,7 +14,6 @@ namespace Web.ViewModels.Jobs
         [Display(Name = "Título. ¿Qué estás buscando?")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "La Localidad es requerida")]
         [Display(Name = "Localidad")]
         public string LocationName { get; set; }
         public double LocationLatitude { get; set; }
@@ -38,10 +37,10 @@ namespace Web.ViewModels.Jobs
         public string Description { get; set; }
 
         [Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre de la empresa")]
         public string CompanyName { get; set; }
 
-        [StringLength(int.MaxValue), Url(ErrorMessage = "La dirección Web de la compañia debe ser un Url válido.")]
+        [StringLength(int.MaxValue), Url(ErrorMessage = "La dirección Web de la compañía debe ser un Url válido.")]
         [Display(Name = "Sitio Web (opcional)")]
         public string CompanyUrl { get; set; }
 
@@ -50,11 +49,11 @@ namespace Web.ViewModels.Jobs
         public string CompanyEmail { get; set; }
 
         [Required(ErrorMessage = "El campo como aplicar es requerido"), StringLength(int.MaxValue)]
-        [Display(Name = "Cómo Aplicar")]
+        [Display(Name = "¿Cómo Aplicar?")]
         public string HowToApply { get; set; }
 
         [StringLength(int.MaxValue), Url(ErrorMessage = "El logo de la compañía debe ser un Url válido.")]
-        [Display(Name = "Logo (opcional)")]
+        [Display(Name = "Logo de la empresa(opcional)")]
         public string CompanyLogoUrl { get; set; }
 
         [Display(Name= "¿Es un puesto remoto?")]
