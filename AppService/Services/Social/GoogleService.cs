@@ -19,15 +19,16 @@ namespace AppService.Services.Social
             _clientSecret = clientSecret;
         }
 
-        public async Task<TaskResult<UserInfo>> GetUserInformation(string accessToken)
+        public Task<TaskResult<UserInfo>> GetUserInformation(string accessToken)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string scope, string redirectUrl)
+        public async Task<TaskResult<AccessTokenResponse>> RequestTokenAsync(string code, string redirectUrl)
         {
             var result = new TaskResult<AccessTokenResponse>();
-            var url = $"https://www.googleapis.com/oauth2/v4/token?grant_type=authorization_code&client_id={_clientId}&client_secret={_clientSecret}&scope={scope}&code={code}&redirect_uri={redirectUrl}";
+            var scope = "";
+            var url = $"https://www.googleapis.com/oauth2/v4/token?grant_type=authorization_code&client_id={_clientId}&client_secret={_clientSecret}&code={code}&scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/plus.me%20https://www.googleapis.com/auth/userinfo.email&redirect_uri={redirectUrl}";
 
             using (var client = new HttpClient())
             {

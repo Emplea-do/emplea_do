@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AppService.Services
 {
-    public class JobsService : BaseService, IJobsService
+    public class JobService : BaseService, IJobService
     {
         readonly IJobRepository _jobRepository;
         readonly ICategoryService _categoryService;
@@ -57,8 +57,7 @@ namespace AppService.Services
 
                     if (updatedJob.Location != null)
                     {
-                        oldEntity.Location = oldEntity.Location ?? new Location()
-;
+                        oldEntity.Location = oldEntity.Location ?? new Location();
                         oldEntity.Location.Latitude = updatedJob.Location.Latitude;
                         oldEntity.Location.Longitude = updatedJob.Location.Longitude;
                         oldEntity.Location.Name = updatedJob.Location.Name;
