@@ -1,0 +1,48 @@
+﻿@model Domain.User
+
+@{
+    ViewBag.Title = "Mi perfil";
+}
+<div class="container page-content">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div>
+                        <h2>Mi perfil</h2>
+                    </div>
+                    <dl class="dl-horizontal">
+                        <dt>
+                            Nombre
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt>
+                            Email
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div>
+                        <h2>Mis ofertas de empleo</h2>
+                    </div>
+                    @if (Model.Jobs != null && Model.Jobs.Any())
+                    {
+                    <link href="/Content/toggleButton.css" rel="stylesheet" />
+                    @Html.Partial("../Jobs/_Partials/JobList", Model.Jobs.OrderByDescending(x => x.CreatedAt))
+                    }
+                    else
+                    {
+                    <span>No has creado una oferta de empleo, <a href="@Url.Action("Wizard","Jobs")">comienza aquí</a></span>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

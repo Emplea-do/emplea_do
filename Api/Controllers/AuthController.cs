@@ -28,7 +28,7 @@ namespace Api.Controllers
             {
                 var result = _securityService.Login(model.Username, model.Password);
 
-                if (result.ExecutedSuccessfully)
+                if (result.ExecutedSuccesfully)
                 {
                     var claims = new[]{
                         new Claim(JwtRegisteredClaimNames.Sub, result.User.Email),

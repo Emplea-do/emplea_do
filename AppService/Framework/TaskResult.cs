@@ -102,4 +102,9 @@ namespace AppService.Framework
             return res;
         }
     }
+
+    public class TaskResult<T> : TaskResult
+    {
+        public T Data { get; set; }
+    }
 }

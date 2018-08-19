@@ -12,5 +12,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Framework\Dto\NearbyJobOpportunityLocation.cs" />
+    <Compile Remove="Framework\ApplicationUser.cs" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,9 @@
 ﻿using System;
-namespace Domain.Framework
+namespace Domain.Framework.Dto
 {
-    public class ApplicationUser
+    public class UserLimited
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public string Email { get; set; }
     }
 }

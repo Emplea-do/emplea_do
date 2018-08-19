@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace AppService.Services
 {
-    public class JobService : BaseService<Job>, IJobService
+    public class JobService : BaseService, IJobService
     {
         readonly IJobRepository _jobRepository;
         readonly ICategoryService _categoryService;
@@ -57,8 +57,7 @@ namespace AppService.Services
 
                     if (updatedJob.Location != null)
                     {
-                        oldEntity.Location = oldEntity.Location ?? new Location()
-;
+                        oldEntity.Location = oldEntity.Location ?? new Location();
                         oldEntity.Location.Latitude = updatedJob.Location.Latitude;
                         oldEntity.Location.Longitude = updatedJob.Location.Longitude;
                         oldEntity.Location.Name = updatedJob.Location.Name;
@@ -185,7 +184,7 @@ namespace AppService.Services
 
         public IEnumerable<Job> GetLatestJobs(int quantity) => _jobRepository.GetLatestJobs(quantity);
 
-        public IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobOpportunitiesPagedByFilters(parameter);
+        public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobsPagedByFilters(parameter);
     }
     public interface IJobService : IMutableService<Job>
     {
@@ -193,6 +192,6 @@ namespace AppService.Services
         JobLimited GetById(int id);
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
-        IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter);
+        IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
     }
 }
