@@ -37,23 +37,12 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             //Social network keys
-            var socialKeys = Configuration.GetSection("SocialKeys");
-            services.Configure<SocialKeys>(socialKeys);
             services.AddSingleton(Configuration);
 
             // Add connection string to DbContext
-            services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
-            services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ILoginRepository, LoginRepository>();
-            services.AddScoped<ILoginService, LoginService>();
             #if DEBUG
-            services.AddDbContext<EmpleadoDbContext>(options =>
-                options.UseSqlite($"Data Source=../mydb.db")
-            );
-            
+            services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             #else
                 services.AddDbContext<EmpleadoDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -95,7 +84,7 @@ namespace Web
                 options.Filters.Add(typeof(UnderMaintenanceFilterAttribute));
             }).AddSessionStateTempDataProvider();
 
-            IocConfiguration.Init(services);
+            IocConfiguration.Init(Configuration, services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

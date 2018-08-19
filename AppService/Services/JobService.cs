@@ -184,7 +184,7 @@ namespace AppService.Services
 
         public IEnumerable<Job> GetLatestJobs(int quantity) => _jobRepository.GetLatestJobs(quantity);
 
-        public IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobOpportunitiesPagedByFilters(parameter);
+        public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobsPagedByFilters(parameter);
     }
     public interface IJobService : IMutableService<Job>
     {
@@ -192,6 +192,6 @@ namespace AppService.Services
         JobLimited GetById(int id);
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
-        IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter);
+        IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
     }
 }

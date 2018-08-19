@@ -1,36 +1,48 @@
 ﻿using System;
+using AppService.Framework.Social;
 using AppService.Services;
+using AppService.Services.Social;
 using Data;
 using Data.Repositories;
 using Domain;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Web.Framework.Configurations
 {
     public static class IocConfiguration
     {
-        public static void Init(IServiceCollection services)
+        public static void Init(IConfiguration configuration, IServiceCollection services)
         {
+
+            var socialKeys = configuration.GetSection("SocialKeys");
+            services.Configure<SocialKeys>(socialKeys);
+
             services.AddTransient<EmpleadoDbContext, EmpleadoDbContext>();
 
             // Repositories
-            services.AddTransient(typeof(ICategoryRepository), typeof(CategoryRepository));
-            services.AddTransient(typeof(IHireTypeRepository), typeof(HireTypeRepository));
-            services.AddTransient(typeof(IJobRepository), typeof(JobRepository));
-            services.AddTransient(typeof(IPermissionRepository), typeof(PermissionRepository));
-            services.AddTransient(typeof(IRoleRepository), typeof(RoleRepository));
-            services.AddTransient(typeof(IUserRepository), typeof(UserRepository));
-            services.AddTransient<ICompanyRepository, CompanyRepository>();
-            services.AddTransient<IJoelTestRepository, JoelTestRepository>();
-            services.AddTransient<ILocationRepository, LocationRepository>();
-            services.AddTransient<ILoginRepository, LoginRepository>();
+            services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
+            services.AddScoped(typeof(IHireTypeRepository), typeof(HireTypeRepository));
+            services.AddScoped(typeof(IJobRepository), typeof(JobRepository));
+            services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
+            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IJoelTestRepository, JoelTestRepository>();
+            services.AddScoped<ILocationRepository, LocationRepository>();
+            services.AddScoped<ILoginRepository, LoginRepository>();
 
             // Services
-            services.AddTransient(typeof(ICategoryService), typeof(CategoryService));
-            services.AddTransient(typeof(IHireTypeService), typeof(HireTypeService));
-            services.AddTransient(typeof(IJobService), typeof(JobService));
-            services.AddTransient(typeof(ISecurityService), typeof(SecurityService));
-            services.AddTransient(typeof(IUserService), typeof(UserService));
+            services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
+            services.AddScoped(typeof(IHireTypeService), typeof(HireTypeService));
+            services.AddScoped(typeof(IJobService), typeof(JobService));
+            services.AddScoped(typeof(ISecurityService), typeof(SecurityService));
+            services.AddScoped(typeof(IUserService), typeof(UserService));
+            services.AddScoped<ILoginService, LoginService>();
+
+            services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
+            services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
+            services.AddScoped<IGoogleService, GoogleService>(x => new GoogleService(socialKeys.GetValue<string>("GoogleClientId"), socialKeys.GetValue<string>("GoogleClientSecret")));
         }
     }
 }

@@ -78,7 +78,7 @@ namespace Web.Controllers
                     return RedirectToAction("Login", "Account").WithError(result.Message);
                 }
             }
-            return RedirectToAction("New", "Job");
+            return RedirectToAction("New", "Jobs");
         }
 
         public async Task<ActionResult> LinkedinCallback(string code, string state, string returnUrl)
@@ -96,7 +96,7 @@ namespace Web.Controllers
                     return RedirectToAction("Login", "Account").WithError(result.Message);
                 }
             }
-            return RedirectToAction("New", "Job");
+            return RedirectToAction("New", "Jobs");
         }
 
 
@@ -115,7 +115,7 @@ namespace Web.Controllers
                     return RedirectToAction("Login", "Account").WithError(result.Message);
                 }
             }
-            return RedirectToAction("New", "Job");
+            return RedirectToAction("New", "Jobs");
         }
 
 

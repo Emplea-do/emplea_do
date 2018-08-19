@@ -20,6 +20,11 @@ namespace AppService.Services
             return _userRepository.GetById(userId);
         }
 
+        public User GetByEmail(string email)
+        {
+            return _userRepository.Get(x=>x.IsActive && x.Email == email).FirstOrDefault();
+        }
+
         public TaskResult ValidateOnCreate(User entity)
         {
             if (_userRepository.Get(x => x.IsActive && x.Email == entity.Email).Count() > 0)
@@ -69,5 +74,6 @@ namespace AppService.Services
     public interface IUserService : IMutableService<User>
     {
         User GetById(int userId);
+        User GetByEmail(string email);
     }
 }

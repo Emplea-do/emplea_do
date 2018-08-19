@@ -94,14 +94,14 @@ namespace Data.Repositories
 
         public IEnumerable<Job> GetLatestJobs(int quantity)
         {
-            return GetAll(x => x.Company, x => x.Category).Where(x => x.IsHidden == false && x.Approved == true)
+            return GetAll(x => x.Category).Where(x => x.IsHidden == false && x.Approved == true)
                                                           .OrderByDescending(m => m.PublishedDate)
                                                           .ThenByDescending(x => x.Likes)
                                                           .Take(quantity)
                                                           .ToList();
         }
 
-        public IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter)
+        public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter)
         {
             IEnumerable<Job> result = new List<Job>();
             
@@ -137,7 +137,7 @@ namespace Data.Repositories
 
             //Query using Haversine formula ref.: http://www.wikiwand.com/en/Haversine_formula
 
-            var locations = GetNearbyJobOpportunityLocations(parameter.SelectedLocationLatitude,
+            var locations = GetNearbyJobsLocations(parameter.SelectedLocationLatitude,
                 parameter.SelectedLocationLongitude, parameter.LocationDistance);
 
             if (!locations.Any())
@@ -150,7 +150,7 @@ namespace Data.Repositories
             return result;
         }
 
-        private List<int> GetNearbyJobOpportunityLocations(double latitude, double longitude, double distance)
+        private List<int> GetNearbyJobsLocations(double latitude, double longitude, double distance)
         {
             var coord = new GeoCoordinate(latitude, longitude);
             var query = Database.Set<Location>()
@@ -173,6 +173,6 @@ namespace Data.Repositories
         JobLimited GetJobLimitedById(int id);
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
-        IEnumerable<Job> GetAllJobOpportunitiesPagedByFilters(JobPagingParameter parameter);
+        IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
     }
 }

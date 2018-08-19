@@ -37,7 +37,7 @@ namespace Web.Controllers
                 return View(viewModel).WithError("Debe seleccionar una Localidad para buscar.");
             }
 
-            var jobs = _jobService.GetAllJobOpportunitiesPagedByFilters(model);
+            var jobs = _jobService.GetAllJobsPagedByFilters(model);
 
             viewModel.Jobs = jobs.ToPagedList(model.PageSize, model.Page);
 

@@ -46,20 +46,31 @@ namespace AppService.Services
             var result = new UserLimited();
             var socialLogin = _loginService.Get(provider, key);
 
-            if(socialLogin == null)//If this login doesn't exist create the new user
+            if (socialLogin == null)//If this login doesn't exist create the new user
             {
-                var newUser = new User
-                {
-                    Email = email
-                };
-                _userService.Create(newUser);
                 var newLogin = new Login
                 {
                     LoginProvider = provider,
                     ProviderKey = key,
-                    UserId = newUser.Id
                 };
+                var user = _userService.GetByEmail(email);
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Email = email,
+                        PasswordHash = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 16),
+                        Salt = Convert.ToBase64String(Guid.NewGuid().ToByteArray()).Substring(0, 16)
+                    };
+                    var userCreationResult = _userService.Create(user);
+                    if (!userCreationResult.ExecutedSuccesfully) throw new Exception(userCreationResult.Message);
+                }
+                newLogin.UserId = user.Id;
                 _loginService.Create(newLogin);
+
+                result.Id = user.Id;
+                result.Email = user.Email;
+
             }
             else //else get it from the database
             {
@@ -134,7 +145,7 @@ namespace AppService.Services
                 var codeValidationResult = await _googleService.RequestTokenAsync(code, redirectUrl);
                 if (codeValidationResult.ExecutedSuccesfully)
                 {
-                    var userInfoResult = await _googleService.GetUserInformation(codeValidationResult.Data.access_token);
+                    var userInfoResult = _googleService.GetUserInformation(codeValidationResult.Data);
                     if (userInfoResult.ExecutedSuccesfully)
                     {
                         var socialInfo = userInfoResult.Data;
