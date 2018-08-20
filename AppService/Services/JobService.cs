@@ -180,6 +180,8 @@ namespace AppService.Services
             };
         }
 
+        public List<Job> GetCompanyRelatedJobs(int id, string name) => _jobRepository.GetRelatedJobs(id, name).ToList<Job>();
+
         public JobLimited GetLimitedById(int id) => _jobRepository.GetJobLimitedById(id);
 
         public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
@@ -196,12 +198,24 @@ namespace AppService.Services
             _jobRepository.Update(jobOpportunity);
             _jobRepository.CommitChanges();
         }
+
+        public void UpdateViewCount(int id)
+        {
+            var job = _jobRepository.GetById(id);
+
+            if (job == null) return;
+
+            job.ViewCount++;
+            _jobRepository.Update(job);
+        }
     }
     public interface IJobService : IMutableService<Job>
     {
         PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters);
         JobLimited GetLimitedById(int id);
         Job GetById(int id);
+        void UpdateViewCount(int id);
+        List<Job> GetCompanyRelatedJobs(int id, string companyName); //TODO: Change for just CompanyId
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
         IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);

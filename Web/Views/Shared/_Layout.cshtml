@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     @{
         const string branch = "Emplea.do";
-        var title = string.IsNullOrWhiteSpace(ViewBag.Title) ? branch : $"{ViewBag.Title}-{branch}";
+        var title = string.IsNullOrWhiteSpace(ViewBag.Title) ? branch : $"{ViewBag.Title} - {branch}";
     }
     <title>@title</title>
     @{
@@ -25,13 +25,13 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/css/theme/select2.min.css" />
         <link rel="stylesheet" href="~/css/theme/jquery.flexmenu.css" />
         <link rel="stylesheet" href="~/css/theme/owl.carousel.css" />
         <link rel="stylesheet" href="~/css/theme/animate.css" />
         <link rel="stylesheet" href="~/css/theme/jquery.nouislider.css" />
         <link rel="stylesheet" href="~/css/theme/sweetalert2.min.css" />
         <link rel="stylesheet" href="~/css/theme/flat/green.css" />
-        <link rel="stylesheet" href="~/css/theme/select2.min.css" />
         <link rel="stylesheet" href="~/css/theme/font-awesome.min.css" />
         <link rel="stylesheet" href="~/css/theme/bootstrap-social.min.css" />
         <link rel="stylesheet" href="~/css/theme/style.css" />

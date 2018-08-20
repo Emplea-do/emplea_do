@@ -19,6 +19,7 @@ using Domain;
 using Web.Framework.Extensions;
 using Microsoft.AspNetCore.Mvc.Routing;
 using AppService.Services.Social;
+using Web.Framework.Helpers;
 
 namespace Web.Controllers
 {
@@ -67,7 +68,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        //[Authorize]
         public IActionResult Wizard()
         {
             var viewModel = new Wizard();
@@ -101,29 +101,76 @@ namespace Web.Controllers
             if (jobExists == null)
             {
                 job.Approved = false; // new jobs unapproved by default
-                job.UserId = _applicationUser.RawId; // TODO this is temporary
+                job.UserId = _applicationUser.RawId;
                 var result = _jobService.Create(job);
                 if(!result.ExecutedSuccesfully)
                 {
-                    return await Task.Run(() => 
-                        View(model).WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde"));
+                    return View(model)
+                        .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
                 }
             }
-            var seoUrl = UrlExtensions.SeoUrl(job.Id, job.Title);
+            var seoUrl = job.Title.SanitizeUrl().SeoUrl(job.Id);
             var url = Url.AbsoluteAction(seoUrl, "jobs");
 
 
             await _slackService.PostNewJob(job, url);
 
             // TODO adding this in the next PR - Carlos Campos
-            //return RedirectToAction(nameof(Detail), new
-            //{
-            //    id = UrlHelperExtensions.SeoUrl(job.Id, job.Title),
-            //    fromWizard = 1
-            //});
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Detail), new
+            {
+                id = job.Title.SanitizeUrl().SeoUrl(job.Id),
+                fromWizard = 1
+            });
         }
 
+        // GET: /jobs/4-jobtitle
+        public ActionResult Detail(string id)
+        {
+            if (string.IsNullOrWhiteSpace(id))
+                return RedirectToAction(nameof(Index));
+
+            var jobId = GetIdFromTitle(id);
+
+            if (jobId == 0)
+                return RedirectToAction(nameof(Index));
+
+            var job = _jobService.GetById(jobId);
+
+            if (job == null)
+                return View(nameof(Detail))
+                    .WithError("La vacante solicitada no existe. Por favor escoge una vacante válida del listado.");
+
+            if (job.Approved == false)
+                return View(nameof(Detail))
+                    .WithInfo("Esta vacante no ha sido aprobada. Un miembro del equipo de moderadores la revisará pronto. Intentalo de nuevo más tarde.");
+
+            var expectedUrl = job.Title.SanitizeUrl().SeoUrl(jobId);
+
+            if (!expectedUrl.Equals(id, StringComparison.OrdinalIgnoreCase))
+                return RedirectToActionPermanent(nameof(Detail), new { id = expectedUrl });
+
+            ViewBag.RelatedJobs =
+                       _jobService.GetCompanyRelatedJobs(jobId, job.Company.Name);
+            var cookieLike = $"JobLike{jobId}";
+
+            ViewBag.CanLike = !ControllerContext.HttpContext.CookieExists(cookieLike);
+
+            var cookieView = $"JobView{job.Id}";
+
+            if (IsJobOpportunityOwner(id) || ControllerContext.HttpContext.CookieExists(cookieView))
+            {
+                return job.IsHidden
+                    ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
+                    : View(nameof(Detail), job);
+            }
+
+            _jobService.UpdateViewCount(job.Id);
+            ControllerContext.HttpContext.SetCookie(cookieView, job.Id.ToString());
+
+            return job.IsHidden
+                                 ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
+                                     : View(nameof(Detail), job);
+        }
         [HttpPost]
         public JsonResult ToggleHide(string title)
         {
@@ -158,8 +205,7 @@ namespace Web.Controllers
         private bool IsJobOpportunityOwner(string title)
         {
             var job = GetJobOpportunityFromTitle(title);
-            var currentUser = _applicationUser.RawId;
-            return (currentUser != null && job.UserId == currentUser);
+            return (job.UserId == _applicationUser.RawId);
         }
 
 

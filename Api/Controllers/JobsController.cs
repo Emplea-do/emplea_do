@@ -56,7 +56,7 @@ namespace Api.Controllers
                     return new NotFoundResult();
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 //Do the loggin
             }

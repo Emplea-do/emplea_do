@@ -11,6 +11,6 @@ namespace Domain
 
         public string LogoUrl { get; set; }
 
-        public int? CreatedBy { get; set; }
+        public int? UserId { get; set; }
     }
 }

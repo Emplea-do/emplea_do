@@ -11,8 +11,8 @@ namespace Data.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
     {
-
         protected readonly EmpleadoDbContext Database;
+        protected DbSet<T> DbSet => Database.Set<T>();
 
         protected BaseRepository(EmpleadoDbContext database)
         {
@@ -21,9 +21,9 @@ namespace Data.Repositories
 
         public int CommitChanges() => Database.SaveChanges();
 
-        public T GetById(int id) => Database.Set<T>().Find(id);       
+        public T GetById(int id) => DbSet.Find(id);       
 
-        public IQueryable<T> GetAll() => Database.Set<T>();
+        public IQueryable<T> GetAll() => DbSet;
        
         public IQueryable<T> GetAll(params Expression<Func<T, object>>[] include) => Get(null, include);
 
@@ -38,7 +38,7 @@ namespace Data.Repositories
 
             if (where != null)
                 query = query.AsExpandable().Where(where);
-
+            
             return query;
         }
 

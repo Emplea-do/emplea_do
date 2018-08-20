@@ -48,10 +48,8 @@ namespace Web
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             #endif
 
-            services.AddIdentity<User, Role>();
-
             services.ConfigureApplicationCookie(options =>
-             {
+            {
                  // Cookie settings
                  options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                  options.LoginPath = "/Account/Login";
@@ -62,21 +60,18 @@ namespace Web
             // Add default bootstrap-styled pager implementation
             services.AddBootstrapPagerGenerator(options =>
             {
-                // Use default pager options.
                 options.ConfigureDefault();
-             });
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options => {
-                    options.LoginPath = "/Account/Login/";
-                    options.AccessDeniedPath = "/Error/401";
-                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
-                });
-            services.AddDbContext<EmpleadoDbContext>();
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options => {
+                options.LoginPath = "/Account/Login/";
+                options.AccessDeniedPath = "/Error/401";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            });
             services.AddSession();
             services.AddMvc(options =>
             {
@@ -96,7 +91,7 @@ namespace Web
             app.UseCookiePolicy();
             app.UseSession();
             app.ConfigureRoutes();
-//            app.UseMvc();
+            app.UseMvc();
         }
     }
 }

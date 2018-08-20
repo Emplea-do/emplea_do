@@ -78,27 +78,32 @@ namespace Data.Repositories
 
         public IEnumerable<CategoryCountDto> GetJobCountByCategory()
         {
-            return GetAll(x => x.Category)
-                .GroupBy(x => new { x.Category.Name, x.CategoryId })
-                    .Select(x => new CategoryCountDto()
-                    {
-                        Category = new Category() 
-                        { 
-                            Id = x.Key.CategoryId,
-                            Name = x.Key.Name 
-                        },
-                        Count = x.Count()
-                    })
-                    .OrderBy(x => x.Name);
+            return Database.Set<Job>()
+                           .Where(x=> x.IsActive)
+                           .Include(x => x.Category)
+                           .GroupBy(x => new { x.Category.Name, x.CategoryId })
+                           .Select(x => new CategoryCountDto()
+                           {
+                                Category = new Category() 
+                                { 
+                                    Id = x.Key.CategoryId,
+                                    Name = x.Key.Name 
+                                },
+                                Count = x.Count()
+                            })
+                            .OrderBy(x => x.Name);
         }
 
         public IEnumerable<Job> GetLatestJobs(int quantity)
         {
-            return GetAll(x => x.Category).Where(x => x.IsHidden == false && x.Approved == true)
-                                                          .OrderByDescending(m => m.PublishedDate)
-                                                          .ThenByDescending(x => x.Likes)
-                                                          .Take(quantity)
-                                                          .ToList();
+            return Database.Set<Job>()
+                    .Where(x=>x.IsActive && x.IsHidden == false && x.Approved == true && x.IsActive)
+                    .Include(job=>job.Company)
+                    .Include(job=>job.Category)
+                    .OrderByDescending(m => m.PublishedDate)
+                    .ThenByDescending(x => x.Likes)
+                    .Take(quantity)
+                    .ToList();
         }
 
         public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter)
@@ -111,10 +116,9 @@ namespace Data.Repositories
             if (parameter.PageSize <= 0)
                 parameter.PageSize = 15;
 
-            var jobs = GetAll().Include(x => x.Location)
-                               .Include(x => x.Company)
-                               .OrderByDescending(x => x.PublishedDate)
-                               .Where(x => x.IsHidden == false && x.Approved == true);
+            var jobs = Get(x=>x.IsActive, "Location, Company")
+                           .OrderByDescending(x => x.PublishedDate)
+                           .Where(x => x.IsHidden == false && x.Approved == true);
 
             //Filter by JobCategory
             if (parameter.CategoryId.HasValue)
@@ -165,11 +169,28 @@ namespace Data.Repositories
                                 .ToList();
             return query;
         }
+
+
+        public IEnumerable<Job> GetRelatedJobs(int id, string name)
+        {
+            var relatedJobs = Database.Set<Job>()
+                                      .Include(x=>x.Company)
+                                      .Include(x=>x.Location)
+                                      .Where(x =>
+                                                x.Id != id && x.IsHidden == false && x.Approved == true &&
+                                                (x.Company.Name.Equals(name, System.StringComparison.InvariantCultureIgnoreCase)
+                                    )).OrderByDescending(x => x.ViewCount)
+                                      .Take(5)
+                                      .ToList();
+
+            return relatedJobs;
+        }
     }
 
     public interface IJobRepository : IBaseRepository<Job>
     {
         IQueryable<JobLimited>GetWithPagination(Func<Job,bool> where, int page, int itemsPerPage);
+        IEnumerable<Job> GetRelatedJobs(int id, string name);
         JobLimited GetJobLimitedById(int id);
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
