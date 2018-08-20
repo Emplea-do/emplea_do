@@ -184,7 +184,7 @@ namespace AppService.Services
 
         public JobLimited GetLimitedById(int id) => _jobRepository.GetJobLimitedById(id);
 
-        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
+        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id, x => x.JoelTest, x => x.Category, x => x.Company, x => x.HireType).FirstOrDefault();
 
         public IEnumerable<CategoryCountDto> GetJobCountByCategory() => _jobRepository.GetJobCountByCategory();
 

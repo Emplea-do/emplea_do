@@ -7,7 +7,7 @@
         {
         var jobId = job.Title.SeoUrl(job.Id);
         <div class="featured">
-            <a asp-controller="Job" asp-action="Detail" asp-route-id="@jobId">
+            <a asp-controller="Jobs" asp-action="Detail" asp-route-id="@jobId">
                 <div class="row">
                     <div class="col-md-1 hidden-sm hidden-xs text-center">
                         @if (!string.IsNullOrEmpty(job.Company?.Url))
@@ -18,7 +18,7 @@
                              alt=""
                              class="img-responsive"
                              onclick="onJobOpportunityDetailClick(this);"
-                             data-url='<a asp-controller="Job", asp-action="Detail" asp-route-id="@jobId" />' />
+                             data-url='<a asp-controller="Jobs", asp-action="Detail" asp-route-id="@jobId" />' />
                         }
                         else
                         {
@@ -79,8 +79,8 @@
                 }
                 <label data-on="Mostrar" data-off="Ocultar"></label>
             </div>
-            <a style="@hideAdminOptions" asp-controller="Job" asp-action="Edit" asp-route-title="@jobId" class="admin-btn edit-btn">Editar</a>
-            <a style="@hideAdminOptions" asp-controller="Job" asp-action="Delete" asp-route-title="@jobId"
+            <a style="@hideAdminOptions" asp-controller="Jobs" asp-action="Edit" asp-route-title="@jobId" class="admin-btn edit-btn">Editar</a>
+            <a style="@hideAdminOptions" asp-controller="Jobs" asp-action="Delete" asp-route-title="@jobId"
                class="admin-btn delete-btn" data-toggle="modal" data-target="#confirm-delete" data-title="@job.Title">Borrar</a>
         </div>
         }

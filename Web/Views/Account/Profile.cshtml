@@ -34,8 +34,8 @@
                     </div>
                     @if (Model.Jobs != null && Model.Jobs.Any())
                     {
-                    <link href="/Content/toggleButton.css" rel="stylesheet" />
-                    @Html.Partial("../Jobs/_Partials/JobList", Model.Jobs.OrderByDescending(x => x.CreatedAt))
+                        <link href="/Content/toggleButton.css" rel="stylesheet" />
+                        <partial name="../Jobs/_Partials/JobList" model="Model.Jobs.OrderByDescending(x => x.CreatedAt)" />
                     }
                     else
                     {
