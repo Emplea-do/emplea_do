@@ -23,8 +23,6 @@ namespace Web.Framework
             _socialKeys = socialKeys.Value;
         }
 
-        public abstract IActionResult Index();
-
         protected async Task SignIn(UserLimited user)
         {
             var claims = new List<Claim> {

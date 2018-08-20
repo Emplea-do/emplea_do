@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data.Entity;
-using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Text;
 using Data.TableConfigurations;
@@ -9,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Data
 {
 
-    public class EmpleadoDbContext : Microsoft.EntityFrameworkCore.DbContext
+    public class EmpleadoDbContext : DbContext
     {
         public EmpleadoDbContext(DbContextOptions<EmpleadoDbContext> options) : base(options)
         {
@@ -30,6 +28,8 @@ namespace Data
             modelBuilder.ApplyConfiguration(new RoleTableConfiguration());
             modelBuilder.ApplyConfiguration(new UserTableConfiguration());
         }
+
+        /*
         public override int SaveChanges()
         {
             try
@@ -56,5 +56,6 @@ namespace Data
                 );
             }
         }
+        */
     }
 }

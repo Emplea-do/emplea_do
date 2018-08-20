@@ -51,7 +51,7 @@ namespace Web
             services.AddIdentity<User, Role>();
 
             services.ConfigureApplicationCookie(options =>
-             {
+            {
                  // Cookie settings
                  options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
                  options.LoginPath = "/Account/Login";
@@ -62,22 +62,18 @@ namespace Web
             // Add default bootstrap-styled pager implementation
             services.AddBootstrapPagerGenerator(options =>
             {
-                // Use default pager options.
                 options.ConfigureDefault();
-             });
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                })
-                .AddCookie(options => {
-                    options.LoginPath = "/Account/Login/";
-                    options.AccessDeniedPath = "/Error/401";
-                    options.ExpireTimeSpan = TimeSpan.FromDays(30);
-                });
-            services.AddDbContext<EmpleadoDbContext>();
-
+            });
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+            })
+            .AddCookie(options => {
+                options.LoginPath = "/Account/Login/";
+                options.AccessDeniedPath = "/Error/401";
+                options.ExpireTimeSpan = TimeSpan.FromDays(30);
+            });
             services.AddSession();
             services.AddMvc(options =>
             {
@@ -91,24 +87,12 @@ namespace Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseAuthentication();
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
-            }
-            else
-            {
-                app.UseStatusCodePagesWithRedirects("/error/{0}");
-                app.UseExceptionHandler();
-                app.UseHsts();
-            }
             app.ConfigureEnvironment(env);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
             app.ConfigureRoutes();
-            app.UseMvc();
         }
     }
 }

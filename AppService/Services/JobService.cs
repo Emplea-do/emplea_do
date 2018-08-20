@@ -136,7 +136,9 @@ namespace AppService.Services
 
         public TaskResult Create(Job entity)
         {
-            ValidateOnCreate(entity);
+            //TODO removing this for later. Is checking the user login but there is no password column on the DB. 
+            // Before removing something from the user model, We should re-check the SecurityService
+            //ValidateOnCreate(entity);
             if(TaskResult.ExecutedSuccesfully)
             {
                 try
@@ -178,20 +180,45 @@ namespace AppService.Services
             };
         }
 
-        public JobLimited GetById(int id) => _jobRepository.GetJobLimitedById(id);
+        public List<Job> GetCompanyRelatedJobs(int id, string name) => _jobRepository.GetRelatedJobs(id, name).ToList<Job>();
+
+        public JobLimited GetLimitedById(int id) => _jobRepository.GetJobLimitedById(id);
+
+        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
 
         public IEnumerable<CategoryCountDto> GetJobCountByCategory() => _jobRepository.GetJobCountByCategory();
 
         public IEnumerable<Job> GetLatestJobs(int quantity) => _jobRepository.GetLatestJobs(quantity);
 
         public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobsPagedByFilters(parameter);
+
+        public void ToggleHideState(Job jobOpportunity)
+        {
+            jobOpportunity.IsHidden = !jobOpportunity.IsHidden;
+            _jobRepository.Update(jobOpportunity);
+            _jobRepository.CommitChanges();
+        }
+
+        public void UpdateViewCount(int id)
+        {
+            var job = _jobRepository.GetById(id);
+
+            if (job == null) return;
+
+            job.ViewCount++;
+            _jobRepository.Update(job);
+        }
     }
     public interface IJobService : IMutableService<Job>
     {
         PagingResult<JobLimited> GetByPagination(PaginationFilter paginationFilter, JobsQueryParameter queryParameters);
-        JobLimited GetById(int id);
+        JobLimited GetLimitedById(int id);
+        Job GetById(int id);
+        void UpdateViewCount(int id);
+        List<Job> GetCompanyRelatedJobs(int id, string companyName); //TODO: Change for just CompanyId
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
         IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
+        void ToggleHideState(Job jobOpportunity);
     }
 }

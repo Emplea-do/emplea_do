@@ -16,6 +16,7 @@
     <Folder Include="Framework\Social\LinkedIn\" />
     <Folder Include="Framework\Social\Google\" />
     <Folder Include="Framework\Social\Microsoft\" />
+    <Folder Include="Framework\Social\Slack\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

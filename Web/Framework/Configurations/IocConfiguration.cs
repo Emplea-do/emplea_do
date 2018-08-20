@@ -5,6 +5,7 @@ using AppService.Services.Social;
 using Data;
 using Data.Repositories;
 using Domain;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,11 +15,10 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-
             var socialKeys = configuration.GetSection("SocialKeys");
             services.Configure<SocialKeys>(socialKeys);
 
-            services.AddTransient<EmpleadoDbContext, EmpleadoDbContext>();
+            services.AddScoped<EmpleadoDbContext, EmpleadoDbContext>();
 
             // Repositories
             services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
@@ -44,6 +44,10 @@ namespace Web.Framework.Configurations
             services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
             services.AddScoped<IGoogleService, GoogleService>(x => new GoogleService(socialKeys.GetValue<string>("GoogleClientId"), socialKeys.GetValue<string>("GoogleClientSecret")));
             services.AddScoped<IMicrosoftService, MicrosoftService>(x => new MicrosoftService(socialKeys.GetValue<string>("MsClientId"), socialKeys.GetValue<string>("MsClientSecret")));
+            services.AddScoped<ISlackService, SlackService>(x => new SlackService(socialKeys.GetValue<string>("slackWebhookEndpoint")));
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
+
     }
 }

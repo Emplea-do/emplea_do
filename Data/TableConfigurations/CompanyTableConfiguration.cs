@@ -12,6 +12,7 @@ namespace Data.TableConfigurations
             builder.ToTable("Companies");
 
             CommonColumnsConfiguration(builder);
+
         }
     }
 }

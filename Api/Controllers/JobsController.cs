@@ -50,13 +50,13 @@ namespace Api.Controllers
         {
             try
             {
-                var result = _jobsService.GetById(id);
+                var result = _jobsService.GetLimitedById(id);
 
                 if(result == null)
                     return new NotFoundResult();
                 return result;
             }
-            catch (Exception ex)
+            catch
             {
                 //Do the loggin
             }

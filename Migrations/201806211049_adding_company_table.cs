@@ -20,7 +20,7 @@ namespace Migrations
                   .WithColumn("Url").AsString(200).Nullable()
                   .WithColumn("Email").AsString(300).Nullable()
                   .WithColumn("LogoUrl").AsString(500).Nullable()
-                  .WithColumn("CreatedBy").AsInt32().Nullable()
+                  .WithColumn("UserId").AsInt32().Nullable()
                   .WithColumn("CreatedAt").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)
                   .WithColumn("DeletedAt").AsDateTime().Nullable()
                   .WithColumn("IsActive").AsBoolean().NotNullable().WithDefaultValue(true);
