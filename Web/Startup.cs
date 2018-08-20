@@ -91,7 +91,6 @@ namespace Web
             app.UseCookiePolicy();
             app.UseSession();
             app.ConfigureRoutes();
-            app.UseMvc();
         }
     }
 }
