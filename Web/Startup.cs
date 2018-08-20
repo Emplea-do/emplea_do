@@ -48,6 +48,8 @@ namespace Web
                     options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             #endif
 
+            services.AddIdentity<User, Role>();
+
             services.ConfigureApplicationCookie(options =>
             {
                  // Cookie settings

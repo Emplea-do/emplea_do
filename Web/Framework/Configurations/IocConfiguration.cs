@@ -18,8 +18,6 @@ namespace Web.Framework.Configurations
             var socialKeys = configuration.GetSection("SocialKeys");
             services.Configure<SocialKeys>(socialKeys);
 
-            services.AddIdentity<User, Role>();
-
             services.AddScoped<EmpleadoDbContext, EmpleadoDbContext>();
 
             // Repositories
