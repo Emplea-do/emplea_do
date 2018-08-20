@@ -112,10 +112,8 @@ namespace Web.Controllers
             var seoUrl = job.Title.SanitizeUrl().SeoUrl(job.Id);
             var url = Url.AbsoluteAction(seoUrl, "jobs");
 
-
             await _slackService.PostNewJob(job, url);
 
-            // TODO adding this in the next PR - Carlos Campos
             return RedirectToAction(nameof(Detail), new
             {
                 id = job.Title.SanitizeUrl().SeoUrl(job.Id),
@@ -124,7 +122,7 @@ namespace Web.Controllers
         }
 
         // GET: /jobs/4-jobtitle
-        public ActionResult Detail(string id)
+        public IActionResult Detail(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
                 return RedirectToAction(nameof(Index));
@@ -148,6 +146,7 @@ namespace Web.Controllers
 
             if (!expectedUrl.Equals(id, StringComparison.OrdinalIgnoreCase))
                 return RedirectToActionPermanent(nameof(Detail), new { id = expectedUrl });
+
 
             ViewBag.RelatedJobs =
                        _jobService.GetCompanyRelatedJobs(jobId, job.Company.Name);
