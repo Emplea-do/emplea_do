@@ -76,7 +76,7 @@ namespace Web.Controllers
             viewModel.Categories = categories;
             viewModel.JobTypes = jobtypes;
             viewModel.MapsApiKey = _socialKeys.GoogleMapsApiKey;
-
+            ViewBag.IsEdit = false;
             return View(viewModel);
         }
 
@@ -97,13 +97,23 @@ namespace Web.Controllers
                 return View("Wizard", model).WithError("Han ocurrido errores de validación que no permiten continuar el proceso");
             
             var job = model.ToEntity();
+
+            job.Approved = false; // new / updated jobs unapproved by default
+            job.UserId = _applicationUser.RawId;
             var jobExists = _jobService.GetById(model.Id);
             if (jobExists == null)
             {
-                job.Approved = false; // new jobs unapproved by default
-                job.UserId = _applicationUser.RawId;
                 var result = _jobService.Create(job);
                 if(!result.ExecutedSuccesfully)
+                {
+                    return View(model)
+                        .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
+                }
+            }
+            else
+            {
+                var result = _jobService.Update(job);
+                if (!result.ExecutedSuccesfully)
                 {
                     return View(model)
                         .WithError("Ha ocurrido un problema al momento de registrar la información. Intentalo más tarde");
@@ -170,6 +180,33 @@ namespace Web.Controllers
                                  ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
                                      : View(nameof(Detail), job);
         }
+
+        [HttpGet]
+        [Authorize]
+        public IActionResult Edit(string jobtitle)
+        {
+            if(string.IsNullOrEmpty(jobtitle))
+            {
+                return RedirectToAction("Index", "Home").WithError("El id del trabajo a editar es invalido");
+            }
+            var job = GetJobOpportunityFromTitle(jobtitle);
+
+            if(job == null)
+                return RedirectToAction("Index", "Home").WithError("El trabajo que quizo editar no es valido");
+            var currentUserId = User.GetUserIdFromClaims();
+            if (!IsJobOpportunityOwner(jobtitle))
+                return RedirectToAction(nameof(Detail), new { id = jobtitle });
+            var viewModel = ViewModels.Jobs.Wizard.FromEntity(job);
+            var categories = _categoryService.GetCategories().ToList();
+            var jobtypes = _hireTypeService.GetHireTypes().ToList();
+            viewModel.Categories = categories;
+            viewModel.JobTypes = jobtypes;
+            viewModel.MapsApiKey = _socialKeys.GoogleMapsApiKey;
+            ViewBag.IsEdit = true;
+            return View(nameof(Wizard), viewModel);
+        }
+
+
         [HttpPost]
         public JsonResult ToggleHide(string title)
         {
