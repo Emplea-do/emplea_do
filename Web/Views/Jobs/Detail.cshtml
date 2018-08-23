@@ -91,7 +91,7 @@
                                     </button>
                                 }
 
-                                <a href="#"
+                                <a asp-action="Edit" asp-controller="Jobs" asp-route-jobtitle="@Model.Title.SanitizeUrl().SeoUrl(Model.Id)"
                                    class="btn btn-admin btn-primary">Editar</a>
                                 <a class="btn btn-admin btn-danger" href="#"
                                    id="delete-btn" data-toggle="modal" data-target="#confirm-delete" data-title="@Model.Title">Borrar</a>

@@ -45,7 +45,7 @@ namespace AppService.Services
                 {
                     oldEntity.Title = updatedJob.Title;
                     oldEntity.Approved = updatedJob.Approved;
-                    oldEntity.Category = updatedJob.Category;
+                    oldEntity.CategoryId = updatedJob.CategoryId;
                     oldEntity.Company.Email = updatedJob.Company.Email;
                     oldEntity.Company.LogoUrl = updatedJob.Company.LogoUrl;
                     oldEntity.Company.Name = updatedJob.Company.Name;
@@ -64,7 +64,7 @@ namespace AppService.Services
                         oldEntity.Location.PlaceId = updatedJob.Location.PlaceId;
                     }
 
-                    oldEntity.HireType = updatedJob.HireType;
+                    oldEntity.HireTypeId = updatedJob.HireTypeId;
                     if (updatedJob.JoelTest != null)
                     {
                         oldEntity.JoelTest = oldEntity.JoelTest ?? new JoelTest();
@@ -136,9 +136,7 @@ namespace AppService.Services
 
         public TaskResult Create(Job entity)
         {
-            //TODO removing this for later. Is checking the user login but there is no password column on the DB. 
-            // Before removing something from the user model, We should re-check the SecurityService
-            //ValidateOnCreate(entity);
+            ValidateOnCreate(entity);
             if(TaskResult.ExecutedSuccesfully)
             {
                 try
@@ -184,7 +182,7 @@ namespace AppService.Services
 
         public JobLimited GetLimitedById(int id) => _jobRepository.GetJobLimitedById(id);
 
-        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id, x => x.JoelTest, x => x.Category, x => x.Company, x => x.HireType).FirstOrDefault();
+        public Job GetById(int id) => _jobRepository.Get(x=>x.IsActive && x.Id == id, x => x.Location, x => x.JoelTest, x => x.Category, x => x.Company, x => x.HireType).FirstOrDefault();
 
         public IEnumerable<CategoryCountDto> GetJobCountByCategory() => _jobRepository.GetJobCountByCategory();
 
