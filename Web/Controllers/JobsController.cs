@@ -220,6 +220,27 @@ namespace Web.Controllers
 
         }
 
+        [HttpPost]
+        public IActionResult Delete(int? id)
+        {
+            if (id == null)
+                return RedirectToAction("Index", "Home").WithError("La posición solicitada no existe.");
+            var job = _jobService.GetById(id.Value);
+            if(job == null)
+                return RedirectToAction("Index", "Home").WithError("La posición solicitada no existe.");
+            var result = _jobService.Delete(id.Value);
+            if(result.ExecutedSuccesfully)
+            {
+                // TODO Success message here but after getting the alerts working
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Show the real message internally so We can track it and address it
+            Console.WriteLine(result.Message);
+            var seoid = job.Title.SanitizeUrl().SeoUrl(id.Value);
+            return RedirectToAction("Detail", new { id = seoid }).WithError("Hubo un problema al momento de eliminar la posición.");
+        }
+
 
         private static int GetIdFromTitle(string title)
         {

@@ -1,4 +1,5 @@
-﻿<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="Borrar Oportunidad de Empleo" aria-hidden="true">
+﻿@model Domain.Job
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="Borrar Oportunidad de Empleo" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content" style="margin-top:20%">
             <div class="modal-header">
@@ -7,8 +8,10 @@
             <div class="modal-body">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-                <a class="btn btn-danger btn-ok">Borrar</a>
+                <form asp-action="Delete" asp-controller="Jobs" asp-route-id="@Model.Id" method="post">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger btn-ok" id="btn-delete">Borrar</button>
+                </form>
             </div>
         </div>
     </div>
