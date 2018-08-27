@@ -112,9 +112,10 @@ namespace Data.Repositories
             var entity = GetById(id);
 
             if (entity == null)
-                throw new Exception("This object does not exists");
+                throw new Exception("Este objeto no existe");
 
             entity.DeletedAt = DateTime.UtcNow;
+            entity.IsActive = false;
 
             Update(entity);
         }
