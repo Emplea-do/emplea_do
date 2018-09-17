@@ -22,7 +22,7 @@ namespace Api.Controllers
         }
 
         [HttpPost("v1.0/[controller]/token")]
-        public ActionResult<JwtSecurityToken> CreateToken([FromBody] CredentialModel model)
+        public IActionResult CreateToken([FromBody] CredentialModel model)
         {
             try
             {
@@ -39,13 +39,13 @@ namespace Api.Controllers
                     var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("THISISALONGTEST!!!"));
                     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-                    return new JwtSecurityToken(
+                    return new JsonResult(new JwtSecurityToken(
                         issuer: "https://emplea.do",
                         audience: "https://emplea.do",
                         claims: claims,
                         expires: DateTime.UtcNow.AddHours(24),
                         signingCredentials: creds
-                    );
+                    ));
                 }
             }
             catch(Exception ex)

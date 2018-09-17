@@ -190,11 +190,12 @@ namespace AppService.Services
 
         public IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter) => _jobRepository.GetAllJobsPagedByFilters(parameter);
 
-        public void ToggleHideState(Job jobOpportunity)
+        public Job ToggleHideState(Job jobOpportunity)
         {
             jobOpportunity.IsHidden = !jobOpportunity.IsHidden;
             _jobRepository.Update(jobOpportunity);
             _jobRepository.CommitChanges();
+            return jobOpportunity;
         }
 
         public void UpdateViewCount(int id)
@@ -217,6 +218,6 @@ namespace AppService.Services
         IEnumerable<CategoryCountDto> GetJobCountByCategory();
         IEnumerable<Job> GetLatestJobs(int quantity);
         IEnumerable<Job> GetAllJobsPagedByFilters(JobPagingParameter parameter);
-        void ToggleHideState(Job jobOpportunity);
+        Job ToggleHideState(Job jobOpportunity);
     }
 }
