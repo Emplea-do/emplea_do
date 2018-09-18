@@ -168,9 +168,11 @@ namespace Web.Controllers
 
             if (IsJobOpportunityOwner(id) || ControllerContext.HttpContext.CookieExists(cookieView))
             {
-                return job.IsHidden
-                    ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
-                    : View(nameof(Detail), job);
+                // TODO removed until message extension is fixed
+                //return job.IsHidden
+                //      ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
+                //: View(nameof(Detail), job);
+                return View(nameof(Detail), job);
             }
 
             _jobService.UpdateViewCount(job.Id);
@@ -213,7 +215,7 @@ namespace Web.Controllers
             var job = GetJobOpportunityFromTitle(title);
             if (IsJobOpportunityOwner(title))
             {
-                _jobService.ToggleHideState(job);
+                job = _jobService.ToggleHideState(job);
             }
 
             return Json(new { isHidden = job.IsHidden });

@@ -21,7 +21,7 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public ActionResult<PagingResult<JobLimited>> Get(PaginationParameters parameters, JobsQueryParameter queryParameters)
+        public IActionResult Get(PaginationParameters parameters, JobsQueryParameter queryParameters)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Api.Controllers
                     Ascending = false
                 }, queryParameters);
 
-                return result;
+                return new JsonResult(result);
             }
             catch(Exception ex)
             {
@@ -46,7 +46,7 @@ namespace Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<JobLimited> Get(int id)
+        public IActionResult Get(int id)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace Api.Controllers
 
                 if(result == null)
                     return new NotFoundResult();
-                return result;
+                return new JsonResult(result);
             }
             catch
             {

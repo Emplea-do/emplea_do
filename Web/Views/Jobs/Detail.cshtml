@@ -75,17 +75,17 @@
                         var titleUrl = Model.Title.SanitizeUrl().SeoUrl(Model.Id);
                         <div class="sidebar-widget">
                             <h2>Administración</h2>
-                            <div>
+                            <div id="hide-container">
                                 @if(Model.IsHidden)
                                 {
-                                    <button asp-action="ToggleHide" asp-controller="Jobs" asp-route-title="titleUrl"  
+                                    <button data-id="@titleUrl"  
                                             class="btn btn-admin btn-toggle-hide" id="switch-btn">
                                         Mostrar
                                     </button>
                                 }
                                 else
                                 {
-                                    <button asp-action="ToggleHide" asp-controller="Jobs" asp-route-title="titleUrl" 
+                                    <button data-id="@titleUrl" 
                                             class="btn btn-admin btn-toggle-show" id="switch-btn">
                                         Ocultar
                                     </button>
@@ -119,10 +119,10 @@
                     <div class="sidebar-widget" id="share">
                         <h2>Compartir</h2>
                         <ul>
-                            <li><a target = "_blank" href="https://www.facebook.com/sharer/sharer.php?u=@Context.Request.Host@Context.Request.Path"><i class="fa fa-facebook"></i></a></li>
-                            <li><a target = "_blank" href="https://twitter.com/home?status=@Context.Request.Host@Context.Request.Path"><i class="fa fa-twitter"></i></a></li>
-                            <li><a target = "_blank" href="https://plus.google.com/share?url=@Context.Request.Host@Context.Request.Path"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a target = "_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=@Context.Request.Host@Context.Request.Path&amp;summary=&amp;source="><i class="fa fa-linkedin"></i></a></li>
+                            <li><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=@Context.Request.Host@Context.Request.Path"><i class="fa fa-facebook"></i></a></li>
+                            <li><a target="_blank" href="https://twitter.com/home?status=@Context.Request.Host@Context.Request.Path"><i class="fa fa-twitter"></i></a></li>
+                            <li><a target="_blank" href="https://plus.google.com/share?url=@Context.Request.Host@Context.Request.Path"><i class="fa fa-google-plus"></i></a></li>
+                            <li><a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=@Context.Request.Host@Context.Request.Path&amp;summary=&amp;source="><i class="fa fa-linkedin"></i></a></li>
                         </ul>
                     </div>
 
@@ -131,7 +131,7 @@
                     <div class="sidebar-widget" id="company">
                         <h2>Sobre la Compañía</h2>
 
-                        <a href = "@Model.Company.Url" >
+                        <a href="@Model.Company.Url">
                             @if(string.IsNullOrWhiteSpace(@Model.Company.LogoUrl))
                             {
                                 <img src="~/images/company-logo-placeholder.png" alt="Logo Compañía" class="img-company img-responsive" />
@@ -178,4 +178,20 @@
 @section scripts
 {
     <script src="/js/jobs/likes.js"></script>
+    <script>
+        $("#switch-btn").on("click", function() {
+            $.post("@Url.Action("ToggleHide", "Jobs", new { title = Model.Title.SanitizeUrl().SeoUrl(Model.Id) })", function(data) {
+                if(data.isHidden === true) {
+                    @{ var titleUrl = Model.Title.SanitizeUrl().SeoUrl(Model.Id); } 
+                    $('#switch-btn').removeClass('btn btn-admin btn-toggle-show')
+                    $('#switch-btn').addClass('btn btn-admin btn-toggle-hide');
+                    $('#switch-btn').text('Mostrar');
+                } else { 
+                    $('#switch-btn').removeClass('btn btn-admin btn-toggle-hide')
+                    $('#switch-btn').addClass('btn btn-admin btn-toggle-show');
+                    $('#switch-btn').text('Ocultar');
+                }
+            });
+        });
+    </script>
 }
