@@ -132,6 +132,7 @@ namespace Web.Controllers
         }
 
         // GET: /jobs/4-jobtitle
+        [AllowAnonymous]
         public IActionResult Detail(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
@@ -145,12 +146,8 @@ namespace Web.Controllers
             var job = _jobService.GetById(jobId);
 
             if (job == null)
-                return View(nameof(Detail))
+                return RedirectToAction("Index", "Home")
                     .WithError("La vacante solicitada no existe. Por favor escoge una vacante válida del listado.");
-
-            if (job.Approved == false)
-                return View(nameof(Detail))
-                    .WithInfo("Esta vacante no ha sido aprobada. Un miembro del equipo de moderadores la revisará pronto. Intentalo de nuevo más tarde.");
 
             var expectedUrl = job.Title.SanitizeUrl().SeoUrl(jobId);
 
@@ -166,21 +163,25 @@ namespace Web.Controllers
 
             var cookieView = $"JobView{job.Id}";
 
-            if (IsJobOpportunityOwner(id) || ControllerContext.HttpContext.CookieExists(cookieView))
+
+            if (IsJobOpportunityOwner(id))
             {
-                // TODO removed until message extension is fixed
-                //return job.IsHidden
-                //      ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
-                //: View(nameof(Detail), job);
-                return View(nameof(Detail), job);
+                return !job.Approved
+                    ? View(nameof(Detail), job)
+                        .WithInfo("Esta vacante no ha sido aprobada. Un miembro del equipo de moderadores la revisará pronto. Intentalo de nuevo más tarde.")
+                    : job.IsHidden
+                      ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
+                : View(nameof(Detail), job);
             }
 
+            // If is not the owner, then it should be an applicant
             _jobService.UpdateViewCount(job.Id);
             ControllerContext.HttpContext.SetCookie(cookieView, job.Id.ToString());
 
-            return job.IsHidden
-                                 ? View(nameof(Detail), job).WithInfo("Esta opportunidad de empleo está oculta, solo usted puede verla, para mostrarla en el listado, haga click en el boton \"Mostrar\" en el detalle de la oportunidad o en el su perfil de usuario")
-                                     : View(nameof(Detail), job);
+            return !job.Approved || job.IsHidden
+                       ? RedirectToAction(nameof(Index), "Home")
+                       .WithInfo("Esta oportunidad no esta disponible o no existe. Intentalo más tarde o verifica el enlace.")
+                           : View(nameof(Detail), job);
         }
 
         [HttpGet]
@@ -263,8 +264,17 @@ namespace Web.Controllers
 
         private bool IsJobOpportunityOwner(string title)
         {
-            var job = GetJobOpportunityFromTitle(title);
-            return (job.UserId == _applicationUser.RawId);
+            try
+            {
+                var job = GetJobOpportunityFromTitle(title);
+                return (job.UserId == _applicationUser.RawId);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"EXCEPTION on {ex.Source} :: {ex.Message}");
+                // Maybe there is no user logged in
+                return false;
+            }
         }
 
 
