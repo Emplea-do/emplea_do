@@ -6,7 +6,7 @@
 After you setup your Ubuntu command line on Windows (user, password, etc.), you need to setup the `dotnet` enviroment. On the command line, type the following commands:
 
 ``` bash
-~$ wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb`
+~$ wget -q https://packages.microsoft.com/config/ubuntu/16.04/packages-microsoft-prod.deb
 ~$ sudo dpkg -i packages-microsoft-prod.deb
 ```
 # Getting the .NET SDK
