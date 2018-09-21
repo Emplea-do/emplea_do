@@ -43,7 +43,7 @@ namespace Web.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
+        public IActionResult ExternalLogin(string provider, string returnUrl)
         {
             var redirectUrl = string.Empty;
             switch(provider)
@@ -65,7 +65,7 @@ namespace Web.Controllers
             return RedirectToAction("Login").WithError(provider);
         }
 
-        public async Task<ActionResult> FacebookCallback(string code, string state, string returnUrl)
+        public async Task<IActionResult> FacebookCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
             {
@@ -83,7 +83,7 @@ namespace Web.Controllers
             return RedirectToAction("New", "Jobs");
         }
 
-        public async Task<ActionResult> LinkedinCallback(string code, string state, string returnUrl)
+        public async Task<IActionResult> LinkedinCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
             {
@@ -102,7 +102,7 @@ namespace Web.Controllers
         }
 
 
-        public async Task<ActionResult> GoogleCallback(string code, string state, string returnUrl)
+        public async Task<IActionResult> GoogleCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
             {
@@ -121,7 +121,7 @@ namespace Web.Controllers
         }
 
 
-        public async Task<ActionResult> MicrosoftCallback(string code, string state, string returnUrl)
+        public async Task<IActionResult> MicrosoftCallback(string code, string state, string returnUrl)
         {
             if (state == _socialKeys.LocalVerificationToken)
             {
@@ -140,7 +140,7 @@ namespace Web.Controllers
         }
 
 
-        public async Task<ActionResult> LogOff()
+        public async Task<IActionResult> LogOff()
         {
             await SignOut();
             return RedirectToAction("Index", "Home");
