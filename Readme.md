@@ -12,10 +12,10 @@ After you setup your Ubuntu command line on Windows (user, password, etc.), you 
 # Getting the .NET SDK
 
 ## Windows
-Download the .Net SDK [in this link](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-macos-x64-installer) or paste this in your  browser https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-windows-x64-installer
+Download the .Net SDK [in this link](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-windows-x64-installer) or paste this in your  browser https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-windows-x64-installer
 
 ## Mac 
-Download the .Net SDK [in this link](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-windows-x64-installer) or paste this in your  browser https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-macos-x64-installer 
+Download the .Net SDK [in this link](https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-macos-x64-installer) or paste this in your  browser https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.302-macos-x64-installer 
 
 ## Linux
 Run the following commands to get the .NET SDK on the linux command line:
