@@ -45,6 +45,10 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 4. Open the solution
 
-5. Restore nuget package
+5. Install this nuget packages
+    - Microsoft.AspNetCore.HttpsPolicy
+    - Microsoft.AspNetCore.Session
 
-6. Run
+6. Restore the rest of nuget package
+
+7. Run
