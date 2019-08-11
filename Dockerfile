@@ -1,6 +1,6 @@
 # Start setting .net enviroment
 ARG REPO=mcr.microsoft.com/dotnet/core/runtime-deps
-FROM $REPO:2.2-alpine3.9
+FROM $REPO:2.2-alpine3.8
 
 # Disable the invariant mode (set in base image)
 RUN apk add --no-cache icu-libs
@@ -32,18 +32,23 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true \
 WORKDIR "/app"
 COPY . .
 
-# Install FluentMigrator tool
-RUN dotnet tool install -g FluentMigrator.DotNet.Cli
+RUN dotnet build Migrations \
+    && dotnet tool install -g FluentMigrator.DotNet.Cli \
+    && export PATH="$PATH:/root/.dotnet/tools" \
+    && cd Migrations/Scripts && ./up.sh
 
+# Install FluentMigrator tool
+#RUN dotnet tool install -g FluentMigrator.DotNet.Cli
+#RUN cd Migrations && ls
 # Set dotnet tools on env path and build and run Migrations
-RUN export PATH="$PATH:/root/.dotnet/tools" \
-    && dotnet build Migrations \
-    && dotnet fm migrate -p sqlite -c "Data Source=mydb.db" -a "Migrations/bin/Debug/netcoreapp2.2/Migrations.dll"
+#RUN  export PATH="$PATH:/root/.dotnet/tools" \
+#&& cd Migrations && ls \
+#&& cd Scripts && ./up.sh
 
 #Install and restore packages
 RUN cd Web && dotnet add package Microsoft.AspNetCore.HttpsPolicy \
-    && dotnet add package Microsoft.AspNetCore.Session \
-    && dotnet restore
+   && dotnet add package Microsoft.AspNetCore.Session \
+   && dotnet restore
 
 CMD ["dotnet", "run", "--project", "Web"]
 
