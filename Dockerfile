@@ -1,27 +1,36 @@
 # Start setting .net enviroment
-ARG REPO=mcr.microsoft.com/dotnet/core/runtime-deps
-FROM $REPO:2.2-alpine3.8
+FROM buildpack-deps:bionic-scm
 
-# Disable the invariant mode (set in base image)
-RUN apk add --no-cache icu-libs
-
-ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false \
-    LC_ALL=en_US.UTF-8 \
-    LANG=en_US.UTF-8
+# Install .NET CLI dependencies
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        libc6 \
+        libgcc1 \
+        libgssapi-krb5-2 \
+        libicu60 \
+        liblttng-ust0 \
+        libssl1.0.0 \
+        libstdc++6 \
+        zlib1g \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install .NET Core SDK
 ENV DOTNET_SDK_VERSION 2.2.401
 
-RUN wget -O dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-musl-x64.tar.gz \
-    && dotnet_sha512='89ba545c35154d7b5d40480148aff245d624ce287be4c52711ee987167feb9688b8beac92e607885b9e66a8228981df05b41e9846b6810449e8c05e170389619' \
-    && echo "$dotnet_sha512  dotnet.tar.gz" | sha512sum -c - \
+RUN curl -SL --output dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Sdk/$DOTNET_SDK_VERSION/dotnet-sdk-$DOTNET_SDK_VERSION-linux-x64.tar.gz \
+    && dotnet_sha512='08e1fcafa4f898c80ff5e88eeb40c7497b4f5651af3b8ec85f65a3daa2f1509a766d833477358d3ff83d179e014034ab0c48120847ef24736c8d1a5b67fec10b' \
+    && echo "$dotnet_sha512 dotnet.tar.gz" | sha512sum -c - \
     && mkdir -p /usr/share/dotnet \
-    && tar -C /usr/share/dotnet -xzf dotnet.tar.gz \
-    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet \
-    && rm dotnet.tar.gz
+    && tar -zxf dotnet.tar.gz -C /usr/share/dotnet \
+    && rm dotnet.tar.gz \
+    && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-# Enable correct mode for dotnet watch (only mode supported in a container)
-ENV DOTNET_USE_POLLING_FILE_WATCHER=true \ 
+# Configure web servers to bind to port 80 when present
+ENV ASPNETCORE_URLS=http://+:80 \
+    # Enable detection of running in a container
+    DOTNET_RUNNING_IN_CONTAINER=true \
+    # Enable correct mode for dotnet watch (only mode supported in a container)
+    DOTNET_USE_POLLING_FILE_WATCHER=true \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip
 
@@ -32,23 +41,18 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true \
 WORKDIR "/app"
 COPY . .
 
-RUN dotnet build Migrations \
-    && dotnet tool install -g FluentMigrator.DotNet.Cli \
-    && export PATH="$PATH:/root/.dotnet/tools" \
+RUN dotnet build Migrations
+
+RUN dotnet tool install -g FluentMigrator.DotNet.Cli
+
+RUN export PATH="$PATH:/root/.dotnet/tools" \
     && cd Migrations/Scripts && ./up.sh
 
-# Install FluentMigrator tool
-#RUN dotnet tool install -g FluentMigrator.DotNet.Cli
-#RUN cd Migrations && ls
-# Set dotnet tools on env path and build and run Migrations
-#RUN  export PATH="$PATH:/root/.dotnet/tools" \
-#&& cd Migrations && ls \
-#&& cd Scripts && ./up.sh
 
 #Install and restore packages
 RUN cd Web && dotnet add package Microsoft.AspNetCore.HttpsPolicy \
-   && dotnet add package Microsoft.AspNetCore.Session \
-   && dotnet restore
+    && dotnet add package Microsoft.AspNetCore.Session \
+    && dotnet restore
 
 CMD ["dotnet", "run", "--project", "Web"]
 
