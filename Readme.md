@@ -41,7 +41,7 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 2. Rename it `appsettings.json`
 
-3. Fill each corresponding key value with real values from every specific service (not mandatory to get the project running, but authentication wont work)
+3. Fill each corresponding key value for every specific service (you can leave the values empty, but the file must be present since it is required to get the project running, without the values filled, things like authentication wont work tho.)
 
 4. Open the solution
 
@@ -60,7 +60,7 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 2. Rename it `appsettings.json`
 
-3. Fill each corresponding key value with real values from every specific service (not mandatory to get the project running, but authentication wont work)
+3. Fill each corresponding key value for every specific service (you can leave the values empty, but the file must be present since it is required to get the project running, without the values filled, things like authentication wont work tho.)
 
 4. On project root run `docker build -t emplea_do_net_core/dev . && docker run -it --publish 5001:5000 emplea_do_net_core/dev`
 
