@@ -76,13 +76,17 @@ namespace Data.Repositories
             };
         }
 
+        private class TempClass {
+            public int CategoryId {get;set;}
+            public string Name {get;set;}
+        }
         public IEnumerable<CategoryCountDto> GetJobCountByCategory()
         {
-            return Database.Set<Job>()
+            var result = Database.Set<Job>()
                            .Where(x=> x.IsActive)
-                           .Include(x => x.Category)
-                           .GroupBy(x => new { x.Category.Name, x.CategoryId })
-                           .Select(x => new CategoryCountDto()
+                           //.Include(x => x.Category)
+                           .GroupBy(x => new TempClass { Name = x.Category.Name, CategoryId = x.CategoryId });
+            var something =  result.Select(x => new CategoryCountDto()
                            {
                                 Category = new Category() 
                                 { 
@@ -91,7 +95,9 @@ namespace Data.Repositories
                                 },
                                 Count = x.Count()
                             })
-                            .OrderBy(x => x.Name);
+                            .OrderBy(x => x.Name);             
+                     
+            return something;
         }
 
         public IEnumerable<Job> GetLatestJobs(int quantity)
