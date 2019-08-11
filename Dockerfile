@@ -1,14 +1,4 @@
-# FROM node:alpine
-# WORKDIR "/app"
-# COPY ./package.json ./
-# RUN npm install
-# COPY . .
-# CMD ["npm", "run", "dev"]
-
-
-
-
-
+# Start setting .net enviroment
 ARG REPO=mcr.microsoft.com/dotnet/core/runtime-deps
 FROM $REPO:2.2-alpine3.9
 
@@ -35,44 +25,28 @@ ENV DOTNET_USE_POLLING_FILE_WATCHER=true \
     # Skip extraction of XML docs - generally not useful within an image/container - helps performance
     NUGET_XMLDOC_MODE=skip
 
-# Trigger first run experience by running arbitrary cmd to populate local package cache
-# RUN dotnet help
+#Finished setting .net enviroment
 
 
-
-# Copy directory contents
+# Copy current directory contents to /app inside container
 WORKDIR "/app"
 COPY . .
 
-# install FluentMigrator tool
+# Install FluentMigrator tool
 RUN dotnet tool install -g FluentMigrator.DotNet.Cli
 
+# Set dotnet tools on env path and build and run Migrations
 RUN export PATH="$PATH:/root/.dotnet/tools" \
-    && chmod +rwx Migrations/Scripts/up.sh \ 
-    && cd Migrations/Scripts \
+    && cd Migrations \
+    && dotnet build \
+    && cd Scripts \
+    && dotnet fm migrate -p sqlite -c "Data Source=../../mydb.db" -a "../bin/Debug/netcoreapp2.1/Migrations.dll" \ 
     && ./up.sh
-    #&& chmod +rwx Migrations/Scripts/up.sh \
-    #&& cd Migrations/Scripts \
-    #&& ./up.sh
 
-# RUN cd Migrations && dotnet build
-# try to run migrations...
-#RUN chmod +rwx Migrations/Scripts/up.sh
-
-#RUN Migrations/Scripts/up.sh
-
-# Copy template file
-#RUN  cp Web/appsettings.json.template Web/appsettings.json
-
-#Install new packages and restore old ones
+#Install and restore packages
 RUN cd Web && dotnet add package Microsoft.AspNetCore.HttpsPolicy \
     && dotnet add package Microsoft.AspNetCore.Session \
     && dotnet restore
-
-
-#RUN cd Web && dotnet run
-
-#ENTRYPOINT ["dotnet", "watch", "--project", "Web","run", "--no-restore"]
 
 CMD ["dotnet", "run", "--project", "Web"]
 

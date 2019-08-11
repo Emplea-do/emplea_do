@@ -29,7 +29,7 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 1. Run the `init.sh` script in the root path of the project. This will run the command lines tools necessary to run migrations (Mac users may need to restart the terminal Window to detect the new changes)
 
-2. Open the solution and compile the the `Migrations` project
+2. Open the solution and compile the `Migrations` project
 
 3. On the terminal/command line, go to "Migrations/Scripts/" folder and run the `up.sh` script. This should have two effects:
     - Create mydb.db database file (which is a SQLite database) in the root folder
@@ -37,11 +37,11 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 # Run the app for the first time
 
-1. Make a copy of the `appsettings.json.template` file
+1. Make a copy of the `appsettings.json.template` file located inside the Web directory
 
 2. Rename it `appsettings.json`
 
-3. Fill each corresponding key value with real values from every specific service
+3. Fill each corresponding key value with real values from every specific service (not mandatory to get the project running, but authentication wont work)
 
 4. Open the solution
 
@@ -52,3 +52,16 @@ Run the following commands to get the .NET SDK on the linux command line:
 6. Restore the rest of nuget package
 
 7. Run
+
+
+# Running the project using Docker
+
+1. Make a copy of the `appsettings.json.template` file located inside the Web directory
+
+2. Rename it `appsettings.json`
+
+3. Fill each corresponding key value with real values from every specific service (not mandatory to get the project running, but authentication wont work)
+
+4. On project root run `docker build -t emplea_do_net_core/dev . && docker run -it --publish 5001:5000 emplea_do_net_core/dev`
+
+5. App will be running at `localhost:5001`
