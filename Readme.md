@@ -56,12 +56,12 @@ Run the following commands to get the .NET SDK on the linux command line:
 
 # Running the project using Docker
 
+On project root run this command: `docker build -t emplea_do_net_core/dev . && docker run -it --publish 5001:5000 emplea_do_net_core/dev` and the app will be running at `localhost:5001`.
+
+### Enabling authentication for Docker container
+
 1. Make a copy of the `appsettings.json.template` file located inside the Web directory
 
 2. Rename it `appsettings.json`
 
-3. Fill each corresponding key value for every specific service (you can leave the values empty, but the file must be present since it is required to get the project running, without the values filled, things like authentication wont work tho.)
-
-4. On project root run `docker build -t emplea_do_net_core/dev . && docker run -it --publish 5001:5000 emplea_do_net_core/dev`
-
-5. App will be running at `localhost:5001`
+3. Fill each corresponding key value for every specific service

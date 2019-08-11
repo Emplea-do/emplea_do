@@ -41,6 +41,9 @@ ENV ASPNETCORE_URLS=http://+:80 \
 WORKDIR "/app"
 COPY . .
 
+# Initializing with default settings (Don't worry. This doesn't overwrite an existing settings file)
+COPY ./Web/appsettings.json.template ./Web/appsettings.json
+
 RUN dotnet build Migrations
 
 RUN dotnet tool install -g FluentMigrator.DotNet.Cli
@@ -55,4 +58,3 @@ RUN cd Web && dotnet add package Microsoft.AspNetCore.HttpsPolicy \
     && dotnet restore
 
 CMD ["dotnet", "run", "--project", "Web"]
-
