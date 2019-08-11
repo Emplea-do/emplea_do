@@ -37,11 +37,8 @@ RUN dotnet tool install -g FluentMigrator.DotNet.Cli
 
 # Set dotnet tools on env path and build and run Migrations
 RUN export PATH="$PATH:/root/.dotnet/tools" \
-    && cd Migrations \
-    && dotnet build \
-    && cd Scripts \
-    && dotnet fm migrate -p sqlite -c "Data Source=../../mydb.db" -a "../bin/Debug/netcoreapp2.1/Migrations.dll" \ 
-    && ./up.sh
+    && dotnet build Migrations \
+    && dotnet fm migrate -p sqlite -c "Data Source=mydb.db" -a "Migrations/bin/Debug/netcoreapp2.2/Migrations.dll"
 
 #Install and restore packages
 RUN cd Web && dotnet add package Microsoft.AspNetCore.HttpsPolicy \

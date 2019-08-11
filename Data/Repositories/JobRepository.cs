@@ -76,6 +76,12 @@ namespace Data.Repositories
             };
         }
 
+        /*
+            Temporary Class to map the values returned by the GroupBy expressions, dynamically created objects
+            Causes issues with EF (System.ArgumentException : Value does not fall within the expected range.), 
+            please refer to: https://github.com/aspnet/EntityFrameworkCore/issues/11251
+            for more information.
+         */
         private class TempClass {
             public int CategoryId {get;set;}
             public string Name {get;set;}
