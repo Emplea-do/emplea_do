@@ -1,10 +1,8 @@
-﻿@using Web.Framework.Extensions
-<!DOCTYPE html>
-<html>
+﻿<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     @{
         const string branch = "Emplea.do";
         var title = string.IsNullOrWhiteSpace(ViewBag.Title) ? branch : $"{ViewBag.Title} - {branch}";
@@ -12,7 +10,7 @@
     <title>@title</title>
     @{
         var ogTitle = String.IsNullOrWhiteSpace(@ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
-        var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La mejor manera de encontrar un empleo en el área de tecnología" : ViewBag.Description;
+        var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La manera más fácil de encontrar un empleo en el área de tecnología." : ViewBag.Description;
         var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? new Uri(Context.Request.Host.ToUriComponent() + "/images/logo.png") : ViewBag.ImageUrl;
     }
     <meta property="og:title" content="@ogTitle">
@@ -21,149 +19,328 @@
     <meta property="og:url" content="@Context.Request.Host">
     <meta property="og:image" content="@ogImage">
 
-    <script src="~/js/theme/modernizr.custom.79639.js" type="text/javascript"></script>
-
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/theme/select2.min.css" />
-        <link rel="stylesheet" href="~/css/theme/jquery.flexmenu.css" />
-        <link rel="stylesheet" href="~/css/theme/owl.carousel.css" />
-        <link rel="stylesheet" href="~/css/theme/animate.css" />
-        <link rel="stylesheet" href="~/css/theme/jquery.nouislider.css" />
-        <link rel="stylesheet" href="~/css/theme/sweetalert2.min.css" />
-        <link rel="stylesheet" href="~/css/theme/flat/green.css" />
-        <link rel="stylesheet" href="~/css/theme/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/css/theme/bootstrap-social.min.css" />
-        <link rel="stylesheet" href="~/css/theme/style.css" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    </environment>
-    <environment exclude="Development">
-        <partial name="_GoogleAnalytics" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:700" rel="stylesheet" />
-    <style>
-        #menu-action-icon {
-            margin-right: 18px;
-        }
-    </style>
-    @RenderSection("styles", required: false)
+    <link href="~/css/plugins.css" rel="stylesheet">
+    <link href="~/css/styles.css" rel="stylesheet">
 </head>
-<body id="home">
-    <div class="layout">
-        <!-- Pre-loader -->
-        <div id="loader">
-            <i class="fa fa-cog fa-4x fa-spin"></i>
-        </div>
+<body>
+    <div class="Loader"></div>
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <div class="topbar tp-rlt" id="top">
+            <div class="header light">
+                <div class="container po-relative">
+                    <nav class="navbar navbar-expand-lg header-nav-bar">
+                        <a href="@Url.Action("Index", "Home" )" class="navbar-brand">
+                            <img src="~/img/logo.png" class="default-logo" alt="emplea.do" style="width:50px" />
+                        </a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="ti-align-right"></span></button>
+                        <div class="collapse navbar-collapse hover-dropdown font-14 ml-auto" id="navigation">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home <i class="fa fa-angle-down m-l-5"></i></a>
+                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
+                                        <li><a class="dropdown-item" href="index.html">Home Page 1</a></li>
+                                        <li><a class="dropdown-item" href="home-2.html">Home Page 2</a></li>
+                                        <li><a class="dropdown-item" href="home-3.html">Home Page 3</a></li>
+                                        <li><a class="dropdown-item" href="home-4.html">Home Page 4</a></li>
+                                        <li><a class="dropdown-item" href="home-5.html">Home Page 5</a></li>
+                                        <li><a class="dropdown-item" href="home-6.html">Home Page 6</a></li>
+                                        <li><a class="dropdown-item" href="home-7.html">Home Page 7</a></li>
+                                        <li><a class="dropdown-item" href="home-8.html">Home Page 8</a></li>
+                                        <li><a class="dropdown-item" href="home-9.html">Home Page 9</a></li>
+                                    </ul>
+                                </li>
 
-        <div class="fm-container">
-            <!-- Menu -->
-            <div class="menu">
-                <div class="button-close text-right">
-                    <a class="fm-button"><i class="fa fa-close fa-2x"></i></a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Employer <i class="fa fa-angle-down m-l-5"></i></a>
+                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
+                                        <li><a class="dropdown-item" href="grid-candidate.html">Browse Candidate</a></li>
+                                        <li><a class="dropdown-item" href="popular-candidate.html">Popular Candidates</a></li>
+                                        <li><a class="dropdown-item" href="grid-freelancers.html">Hire Freelancers</a></li>
+                                        <li><a class="dropdown-item" href="verticle-freelancers.html">Browse Freelancers 2</a></li>
+                                        <li><a class="dropdown-item" href="candidate-detail.html">Candidate Detail</a></li>
+                                        <li><a class="dropdown-item" href="employer-dashboard.html">Employer Dashboard</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Candidate <i class="fa fa-angle-down m-l-5"></i></a>
+                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
+                                        <li><a class="dropdown-item" href="grid-job.html">Browse jobs</a></li>
+                                        <li><a class="dropdown-item" href="verticle-jobs.html">Browse Verticle jobs</a></li>
+                                        <li><a class="dropdown-item" href="verticle-large-job.html">Browse Verticle jobs 2</a></li>
+                                        <li><a class="dropdown-item" href="grid-employers.html">Browse Employers</a></li>
+                                        <li><a class="dropdown-item" href="browse-category.html">Browse Category</a></li>
+                                        <li><a class="dropdown-item" href="search.html">Advance Search Jobs</a></li>
+                                        <li><a class="dropdown-item" href="sidebar-search.html">Search Jobs Sidebar</a></li>
+                                        <li><a class="dropdown-item" href="job-detail.html">Job Detail</a></li>
+                                        <li><a class="dropdown-item" href="employer-detail.html">Employer Detail</a></li>
+                                        <li><a class="dropdown-item" href="candidate-dashboard.html">Candidate Dashboard</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse Pages <i class="fa fa-angle-down m-l-5"></i></a>
+                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
+                                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
+                                        <li><a class="dropdown-item" href="pricing.html">Pricing</a></li>
+                                        <li><a class="dropdown-item" href="login.html">LogIn</a></li>
+                                        <li><a class="dropdown-item" href="typography.html">Typography</a></li>
+                                        <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
+                                        <li><a class="dropdown-item" href="verticle-freelancer-2.html">Verticle Freelancer 2</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+
+                            <div class="act-buttons">
+                                <a class="btn btn-info font-14" href="javascript:void(0)" data-toggle="modal" data-target="#login"><i class="ti-shift-right mr-2"></i>Publica un empleo</a>
+                            </div>
+
+                        </div>
+                    </nav>
                 </div>
-                <ul class="nav">
-                    @if (User == null || !User.Identity.IsAuthenticated)
-                    {
-                        <li class="@Html.IsSelected("Account", "Login" )"><a href="@Url.Action("Login", "Account" )">Iniciar sesión</a></li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="@Url.Action("Profile", "Account" )">Mi perfil</a>
-                            <ul><li><a href="@Url.Action("LogOff","Account")">Cerrar sesión</a></li></ul>
-                        </li>
-                    }
-                    <li class="@Html.IsSelected("Home", "Index" )"><a href="@Url.Action("Index", "Home" )">Home</a></li>
-                    <li class="@Html.IsSelected("Jobs", "Index" )"><a href="@Url.Action("Index", "Jobs" )">Lista de Empleos</a></li>
-                    <li class="@Html.IsSelected("Jobs", "New" )"><a href="@Url.Action("New", "Jobs" )">Publicar un Empleo</a></li>
-                    <li class="@Html.IsSelected("Credits", "Index" )"><a href="@Url.Action("Index", "Credits" )">Agradecimientos</a></li>
-                </ul>
             </div>
-            <!-- end Menu -->
         </div>
+        <div class="clearfix"></div>
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        @RenderBody();
 
-        <!-- Header -->
-        <header class="layout__header">
-            <div id="header-background"></div>
-            <div class="container">
-                <div class="pull-left">
-                    <div>
-                        <a id="menu-action-icon" class="fm-button"><i class="fa fa-bars fa-lg"></i></a>
-                        <span><a href="@Url.Action("Index", "Home" )"><i class="fa fa-users fa-2x"></i> Emplea.do { beta }</a></span>
-                    </div>
-                </div>
-                <div class="pull-right hidden-xs">
-                    <div>
-                        <a class="btn btn-default" href="@Url.Action("New", "Jobs")"><i class="fa fa-user"></i> Publicar un Empleo</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Content -->
-        <main class="layout__content">
-            <partial name="_Alerts" />
-            @RenderBody()
-        </main>
-
-        <!-- Footer -->
-        <footer class="layout__footer">
-            <div id="prefooter">
+        <!-- ============================ Footer Start ================================== -->
+        <footer class="dark-footer skin-dark-footer">
+            <div>
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6" id="newsletter">
-                            <h2>Emplea.do</h2>
-                            <a href="https://www.facebook.com/empleadonet" class="btn btn-default"><i class="fa fa-facebook"></i></a>
-                            <a href="https://twitter.com/emplea_do" class="btn btn-default"><i class="fa fa-twitter"></i></a>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">About Workio</h4>
+                                <p>Drizvato is a team of young professionals that has been successfully creating Creative Website templates already for several years.</p>
+                                <a href="#" class="other-store-link">
+                                    <div class="other-store-app">
+                                        <div class="os-app-icon">
+                                            <i class="ti-android"></i>
+                                        </div>
+                                        <div class="os-app-caps">
+                                            Google Store
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Useful links</h4>
+                                <ul class="footer-menu">
+                                    <li><a href="#">Browse Resume Grid</a></li>
+                                    <li><a href="#">Browse Jobs Grid</a></li>
+                                    <li><a href="#">Browse Candidate Grid</a></li>
+                                    <li><a href="#">Browse Resume Grid</a></li>
+                                    <li><a href="#">Browse Resume Grid</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Get in Touch</h4>
+                                <div class="fw-address-wrap">
+                                    <div class="fw fw-location">
+                                        7744 North Park, New York
+                                    </div>
+                                    <div class="fw fw-mail">
+                                        support@drizvato77.com
+                                    </div>
+                                    <div class="fw fw-call">
+                                        +91 254 584 7584
+                                    </div>
+                                    <div class="fw fw-skype">
+                                        drizvato77
+                                    </div>
+                                    <div class="fw fw-web">
+                                        www.drizvato.com
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-md-6">
+                            <div class="footer-widget">
+                                <h4 class="widget-title">Follow Us</h4>
+                                <p>Follow & Subscribe your email to get new business tips.</p>
+                                <ul class="footer-bottom-social">
+                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+
+                                <form class="f-newsletter mt-4">
+                                    <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
+                                    <button type="submit" class="btn"><i class="ti-arrow-right"></i></button>
+                                </form>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
-            <div id="credits">
-                <div class="container text-center">
-                    <div class="row">
-                        <div class="col-sm-3 hidden-xs">
-                            <a class="btn btn-default pull-left" href="https://github.com/developersdo/empleo-dot-net" target="_blank"><i class="fa fa-github"></i> Fork us on github</a>
-                        </div>
-                        <div class="col-sm-6">
-                            &copy; @DateTime.Today.Year Emplea.do<br>
-                            Made with <i class="fa fa-heart fa-inverse"></i> by <a href="@Url.Action("Index", "Credits" )">all of us</a><br>
-                            Sponsored by <a href="http://www.megsoftconsulting.com/">Megsoft Consulting, Inc., Xamarin Specialists</a>
-                            <br /><span>ver. @Html.AssemblyVersion()</span>
 
-                            <div class="text-center hidden-lg hidden-sm hidden-md">
-                                <br />
-                                <a class="btn btn-default" href="https://github.com/developersdo/empleo-dot-net" target="_blank"><i class="fa fa-github"></i> Fork us on github</a>
-                            </div>
+            <div class="footer-bottom">
+                <div class="container">
+                    <div class="row align-items-center">
+
+                        <div class="col-lg-12 col-md-12 text-center">
+                            <p class="mb-0">© 2019 Workio. Designd By <a href="https://drizvato.com">Drizvato</a> All Rights Reserved</p>
                         </div>
+
                     </div>
                 </div>
             </div>
         </footer>
+        <!-- ============================ Footer End ================================== -->
+        <!-- Log In Modal -->
+        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
+                <div class="modal-content" id="registermodal">
+                    <div class="modal-header">
+                        <div class="logo-thumb">
+                            <img src="~/img/logo-light.png" class="img-fluid" alt="" />
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="ti-close"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="modal-header-title">Welcome <span>Back</span></h4>
+                        <div class="social-login">
+                            <ul>
+                                <li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Login with Facebook</a></li>
+                                <li><a href="#" class="btn connect-linked"><i class="ti-linkedin"></i>Login with Linkedin</a></li>
+                            </ul>
+                        </div>
+                        <div class="login-form">
+                            <form>
+
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <div class="input-with-icon">
+                                        <input type="text" class="form-control" placeholder="Username">
+                                        <i class="ti-user"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <div class="input-with-icon">
+                                        <input type="password" class="form-control" placeholder="*******">
+                                        <i class="ti-unlock"></i>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-md full-width pop-login">Login</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="javascript:void(0)" data-toggle="modal" data-target="#signup" data-dismiss="modal"> Sign Up</a></div>
+                        <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+        <!-- Sign Up Modal -->
+        <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="sign-up" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
+                <div class="modal-content" id="sign-up">
+                    <div class="modal-header">
+                        <div class="logo-thumb">
+                            <img src="~/img/logo-light.png" class="img-fluid" alt="" />
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true"><i class="ti-close"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="modal-header-title">Welcome <span>Back</span></h4>
+                        <div class="social-login">
+                            <ul>
+                                <li><a href="#" class="btn btn-outline-success"><i class="ti-facebook"></i>SignUp with Facebook</a></li>
+                                <li><a href="#" class="btn btn-outline-warning"><i class="ti-linkedin"></i>SignUp with Linkedin</a></li>
+                            </ul>
+                        </div>
+                        <div class="login-form">
+                            <form>
+
+                                <div class="form-group">
+                                    <label>Full Name</label>
+                                    <input type="text" class="form-control" placeholder="Full Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <label>User Name</label>
+                                    <input type="text" class="form-control" placeholder="Username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" class="form-control" placeholder="*******">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>SignUp As</label>
+                                    <select id="signupas" class="form-control">
+                                        <option value="">&nbsp;</option>
+                                        <option value="1">As Candidate</option>
+                                        <option value="2">As Employer</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-md full-width pop-login">Create Account</button>
+                                </div>
+
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="mf-link"><i class="ti-user"></i>Have An Account?<a href="javascript:void(0)" data-toggle="modal" data-target="#login" data-dismiss="modal"> Log In</a></div>
+                        <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal -->
+
+
     </div>
 
-    <environment include="Development">
+    <environment include="Development,Production">
         <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/popper.min.js"></script>
         <script src="~/js/bootstrap.min.js"></script>
-        <script src="~/js/respond.min.js"></script>
-        <script src="~/js/theme/owl.carousel.min.js"></script>
-        <script src="~/js/theme/select2.full.min.js"></script>
-        <script src="~/js/theme/jquery.nouislider.all.min.js"></script>
-        <script src="~/js/theme/jquery.flexmenu.js"></script>
-        <script src="~/js/theme/icheck.min.js"></script>
-        <script src="~/js/theme/bootstrap3-wysihtml5.all.min.js"></script>
-        <script src="~/js/theme/sweetalert2.all.min.js"></script>
-
-        <script src="~/js/theme/settings.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-    </environment>
-    <environment exclude="Development">
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/js/select2.min.js"></script>
+        <script src="~/js/aos.js"></script>
+        <script src="~/js/perfect-scrollbar.jquery.min.js"></script>
+        <script src="~/js/owl.carousel.min.js"></script>
+        <script src="~/js/jquery.counterup.min.js"></script>
+        <script src="~/js/slick.js"></script>
+        <script src="~/js/bootstrap-datepicker.js"></script>
+        <script src="~/js/isotope.min.js"></script>
+        <script src="~/js/summernote.js"></script>
+        <script src="~/js/custom.js"></script>
     </environment>
 
-    <script src='https://www.google.com/recaptcha/api.js'></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

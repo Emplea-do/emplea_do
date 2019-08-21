@@ -1,33 +1,65 @@
 ﻿@{
     ViewBag.Title = "Contribuidores";
 }
-<section id="contributors">
-    <div class="container">
-        <div class="row text-center" id="contributorsList">
+<div class="container">
+    <div class="row text-center">
+        <div class="col-sm-12">
             <h3>Traído a ustedes gracias a las contribuciones de personas como tú</h3>
-            <p>Tú también puedes contribuir, toma <a href="https://github.com/developersdo/empleo-dot-net/issues">un issue en github</a> y haz un pull request</p>
+            <p>Tú también puedes contribuir, toma <a href="https://github.com/developersdo/emplea_do/issues">un issue en github</a> y haz un pull request</p>
         </div>
-        @section scripts
+    </div>
+    <div class="row" id="newContributorsList">
+
+    </div>
+
+    <div class="row text-center">
+        <div class="col-sm-12">
+            <h3>Estos fueron los contribuyentes de la versión anterior, GRACIAS!!!</h3>
+            <p>Para referencias esta es <a href="https://github.com/developersdo/empleo-dot-net">la url en github</a></p>
+        </div>
+    </div>
+        <div class="row" id="contributorsList">
+
+        </div>
+    </div>
+    @section scripts
         {
-        <script type="text/javascript">$(document).ready(function() {
+        <script src="~/lib/mustache/mustache.min.js"></script>
+        <script id="contributorTemplate" type="x-tmpl-mustache">
+            {{#data }}
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <div class="candidate-grid style-1">
+                    <div class="candidate-wrap">
+                        <div class="candidate-thumb">
+                            <a href="{{html_url}}" target="_blank"><img src="{{avatar_url}}" class="img-fluid mx-auto circle" alt=""></a>
+                        </div>
+                        <h4 class="candidate-name"><a href="{{html_url}}" target="_blank">{{login}}</a></h4>
+                        <p>{{contributions}} contribuciones</p>
+                        <hr>
+                        <div class="candidate-detail">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            {{/data}}
+        </script>
+
+        <script type="text/javascript">$(document).ready(function () {
                 function sortByContributions(a, b) {
                     return ((a.contributions > b.contributions) ? -1 : ((a.contributions < b.contributions) ? 1 : 0));
                 }
-
-                $.getJSON("https://api.github.com/repos/developersdo/empleo-dot-net/contributors", function(data) {
-                    var arr = data.sort(sortByContributions);
-                    $(arr).each(function(i, e) {
-                        var contributorDiv = "<div class='col-sm-2'>";
-                        contributorDiv += "<a href='" + e.html_url + "'>";
-                        contributorDiv += '<img data-toggle="tooltip" data-placement="top" title="' + e.login + '" style="margin:15px" class="img-circle red-tooltip" src="' + e.avatar_url + '" width="150" height="150" />';
-                        contributorDiv += "</a>";
-                        contributorDiv += "<br/><b>" + e.login + "</b><br/>";
-                        contributorDiv += "Contribuciones: " + e.contributions + "<br/>";
-                        contributorDiv += "</div>";
-                        $("#contributorsList").append(contributorDiv);
-                    });
+                $.getJSON("https://api.github.com/repos/developersdo/emplea_do/contributors", function (data) {
+                    var template = $('#contributorTemplate').html();
+                    Mustache.parse(template);
+                    var rendered = Mustache.render(template, { "data": data });
+                    $('#newContributorsList').html(rendered);
                 });
-});</script>
-        }
-    </div>
-</section>
+                $.getJSON("https://api.github.com/repos/developersdo/empleo-dot-net/contributors", function (data) {
+                    var template = $('#contributorTemplate').html();
+                    Mustache.parse(template);
+                    var rendered = Mustache.render(template, { "data": data });
+                    $('#contributorsList').html(rendered);
+                });
+            });</script>
+    }

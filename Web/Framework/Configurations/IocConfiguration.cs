@@ -1,9 +1,11 @@
 ﻿using System;
-using AppService.Framework.Social;
+
+/*using AppService.Framework.Social;
 using AppService.Services;
 using AppService.Services.Social;
 using Data;
 using Data.Repositories;
+*/
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -15,9 +17,7 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-            var socialKeys = configuration.GetSection("SocialKeys");
-            services.Configure<SocialKeys>(socialKeys);
-
+            /*
             services.AddScoped<EmpleadoDbContext, EmpleadoDbContext>();
 
             // Repositories
@@ -45,7 +45,7 @@ namespace Web.Framework.Configurations
             services.AddScoped<IGoogleService, GoogleService>(x => new GoogleService(socialKeys.GetValue<string>("GoogleClientId"), socialKeys.GetValue<string>("GoogleClientSecret")));
             services.AddScoped<IMicrosoftService, MicrosoftService>(x => new MicrosoftService(socialKeys.GetValue<string>("MsClientId"), socialKeys.GetValue<string>("MsClientSecret")));
             services.AddScoped<ISlackService, SlackService>(x => new SlackService(socialKeys.GetValue<string>("slackWebhookEndpoint")));
-
+            */
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
