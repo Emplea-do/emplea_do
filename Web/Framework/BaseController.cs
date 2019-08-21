@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using AppService.Framework.Social;
 using Domain.Framework;
 using Domain.Framework.Dto;
 using Microsoft.AspNetCore.Authentication;
@@ -16,12 +15,6 @@ namespace Web.Framework
     public abstract class BaseController : Controller
     {
         protected ApplicationUser _applicationUser => new ApplicationUser(User);
-        protected SocialKeys _socialKeys { get; set; }
-
-        public BaseController(IOptions<SocialKeys> socialKeys)
-        {
-            _socialKeys = socialKeys.Value;
-        }
 
         protected async Task SignIn(UserLimited user)
         {

@@ -2,25 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Data;
-using Data.Repositories;
-using AppService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Web.Framework.Configurations;
-using Web.Framework.Extensions;
-using Domain;
-using AppService.Framework.Social;
-using Web.Framework.Filters;
-using AppService.Services.Social;
-using Sakura.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web
 {
@@ -36,63 +24,41 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Social network keys
-            services.AddSingleton(Configuration);
-
-            // Add connection string to DbContext
-
-            #if DEBUG
-            services.AddDbContext<EmpleadoDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            #else
-                services.AddDbContext<EmpleadoDbContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            #endif
-
-            services.AddIdentity<User, Role>();
-
-            services.ConfigureApplicationCookie(options =>
+            services.Configure<CookiePolicyOptions>(options =>
             {
-                 // Cookie settings
-                 options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
-                 options.LoginPath = "/Account/Login";
-                 options.AccessDeniedPath = "/Error/401";
-                 options.SlidingExpiration = true;
+                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
+                options.CheckConsentNeeded = context => true;
+                options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            // Add default bootstrap-styled pager implementation
-            services.AddBootstrapPagerGenerator(options =>
-            {
-                options.ConfigureDefault();
-            });
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options => {
-                options.LoginPath = "/Account/Login/";
-                options.AccessDeniedPath = "/Error/401";
-                options.ExpireTimeSpan = TimeSpan.FromDays(30);
-            });
-            services.AddSession();
-            services.AddMvc(options =>
-            {
-                options.Filters.Add(typeof(UnderMaintenanceFilterAttribute));
-            }).AddSessionStateTempDataProvider();
 
-            IocConfiguration.Init(Configuration, services);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseAuthentication();
-            app.ConfigureEnvironment(env);
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
+            }
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-            app.UseSession();
-            app.ConfigureRoutes();
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

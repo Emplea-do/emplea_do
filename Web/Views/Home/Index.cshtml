@@ -1,45 +1,468 @@
-﻿@using Web.ViewModels
-@model List<Domain.Job>
-@{
-    ViewBag.Title = "";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-@* This added here because the partial view _FindsJobPartinal need this JS to work :( *@
-@section scripts
-    {
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-    <script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
-            var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
-            google.maps.event.addListener(places, 'place_changed', function() {
-                var place = places.getPlace();
-                if (place) {
-                    var placeId = place.place_id;
-                    var latitude = place.geometry.location.lat();
-                    var longitude = place.geometry.location.lng();
+<!-- ============================================================== -->
+<!-- ============================ Hero Banner  Start================================== -->
+<div class="container-fluid home-2 h-100">
+    <div class="row align-items-center gray">
+        <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
+            <h2 class="mb-4">Encuentra tu empleo ideal</h2>
+            <form class="search-form" method="get" action="@Url.Action("")">
+                <div class="row">
+                    <div class="form-group col-md-12 col-sm-12 p-0">
+                        <i class="ti-search"></i>
+                        <input type="text" class="form-control" placeholder="título, descripción, compañía">
+                    </div>
 
-                    $('#location-placeid').val(placeId);
-                    $('#location-latitude').val(latitude);
-                    $('#location-longitude').val(longitude);
-                } else {
-                    $('#location-input').val('');
-                    $('#location-placeid').val('');
-                }
-            });
-});</script>
-}
-<partial name="../Jobs/_Partials/FindJobsPartial" model="(JobSearchViewModel)ViewBag.SearchViewModel" />
+                    <div class="form-group col-md-8 col-sm-12  br-all p-0">
+                        <select id="category" class="js-states form-control">
+                            <option value="">&nbsp;</option>
+                            <option value="1">SEO & Web Design</option>
+                            <option value="2">Wealth & Healthcare</option>
+                            <option value="3">Account / Finance</option>
+                            <option value="4">Education</option>
+                            <option value="5">Banking Jobs</option>
+                        </select>
+                    </div>
 
-<div class="container" style="margin-top: -50px;">
-    <section id="jobs">
-        <div class="container">
-            <div class="row">
-                <div>
-                    <h2>Empleos Recientes</h2>
+                    <div class="col-md-4 col-sm-12 p-0 pl-3">
+                        <button type="button" class="btn btn-primary full-width"><i class="fa fa-search"></i> Buscar</button>
+                    </div>
                 </div>
-                <partial name="../Jobs/_Partials/JobList", model="Model" />
-                <br />
-                <a class="btn btn-primary" asp-controller="Jobs" asp-action="Index">Mostrar mas empleos</a>
+            </form>
+        </div>
+        <div class="col-lg-6 col-md-6 bg-primary pt-5 pb-5">
+            <img alt="" src="~/img/home-mockup.png" class="img-fluid mx-auto">
+        </div>
+    </div>
+</div>
+<!-- ============================ Hero Banner End ================================== -->
+<!-- ============================ Category Start ================================== -->
+<section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col text-center">
+                <div class="sec-heading mx-auto">
+                    <p>Browse Your jobs By Category</p>
+                    <h2>Popular Category Jobs</h2>
+                </div>
             </div>
         </div>
-    </section>
-</div>
+
+        <div class="row">
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-user"></i>
+                    <h4>Construction Work</h4>
+                    <span>6 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-bar-chart-alt"></i>
+                    <h4>Account / Finance</h4>
+                    <span>10 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-signal"></i>
+                    <h4>Telecommunications</h4>
+                    <span>12 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-support"></i>
+                    <h4>Healthcare</h4>
+                    <span>6 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-palette"></i>
+                    <h4>Designing & Jobs</h4>
+                    <span>40 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-pencil-alt"></i>
+                    <h4>Education Training</h4>
+                    <span>8 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-car"></i>
+                    <h4>Automotive Jobs</h4>
+                    <span>16 new job posted</span>
+                </a>
+            </div>
+
+            <div class="col-lg-3 col-md-3 col-sm-6">
+                <a href="search.html" class="small-category-box">
+                    <i class="ti-credit-card"></i>
+                    <h4>Banking Jobs</h4>
+                    <span>10 new job posted</span>
+                </a>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ Category End ================================== -->
+<!-- ============================ Hire Expert Start ================================== -->
+<section class="p-0">
+    <div class="container-fluid p-0">
+        <div class="row m-0">
+            <div class="col-lg-6 col-md-6 col-sm-12 p-0">
+                <div class="image-block-content bg-inverse">
+                    <div class="text-center pt-5 pb-5 inverse-color side-climp">
+                        <h2>Hire A Developer</h2>
+                        <p class="lead-i">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam consectetur adipiscing elit.</p>
+                        <a href="#" class="btn btn-lg btn-over-light btn-rounded">Hire An Expert</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 p-0">
+                <div class="image-block-content bg-theme">
+                    <div class="text-center pt-5 pb-5 inverse-color side-climp">
+                        <h2>Join as Candidate</h2>
+                        <p class="lead-i">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit.</p>
+                        <a href="#" class="btn btn-lg btn-over-light btn-rounded">Create An Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ Hire Expert End ================================== -->
+<!-- ============================ Job List Start ================================== -->
+<section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col text-center">
+                <div class="sec-heading mx-auto">
+                    <p>New & Trending Jobs</p>
+                    <h2>Most Popular & Trending Jobs</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+
+                <!-- Single Large Job List -->
+                <div class="job-new-list">
+                    <div class="vc-thumb">
+                        <img class="img-fluid rounded-circle" src="https://via.placeholder.com/150x150" alt="c2.jpg">
+                    </div>
+                    <div class="vc-content">
+                        <h5 class="title"><a href="job-detail.html">Web Developer</a><span class="j-full-time">Full Time</span></h5>
+                        <p>Google Inc</p>
+                        <div class="rating-review">
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star"></i>
+                        </div>
+                        <ul class="vc-info-list">
+                            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
+                            <li class="list-inline-item"><h5>Status</h5>3 days ago</li>
+                            <li class="list-inline-item">
+                                <h5>Skills</h5>
+                                <div class="skills">
+                                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+                </div>
+
+                <!-- Single Large Job List -->
+                <div class="job-new-list">
+                    <div class="vc-thumb">
+                        <img class="img-fluid rounded-circle" src="https://via.placeholder.com/150x150" alt="c2.jpg">
+                    </div>
+                    <div class="vc-content">
+                        <h5 class="title"><a href="job-detail.html">App Developer</a><span class="j-part-time">Part Time</span></h5>
+                        <p>Apple Soft.</p>
+                        <div class="rating-review">
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                        </div>
+                        <ul class="vc-info-list">
+                            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$4.5k-$5k P.A</li>
+                            <li class="list-inline-item"><h5>Status</h5>2 days ago</li>
+                            <li class="list-inline-item">
+                                <h5>Skills</h5>
+                                <div class="skills">
+                                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+                </div>
+
+                <!-- Single Large Job List -->
+                <div class="job-new-list">
+                    <div class="vc-thumb">
+                        <img class="img-fluid rounded-circle" src="https://via.placeholder.com/150x150" alt="c2.jpg">
+                    </div>
+                    <div class="vc-content">
+                        <h5 class="title"><a href="job-detail.html">Content Writer</a><span class="j-full-time">Full Time</span></h5>
+                        <p>Zilliancer Soft</p>
+                        <div class="rating-review">
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star"></i>
+                        </div>
+                        <ul class="vc-info-list">
+                            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
+                            <li class="list-inline-item"><h5>Status</h5>2 days ago</li>
+                            <li class="list-inline-item">
+                                <h5>Skills</h5>
+                                <div class="skills">
+                                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+                </div>
+
+                <!-- Single Large Job List -->
+                <div class="job-new-list">
+                    <div class="vc-thumb">
+                        <img class="img-fluid rounded-circle" src="https://via.placeholder.com/150x150" alt="c2.jpg">
+                    </div>
+                    <div class="vc-content">
+                        <h5 class="title"><a href="job-detail.html">Product Manager</a><span class="j-part-time">Part Time</span></h5>
+                        <p>Google Inc</p>
+                        <div class="rating-review">
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                        </div>
+                        <ul class="vc-info-list">
+                            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$4.5k-$6k P.A</li>
+                            <li class="list-inline-item"><h5>Status</h5>1 days ago</li>
+                            <li class="list-inline-item">
+                                <h5>Skills</h5>
+                                <div class="skills">
+                                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+1 more</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+                </div>
+
+                <!-- Single Large Job List -->
+                <div class="job-new-list">
+                    <div class="vc-thumb">
+                        <img class="img-fluid rounded-circle" src="https://via.placeholder.com/150x150" alt="c2.jpg">
+                    </div>
+                    <div class="vc-content">
+                        <h5 class="title"><a href="job-detail.html">Iphone Developer</a><span class="j-part-time">Part Time</span></h5>
+                        <p>Megrolia Soft</p>
+                        <div class="rating-review">
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star filled"></i>
+                            <i class="ti-star"></i>
+                        </div>
+                        <ul class="vc-info-list">
+                            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$7.5k-$15k P.A</li>
+                            <li class="list-inline-item"><h5>Status</h5>10 min ago</li>
+                            <li class="list-inline-item">
+                                <h5>Skills</h5>
+                                <div class="skills">
+                                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</section>
+<div class="clearfix"></div>
+<!-- ============================ Job List End ================================== -->
+<!-- ============================ Testimonial  Start================================== -->
+<section class="image-bg text-center" style="background: url(https://via.placeholder.com/1920x900);" data-overlay="8">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-10">
+                <div class="owl-carousel testimonial-3" id="testimonial-3-slide">
+
+                    <!-- Single Testimonial -->
+                    <div class="item">
+                        <div class="tauth-thumb">
+                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
+                        </div>
+                        <div class="tauth-detail">
+                            <h4 class="tauth-title">Adam Kilwarnia</h4>
+                            <span class="tauth-subtitle">Web Designer</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                        </div>
+                    </div>
+
+                    <!-- Single Testimonial -->
+                    <div class="item">
+                        <div class="tauth-thumb">
+                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
+                        </div>
+                        <div class="tauth-detail">
+                            <h4 class="tauth-title">Riya Kilwarnia</h4>
+                            <span class="tauth-subtitle">UI/UX Desihner</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                        </div>
+                    </div>
+
+                    <!-- Single Testimonial -->
+                    <div class="item">
+                        <div class="tauth-thumb">
+                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
+                        </div>
+                        <div class="tauth-detail">
+                            <h4 class="tauth-title">Daniel Wartion</h4>
+                            <span class="tauth-subtitle">App Developer</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                        </div>
+                    </div>
+
+                    <!-- Single Testimonial -->
+                    <div class="item">
+                        <div class="tauth-thumb">
+                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
+                        </div>
+                        <div class="tauth-detail">
+                            <h4 class="tauth-title">Ritika Uswana</h4>
+                            <span class="tauth-subtitle">Software Developer</span>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ============================ Testimonial End ================================== -->
+<!-- ============================ Pricing Start ================================== -->
+<section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col text-center">
+                <div class="sec-heading mx-auto">
+                    <p>Our Packages</p>
+                    <h2>Our Best Pricing Plan</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row align-items-center m-0">
+            <div class="col-lg-4 col-md-12">
+                <div class="pr-table-box">
+                    <div class="pr-pricing-price-container">
+                        <span class="pr-currency">$</span>
+                        <span class="pr-price-value">49</span>
+                    </div>
+                    <h4 class="pr-price-time text-warning">Monthly Package</h4>
+                    <div class="pr-pricing-container">Startup Package</div>
+                    <div class="pr-pricing-list-container">
+                        <ul class="pr-pricing-list">
+                            <li>Business &amp; Finance Analysing</li>
+                            <li>SEO Optimization</li>
+                            <li>Managment &amp; Marketing</li>
+                            <li>24/7 Customer Support</li>
+                            <li>SEO Optimization</li>
+                        </ul>
+                    </div>
+                    <div class="pr-button-wrap">
+                        <a class="btn price-btn btn-outline-warning" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="pr-table-box featured">
+                    <div class="pr-pricing-price-container">
+                        <span class="pr-currency">$</span>
+                        <span class="pr-price-value">99</span>
+                    </div>
+                    <h4 class="pr-price-time text-success">Monthly Package</h4>
+                    <div class="pr-pricing-container">Business Package</div>
+                    <div class="pr-pricing-list-container">
+                        <ul class="pr-pricing-list">
+                            <li>Business &amp; Finance Analysing</li>
+                            <li>SEO Optimization</li>
+                            <li>Managment &amp; Marketing</li>
+                            <li>24/7 Customer Support</li>
+                            <li>SEO Optimization</li>
+                        </ul>
+                    </div>
+                    <div class="pr-button-wrap">
+                        <a class="btn price-btn btn-outline-success" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-12">
+                <div class="pr-table-box">
+                    <div class="pr-pricing-price-container">
+                        <span class="pr-currency">$</span>
+                        <span class="pr-price-value">149</span>
+                    </div>
+                    <h4 class="pr-price-time text-warning">Monthly Package</h4>
+                    <div class="pr-pricing-container">Ultimate Package</div>
+                    <div class="pr-pricing-list-container">
+                        <ul class="pr-pricing-list">
+                            <li>Business &amp; Finance Analysing</li>
+                            <li>SEO Optimization</li>
+                            <li>Managment &amp; Marketing</li>
+                            <li>24/7 Customer Support</li>
+                            <li>SEO Optimization</li>
+                        </ul>
+                    </div>
+                    <div class="pr-button-wrap">
+                        <a class="btn price-btn btn-outline-warning" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- ============================ Pricing End ================================== -->

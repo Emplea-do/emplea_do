@@ -3,35 +3,27 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AppService.Framework.Social;
-using AppService.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Web.Framework;
-using Web.ViewModels;
+using Web.Models;
 
 namespace Web.Controllers
 {
-    public class HomeController : BaseController
+    public class HomeController : Controller
     {
-        IJobService _jobService;
-
-        public HomeController(IOptions<SocialKeys> socialKeys, IJobService jobsService) : base(socialKeys)
-        {
-            _jobService = jobsService;
-        }
-
         public IActionResult Index()
         {
-            ViewBag.SearchViewModel = new JobSearchViewModel()
-            {
-                CategoriesCount = _jobService.GetJobCountByCategory()
-            };
+            return View();
+        }
 
-            ViewBag.MapsApiKey = _socialKeys.GoogleMapsApiKey;
-            var model = _jobService.GetLatestJobs(7);
+        public IActionResult Privacy()
+        {
+            return View();
+        }
 
-            return View(model);
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }
