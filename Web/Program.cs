@@ -16,10 +16,14 @@ namespace Web
         {
             BuildWebHost(args).Run();
         }
-
+        /*
+             Set static port to be able to expose it via containers, please refer to: https://github.com/aspnet/Hosting/issues/1027
+             for more information.
+         */
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
+                .UseUrls("http://*:5000")
                 .Build();
     }
 }
