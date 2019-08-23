@@ -11,7 +11,9 @@
 ## Running the app for the first time ##
 
 1. Open the solution
-
 2. Restore the nuget packages
+3. Run the Web project
 
-3. Run
+## If you have any questions or just want to hang out ##
+
+- We have a [slack channel](https://empleado-slack.azurewebsites.net)
