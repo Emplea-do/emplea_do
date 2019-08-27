@@ -21,6 +21,7 @@
     <Folder Include="ViewModels\" />
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />
+    <Folder Include="Views\Employers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_GoogleAnalytics.cshtml" />
