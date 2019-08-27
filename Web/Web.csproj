@@ -22,11 +22,14 @@
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Employers\" />
+    <Folder Include="Views\Jobs\_partials\" />
+    <Folder Include="wwwroot\lib\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_GoogleAnalytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\AppServices\AppServices.csproj" />
   </ItemGroup>
 </Project>
