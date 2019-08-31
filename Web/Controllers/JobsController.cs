@@ -10,9 +10,9 @@ namespace Web.Controllers
     {
         private IJobsService _jobsService;
 
-        public JobsController()
+        public JobsController(IJobsService jobsService)
         {
-            _jobsService = new JobsService();
+            _jobsService = jobsService;
         }
 
         public IActionResult Index(string keyword = "", bool isRemote = false)

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Web.Framework.Configurations;
 
 namespace Web
 {
@@ -31,6 +32,8 @@ namespace Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
+            IocConfiguration.Init(Configuration, services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

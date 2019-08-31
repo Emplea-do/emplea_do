@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Contribuidores";
+    ViewBag.Title = "contribuyentes";
 }
 <div class="container">
     <div class="row text-center">
@@ -18,48 +18,48 @@
             <p>Para referencias esta es <a href="https://github.com/developersdo/empleo-dot-net">la url en github</a></p>
         </div>
     </div>
-        <div class="row" id="contributorsList">
+    <div class="row" id="contributorsList">
 
-        </div>
     </div>
-    @section scripts
-        {
-        <script src="~/lib/mustache/mustache.min.js"></script>
-        <script id="contributorTemplate" type="x-tmpl-mustache">
-            {{#data }}
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <div class="candidate-grid style-1">
-                    <div class="candidate-wrap">
-                        <div class="candidate-thumb">
-                            <a href="{{html_url}}" target="_blank"><img src="{{avatar_url}}" class="img-fluid mx-auto circle" alt=""></a>
-                        </div>
-                        <h4 class="candidate-name"><a href="{{html_url}}" target="_blank">{{login}}</a></h4>
-                        <p>{{contributions}} contribuciones</p>
-                        <hr>
-                        <div class="candidate-detail">
-                        </div>
+</div>
+@section scripts
+    {
+    <script src="~/lib/mustache/mustache.min.js"></script>
+    <script id="contributorTemplate" type="x-tmpl-mustache">
+        {{#data }}
+        <div class="col-lg-3 col-md-3 col-sm-6">
+            <div class="candidate-grid style-1">
+                <div class="candidate-wrap">
+                    <div class="candidate-thumb">
+                        <a href="{{html_url}}" target="_blank"><img src="{{avatar_url}}" class="img-fluid mx-auto circle" alt=""></a>
                     </div>
-
+                    <h4 class="candidate-name"><a href="{{html_url}}" target="_blank">{{login}}</a></h4>
+                    <p>{{contributions}} contribuciones</p>
+                    <hr>
+                    <div class="candidate-detail">
+                    </div>
                 </div>
-            </div>
-            {{/data}}
-        </script>
 
-        <script type="text/javascript">$(document).ready(function () {
-                function sortByContributions(a, b) {
-                    return ((a.contributions > b.contributions) ? -1 : ((a.contributions < b.contributions) ? 1 : 0));
-                }
-                $.getJSON("https://api.github.com/repos/developersdo/emplea_do/contributors", function (data) {
-                    var template = $('#contributorTemplate').html();
-                    Mustache.parse(template);
-                    var rendered = Mustache.render(template, { "data": data });
-                    $('#newContributorsList').html(rendered);
-                });
-                $.getJSON("https://api.github.com/repos/developersdo/empleo-dot-net/contributors", function (data) {
-                    var template = $('#contributorTemplate').html();
-                    Mustache.parse(template);
-                    var rendered = Mustache.render(template, { "data": data });
-                    $('#contributorsList').html(rendered);
-                });
-            });</script>
-    }
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script type="text/javascript">$(document).ready(function () {
+            function sortByContributions(a, b) {
+                return ((a.contributions > b.contributions) ? -1 : ((a.contributions < b.contributions) ? 1 : 0));
+            }
+            $.getJSON("https://api.github.com/repos/developersdo/emplea_do/contributors", function (data) {
+                var template = $('#contributorTemplate').html();
+                Mustache.parse(template);
+                var rendered = Mustache.render(template, { "data": data });
+                $('#newContributorsList').html(rendered);
+            });
+            $.getJSON("https://api.github.com/repos/developersdo/empleo-dot-net/contributors", function (data) {
+                var template = $('#contributorTemplate').html();
+                Mustache.parse(template);
+                var rendered = Mustache.render(template, { "data": data });
+                $('#contributorsList').html(rendered);
+            });
+        });</script>
+}

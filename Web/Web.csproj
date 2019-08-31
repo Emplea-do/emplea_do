@@ -12,6 +12,7 @@
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Scrutor" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +25,7 @@
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\lib\mustache\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_GoogleAnalytics.cshtml" />
@@ -31,5 +33,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
 </Project>
