@@ -17,7 +17,7 @@ namespace AppServices.Services
                     Title = "Trabajo de prueba",
                     Description="Esto es un lorem ipsum",
                     HowToApply="Para aplicar mandame un correo plz",
-
+                    Approved=true,
                     Company= new Company
                     {
                         Url="https://megsoftconsulting.com/",
@@ -30,7 +30,7 @@ namespace AppServices.Services
                     Title = "Trabajo de prueba 2",
                     Description="Esto es un lorem ipsum",
                     HowToApply="Para aplicar mandame un correo plz",
-
+                    Approved=true,
                     Company= new Company
                     {
                         Url="https://megsoftconsulting.com/",
@@ -56,12 +56,14 @@ namespace AppServices.Services
                     Title = "Trabajo de prueba 55",
                     Description="Esto es un lorem ipsum",
                     HowToApply="Para aplicar mandame un correo plz",
-
+                    UserId=10,
+                    Approved = false,
                     Company= new Company
                     {
                         Url="https://megsoftconsulting.com/",
                         LogoUrl = "https://localhost:5001/img/logo.png"
-                    }
+                    },
+                   
                 },
                 new Job
                 {
@@ -77,6 +79,16 @@ namespace AppServices.Services
                     }
                 },
             };
+        }
+
+        public Job GetDetails(int id, bool isPreview = false)
+        {
+            var jobList = this.GetAll();
+            var job = jobList
+                .Where(j => j.Id == id && j.Approved == !isPreview)
+                .FirstOrDefault();
+
+            return job;
         }
 
          public IEnumerable<Job> GetRecentJobs()
@@ -123,7 +135,6 @@ namespace AppServices.Services
                     }
                 }
             };
-
             var recentJobs = jobsList.OrderByDescending(x => x.CreatedAt).Take(10);
 
             return recentJobs;
