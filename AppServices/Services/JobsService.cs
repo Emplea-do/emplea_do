@@ -77,10 +77,56 @@ namespace AppServices.Services
                 },
             };
         }
+
+        public List<Job> GetByUserProfile(int id)
+        {
+            return new List<Job>
+            {
+                new Job
+                {
+                    Id=1,
+                    Title = "Trabajo de prueba",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
+
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
+                new Job
+                {
+                    Id=2,
+                    Title = "Trabajo de prueba 2",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
+
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
+                new Job
+                {
+                    Id=14,
+                    Title = "Trabajo de prueba 4",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
+
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
+            };
+        }
     }
 
     public interface IJobsService : IBaseService<Job>
     {
-
+        List<Job> GetByUserProfile(int id);
     }
 }
