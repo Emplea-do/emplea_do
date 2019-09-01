@@ -11,5 +11,9 @@ namespace Web.ViewModels
         public bool IsRemote { get; set; }
 
         public List<Job> Jobs { get; set; }
+
+        public Job Job { get; set; }
+
+        public bool IsPreview { get; set; }
     }
 }

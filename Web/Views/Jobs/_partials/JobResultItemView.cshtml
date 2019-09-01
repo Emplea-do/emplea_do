@@ -1,6 +1,14 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@{ 
+    //Fake User for test
+    var User = new { Identity = new { UserId = 10 } };
+
+    bool isPreview = User != null ?  User.Identity.UserId.Equals(Model.UserId) && !Model.Approved : false;
+
+
+}
 @model Domain.Job
 
 <div class="job-new-list">
@@ -8,7 +16,7 @@
         <img class="img-fluid rounded-circle" src="@Model.Company.LogoUrl" alt="c2.jpg">
     </div>
     <div class="vc-content">
-        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id })">@Model.Title</a><span class="j-full-time">Full Time</span></h5>
+        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a><span class="j-full-time">Full Time</span></h5>
         <p>Google Inc</p>
         <div class="rating-review">
             <i class="ti-star filled"></i>
@@ -28,5 +36,5 @@
             </li>
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="job-detail.html">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Apply Now<i class="ti-arrow-right ml-1"></i></a>
 </div>
