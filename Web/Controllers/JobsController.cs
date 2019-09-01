@@ -73,12 +73,5 @@ namespace Web.Controllers
             return id;
         }
 
-        private bool IsPreview(Job job)
-        {
-            var fakeCurrentUser = new { UserId = 10 };
-
-            Boolean isPreview = job.UserId.Equals(fakeCurrentUser.UserId) && !job.Approved;
-            return isPreview;
-        }
     }
 }
