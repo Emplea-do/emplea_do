@@ -119,6 +119,10 @@ html body .mdi-set {
 section{
 	padding:80px 0 80px;
 }	
+
+.section-no-padding {
+    padding:0;
+}
 .gray{
 	background:#f6faff;
 }
@@ -6668,16 +6672,50 @@ button.close:hover, button.close:focus{
 .modal-footer .mf-link {
     flex: 1;
 }
+
+.social-connect-list{
+    display:flex;
+    flex-direction:column;
+}
+
+.social-connect-list li {
+    margin-bottom:.5em;
+}
+
 .btn.connect-fb {
-    color:#2c58b5;
+    color: #2c58b5;
     border: 2px solid #2c58b5;
-	transition:ease 0.4s;
+    transition: ease 0.4s;
     border-radius: 2px;
 }
 .btn.connect-fb:hover, .btn.connect-fb:focus{
 	color:#ffffff;
 	background:#2c58b5;
 }
+
+.btn.connect-github {
+    color: #444444;
+    border: 2px solid #444444;
+    transition: ease 0.4s;
+    border-radius: 2px;
+}
+
+.btn.connect-github:hover, .btn.connect-github:focus {
+    color: #ffffff;
+    background: #444444;
+}
+.btn.connect-microsoft {
+    color: #2672EC;
+    transition: ease 0.4s;
+    border: 2px solid #2672EC;
+    border-radius: 2px;
+}
+
+.btn.connect-microsoft:hover, .btn.connect-microsoft:focus {
+    color: #ffffff;
+    background: #2672EC;
+}
+
 .btn.connect-linked {
     color:#0e89c5;
 	transition:ease 0.4s;
