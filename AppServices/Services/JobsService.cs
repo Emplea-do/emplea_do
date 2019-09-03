@@ -144,5 +144,6 @@ namespace AppServices.Services
     public interface IJobsService : IBaseService<Job>
     {
         IEnumerable<Job> GetRecentJobs();
+        Job GetDetails(int id, bool isPreview = false);
     }
 }
