@@ -80,27 +80,16 @@ namespace AppServices.Services
                 },
             };
         }
-
-        public Job GetDetails(int id, bool isPreview = false)
+public List<Job> GetByUserProfile(int id)
         {
-            var jobList = this.GetAll();
-            var job = jobList
-                .Where(j => j.Id == id && j.Approved == !isPreview)
-                .FirstOrDefault();
-
-            return job;
-        }
-
-         public IEnumerable<Job> GetRecentJobs()
-        {
-            List<Job> jobsList = new List<Job>
+            return new List<Job>
             {
                 new Job
                 {
                     Id=1,
-                    Title = "No hay trabajo",
-                    Description="Esta no es una descripción para un trabajo",
-                    HowToApply="No apliquen por favor",
+                    Title = "Trabajo de prueba",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
 
                     Company= new Company
                     {
@@ -111,9 +100,9 @@ namespace AppServices.Services
                 new Job
                 {
                     Id=2,
-                    Title = "No entienden que no hay trabajo?",
+                    Title = "Trabajo de prueba 2",
                     Description="Esto es un lorem ipsum",
-                    HowToApply="Ni lo intenten",
+                    HowToApply="Para aplicar mandame un correo plz",
 
                     Company= new Company
                     {
@@ -133,16 +122,73 @@ namespace AppServices.Services
                         Url="https://megsoftconsulting.com/",
                         LogoUrl = "https://localhost:5001/img/logo.png"
                     }
-                }
+                },
+            };
+        }
+        
+        public Job GetDetails(int id, bool isPreview = false)
+        {
+            var jobList = this.GetAll();
+            var job = jobList
+                .Where(j => j.Id == id && j.Approved == !isPreview)
+                .FirstOrDefault();
+
+            return job;
+        }
+
+        public IEnumerable<Job> GetRecentJobs()
+        {
+            List<Job> jobsList = new List<Job>
+            {
+                new Job
+                {
+                    Id=1,
+                    Title = "No hay trabajo",
+                    Description="Esta no es una descripción para un trabajo",
+                    HowToApply="No apliquen por favor",
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
+                new Job
+                {
+                    Id=2,
+                    Title = "Trabajo de prueba 2",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
+                    Title = "No entienden que no hay trabajo?",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Ni lo intenten",
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
+                new Job
+                {
+                    Id=14,
+                    Title = "Trabajo de prueba 4",
+                    Description="Esto es un lorem ipsum",
+                    HowToApply="Para aplicar mandame un correo plz",
+
+                    Company= new Company
+                    {
+                        Url="https://megsoftconsulting.com/",
+                        LogoUrl = "https://localhost:5001/img/logo.png"
+                    }
+                },
             };
             var recentJobs = jobsList.OrderByDescending(x => x.CreatedAt).Take(10);
-
             return recentJobs;
         }
     }
 
     public interface IJobsService : IBaseService<Job>
     {
+        List<Job> GetByUserProfile(int id);
         IEnumerable<Job> GetRecentJobs();
         Job GetDetails(int id, bool isPreview = false);
     }

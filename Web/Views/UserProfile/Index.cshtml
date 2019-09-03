@@ -1,0 +1,63 @@
+﻿
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<!-- ============================ Hero Banner  Start================================== -->
+<div class="page-title-wrap">
+    <div class="container">
+        <div class="col-lg-12 col-md-12">
+            <div class="pt-caption">
+                <h1>Hello! Asana</h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+<!-- ============================ Hero Banner End ================================== -->
+<!-- ============== Candidate Dashboard ====================== -->
+<section class="tr-single-detail gray-bg">
+    <div class="container">
+        <div class="row">
+
+            <!-- Sidebar Start -->
+            <div class="col-md-4 col-sm-12">
+                <div class="dashboard-wrap">
+
+                    <div class="dashboard-thumb">
+                        <div class="dashboard-th-pic">
+                            <img src="/img/logo.png" class="img-fluid mx-auto img-circle" alt="" />
+                        </div>
+                        <h4 class="mb-1">Asana</h4>
+                        <span class="text-success">Project Management</span>
+                    </div>
+
+                    <!-- Nav tabs -->
+                    <ul class="nav dashboard-verticle-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Company Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manage jobs</a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+            <!-- /col-md-4 -->
+
+            <div class="col-md-8 col-sm-12">
+                <!-- Tab panes -->
+                <div class="tab-content">
+
+                    <partial name="_partials/CompanyProfileView"  model="@Model.Company" />
+
+                    <partial name="_partials/ManageJobsView" model="@Model.Jobs" />
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- ============== Candidate Dashboard ====================== -->
