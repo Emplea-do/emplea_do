@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using Domain;
+
 namespace Web.ViewModels
 {
-    public class HomeViewModel
+    public class HomeViewModel : BaseViewModel
     {
-        public HomeViewModel()
-        {
-        }
+        public IEnumerable<Job> Jobs { get; set; }
     }
 }

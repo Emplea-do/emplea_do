@@ -3,16 +3,31 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using AppServices.Services;
 using Microsoft.AspNetCore.Mvc;
 using Web.Models;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
     public class HomeController : Controller
     {
+        private IJobsService _jobsService;
+
+        public HomeController()
+        {
+            _jobsService = new JobsService();
+        }
+
         public IActionResult Index()
         {
-            return View();
+            var recentJobs = _jobsService.GetRecentJobs();
+            var viewModel = new HomeViewModel
+            {
+                Jobs = recentJobs
+            };
+
+            return View(viewModel);
         }
 
         public IActionResult Privacy()
