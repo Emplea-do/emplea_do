@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Domain;
 using System.Collections.Generic;
 using System.Linq;
-using Domain;
 
 namespace AppServices.Services
 {
@@ -63,7 +62,6 @@ namespace AppServices.Services
                         Url="https://megsoftconsulting.com/",
                         LogoUrl = "https://localhost:5001/img/logo.png"
                     },
-                   
                 },
                 new Job
                 {
@@ -80,7 +78,8 @@ namespace AppServices.Services
                 },
             };
         }
-public List<Job> GetByUserProfile(int id)
+
+        public List<Job> GetByUserProfile(int id)
         {
             return new List<Job>
             {
@@ -125,7 +124,7 @@ public List<Job> GetByUserProfile(int id)
                 },
             };
         }
-        
+
         public Job GetDetails(int id, bool isPreview = false)
         {
             var jobList = this.GetAll();
@@ -158,9 +157,6 @@ public List<Job> GetByUserProfile(int id)
                     Title = "Trabajo de prueba 2",
                     Description="Esto es un lorem ipsum",
                     HowToApply="Para aplicar mandame un correo plz",
-                    Title = "No entienden que no hay trabajo?",
-                    Description="Esto es un lorem ipsum",
-                    HowToApply="Ni lo intenten",
                     Company= new Company
                     {
                         Url="https://megsoftconsulting.com/",
@@ -189,7 +185,9 @@ public List<Job> GetByUserProfile(int id)
     public interface IJobsService : IBaseService<Job>
     {
         List<Job> GetByUserProfile(int id);
+
         IEnumerable<Job> GetRecentJobs();
+
         Job GetDetails(int id, bool isPreview = false);
     }
 }
