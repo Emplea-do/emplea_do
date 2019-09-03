@@ -24,8 +24,6 @@
 5. Ask for help when needed. If run into any impediment air it out in slack or comment in your issue, 
 6. Prepare the Pull Request following [the guidelines](https://github.com/developersdo/emplea_do/blob/development/.github/pull_request_template.md).
 
-When
-
 ## If you have any questions or just want to hang out ##
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)

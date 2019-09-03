@@ -1,0 +1,58 @@
+﻿@model List<Domain.Job>
+
+<!-- Manage jobs -->
+<div class="tab-pane" id="manage-jobs">
+
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="lni-file"></i> Manage jobs</h4>
+        </div>
+
+        <div class="tr-single-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    @foreach (var job in Model)
+                    {
+                        <!-- Single Manage job -->
+                        <div class="manage-list">
+
+                            <div class="mg-list-wrap">
+                                <div class="mg-list-thumb">
+                                    <img  class="img-fluid rounded-circle" src="@job.Company.LogoUrl"  alt="c2.jpg"/>
+                                </div>
+                                <div class="mg-list-caption">
+                                    <h4 class="mg-title">@job.Title</h4>
+                                    <span class="mg-subtitle">Web Designer</span>
+                                    <span><em>Last activity</em> 4 weeks ago. <em>Registered</em> 4 weeks ago</span>
+
+                                </div>
+                            </div>
+
+                            <div class="mg-action">
+                                <div class="btn-group custom-drop">
+                                    <button type="button" class="btn btn-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <i class="ti-more"></i>
+                                    </button>
+                                    <div class="dropdown-menu pull-right animated flipInX">
+                                        <a href="#">Accending</a>
+                                        <a href="#">Decending</a>
+                                        <a href="#">By Date</a>
+                                    </div>
+                                </div>
+                                <div class="btn-group ml-2">
+                                    <a href="#" class="mg-delete"><i class="ti-trash"></i></a>
+                                </div>
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Manage jobs -->
+
+    <a href="#" class="btn btn-info btn-md full-width">Save & Update<i class="ml-2 ti-arrow-right"></i></a>
+
+</div>
