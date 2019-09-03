@@ -1,15 +1,11 @@
 ﻿using System;
-
-/*using AppService.Framework.Social;
-using AppService.Services;
-using AppService.Services.Social;
+using AppServices.Services;
 using Data;
-using Data.Repositories;
-*/
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Scrutor;
 
 namespace Web.Framework.Configurations
 {
@@ -17,35 +13,20 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-            /*
-            services.AddScoped<EmpleadoDbContext, EmpleadoDbContext>();
+            services.AddScoped<EmpleaDbContext, EmpleaDbContext>();
 
-            // Repositories
-            services.AddScoped(typeof(ICategoryRepository), typeof(CategoryRepository));
-            services.AddScoped(typeof(IHireTypeRepository), typeof(HireTypeRepository));
-            services.AddScoped(typeof(IJobRepository), typeof(JobRepository));
-            services.AddScoped(typeof(IPermissionRepository), typeof(PermissionRepository));
-            services.AddScoped(typeof(IRoleRepository), typeof(RoleRepository));
-            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IJoelTestRepository, JoelTestRepository>();
-            services.AddScoped<ILocationRepository, LocationRepository>();
-            services.AddScoped<ILoginRepository, LoginRepository>();
+            services.Scan(x => x.FromAssemblyOf<EmpleaDbContext>()
+                .AddClasses()
+                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                .AsMatchingInterface()
+                .WithScopedLifetime());
 
-            // Services
-            services.AddScoped(typeof(ICategoryService), typeof(CategoryService));
-            services.AddScoped(typeof(IHireTypeService), typeof(HireTypeService));
-            services.AddScoped(typeof(IJobService), typeof(JobService));
-            services.AddScoped(typeof(ISecurityService), typeof(SecurityService));
-            services.AddScoped(typeof(IUserService), typeof(UserService));
-            services.AddScoped<ILoginService, LoginService>();
+            services.Scan(x => x.FromAssemblyOf<IJobsService>()
+                .AddClasses()
+                .UsingRegistrationStrategy(RegistrationStrategy.Skip)
+                .AsMatchingInterface()
+                .WithScopedLifetime());
 
-            services.AddScoped<IFacebookService, FaceBookService>(x => new FaceBookService(socialKeys.GetValue<string>("FacebookAppId"), socialKeys.GetValue<string>("FacebookAppSecret")));
-            services.AddScoped<ILinkedinService, LinkedinService>(x => new LinkedinService(socialKeys.GetValue<string>("LinkedInClientId"), socialKeys.GetValue<string>("LinkedInClientSecret")));
-            services.AddScoped<IGoogleService, GoogleService>(x => new GoogleService(socialKeys.GetValue<string>("GoogleClientId"), socialKeys.GetValue<string>("GoogleClientSecret")));
-            services.AddScoped<IMicrosoftService, MicrosoftService>(x => new MicrosoftService(socialKeys.GetValue<string>("MsClientId"), socialKeys.GetValue<string>("MsClientSecret")));
-            services.AddScoped<ISlackService, SlackService>(x => new SlackService(socialKeys.GetValue<string>("slackWebhookEndpoint")));
-            */
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 

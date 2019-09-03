@@ -21,6 +21,9 @@
 
     <link href="~/css/plugins.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
+    <link href="~/css/custom.css" rel="stylesheet">
+
+    @RenderSection("Styles", required: false)
 </head>
 <body>
     <div class="Loader"></div>
@@ -28,179 +31,14 @@
         <!-- ============================================================== -->
         <!-- Top header  -->
         <!-- ============================================================== -->
-        <div class="topbar tp-rlt" id="top">
-            <div class="header light">
-                <div class="container po-relative">
-                    <nav class="navbar navbar-expand-lg header-nav-bar">
-                        <a href="@Url.Action("Index", "Home" )" class="navbar-brand">
-                            <img src="~/img/logo.png" class="default-logo" alt="emplea.do" style="width:50px" />
-                        </a>
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="ti-align-right"></span></button>
-                        <div class="collapse navbar-collapse hover-dropdown font-14 ml-auto" id="navigation">
-                            <ul class="navbar-nav ml-auto">
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home <i class="fa fa-angle-down m-l-5"></i></a>
-                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
-                                        <li><a class="dropdown-item" href="index.html">Home Page 1</a></li>
-                                        <li><a class="dropdown-item" href="home-2.html">Home Page 2</a></li>
-                                        <li><a class="dropdown-item" href="home-3.html">Home Page 3</a></li>
-                                        <li><a class="dropdown-item" href="home-4.html">Home Page 4</a></li>
-                                        <li><a class="dropdown-item" href="home-5.html">Home Page 5</a></li>
-                                        <li><a class="dropdown-item" href="home-6.html">Home Page 6</a></li>
-                                        <li><a class="dropdown-item" href="home-7.html">Home Page 7</a></li>
-                                        <li><a class="dropdown-item" href="home-8.html">Home Page 8</a></li>
-                                        <li><a class="dropdown-item" href="home-9.html">Home Page 9</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Employer <i class="fa fa-angle-down m-l-5"></i></a>
-                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
-                                        <li><a class="dropdown-item" href="grid-candidate.html">Browse Candidate</a></li>
-                                        <li><a class="dropdown-item" href="popular-candidate.html">Popular Candidates</a></li>
-                                        <li><a class="dropdown-item" href="grid-freelancers.html">Hire Freelancers</a></li>
-                                        <li><a class="dropdown-item" href="verticle-freelancers.html">Browse Freelancers 2</a></li>
-                                        <li><a class="dropdown-item" href="candidate-detail.html">Candidate Detail</a></li>
-                                        <li><a class="dropdown-item" href="employer-dashboard.html">Employer Dashboard</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Candidate <i class="fa fa-angle-down m-l-5"></i></a>
-                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
-                                        <li><a class="dropdown-item" href="grid-job.html">Browse jobs</a></li>
-                                        <li><a class="dropdown-item" href="verticle-jobs.html">Browse Verticle jobs</a></li>
-                                        <li><a class="dropdown-item" href="verticle-large-job.html">Browse Verticle jobs 2</a></li>
-                                        <li><a class="dropdown-item" href="grid-employers.html">Browse Employers</a></li>
-                                        <li><a class="dropdown-item" href="browse-category.html">Browse Category</a></li>
-                                        <li><a class="dropdown-item" href="search.html">Advance Search Jobs</a></li>
-                                        <li><a class="dropdown-item" href="sidebar-search.html">Search Jobs Sidebar</a></li>
-                                        <li><a class="dropdown-item" href="job-detail.html">Job Detail</a></li>
-                                        <li><a class="dropdown-item" href="employer-detail.html">Employer Detail</a></li>
-                                        <li><a class="dropdown-item" href="candidate-dashboard.html">Candidate Dashboard</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Browse Pages <i class="fa fa-angle-down m-l-5"></i></a>
-                                    <ul class="b-none dropdown-menu font-14 animated fadeInUp">
-                                        <li><a class="dropdown-item" href="blog.html">Blog</a></li>
-                                        <li><a class="dropdown-item" href="pricing.html">Pricing</a></li>
-                                        <li><a class="dropdown-item" href="login.html">LogIn</a></li>
-                                        <li><a class="dropdown-item" href="typography.html">Typography</a></li>
-                                        <li><a class="dropdown-item" href="contact.html">Contact Us</a></li>
-                                        <li><a class="dropdown-item" href="verticle-freelancer-2.html">Verticle Freelancer 2</a></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-
-                            <div class="act-buttons">
-                                <a class="btn btn-info font-14" href="javascript:void(0)" data-toggle="modal" data-target="#login"><i class="ti-shift-right mr-2"></i>Publica un empleo</a>
-                            </div>
-
-                        </div>
-                    </nav>
-                </div>
-            </div>
-        </div>
+        <partial name="_Navigationbar" />
         <div class="clearfix"></div>
         <!-- ============================================================== -->
         <!-- Top header  -->
         @RenderBody();
 
         <!-- ============================ Footer Start ================================== -->
-        <footer class="dark-footer skin-dark-footer">
-            <div>
-                <div class="container">
-                    <div class="row">
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-widget">
-                                <h4 class="widget-title">About Workio</h4>
-                                <p>Drizvato is a team of young professionals that has been successfully creating Creative Website templates already for several years.</p>
-                                <a href="#" class="other-store-link">
-                                    <div class="other-store-app">
-                                        <div class="os-app-icon">
-                                            <i class="ti-android"></i>
-                                        </div>
-                                        <div class="os-app-caps">
-                                            Google Store
-                                        </div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-widget">
-                                <h4 class="widget-title">Useful links</h4>
-                                <ul class="footer-menu">
-                                    <li><a href="#">Browse Resume Grid</a></li>
-                                    <li><a href="#">Browse Jobs Grid</a></li>
-                                    <li><a href="#">Browse Candidate Grid</a></li>
-                                    <li><a href="#">Browse Resume Grid</a></li>
-                                    <li><a href="#">Browse Resume Grid</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-widget">
-                                <h4 class="widget-title">Get in Touch</h4>
-                                <div class="fw-address-wrap">
-                                    <div class="fw fw-location">
-                                        7744 North Park, New York
-                                    </div>
-                                    <div class="fw fw-mail">
-                                        support@drizvato77.com
-                                    </div>
-                                    <div class="fw fw-call">
-                                        +91 254 584 7584
-                                    </div>
-                                    <div class="fw fw-skype">
-                                        drizvato77
-                                    </div>
-                                    <div class="fw fw-web">
-                                        www.drizvato.com
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3 col-md-6">
-                            <div class="footer-widget">
-                                <h4 class="widget-title">Follow Us</h4>
-                                <p>Follow & Subscribe your email to get new business tips.</p>
-                                <ul class="footer-bottom-social">
-                                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                                    <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                                </ul>
-
-                                <form class="f-newsletter mt-4">
-                                    <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
-                                    <button type="submit" class="btn"><i class="ti-arrow-right"></i></button>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom">
-                <div class="container">
-                    <div class="row align-items-center">
-
-                        <div class="col-lg-12 col-md-12 text-center">
-                            <p class="mb-0">© 2019 Workio. Designd By <a href="https://drizvato.com">Drizvato</a> All Rights Reserved</p>
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <partial name="_Footer" />
         <!-- ============================ Footer End ================================== -->
         <!-- Log In Modal -->
         <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">

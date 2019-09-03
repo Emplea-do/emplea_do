@@ -169,21 +169,10 @@ $(function() {
 	
 	// All Select Category
 	$('#category').select2({
-		placeholder: "Choose Category...",
+		placeholder: "Escoge una categoría...",
 		allowClear: true
 	});
 	
-	// All Select Category
-	$('#category-2').select2({
-		placeholder: "Choose Category...",
-		allowClear: true
-	});
-	
-	// Filter Sidebar Category
-	$('#category-3').select2({
-		placeholder: "Choose Category...",
-		allowClear: true
-	});
 	
 	// All Search
 	$('#search-allow').select2({

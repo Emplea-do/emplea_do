@@ -3,35 +3,35 @@
         <div class="container">
             <div class="row">
 
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="footer-widget">
-                        <h4 class="widget-title">About Workio</h4>
-                        <p>Drizvato is a team of young professionals that has been successfully creating Creative Website templates already for several years.</p>
-                        <a href="#" class="other-store-link">
-                            <div class="other-store-app">
+                        <h4 class="widget-title">Emplea.do</h4>
+                        <p>Este es un proyecto OpenSource mantenido por la comunidad. Puedes ayudar entrando a nuestro github.</p>
+                        <a href="https://github.com/developersdo/emplea_do" class="other-store-link">
+                            <div class="other-store-app" style="width:250px">
                                 <div class="os-app-icon">
-                                    <i class="ti-android"></i>
+                                    <i class="fa fa-github"></i>
                                 </div>
                                 <div class="os-app-caps">
-                                    Google Store
+                                    Fork us on github
                                 </div>
                             </div>
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
+                <div class="col-lg-4 col-md-6">
                     <div class="footer-widget">
-                        <h4 class="widget-title">Useful links</h4>
+                        <h4 class="widget-title">Urls de interés</h4>
                         <ul class="footer-menu">
-                            <li><a href="#">Browse Resume Grid</a></li>
-                            <li><a href="#">Browse Jobs Grid</a></li>
-                            <li><a href="#">Browse Candidate Grid</a></li>
-                            <li><a href="#">Browse Resume Grid</a></li>
-                            <li><a href="#">Browse Resume Grid</a></li>
+                            <li><a href="https://empleado-slack.azurewebsites.net/">Servidor de Slack</a></li>
+                            <li><a asp-controller="credits" asp-action="index">Contribuyentes</a></li>
+                            <li><a asp-controller="company" asp-action="index">Compañías que confían en nosotros</a></li>
+                            <li><a href="https://opencollective.com/empleo-dot-net">Open Collective</a></li>
                         </ul>
                     </div>
                 </div>
 
+                <!--
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-widget">
                         <h4 class="widget-title">Get in Touch</h4>
@@ -54,22 +54,22 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-md-6">
+                -->
+                <div class="col-lg-4 col-md-6">
                     <div class="footer-widget">
-                        <h4 class="widget-title">Follow Us</h4>
-                        <p>Follow & Subscribe your email to get new business tips.</p>
+                        <h4 class="widget-title">Siguenos en las redes</h4>
+                        <p>Enterate de todos los avances en la plataforma.</p>
                         <ul class="footer-bottom-social">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="https://www.facebook.com/empleadonet"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/emplea_do"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://github.com/developersdo/emplea_do"><i class="fa fa-github"></i></a></li>
                         </ul>
-
-                        <form class="f-newsletter mt-4">
-                            <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
-                            <button type="submit" class="btn"><i class="ti-arrow-right"></i></button>
-                        </form>
+                        @*
+        <form class="f-newsletter mt-4">
+            <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
+            <button type="submit" class="btn"><i class="ti-arrow-right"></i></button>
+        </form>
+                        *@
                     </div>
                 </div>
 
@@ -82,7 +82,12 @@
             <div class="row align-items-center">
 
                 <div class="col-lg-12 col-md-12 text-center">
-                    <p class="mb-0">© 2019 Workio. Designd By <a href="https://drizvato.com">Drizvato</a> All Rights Reserved</p>
+                    <p class="mb-0">
+                        © @DateTime.UtcNow.Year Emplea.do All Rights Reserved<br/>
+                        Made with <i class="fa fa-heart fa-inverse"></i> by <b><a class="highlighted-link" asp-action="index" asp-controller="credits">all of us</a></b><br>
+                        Sponsored by <b><a class="highlighted-link" href="http://www.megsoftconsulting.com/">Megsoft Consulting, Inc., Xamarin Specialists</a></b>
+                    </p>
+
                 </div>
 
             </div>
