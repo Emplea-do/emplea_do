@@ -7,6 +7,7 @@
 - [.NET SDK](https://www.microsoft.com/net/learn/get-started/)
 - [Visual Studio Code](https://code.visualstudio.com)
 - [Visual Studio Community](https://visualstudio.microsoft.com/es/vs/)
+- [LibMan CLI](https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-cli?view=aspnetcore-2.2#installation)
 
 ## Running the app for the first time ##
 
