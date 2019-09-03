@@ -19,11 +19,14 @@
     <Folder Include="Views\Jobs\" />
     <Folder Include="Framework\" />
     <Folder Include="Views\Home\Partials\" />
+    <Folder Include="ViewModels\" />
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="wwwroot\lib\mustache\" />
+    <Folder Include="Views\Home\_partials\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Shared\_GoogleAnalytics.cshtml" />

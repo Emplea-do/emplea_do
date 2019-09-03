@@ -1,4 +1,4 @@
-﻿
+﻿@model JobsViewModel
 <!-- ============================================================== -->
 <!-- ======================= Start Banner ===================== -->
 <section class="page-title-banner" style="background-image:url(https://via.placeholder.com/1280x855);">
@@ -26,9 +26,19 @@
     </div>
 </section>
 <!-- ======================= End Banner ===================== -->
+
+
+
+
 <!-- ============== Job Detail ====================== -->
 <section class="tr-single-detail gray-bg">
     <div class="container">
+        @if (Model.IsPreview)
+        {
+            <div class="alert alert-warning">
+                <b>Esta vacante no ha sido aprobada. Revise de nuevo más tarde.</b>
+            </div>
+        }
         <div class="row">
 
             <div class="col-md-8 col-sm-12">
