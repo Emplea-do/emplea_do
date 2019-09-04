@@ -41,7 +41,7 @@ Thumbs.db
 # dotCover
 *.dotCover
 
-#Web/wwwroot/lib/*
+Web/wwwroot/lib/*
 
 .vscode/
 

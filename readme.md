@@ -10,6 +10,7 @@
 
 ## Running the app for the first time ##
 
+0. Run the init.sh script, this will install all command line tools
 1. Open the solution
 2. Restore the nuget packages
 3. Run the Web project
@@ -23,6 +24,13 @@
 4. Work iteratively and commit often. 
 5. Ask for help when needed. If run into any impediment air it out in slack or comment in your issue, 
 6. Prepare the Pull Request following [the guidelines](https://github.com/developersdo/emplea_do/blob/development/.github/pull_request_template.md).
+
+### JS libraries and libman
+
+This project includes some third party js libraries, they have been included in the repo because they are integral for the correct workings of the theme we picked.
+If you need to add another third party library make sure to do it using the [LibMan CLI](https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-cli?view=aspnetcore-2.2#installation). 
+It gets installed when you run the `init.sh` script.
+
 
 ## If you have any questions or just want to hang out ##
 

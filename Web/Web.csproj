@@ -6,6 +6,18 @@
   </PropertyGroup>
 
 
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <CustomCommands>
+      <CustomCommands>
+        <Command>
+          <type>BeforeBuild</type>
+          <command>libman restore</command>
+          <workingdir>${ProjectDir}</workingdir>
+          <externalConsole>True</externalConsole>
+        </Command>
+      </CustomCommands>
+    </CustomCommands>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
@@ -13,6 +25,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Scrutor" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.113" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +38,6 @@
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\lib\mustache\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Remove="Views\Shared\_GoogleAnalytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
