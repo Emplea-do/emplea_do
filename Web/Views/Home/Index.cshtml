@@ -32,124 +32,10 @@
                 </div>
             </form>
         </div>
-        <div class="col-lg-6 col-md-6 bg-primary pt-5 pb-5">
-            <img alt="" src="~/img/home-mockup.png" class="img-fluid mx-auto">
-        </div>
+        <partial name="_partials/Banner" />
     </div>
 </div>
 <!-- ============================ Hero Banner End ================================== -->
-<!-- ============================ Category Start ================================== -->
-<section>
-    <div class="container">
-
-        <div class="row">
-            <div class="col text-center">
-                <div class="sec-heading mx-auto">
-                    <p>Browse Your jobs By Category</p>
-                    <h2>Popular Category Jobs</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-user"></i>
-                    <h4>Construction Work</h4>
-                    <span>6 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-bar-chart-alt"></i>
-                    <h4>Account / Finance</h4>
-                    <span>10 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-signal"></i>
-                    <h4>Telecommunications</h4>
-                    <span>12 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-support"></i>
-                    <h4>Healthcare</h4>
-                    <span>6 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-palette"></i>
-                    <h4>Designing & Jobs</h4>
-                    <span>40 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-pencil-alt"></i>
-                    <h4>Education Training</h4>
-                    <span>8 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-car"></i>
-                    <h4>Automotive Jobs</h4>
-                    <span>16 new job posted</span>
-                </a>
-            </div>
-
-            <div class="col-lg-3 col-md-3 col-sm-6">
-                <a href="search.html" class="small-category-box">
-                    <i class="ti-credit-card"></i>
-                    <h4>Banking Jobs</h4>
-                    <span>10 new job posted</span>
-                </a>
-            </div>
-
-        </div>
-
-    </div>
-</section>
-<div class="clearfix"></div>
-<!-- ============================ Category End ================================== -->
-<!-- ============================ Hire Expert Start ================================== -->
-<section class="p-0">
-    <div class="container-fluid p-0">
-        <div class="row m-0">
-            <div class="col-lg-6 col-md-6 col-sm-12 p-0">
-                <div class="image-block-content bg-inverse">
-                    <div class="text-center pt-5 pb-5 inverse-color side-climp">
-                        <h2>Hire A Developer</h2>
-                        <p class="lead-i">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam consectetur adipiscing elit.</p>
-                        <a href="#" class="btn btn-lg btn-over-light btn-rounded">Hire An Expert</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 p-0">
-                <div class="image-block-content bg-theme">
-                    <div class="text-center pt-5 pb-5 inverse-color side-climp">
-                        <h2>Join as Candidate</h2>
-                        <p class="lead-i">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit.</p>
-                        <a href="#" class="btn btn-lg btn-over-light btn-rounded">Create An Account</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<div class="clearfix"></div>
-<!-- ============================ Hire Expert End ================================== -->
 <!-- ============================ Job List Start ================================== -->
 <section>
     <div class="container">
@@ -157,171 +43,21 @@
         <div class="row">
             <div class="col text-center">
                 <div class="sec-heading mx-auto">
-                    <p>New & Trending Jobs</p>
-                    <h2>Most Popular & Trending Jobs</h2>
+                    <p>Últimos empleos</p>
+                    <h2>Las publicaciones más recientes</h2>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 p-0">
 
-                @foreach (var job in Model.Jobs) {
-                <partial name="_partials/RecentJobsResultView" model="job" />
-                }
+        @foreach (var job in Model.Jobs)
+    {
+        <partial name="_partials/RecentJobsResultView" model="job" />
+}
 
-            </div>
+        <div class="pr-button-wrap">
+            <a class="btn price-btn btn-outline-warning" asp-controller="jobs" asp-action="index">Ver todos<i class="ti-arrow-right ml-2"></i></a>
         </div>
-
     </div>
 </section>
 <div class="clearfix"></div>
-<!-- ============================ Job List End ================================== -->
-<!-- ============================ Testimonial  Start================================== -->
-<section class="image-bg text-center" style="background: url(https://via.placeholder.com/1920x900);" data-overlay="8">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-10 col-md-10">
-                <div class="owl-carousel testimonial-3" id="testimonial-3-slide">
-
-                    <!-- Single Testimonial -->
-                    <div class="item">
-                        <div class="tauth-thumb">
-                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
-                        </div>
-                        <div class="tauth-detail">
-                            <h4 class="tauth-title">Adam Kilwarnia</h4>
-                            <span class="tauth-subtitle">Web Designer</span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-                        </div>
-                    </div>
-
-                    <!-- Single Testimonial -->
-                    <div class="item">
-                        <div class="tauth-thumb">
-                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
-                        </div>
-                        <div class="tauth-detail">
-                            <h4 class="tauth-title">Riya Kilwarnia</h4>
-                            <span class="tauth-subtitle">UI/UX Desihner</span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-                        </div>
-                    </div>
-
-                    <!-- Single Testimonial -->
-                    <div class="item">
-                        <div class="tauth-thumb">
-                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
-                        </div>
-                        <div class="tauth-detail">
-                            <h4 class="tauth-title">Daniel Wartion</h4>
-                            <span class="tauth-subtitle">App Developer</span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-                        </div>
-                    </div>
-
-                    <!-- Single Testimonial -->
-                    <div class="item">
-                        <div class="tauth-thumb">
-                            <img src="https://via.placeholder.com/400x400" class="mx-auto img-circle" alt="" />
-                        </div>
-                        <div class="tauth-detail">
-                            <h4 class="tauth-title">Ritika Uswana</h4>
-                            <span class="tauth-subtitle">Software Developer</span>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua consectetur adipiscing elit. consectetur adipiscing elit, sed do eiusmod tempor incididunt</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- ============================ Testimonial End ================================== -->
-<!-- ============================ Pricing Start ================================== -->
-<section>
-    <div class="container">
-
-        <div class="row">
-            <div class="col text-center">
-                <div class="sec-heading mx-auto">
-                    <p>Our Packages</p>
-                    <h2>Our Best Pricing Plan</h2>
-                </div>
-            </div>
-        </div>
-
-        <div class="row align-items-center m-0">
-            <div class="col-lg-4 col-md-12">
-                <div class="pr-table-box">
-                    <div class="pr-pricing-price-container">
-                        <span class="pr-currency">$</span>
-                        <span class="pr-price-value">49</span>
-                    </div>
-                    <h4 class="pr-price-time text-warning">Monthly Package</h4>
-                    <div class="pr-pricing-container">Startup Package</div>
-                    <div class="pr-pricing-list-container">
-                        <ul class="pr-pricing-list">
-                            <li>Business &amp; Finance Analysing</li>
-                            <li>SEO Optimization</li>
-                            <li>Managment &amp; Marketing</li>
-                            <li>24/7 Customer Support</li>
-                            <li>SEO Optimization</li>
-                        </ul>
-                    </div>
-                    <div class="pr-button-wrap">
-                        <a class="btn price-btn btn-outline-warning" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-12">
-                <div class="pr-table-box featured">
-                    <div class="pr-pricing-price-container">
-                        <span class="pr-currency">$</span>
-                        <span class="pr-price-value">99</span>
-                    </div>
-                    <h4 class="pr-price-time text-success">Monthly Package</h4>
-                    <div class="pr-pricing-container">Business Package</div>
-                    <div class="pr-pricing-list-container">
-                        <ul class="pr-pricing-list">
-                            <li>Business &amp; Finance Analysing</li>
-                            <li>SEO Optimization</li>
-                            <li>Managment &amp; Marketing</li>
-                            <li>24/7 Customer Support</li>
-                            <li>SEO Optimization</li>
-                        </ul>
-                    </div>
-                    <div class="pr-button-wrap">
-                        <a class="btn price-btn btn-outline-success" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-4 col-md-12">
-                <div class="pr-table-box">
-                    <div class="pr-pricing-price-container">
-                        <span class="pr-currency">$</span>
-                        <span class="pr-price-value">149</span>
-                    </div>
-                    <h4 class="pr-price-time text-warning">Monthly Package</h4>
-                    <div class="pr-pricing-container">Ultimate Package</div>
-                    <div class="pr-pricing-list-container">
-                        <ul class="pr-pricing-list">
-                            <li>Business &amp; Finance Analysing</li>
-                            <li>SEO Optimization</li>
-                            <li>Managment &amp; Marketing</li>
-                            <li>24/7 Customer Support</li>
-                            <li>SEO Optimization</li>
-                        </ul>
-                    </div>
-                    <div class="pr-button-wrap">
-                        <a class="btn price-btn btn-outline-warning" target="_blank" href="#">Sign up<i class="ti-arrow-right ml-2"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-<!-- ============================ Pricing End ================================== -->
