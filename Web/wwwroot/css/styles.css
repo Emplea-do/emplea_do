@@ -6684,6 +6684,7 @@ button.close:hover, button.close:focus{
     border: 2px solid #2c58b5;
 	transition:ease 0.4s;
     border-radius: 2px;
+    background: #ffffff;
 }
 .btn.connect-fb:hover, .btn.connect-fb:focus{
 	color:#ffffff;
@@ -6694,6 +6695,7 @@ button.close:hover, button.close:focus{
 	transition:ease 0.4s;
     border: 2px solid #0e89c5;
     border-radius: 2px;
+    background: #ffffff;
 }
 .btn.connect-linked:hover, .btn.connect-linked:focus{
 	color:#ffffff;
@@ -6704,6 +6706,7 @@ button.close:hover, button.close:focus{
     border: 2px solid #444444;
     transition: ease 0.4s;
     border-radius: 2px;
+    background: #ffffff;
 }
 
 .btn.connect-github:hover, .btn.connect-github:focus {
@@ -6715,6 +6718,7 @@ button.close:hover, button.close:focus{
     transition: ease 0.4s;
     border: 2px solid #2672EC;
     border-radius: 2px;
+    background: #ffffff;
 }
 
 .btn.connect-microsoft:hover, .btn.connect-microsoft:focus {
@@ -6726,6 +6730,7 @@ button.close:hover, button.close:focus{
 	transition:ease 0.4s;
     border: 2px solid #0aa1d8;
     border-radius: 2px;
+    background: #ffffff;
 }
 .btn.connect-twitter:hover, .btn.connect-twitter:focus{
 	color:#ffffff;
@@ -6736,6 +6741,7 @@ button.close:hover, button.close:focus{
 	transition:ease 0.4s;
     border: 2px solid #d83325;
     border-radius: 2px;
+    background: #ffffff;
 }
 .btn.connect-gplus:hover, .btn.connect-gplus:focus{
 	color:#ffffff;

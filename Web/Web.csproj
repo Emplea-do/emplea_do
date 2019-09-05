@@ -19,6 +19,8 @@
     </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
+    <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
