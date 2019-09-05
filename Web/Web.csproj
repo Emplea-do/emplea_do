@@ -33,7 +33,6 @@
   <ItemGroup>
     <Folder Include="Views\Jobs\" />
     <Folder Include="Framework\" />
-    <Folder Include="Views\Home\Partials\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />

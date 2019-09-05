@@ -1,30 +1,39 @@
 ﻿@{
     ViewBag.Title = "contribuyentes";
 }
-<div class="container">
-    <div class="row text-center">
-        <div class="col-sm-12">
-            <h3>Traído a ustedes gracias a las contribuciones de personas como tú</h3>
-            <p>Tú también puedes contribuir, toma <a href="https://github.com/developersdo/emplea_do/issues">un issue en github</a> y haz un pull request</p>
+<div class="inner-bg">
+    <section>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h3>Traído a ustedes gracias a las contribuciones de personas como tú</h3>
+                    <p>Tú también puedes contribuir, toma <a class="highlighted-link" href="https://github.com/developersdo/emplea_do/issues">un issue en github</a> y manda un pull request</p>
+                </div>
+            </div>
+            <div class="row" id="newContributorsList">
+
+            </div>
         </div>
-    </div>
-    <div class="row" id="newContributorsList">
+    </section>
+    <section>
 
-    </div>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h3>Estos fueron los contribuyentes de la versión anterior, GRACIAS!!!</h3>
+                    <p>Para referencias esta es <a class="highlighted-link" href="https://github.com/developersdo/empleo-dot-net">la url en github</a> del viejo repositorio</p>
+                </div>
+            </div>
+            <div class="row" id="contributorsList">
 
-    <div class="row text-center">
-        <div class="col-sm-12">
-            <h3>Estos fueron los contribuyentes de la versión anterior, GRACIAS!!!</h3>
-            <p>Para referencias esta es <a href="https://github.com/developersdo/empleo-dot-net">la url en github</a></p>
+            </div>
         </div>
-    </div>
-    <div class="row" id="contributorsList">
+    </section>
 
-    </div>
 </div>
 @section scripts
     {
-    <script src="~/lib/mustache.js/mustache.min.js"></script>
+    <script src="~/lib/mustache.js"></script>
     <script id="contributorTemplate" type="x-tmpl-mustache">
         {{#data }}
         <div class="col-lg-3 col-md-3 col-sm-6">
