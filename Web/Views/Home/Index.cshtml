@@ -8,7 +8,7 @@
     <div class="row align-items-center gray">
         <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
             <h2 class="mb-4">Encuentra tu empleo ideal</h2>
-            <form class="search-form" method="get" action="@Url.Action("")">
+            <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
                 <div class="row">
                     <div class="form-group col-md-12 col-sm-12 p-0">
                         <i class="ti-search"></i>
@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="col-md-4 col-sm-12 p-0 pl-3">
-                        <button type="button" class="btn btn-primary full-width"><i class="fa fa-search"></i> Buscar</button>
+                        <button type="submit" class="btn btn-primary full-width"><i class="fa fa-search"></i> Buscar</button>
                     </div>
                 </div>
             </form>
@@ -43,18 +43,22 @@
         <div class="row">
             <div class="col text-center">
                 <div class="sec-heading mx-auto">
-                    <p>Últimos empleos</p>
+                    @*<p>Últimos empleos</p>
+                    *@
                     <h2>Las publicaciones más recientes</h2>
                 </div>
             </div>
         </div>
 
 
-        @foreach (var job in Model.Jobs)
-    {
-        <partial name="_partials/RecentJobsResultView" model="job" />
-}
-
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                @foreach (var job in Model.Jobs)
+            {
+                <partial name="../Jobs/_partials/JobResultItemView" model="job" />
+        }
+            </div>
+        </div>
         <div class="pr-button-wrap">
             <a class="btn price-btn btn-outline-warning" asp-controller="jobs" asp-action="index">Ver todos<i class="ti-arrow-right ml-2"></i></a>
         </div>

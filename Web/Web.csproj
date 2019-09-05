@@ -45,4 +45,7 @@
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
+  </ItemGroup>
 </Project>
