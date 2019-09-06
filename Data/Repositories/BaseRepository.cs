@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Domain;
-
+using Domain.Entities;
 
 namespace Data.Repositories
 {

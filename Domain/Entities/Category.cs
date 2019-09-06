@@ -1,10 +1,10 @@
 ﻿using System;
-namespace Domain
+namespace Domain.Entities
 {
-    public class HireType : Entity
+    public class Category : Entity
     {
         public string Name { get; set; }
+
         public string Description { get; set; }
-        public bool PaysMoney { get; set; }
     }
 }
