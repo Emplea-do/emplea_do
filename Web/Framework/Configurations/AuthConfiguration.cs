@@ -16,8 +16,9 @@ namespace Web.Framework.Configurations
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             }).AddCookie(options =>
             {
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
+                options.LoginPath = "/account/login";
+                options.LogoutPath = "/account/logout";
+                options.SlidingExpiration = true;
             })
             .AddGoogle(googleOptions => {
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -30,6 +31,8 @@ namespace Web.Framework.Configurations
                 googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Surname, "family_name");
                 googleOptions.ClaimActions.MapJsonKey("urn:google:profile", "link");
                 googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
+                googleOptions.SaveTokens = true;
+                googleOptions.CallbackPath = "/account/login";
             })
             .AddFacebook(facebookOptions => {
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
@@ -46,8 +49,10 @@ namespace Web.Framework.Configurations
             .AddGitHub(githubOptions => {
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
+                githubOptions.CallbackPath = "/account/login";
                 githubOptions.Scope.Add("user:email");
             });
         }
+        
     }
 }
