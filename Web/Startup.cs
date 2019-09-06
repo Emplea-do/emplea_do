@@ -35,6 +35,7 @@ namespace Web
 
 
             IocConfiguration.Init(Configuration, services);
+            AuthConfiguration.Init(Configuration, services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

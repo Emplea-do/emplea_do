@@ -31,6 +31,14 @@ This project includes some third party js libraries, they have been included in 
 If you need to add another third party library make sure to do it using the [LibMan CLI](https://docs.microsoft.com/en-us/aspnet/core/client-side/libman/libman-cli?view=aspnetcore-2.2#installation). 
 It gets installed when you run the `init.sh` script.
 
+### Configuring Authentication
+
+
+To ignore changes made to the `appsettings.Development.json` file
+```sh
+git update-index --assume-unchanged
+```
+
 
 ## If you have any questions or just want to hang out ##
 
