@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Domain;
+using Domain.Entities;
 
 namespace Web.ViewModels
 {

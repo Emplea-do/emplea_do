@@ -17,7 +17,8 @@ namespace Migrations
         {
             Create.Table(TableConstants.Users)
                 .WithCommonColumns()
-                .WithColumn("Email").AsString().NotNullable();
+                     .WithColumn("Name").AsString().NotNullable();
+      
         }
     }
 }
