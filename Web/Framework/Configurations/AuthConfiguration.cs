@@ -37,6 +37,7 @@ namespace Web.Framework.Configurations
             .AddFacebook(facebookOptions => {
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+                facebookOptions.CallbackPath = "/account/login";
             })
             .AddMicrosoftAccount(microsoftOptions => {
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];

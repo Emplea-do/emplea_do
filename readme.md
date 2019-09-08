@@ -33,10 +33,7 @@ It gets installed when you run the `init.sh` script.
 
 ### Configuring Authentication ###
 
-Rename the `appsetting.template.json` file to `appsetting.json` and complete 
-the variable for social networks.
-
-> Note: In **Authorization callback URL**, type the callback URL of your app. Ej.`https://your-domain/account/login` to your Google, Facebook, GitHub... Apps.
+Rename the `appsetting.template.json` file to `appsetting.json` and complete the client ids and secrets for each authentication provider you want to use.
 
 #### Ignoring changes of the appsettings file ####
 
