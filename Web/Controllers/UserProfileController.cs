@@ -17,7 +17,7 @@ namespace Web.Controllers
 
         public IActionResult Index()
         {
-            var filteredJobsByUserProfile = _jobsService.GetByUserProfile(_currentUser.UserId);
+            var filteredJobsByUserProfile = _jobsService.GetByUser(_currentUser.UserId);
             var viewModel = new UserProfileViewModel
             {
                 Jobs = filteredJobsByUserProfile

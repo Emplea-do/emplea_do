@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.Entities;
+using Data.Repositories;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,8 +8,17 @@ namespace AppServices.Services
 {
     public class JobsService : BaseService<Job>, IJobsService
     {
+        readonly IJobsRepository _jobsRepository;
+
+        public JobsService(IJobsRepository jobsRepository)
+        {
+            _jobsRepository = jobsRepository;
+        }
+
         public override List<Job> GetAll()
         {
+            return _jobsRepository.GetAll().ToList();
+            /*
             return new List<Job>
             {
                 new Job
@@ -77,11 +87,13 @@ namespace AppServices.Services
                         LogoUrl = "https://localhost:5001/img/logo.png"
                     }
                 },
-            };
+            };*/
         }
 
-        public List<Job> GetByUserProfile(int id)
+        public List<Job> GetByUser(int userId)
         {
+            return _jobsRepository.Get(x=>x.UserId == userId).OrderByDescending(x=>x.PublishedDate).ToList();
+            /*
             return new List<Job>
             {
                 new Job
@@ -123,14 +135,12 @@ namespace AppServices.Services
                         LogoUrl = "https://localhost:5001/img/logo.png"
                     }
                 },
-            };
+            };*/
         }
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var jobList = this.GetAll();
-            var job = jobList
-                .Where(j => j.Id == id && j.Approved == !isPreview)
+            var job = _jobsRepository.Get(j => j.Id == id && j.Approved == !isPreview)
                 .FirstOrDefault();
 
             return job;
@@ -138,6 +148,8 @@ namespace AppServices.Services
 
         public IEnumerable<Job> GetRecentJobs()
         {
+            return _jobsRepository.Get(x=>x.IsActive && !x.IsHidden).OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+            /*
             List<Job> jobsList = new List<Job>
             {
                 new Job
@@ -179,13 +191,13 @@ namespace AppServices.Services
                 },
             };
             var recentJobs = jobsList.OrderByDescending(x => x.CreatedAt).Take(10);
-            return recentJobs;
+            return recentJobs;*/
         }
     }
 
     public interface IJobsService : IBaseService<Job>
     {
-        List<Job> GetByUserProfile(int id);
+        List<Job> GetByUser(int id);
 
         IEnumerable<Job> GetRecentJobs();
 

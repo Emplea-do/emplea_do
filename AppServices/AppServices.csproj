@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
+    <ProjectReference Include="..\Data\Data.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Framework\" />
