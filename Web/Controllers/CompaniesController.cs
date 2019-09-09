@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Web.Controllers
 {
     [Authorize]
-    public class EmployersController : BaseController
+    public class CompaniesController : BaseController
     {
         public IActionResult Index()
         {

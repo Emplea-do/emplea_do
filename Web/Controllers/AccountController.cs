@@ -9,10 +9,12 @@ namespace Web.Controllers
 {
     public class AccountController : Controller
     {
-
         [HttpGet("/Account/Login")]
         public async Task<IActionResult> Login(string returnUrl = "/")
         {
+            if (HttpContext.User != null && HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.ReturnUrl = returnUrl;
             return View("Login", await HttpContext.GetExternalProvidersAsync());
         }
@@ -30,9 +32,6 @@ namespace Web.Controllers
                 return BadRequest();
             }
 
-            // Instruct the middleware corresponding to the requested external identity
-            // provider to redirect the user agent to its own authorization endpoint.
-            // Note: the authenticationScheme parameter must match the value configured in Startup.cs
             return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, provider);
         }
 
@@ -45,9 +44,6 @@ namespace Web.Controllers
         [HttpGet("/Account/Logout"), HttpPost("/Account/Logout")]
         public IActionResult LogOut()
         {
-            // Instruct the cookies middleware to delete the local cookie created
-            // when the user agent is redirected from the external identity provider
-            // after a successful authentication flow (e.g Google or Facebook).
             return SignOut(new AuthenticationProperties { RedirectUri = "/" },
                 CookieAuthenticationDefaults.AuthenticationScheme);
         }

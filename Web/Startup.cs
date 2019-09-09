@@ -37,7 +37,7 @@ namespace Web
 
 
 #if DEBUG
-            services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection"), x => x.SuppressForeignKeyEnforcement()));
+            services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 #else
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 #endif

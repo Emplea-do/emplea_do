@@ -8,6 +8,5 @@ namespace Web.ViewModels
     {
         public Company Company { get; set; }
         public List<Job> Jobs { get; set; }
-
     }
 }
