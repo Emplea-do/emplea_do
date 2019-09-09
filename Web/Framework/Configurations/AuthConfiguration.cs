@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Threading.Tasks;
 
 namespace Web.Framework.Configurations
 {
@@ -10,6 +12,18 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
+            var oauthEvents = new OAuthEvents
+            {
+                OnTicketReceived = context =>
+                {
+                    //TODO
+                    //Look for the user in the database
+                    //If the user doesn't exist create it
+                    //if it exists put the userid in memory
+                    return Task.CompletedTask;
+                },
+            };
+
             services.AddAuthentication(options =>
             {
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -34,31 +48,35 @@ namespace Web.Framework.Configurations
                 googleOptions.ClaimActions.MapJsonKey("urn:google:profile", "link");
                 googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
                 googleOptions.SaveTokens = true;
-                googleOptions.CallbackPath = "/account/HandleExternalLogin";
+
+                googleOptions.Events = oauthEvents;
             })
             .AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.CallbackPath = "/account/HandleExternalLogin";
+                facebookOptions.Events = oauthEvents;
             })
-            .AddMicrosoftAccount(microsoftOptions => {
+            .AddMicrosoftAccount(microsoftOptions =>
+            {
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                 microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
-                microsoftOptions.CallbackPath = "/account/HandleExternalLogin";
+                microsoftOptions.Events = oauthEvents;
             })
-            .AddLinkedIn(linkedinOptions => {
+            .AddLinkedIn(linkedinOptions =>
+            {
                 linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                 linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
-                linkedinOptions.CallbackPath = "/account/HandleExternalLogin";
-            })
-            .AddGitHub(githubOptions => {
+                linkedinOptions.Events = oauthEvents;
+            });
+
+            //TODO Include issue for github
+            /*.AddGitHub(githubOptions => {
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
                 githubOptions.Scope.Add("user:email");
                 githubOptions.CallbackPath = "/account/HandleExternalLogin";
-            });
+            });*/
         }
-        
     }
 }

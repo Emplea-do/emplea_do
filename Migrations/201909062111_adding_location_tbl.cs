@@ -18,8 +18,8 @@ namespace Migrations
                 .WithCommonColumns()
                 .WithColumn("PlaceId").AsString().NotNullable()
                 .WithColumn("Name").AsString().NotNullable()
-                .WithColumn("Latitude").AsDouble().NotNullable()
-             .WithColumn("Longitude").AsDouble().NotNullable();
+                .WithColumn("Latitude").AsString().NotNullable()
+                .WithColumn("Longitude").AsString().NotNullable();
 
         }
     }

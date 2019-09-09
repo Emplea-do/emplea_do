@@ -35,7 +35,13 @@ namespace Web.Controllers
             // Note: the authenticationScheme parameter must match the value configured in Startup.cs
             return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, provider);
         }
-        
+
+        [HttpGet]
+        public IActionResult HandleExternalLogin()
+        {
+            return Redirect("/");
+        }
+
         [HttpGet("/Account/Logout"), HttpPost("/Account/Logout")]
         public IActionResult LogOut()
         {

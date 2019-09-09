@@ -25,12 +25,14 @@
                     </ul>
 
                     <div class="act-buttons">
+                        @if (User.Identity.IsAuthenticated)
+                        {
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item dropdown">
                                 <a class="btn btn-info font-14" href="#"><i class="fa fa-user"></i> @Context.User.Identity.Name <i class="fa fa-angle-down m-l-5"></i></a>
                                 <ul class="b-none dropdown-menu font-14 animated fadeInUp">
-                                    <li><a class="dropdown-item" href="index.html">Mi Perfil</a></li>
-                                    <li><a class="dropdown-item" href="home-2.html">Publicar un empleo</a></li>
+                                    <li><a class="dropdown-item" asp-controller="userprofile" asp-action="index">Mi Perfil</a></li>
+                                    <li><a class="dropdown-item" asp-controller="jobs" asp-action="new" >Publicar un empleo</a></li>
                                     <li>
                                         <div class="dropdown-divider"></div>
                                     </li>
@@ -38,6 +40,11 @@
                                 </ul>
                             </li>
                         </ul>
+                        }
+                        else
+                        {
+                            <a class="btn btn-info font-14" asp-controller="jobs" asp-action="new"><i class="fa fa-sign-in"></i> Inicia sesión</a>
+                        }
                     </div>
 
                 </div>
