@@ -14,7 +14,7 @@ namespace Migrations
 
         public override void Up()
         {
-            Insert.IntoTable(TableConstants.Category).WithIdentityInsert()
+            Insert.IntoTable(TableConstants.Categories).WithIdentityInsert()
                 .Row(new { Id = 1, Name = "Diseño Gráfico", Description="", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = 2, Name = "Desarrollo Web", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = 3, Name = "Desarrollo para Móviles", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
@@ -25,7 +25,7 @@ namespace Migrations
                 .Row(new { Id = 8, Name = "Administrador de base de datos", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = 9, Name = "Desarrollador de videojuegos", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow });
 
-            Insert.IntoTable(TableConstants.HireType).WithIdentityInsert()
+            Insert.IntoTable(TableConstants.HireTypes).WithIdentityInsert()
                 .Row(new { Id = 1, Name = "Independiente", PaysMoney = true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = 2, Name = "Medio tiempo", PaysMoney = true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { Id = 3, Name = "Tiempo Completo", PaysMoney = true, Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })

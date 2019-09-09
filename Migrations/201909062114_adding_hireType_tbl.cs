@@ -8,12 +8,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.HireType);
+            Delete.Table(TableConstants.HireTypes);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.HireType)
+            Create.Table(TableConstants.HireTypes)
                 .WithCommonColumns()
                 .WithColumn("Name").AsString().NotNullable()
                 .WithColumn("Description").AsString().NotNullable()

@@ -8,12 +8,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.Login);
+            Delete.Table(TableConstants.Logins);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.Login)
+            Create.Table(TableConstants.Logins)
                 .WithCommonColumns()
                 .WithColumn("UserId").AsInt32().NotNullable()
                 .WithColumn("LoginProvider").AsString().NotNullable()

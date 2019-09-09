@@ -13,7 +13,7 @@ namespace Domain.Framework.Constants
         public static string Jobs => "Jobs";
         public static string Users => "Users";
 
-        public static string Role => "Roles";
+        public static string Roles => "Roles";
         public static string Logins => "Logins";
     }
 }
