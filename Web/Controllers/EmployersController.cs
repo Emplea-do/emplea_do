@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    public class EmployersController : Controller
+    public class EmployersController : BaseController
     {
-        // GET: /<controller>/
         public IActionResult Index()
         {
             return View();

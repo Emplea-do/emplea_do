@@ -4,10 +4,11 @@ using AppServices;
 using AppServices.Services;
 using Web.ViewModels;
 using Domain;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
-    public class JobsController : Controller
+    public class JobsController : BaseController
     {
         private IJobsService _jobsService;
 
@@ -28,6 +29,11 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
+        [Authorize]
+        public IActionResult New()
+        {
+            return View();
+        }
 
         public IActionResult Details(string Id, bool isPreview)
         {

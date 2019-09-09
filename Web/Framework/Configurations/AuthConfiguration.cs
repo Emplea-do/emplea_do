@@ -10,7 +10,8 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-            services.AddAuthentication(options => {
+            services.AddAuthentication(options =>
+            {
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -20,7 +21,8 @@ namespace Web.Framework.Configurations
                 options.LogoutPath = "/account/logout";
                 options.SlidingExpiration = true;
             })
-            .AddGoogle(googleOptions => {
+            .AddGoogle(googleOptions =>
+            {
                 googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
                 googleOptions.ClientSecret = configuration["Authentication:Google:ClientSecret"];
                 googleOptions.UserInformationEndpoint = "https://www.googleapis.com/oauth2/v2/userinfo";
@@ -32,26 +34,29 @@ namespace Web.Framework.Configurations
                 googleOptions.ClaimActions.MapJsonKey("urn:google:profile", "link");
                 googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
                 googleOptions.SaveTokens = true;
-                googleOptions.CallbackPath = "/account/login";
+                googleOptions.CallbackPath = "/account/HandleExternalLogin";
             })
-            .AddFacebook(facebookOptions => {
+            .AddFacebook(facebookOptions =>
+            {
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.CallbackPath = "/account/login";
+                facebookOptions.CallbackPath = "/account/HandleExternalLogin";
             })
             .AddMicrosoftAccount(microsoftOptions => {
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                 microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
+                microsoftOptions.CallbackPath = "/account/HandleExternalLogin";
             })
             .AddLinkedIn(linkedinOptions => {
                 linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                 linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
+                linkedinOptions.CallbackPath = "/account/HandleExternalLogin";
             })
             .AddGitHub(githubOptions => {
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
-                githubOptions.CallbackPath = "/account/login";
                 githubOptions.Scope.Add("user:email");
+                githubOptions.CallbackPath = "/account/HandleExternalLogin";
             });
         }
         

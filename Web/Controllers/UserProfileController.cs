@@ -4,13 +4,13 @@ using Web.ViewModels;
 
 namespace Web.Controllers
 {
-    public class UserProfileController : Controller
+    public class UserProfileController : BaseController
     {
         private IJobsService _jobsService;
 
-        public UserProfileController()
+        public UserProfileController(IJobsService jobsService)
         {
-            _jobsService = new JobsService();
+            _jobsService = jobsService;
         }
 
         public IActionResult Index(int id)

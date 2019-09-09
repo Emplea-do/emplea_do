@@ -11,10 +11,14 @@ namespace Web.Controllers
     {
 
         [HttpGet("/Account/Login")]
-        public async Task<IActionResult> Login() => View("Login", await HttpContext.GetExternalProvidersAsync());
+        public async Task<IActionResult> Login(string returnUrl = "/")
+        {
+            ViewBag.ReturnUrl = returnUrl;
+            return View("Login", await HttpContext.GetExternalProvidersAsync());
+        }
 
-         [HttpPost("/Account/Login")]
-        public async Task<IActionResult> Login([FromForm] string provider)
+        [HttpPost("/Account/Login")]
+        public async Task<IActionResult> Login([FromForm] string provider, [FromForm] string returnUrl)
         {
             if (string.IsNullOrWhiteSpace(provider))
             {
@@ -29,9 +33,9 @@ namespace Web.Controllers
             // Instruct the middleware corresponding to the requested external identity
             // provider to redirect the user agent to its own authorization endpoint.
             // Note: the authenticationScheme parameter must match the value configured in Startup.cs
-            return Challenge(new AuthenticationProperties { RedirectUri = "/" }, provider);
+            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, provider);
         }
-
+        
         [HttpGet("/Account/Logout"), HttpPost("/Account/Logout")]
         public IActionResult LogOut()
         {
