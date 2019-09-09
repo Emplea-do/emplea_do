@@ -1,9 +1,11 @@
 ﻿using AppServices.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels;
 
 namespace Web.Controllers
 {
+    [Authorize]
     public class UserProfileController : BaseController
     {
         private IJobsService _jobsService;
@@ -13,9 +15,9 @@ namespace Web.Controllers
             _jobsService = jobsService;
         }
 
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
-            var filteredJobsByUserProfile = _jobsService.GetByUserProfile(id);
+            var filteredJobsByUserProfile = _jobsService.GetByUserProfile(_currentUser.Id);
             var viewModel = new UserProfileViewModel
             {
                 Jobs = filteredJobsByUserProfile
