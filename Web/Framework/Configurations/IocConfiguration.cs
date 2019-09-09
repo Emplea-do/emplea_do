@@ -1,12 +1,9 @@
-﻿using System;
-using AppServices.Services;
+﻿using AppServices.Services;
 using Data;
-using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
-
 namespace Web.Framework.Configurations
 {
     public static class IocConfiguration
@@ -28,6 +25,7 @@ namespace Web.Framework.Configurations
                 .WithScopedLifetime());
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
         }
 
     }

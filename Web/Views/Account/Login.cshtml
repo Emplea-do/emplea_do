@@ -1,6 +1,5 @@
+@using Microsoft.AspNetCore.Authentication
 
-@{
-}
     <div class="page-title-wrap pt-img-wrap" style="background:url(assets/img/bn-4.jpg) no-repeat;">
         <div class="container">
             <div class="col-lg-12 col-md-12">
@@ -17,38 +16,32 @@
             <div class="row justify-content-center">
 
                 <div class="col-lg-8 col-md-8 col-sm-12">
-                    <div class="modal-body">
-                        <div class="social-login">
-                 
-                            <ul class="social-connect-list">
-                                <li>
-                                    <a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Accede con Facebook</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn connect-github"><i class="ti-github"></i>Accede con Github</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn connect-linked"><i class="ti-linkedin"></i>Accede con Linkedin</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn connect-gplus"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" class="svg-inline--fa fa-google fa-w-16" style="width:13px; heigh:13px;margin-rigth:3px;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg> Accede con Google</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="btn connect-microsoft"><i class="ti-microsoft"></i>Accede con Microsoft</a>
-                                </li>
-                            </ul>
-    
-                        </div>
-
-
-                        
-                        </div>
-                    </div>
+                    <partial name="_partials/LoginForm" />
+                    @*<div class="social-login">
+            <form action="/account/login" method="post">
+                <input type="hidden" name="ReturnUrl" value="@ViewBag.ReturnUrl" />
+                <ul class="social-connect-list">
+                    <li>
+                        <button class="btn btn-block connect-fb" name="Provider" value="Facebook" type="submit"><i class="ti-facebook"></i>Accede con Facebook</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-block connect-github" name="Provider" value="GitHub" type="submit"><i class="ti-github"></i>Accede con Github</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-block connect-linked" name="Provider" value="LinkedIn" type="submit"><i class="ti-linkedin"></i>Accede con Linkedin</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-block connect-gplus" name="Provider" value="Google" type="submit"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" class="svg-inline--fa fa-google fa-w-16" style="width:13px; heigh:13px;margin-rigth:3px;" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512"><path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path></svg> Accede con Google</button>
+                    </li>
+                    <li>
+                        <button class="btn btn-block connect-microsoft" name="Provider" value="Microsoft" type="submit"><i class="ti-microsoft"></i>Accede con Microsoft</Button>
+                    </li>
+                </ul>
+            </form>
+        </div>*@
                 </div>
-
             </div>
-
-    
+        </div>
     </section>
     <div class="clearfix"></div>
     

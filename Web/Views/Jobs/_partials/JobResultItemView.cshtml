@@ -13,18 +13,13 @@
 
 <div class="job-new-list">
     <div class="vc-thumb">
-        <img class="img-fluid rounded-circle" src="@Model.Company.LogoUrl" alt="c2.jpg">
+        <a asp-controller="company" asp-action="index" asp-route-data="new { Model.Company.Id }">
+            <img class="img-fluid rounded-circle" src="@Model.Company.LogoUrl" alt="@Model.Company.Name">
+        </a>
     </div>
     <div class="vc-content">
         <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a><span class="j-full-time">Full Time</span></h5>
-        <p>Google Inc</p>
-        <div class="rating-review">
-            <i class="ti-star filled"></i>
-            <i class="ti-star filled"></i>
-            <i class="ti-star filled"></i>
-            <i class="ti-star filled"></i>
-            <i class="ti-star"></i>
-        </div>
+        <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
             <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
             <li class="list-inline-item"><h5>Status</h5>3 days ago</li>
@@ -36,5 +31,5 @@
             </li>
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Apply Now<i class="ti-arrow-right ml-1"></i></a>
+    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
 </div>

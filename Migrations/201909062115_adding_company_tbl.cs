@@ -22,8 +22,8 @@ namespace Migrations
                 .WithColumn("Name").AsString().NotNullable()
                 .WithColumn("Url").AsString().NotNullable()
                 .WithColumn("Email").AsString().NotNullable()
-                 .WithColumn("LogoUrl").AsString().NotNullable()
-                  .WithColumn("UserId").AsInt32().Nullable();
+                .WithColumn("LogoUrl").AsString().NotNullable()
+                .WithColumn("UserId").AsInt32().Nullable();
         }
     }
 }

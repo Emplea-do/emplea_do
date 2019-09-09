@@ -19,6 +19,8 @@
     </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
+    <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
@@ -31,17 +33,20 @@
   <ItemGroup>
     <Folder Include="Views\Jobs\" />
     <Folder Include="Framework\" />
-    <Folder Include="Views\Home\Partials\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="Views\Account\_partials\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
   </ItemGroup>
 </Project>

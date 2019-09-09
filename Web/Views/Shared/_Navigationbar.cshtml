@@ -15,7 +15,7 @@
                         </li>
 
                         <li class="nav-item">
-                            <a href="#" class="nav-link">Compañías</a>
+                            <a asp-controller="employers" asp-action="index" class="nav-link">Compañías</a>
                         </li>
 
                         <li class="nav-item">
@@ -25,7 +25,26 @@
                     </ul>
 
                     <div class="act-buttons">
-                        <a class="btn btn-info font-14" href="javascript:void(0)" data-toggle="modal" data-target="#login"><i class="ti-shift-right mr-2"></i>Publica un empleo</a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item dropdown">
+                                <a class="btn btn-info font-14" href="#"><i class="fa fa-user"></i> @Context.User.Identity.Name <i class="fa fa-angle-down m-l-5"></i></a>
+                                <ul class="b-none dropdown-menu font-14 animated fadeInUp">
+                                    <li><a class="dropdown-item" asp-controller="userprofile" asp-action="index">Mi Perfil</a></li>
+                                    <li><a class="dropdown-item" asp-controller="jobs" asp-action="new" >Publicar un empleo</a></li>
+                                    <li>
+                                        <div class="dropdown-divider"></div>
+                                    </li>
+                                    <li><a class="dropdown-item" asp-controller="account" asp-action="logout"><i class="fa fa-sign-out"></i> Cerrar sesión</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                        }
+                        else
+                        {
+                            <a class="btn btn-info font-14" asp-controller="jobs" asp-action="new"><i class="fa fa-sign-in"></i> Inicia sesión</a>
+                        }
                     </div>
 
                 </div>

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    public class CreditsController : Controller
+    public class CreditsController : BaseController
     {
 
         public IActionResult Index()
