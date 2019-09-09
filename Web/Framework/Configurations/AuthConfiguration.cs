@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Authentication.OAuth;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace Web.Framework.Configurations
@@ -68,15 +68,14 @@ namespace Web.Framework.Configurations
                 linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                 linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
                 linkedinOptions.Events = oauthEvents;
-            });
-
-            //TODO Include issue for github
-            /*.AddGitHub(githubOptions => {
+            })
+            .AddGitHub(githubOptions =>
+            {
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
                 githubOptions.Scope.Add("user:email");
                 githubOptions.CallbackPath = "/account/HandleExternalLogin";
-            });*/
+            });
         }
     }
 }
