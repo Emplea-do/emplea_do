@@ -4,16 +4,16 @@ namespace Domain.Framework.Constants
     public class TableConstants
     {
         public static string joelTest => "JoelTest";
-        public static string Permission => "Permission";
-        public static string Location => "Location";
+        public static string Permissions => "Permissions";
+        public static string Locations => "Locations";
 
-        public static string Category => "Category";
-        public static string Company => "Company";
-        public static string HireType => "HireType";
-        public static string Job => "Job";
+        public static string Categories => "Categories";
+        public static string Companies => "Companies";
+        public static string HireTypes => "HireTypes";
+        public static string Jobs => "Jobs";
         public static string Users => "Users";
 
-        public static string Role => "Role";
-        public static string Login => "Login";
+        public static string Role => "Roles";
+        public static string Logins => "Logins";
     }
 }

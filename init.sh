@@ -9,7 +9,13 @@ dotnet tool install -g Microsoft.Web.LibraryManager.Cli
 git update-index --assume-unchanged Web/appsettings.Development.json
 
 #Moves to web project
-
 cd Web/
 #Restore js dependencies
 libman restore
+
+cd ../Migrations
+dotnet restore Migrations.csproj
+dotnet build Migrations.csproj
+dotnet fm migrate -p sqlite -c "Data Source=../mydb.db" -a "bin/Debug/netcoreapp2.2/Migrations.dll"
+
+cd ../
