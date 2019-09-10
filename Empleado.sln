@@ -1,15 +1,18 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Web\Web.csproj", "{E6D0211E-B2F6-4A8A-A5B9-D3E569927886}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Web\Web.csproj", "{E6D0211E-B2F6-4A8A-A5B9-D3E569927886}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{1D0CA49A-07B9-47AB-A48D-413B26320652}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{1D0CA49A-07B9-47AB-A48D-413B26320652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppServices", "AppServices\AppServices.csproj", "{00998967-9074-45CE-9264-CE8A2A98B372}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppServices", "AppServices\AppServices.csproj", "{00998967-9074-45CE-9264-CE8A2A98B372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{EA8603D2-1428-4ABE-A5E5-5882F4AD6B7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{EA8603D2-1428-4ABE-A5E5-5882F4AD6B7E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Migrations", "Migrations\Migrations.csproj", "{AAED3C8C-0CD2-4199-8EBA-5BEFD09EDA32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrations", "Migrations\Migrations.csproj", "{AAED3C8C-0CD2-4199-8EBA-5BEFD09EDA32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{34E69831-9280-4D3B-ACA0-5D0A09AF7B85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Empleado.Unit.Tests", "Tests\Empleado.Unit.Tests\Empleado.Unit.Tests.csproj", "{23703171-B45F-4BC7-BEE0-B4C2FF999EBC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,5 +40,9 @@ Global
 		{AAED3C8C-0CD2-4199-8EBA-5BEFD09EDA32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAED3C8C-0CD2-4199-8EBA-5BEFD09EDA32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAED3C8C-0CD2-4199-8EBA-5BEFD09EDA32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23703171-B45F-4BC7-BEE0-B4C2FF999EBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23703171-B45F-4BC7-BEE0-B4C2FF999EBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23703171-B45F-4BC7-BEE0-B4C2FF999EBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23703171-B45F-4BC7-BEE0-B4C2FF999EBC}.Release|Any CPU.Build.0 = Release|Any CPU	
 	EndGlobalSection
 EndGlobal
