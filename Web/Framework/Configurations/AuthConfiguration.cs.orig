@@ -52,9 +52,17 @@ namespace Web.Framework.Configurations
             {
                 linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                 linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
+<<<<<<< HEAD
+                linkedinOptions.Events = oauthEvents;
             })
             .AddGitHub(githubOptions =>
             {
+=======
+            });
+
+            //TODO Include issue for github
+            /*.AddGitHub(githubOptions => {
+>>>>>>> Adding wizard for job creation
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
                 githubOptions.Scope.Add("user:email");

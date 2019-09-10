@@ -11,16 +11,20 @@ namespace Web.Controllers
     public class JobsController : BaseController
     {
         private IJobsService _jobsService;
+        private ICategoriesService _categoriesService;
+        private IHireTypesService _hiretypesService;
 
-        public JobsController(IJobsService jobsService)
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService)
         {
             _jobsService = jobsService;
+            _categoriesService = categoriesService;
+            _hiretypesService = hiretypesService;
         }
 
         public IActionResult Index(string keyword = "", bool isRemote = false)
         {
             var filteredJobs = _jobsService.GetAll();
-            var viewModel = new JobsViewModel
+            var viewModel = new JobSeachViewModel
             {
                 Keyword = keyword,
                 IsRemote = isRemote,
@@ -30,10 +34,29 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        public IActionResult New()
+        public IActionResult Wizard()
         {
-            return View();
+            var model = new WizardViewModel
+            {
+                Categories = _categoriesService.GetAll(),
+                JobTypes = _hiretypesService.GetAll()
+            };
+
+            return View(model);
         }
+
+        [Authorize]
+        [HttpPost]
+        public IActionResult Wizard(WizardViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+                return RedirectToAction("", "");
+            }
+            return View(model);
+        }
+
 
         public IActionResult Details(string Id, bool isPreview)
         {
@@ -54,7 +77,7 @@ namespace Web.Controllers
                 return RedirectToAction(nameof(this.Index));
             
             //If reach this line is because the job exists
-            var viewModel = new JobsViewModel
+            var viewModel = new JobDetailsViewModel
             {
                 Job = job
             };
