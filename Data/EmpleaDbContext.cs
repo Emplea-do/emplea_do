@@ -1,4 +1,6 @@
 ﻿using System;
+using Data.TableConfigurations;
+using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data
@@ -12,6 +14,7 @@ namespace Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(EmpleaDbContext).Assembly);
         }
     }
 }

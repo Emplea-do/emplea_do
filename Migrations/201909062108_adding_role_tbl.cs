@@ -10,12 +10,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.Role);
+            Delete.Table(TableConstants.Roles);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.Role)
+            Create.Table(TableConstants.Roles)
                 .WithCommonColumns()
                 .WithColumn("Name").AsString().NotNullable();
         }

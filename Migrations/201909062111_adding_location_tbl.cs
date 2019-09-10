@@ -9,12 +9,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.Location);
+            Delete.Table(TableConstants.Locations);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.Location)
+            Create.Table(TableConstants.Locations)
                 .WithCommonColumns()
                 .WithColumn("PlaceId").AsString().NotNullable()
                 .WithColumn("Name").AsString().NotNullable()

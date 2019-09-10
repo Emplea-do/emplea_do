@@ -9,15 +9,17 @@ namespace Web.Controllers
     public class UserProfileController : BaseController
     {
         private IJobsService _jobsService;
+        private IUsersService _usersService;
 
-        public UserProfileController(IJobsService jobsService)
+        public UserProfileController(IJobsService jobsService, IUsersService usersService)
         {
             _jobsService = jobsService;
+            _usersService = usersService;
         }
 
         public IActionResult Index()
         {
-            var filteredJobsByUserProfile = _jobsService.GetByUserProfile(_currentUser.UserId);
+            var filteredJobsByUserProfile = _jobsService.GetByUser(_currentUser.UserId);
             var viewModel = new UserProfileViewModel
             {
                 Jobs = filteredJobsByUserProfile

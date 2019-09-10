@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AppServices.Services;
 
 namespace Web.Framework.Configurations
 {
@@ -12,18 +13,6 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-            var oauthEvents = new OAuthEvents
-            {
-                OnTicketReceived = context =>
-                {
-                    //TODO
-                    //Look for the user in the database
-                    //If the user doesn't exist create it
-                    //if it exists put the userid in memory
-                    return Task.CompletedTask;
-                },
-            };
-
             services.AddAuthentication(options =>
             {
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -48,26 +37,21 @@ namespace Web.Framework.Configurations
                 googleOptions.ClaimActions.MapJsonKey("urn:google:profile", "link");
                 googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
                 googleOptions.SaveTokens = true;
-
-                googleOptions.Events = oauthEvents;
             })
             .AddFacebook(facebookOptions =>
             {
                 facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                 facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-                facebookOptions.Events = oauthEvents;
             })
             .AddMicrosoftAccount(microsoftOptions =>
             {
                 microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                 microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
-                microsoftOptions.Events = oauthEvents;
             })
             .AddLinkedIn(linkedinOptions =>
             {
                 linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                 linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
-                linkedinOptions.Events = oauthEvents;
             })
             .AddGitHub(githubOptions =>
             {

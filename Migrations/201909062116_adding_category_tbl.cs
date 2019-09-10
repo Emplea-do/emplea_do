@@ -9,12 +9,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.Category);
+            Delete.Table(TableConstants.Categories);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.Category)
+            Create.Table(TableConstants.Categories)
                 .WithCommonColumns()
                 .WithColumn("Name").AsInt32().NotNullable()
                 .WithColumn("Description").AsString().NotNullable();

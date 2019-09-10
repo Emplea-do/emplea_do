@@ -6,8 +6,10 @@ namespace AppServices.Framework
     public class TaskResult
     {
         private bool _success;
+        public bool Success { get { return _success; } }
 
         private List<string> _messages;
+        public string Messages { get { return string.Join(", ", _messages); } }
 
         public TaskResult()
         {
@@ -15,7 +17,6 @@ namespace AppServices.Framework
             _messages = new List<string>();
         }
 
-        public bool Success { get { return _success; } }
 
         public void AddErrorMessage(string message)
         {
@@ -27,5 +28,10 @@ namespace AppServices.Framework
         {
             _messages.Add(message);
         }
+    }
+
+    public class TaskResult<T> : TaskResult
+    {
+        public T Data { get; set; }
     }
 }

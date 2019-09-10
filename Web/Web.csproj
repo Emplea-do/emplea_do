@@ -40,6 +40,8 @@
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
     <Folder Include="Views\Account\_partials\" />
+    <Folder Include="wwwroot\js\jobs\" />
+    <Folder Include="wwwroot\css\jobs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

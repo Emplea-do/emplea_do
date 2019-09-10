@@ -119,10 +119,6 @@ namespace Data.Repositories
             Update(entity);
         }
 
-        public virtual void Delete(T entity) => Database.Set<T>().Remove(entity);
-
-        public virtual void Delete(int id) => Delete(GetById(id));
-
         public virtual int Count() => Database.Set<T>().Count();
     }
 
@@ -138,8 +134,6 @@ namespace Data.Repositories
         T Update(T entity);
         T Update(T entity, int id);
         void SoftDelete(int id);
-        void Delete(T entity);
-        void Delete(int id);
         int Count();
     }
 }

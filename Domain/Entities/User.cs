@@ -10,7 +10,7 @@ namespace Domain.Entities
 
         public string Email { get; set; }
 
-        public string Salt { get; set; }
+        public string Name { get; set; }
 
         public IList<Job> Jobs { get; set; }
         public IList<Company> Companies { get; set; }
