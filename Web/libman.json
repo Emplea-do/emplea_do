@@ -17,6 +17,10 @@
     {
       "library": "twitter-bootstrap@4.0.0-beta",
       "destination": "wwwroot\\lib\\bootstrap"
+    },
+    {
+      "library": "aos@2.3.4",
+      "destination": "wwwroot\\lib\\aos"
     }
   ]
 }
