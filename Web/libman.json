@@ -37,6 +37,10 @@
     {
       "library": "bootstrap-datepicker@1.6.4",
       "destination": "wwwroot\\lib\\bootstrap-datepicker"
+    },
+    {
+      "library": "jquery.isotope@3.0.5",
+      "destination": "wwwroot\\lib\\jquery.isotope"
     }
   ]
 }
