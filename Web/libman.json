@@ -45,6 +45,14 @@
     {
       "library": "summernote@0.8.11",
       "destination": "wwwroot\\lib\\summernote"
+    },
+    {
+      "provider": "filesystem",
+      "library": "wwwroot/js/",
+      "destination": "wwwroot/lib/owlcarousel",
+      "files": [
+        "owl.carousel.min.js"
+      ]
     }
   ]
 }
