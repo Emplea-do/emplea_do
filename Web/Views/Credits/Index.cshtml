@@ -11,7 +11,6 @@
                 </div>
             </div>
             <div class="row" id="newContributorsList">
-
             </div>
         </div>
     </section>
@@ -25,15 +24,13 @@
                 </div>
             </div>
             <div class="row" id="contributorsList">
-
             </div>
         </div>
     </section>
-
 </div>
 @section scripts
-    {
-    <script src="~/lib/mustache.js"></script>
+{
+    <script src="~/lib/mustache.js/mustache.min.js"></script>
     <script id="contributorTemplate" type="x-tmpl-mustache">
         {{#data }}
         <div class="col-lg-3 col-md-3 col-sm-6">
@@ -48,13 +45,13 @@
                     <div class="candidate-detail">
                     </div>
                 </div>
-
             </div>
         </div>
         {{/data}}
     </script>
 
-    <script type="text/javascript">$(document).ready(function () {
+    <script type="text/javascript">
+        $(document).ready(function () {
             function sortByContributions(a, b) {
                 return ((a.contributions > b.contributions) ? -1 : ((a.contributions < b.contributions) ? 1 : 0));
             }
