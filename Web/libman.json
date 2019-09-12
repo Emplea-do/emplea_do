@@ -29,6 +29,10 @@
     {
       "library": "Counter-Up@1.0.0",
       "destination": "wwwroot\\lib\\Counter-Up"
+    },
+    {
+      "library": "slick-carousel@1.6.0",
+      "destination": "wwwroot\\lib\\slick-carousel"
     }
   ]
 }
