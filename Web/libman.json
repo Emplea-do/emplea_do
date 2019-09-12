@@ -49,19 +49,11 @@
     {
       "provider": "filesystem",
       "library": "wwwroot/js/",
-      "destination": "wwwroot/lib/owlcarousel",
+      "destination": "wwwroot/lib/local",
       "files": [
+        "select2.min.js",
         "owl.carousel.min.js"
       ]
     }
-  ,
-{
-  "provider": "filesystem",
-  "library": "wwwroot/js/",
-  "destination": "wwwroot/lib/select2",
-  "files": [
-    "select2.min.js"
   ]
-}
-]
 }
