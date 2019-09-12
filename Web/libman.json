@@ -13,6 +13,10 @@
     {
       "library": "popper.js@1.15.0",
       "destination": "wwwroot\\lib\\popper.js"
+    },
+    {
+      "library": "twitter-bootstrap@4.0.0-beta",
+      "destination": "wwwroot\\lib\\bootstrap"
     }
   ]
 }
