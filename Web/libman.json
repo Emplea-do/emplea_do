@@ -41,6 +41,10 @@
     {
       "library": "jquery.isotope@3.0.5",
       "destination": "wwwroot\\lib\\jquery.isotope"
+    },
+    {
+      "library": "summernote@0.8.11",
+      "destination": "wwwroot\\lib\\summernote"
     }
   ]
 }
