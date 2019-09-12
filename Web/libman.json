@@ -9,6 +9,10 @@
     {
       "library": "jquery@2.1.4",
       "destination": "wwwroot\\lib\\jquery"
+    },
+    {
+      "library": "popper.js@1.15.0",
+      "destination": "wwwroot\\lib\\popper.js"
     }
   ]
 }
