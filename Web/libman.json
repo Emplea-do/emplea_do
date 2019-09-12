@@ -21,6 +21,10 @@
     {
       "library": "aos@2.3.4",
       "destination": "wwwroot\\lib\\aos"
+    },
+    {
+      "library": "jquery.perfect-scrollbar@0.8.1",
+      "destination": "wwwroot\\lib\\jquery.perfect-scrollbar"
     }
   ]
 }
