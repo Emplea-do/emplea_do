@@ -5,6 +5,10 @@
     {
       "library": "mustache.js@3.0.3",
       "destination": "wwwroot\\lib\\mustache.js"
+    },
+    {
+      "library": "jquery@2.1.4",
+      "destination": "wwwroot\\lib\\jquery"
     }
   ]
 }
