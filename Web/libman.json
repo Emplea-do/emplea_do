@@ -25,6 +25,10 @@
     {
       "library": "jquery.perfect-scrollbar@0.8.1",
       "destination": "wwwroot\\lib\\jquery.perfect-scrollbar"
+    },
+    {
+      "library": "Counter-Up@1.0.0",
+      "destination": "wwwroot\\lib\\Counter-Up"
     }
   ]
 }
