@@ -4,8 +4,7 @@
   "libraries": [
     {
       "library": "mustache.js@3.0.3",
-      "destination": "wwwroot/lib/",
-        "files": [ "mustache.js" ]
+      "destination": "wwwroot\\lib\\mustache.js"
     }
   ]
 }
