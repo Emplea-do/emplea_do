@@ -33,6 +33,10 @@
     {
       "library": "slick-carousel@1.6.0",
       "destination": "wwwroot\\lib\\slick-carousel"
+    },
+    {
+      "library": "bootstrap-datepicker@1.6.4",
+      "destination": "wwwroot\\lib\\bootstrap-datepicker"
     }
   ]
 }
