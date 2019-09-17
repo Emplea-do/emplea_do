@@ -4,56 +4,59 @@
   "libraries": [
     {
       "library": "mustache.js@3.0.3",
-      "destination": "wwwroot\\lib\\mustache.js"
+      "destination": "wwwroot/lib/mustache",
+      "files": ["mustache.min.js"]
     },
     {
       "library": "jquery@2.1.4",
-      "destination": "wwwroot\\lib\\jquery"
+      "destination": "wwwroot/lib/jquery",
+      "files": ["jquery.min.js"]  
     },
     {
       "library": "popper.js@1.15.0",
-      "destination": "wwwroot\\lib\\popper.js"
+      "destination": "wwwroot/lib/popper.js"
     },
     {
       "library": "twitter-bootstrap@4.0.0-beta",
-      "destination": "wwwroot\\lib\\bootstrap"
+      "destination": "wwwroot/lib/bootstrap"
     },
     {
       "library": "aos@2.3.4",
-      "destination": "wwwroot\\lib\\aos"
+      "destination": "wwwroot/lib/aos"
     },
     {
       "library": "jquery.perfect-scrollbar@0.8.1",
-      "destination": "wwwroot\\lib\\jquery.perfect-scrollbar"
+      "destination": "wwwroot/lib/jquery.perfect-scrollbar"
     },
     {
       "library": "Counter-Up@1.0.0",
-      "destination": "wwwroot\\lib\\Counter-Up"
+      "destination": "wwwroot/lib/Counter-Up"
     },
     {
       "library": "slick-carousel@1.6.0",
-      "destination": "wwwroot\\lib\\slick-carousel"
+      "destination": "wwwroot/lib/slick-carousel"
     },
     {
       "library": "bootstrap-datepicker@1.6.4",
-      "destination": "wwwroot\\lib\\bootstrap-datepicker"
+      "destination": "wwwroot/lib/bootstrap-datepicker"
     },
     {
       "library": "jquery.isotope@3.0.5",
-      "destination": "wwwroot\\lib\\jquery.isotope"
+      "destination": "wwwroot/lib/jquery.isotope"
     },
     {
       "library": "summernote@0.8.11",
-      "destination": "wwwroot\\lib\\summernote"
+      "destination": "wwwroot/lib/summernote"
     },
     {
-      "provider": "filesystem",
-      "library": "wwwroot/js/",
-      "destination": "wwwroot/lib/local",
-      "files": [
-        "select2.min.js",
-        "owl.carousel.min.js"
-      ]
+      "provider": "unpkg",
+      "library": "select2@4.0.6-rc.1",
+      "destination": "wwwroot/lib/select2"
+    },
+    {
+      "provider": "unpkg",
+      "library": "owl.carousel@v2.3.4",
+      "destination": "wwwroot/lib/owl"
     }
   ]
 }
