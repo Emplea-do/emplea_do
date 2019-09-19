@@ -16,7 +16,7 @@ namespace Migrations
         {
             Create.Table(TableConstants.Categories)
                 .WithCommonColumns()
-                .WithColumn("Name").AsInt32().NotNullable()
+                .WithColumn("Name").AsString().NotNullable()
                 .WithColumn("Description").AsString().NotNullable();
         }
     }
