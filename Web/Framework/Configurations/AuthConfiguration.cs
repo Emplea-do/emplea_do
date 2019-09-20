@@ -58,7 +58,6 @@ namespace Web.Framework.Configurations
                 githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
                 githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
                 githubOptions.Scope.Add("user:email");
-                githubOptions.CallbackPath = "/account/HandleExternalLogin";
             });
         }
     }
