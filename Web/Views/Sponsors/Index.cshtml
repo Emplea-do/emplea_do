@@ -22,13 +22,14 @@
                     <h3>Patrocinadores</h3>
                     <p>
                         <span id="organizationCount"></span> organizaciones y <span id="usersCount"></span> personas nos están apoyando.
-                        Forma parte,<a class="highlighted-link" href="https://opencollective.com/emplea_do" target="_blank"> haz click aqui.</a>
+                        Forma parte, <a class="highlighted-link" href="https://opencollective.com/emplea_do" target="_blank">haz click aqui!</a>
                     </p>
                 </div>
             </div>
             <div class="row" id="organizationsList">
 
             </div>
+            <br />
             <div class="row" id="backersList">
 
             </div>
@@ -43,15 +44,15 @@
         {{#data }}
         <div class="col-lg-3 col-md-3 col-sm-6">
             <div class="candidate-grid style-1">
-                <div class="candidate-wrap">
+                <div class="candidate-wrap"> 
                     <div class="candidate-thumb">
                         <a href="{{profile}}" target="_blank"><img src="{{image}}" class="img-fluid mx-auto circle" alt=""></a>
                     </div>
                     <h4 class="candidate-name"><a href="{{profile}}" target="_blank">{{name}}</a></h4>
-                    <p>{{company}}</p>
+                    <p>&nbsp;{{company}}&nbsp;</p>
                     <hr>
                     <div>
-                        <h6>{{tier}}</h6>
+                        <h6>&nbsp;{{tier}}&nbsp;</h6>
                         <h6>Desde {{#formatDate}}{{createdAt}}{{/formatDate}}</h6>
                     </div>
                 </div>
@@ -63,11 +64,11 @@
     <script id="sponsorsUsersTemplate" type="x-tmpl-mustache">
         {{#data }}
         <div class="col-lg-3 col-md-3 col-sm-6">
-            <div class="verticle-candidate-list">
+            <div class="small-category-2">
                 <div class="small-category-2-thumb">
                     <a href="{{profile}}" target="_blank"><img src="{{image}}" class="img-fluid mx-auto circle" alt=""></a>
                 </div>
-                <div class="vc-content">
+                <div class="sc-2-detail">
                     <h5 class="title"><a href="{{profile}}" target="_blank">{{name}}</a></h5>
                     <p>
                         {{tier}} desde {{#formatDate}}{{createdAt}}{{/formatDate}}
@@ -81,7 +82,7 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            $.getJSON("https://opencollective.com/emplea_do/members/organizations.json", function (data) {
+            $.getJSON("/sponsors/GetOpenCollective?members=organizations.json", function (data) {
 
                 var filteredData = data.filter(({ role }) => role.toUpperCase() === 'BACKER');
                 $('#organizationCount').text(filteredData.length);
@@ -99,7 +100,7 @@
                 $('#organizationsList').html(rendered);
             });
 
-            $.getJSON("https://opencollective.com/emplea_do/members/users.json", function (data) {
+            $.getJSON("/sponsors/GetOpenCollective?members=users.json", function (data) {
 
                 var filteredTeamData = data.filter(({ role }) => role.toUpperCase() === 'ADMIN');
                 var filteredBackersData = data.filter(({ role }) => role.toUpperCase() === 'BACKER');
