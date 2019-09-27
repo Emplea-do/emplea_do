@@ -21,6 +21,7 @@
 
     <link href="~/css/plugins.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
+    <link href="~/css/slick-theme.css" rel="stylesheet">
     <link href="~/css/custom.css" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
@@ -40,126 +41,6 @@
         <!-- ============================ Footer Start ================================== -->
         <partial name="_Footer" />
         <!-- ============================ Footer End ================================== -->
-        <!-- Log In Modal -->
-        <div class="modal fade" id="login" tabindex="-1" role="dialog" aria-labelledby="registermodal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
-                <div class="modal-content" id="registermodal">
-                    <div class="modal-header">
-                        <div class="logo-thumb">
-                            <img src="~/img/logo-light.png" class="img-fluid" alt="" />
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="ti-close"></i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <h4 class="modal-header-title">Welcome <span>Back</span></h4>
-                        <div class="social-login">
-                            <ul>
-                                <li><a href="#" class="btn connect-fb"><i class="ti-facebook"></i>Login with Facebook</a></li>
-                                <li><a href="#" class="btn connect-linked"><i class="ti-linkedin"></i>Login with Linkedin</a></li>
-                            </ul>
-                        </div>
-                        <div class="login-form">
-                            <form>
-
-                                <div class="form-group">
-                                    <label>User Name</label>
-                                    <div class="input-with-icon">
-                                        <input type="text" class="form-control" placeholder="Username">
-                                        <i class="ti-user"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <div class="input-with-icon">
-                                        <input type="password" class="form-control" placeholder="*******">
-                                        <i class="ti-unlock"></i>
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-md full-width pop-login">Login</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="mf-link"><i class="ti-user"></i>Haven't An Account?<a href="javascript:void(0)" data-toggle="modal" data-target="#signup" data-dismiss="modal"> Sign Up</a></div>
-                        <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal -->
-        <!-- Sign Up Modal -->
-        <div class="modal fade" id="signup" tabindex="-1" role="dialog" aria-labelledby="sign-up" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered login-pop-form" role="document">
-                <div class="modal-content" id="sign-up">
-                    <div class="modal-header">
-                        <div class="logo-thumb">
-                            <img src="~/img/logo-light.png" class="img-fluid" alt="" />
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true"><i class="ti-close"></i></span>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="modal-body">
-                        <h4 class="modal-header-title">Welcome <span>Back</span></h4>
-                        <div class="social-login">
-                            <ul>
-                                <li><a href="#" class="btn btn-outline-success"><i class="ti-facebook"></i>SignUp with Facebook</a></li>
-                                <li><a href="#" class="btn btn-outline-warning"><i class="ti-linkedin"></i>SignUp with Linkedin</a></li>
-                            </ul>
-                        </div>
-                        <div class="login-form">
-                            <form>
-
-                                <div class="form-group">
-                                    <label>Full Name</label>
-                                    <input type="text" class="form-control" placeholder="Full Name">
-                                </div>
-                                <div class="form-group">
-                                    <label>Email</label>
-                                    <input type="text" class="form-control" placeholder="Email">
-                                </div>
-                                <div class="form-group">
-                                    <label>User Name</label>
-                                    <input type="text" class="form-control" placeholder="Username">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Password</label>
-                                    <input type="password" class="form-control" placeholder="*******">
-                                </div>
-
-                                <div class="form-group">
-                                    <label>SignUp As</label>
-                                    <select id="signupas" class="form-control">
-                                        <option value="">&nbsp;</option>
-                                        <option value="1">As Candidate</option>
-                                        <option value="2">As Employer</option>
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-primary btn-md full-width pop-login">Create Account</button>
-                                </div>
-
-                            </form>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <div class="mf-link"><i class="ti-user"></i>Have An Account?<a href="javascript:void(0)" data-toggle="modal" data-target="#login" data-dismiss="modal"> Log In</a></div>
-                        <div class="mf-forget"><a href="#"><i class="ti-help"></i>Forget Password</a></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal -->
-
 
     </div>
 

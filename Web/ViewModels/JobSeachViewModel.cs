@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Domain;
 using Domain.Entities;
 
 namespace Web.ViewModels
 {
-    public class JobsViewModel : BaseViewModel
+    public class JobSeachViewModel
     {
         public string Keyword { get; set; }
 

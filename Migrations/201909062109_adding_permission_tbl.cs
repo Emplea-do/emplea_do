@@ -12,12 +12,12 @@ namespace Migrations
     {
         public override void Down()
         {
-            Delete.Table(TableConstants.Permission);
+            Delete.Table(TableConstants.Permissions);
         }
 
         public override void Up()
         {
-            Create.Table(TableConstants.Permission)
+            Create.Table(TableConstants.Permissions)
                 .WithCommonColumns()
                 .WithColumn("Name").AsString().NotNullable();
         }

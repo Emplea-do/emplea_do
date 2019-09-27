@@ -19,6 +19,7 @@ namespace Migrations.Framework
         public static ICreateTableColumnOptionOrWithColumnSyntax WithCommonColumns(this ICreateTableWithColumnSyntax tableWithColumnSyntax)
         {
             return tableWithColumnSyntax
+                .WithIdColumn()
                 .WithColumn("DeletedAt").AsDateTime().Nullable()
                 .WithColumn("IsActive").AsBoolean().NotNullable().WithDefaultValue(true)
                 .WithColumn("CreatedAt").AsDateTime().NotNullable().WithDefault(SystemMethods.CurrentUTCDateTime)

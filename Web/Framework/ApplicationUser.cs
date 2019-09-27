@@ -14,9 +14,11 @@ namespace Web.Framework
         {
             _user = user;
         }
-        public string Id { get { return _user.FindFirst("Id").Value; } }
-        public int RawId { get { return Convert.ToInt32(_user.FindFirst("Id").Value); } }
-        public string Email { get { return _user.FindFirst("Email").Value; } }
+
+        public int UserId { get { return Int32.Parse(_user.FindFirst("UserId")?.Value??"0");  } }
+        public string SocialId { get { return _user.FindFirst(ClaimTypes.NameIdentifier).Value; } }
+        public string Email { get { return _user.FindFirst(ClaimTypes.Email).Value; } }
+        public string Name { get { return _user.FindFirst(ClaimTypes.Name).Value; } }
 
     }
 }

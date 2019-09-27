@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Domain.Framework.Constants
 {
-    public class CategoryConstants
+    public static class CategoryConstants
     {
         public const int None = 0;
 

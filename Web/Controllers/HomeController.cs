@@ -10,18 +10,20 @@ using Web.ViewModels;
 
 namespace Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private IJobsService _jobsService;
 
-        public HomeController()
+        public HomeController(IJobsService jobsService)
         {
-            _jobsService = new JobsService();
+            _jobsService = jobsService;
         }
 
         public IActionResult Index()
         {
             var recentJobs = _jobsService.GetRecentJobs();
+
+            var x = _currentUser;
             var viewModel = new HomeViewModel
             {
                 Jobs = recentJobs

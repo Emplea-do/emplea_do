@@ -1,8 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <UserSecretsId>79a3edd0-2092-40a2-a04d-dcb46d5ca9ed</UserSecretsId>
   </PropertyGroup>
 
 
@@ -19,11 +20,15 @@
     </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
+    <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App">
       <PrivateAssets Condition="'%(PackageReference.Version)' == ''">all</PrivateAssets>
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="2.0.0-preview-009470001-12" />
+    <PackageReference Include="Microsoft.FeatureManagement" Version="1.0.0-preview-009000001-1251" />
     <PackageReference Include="Scrutor" Version="3.1.0" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.113" />
   </ItemGroup>
@@ -31,17 +36,22 @@
   <ItemGroup>
     <Folder Include="Views\Jobs\" />
     <Folder Include="Framework\" />
-    <Folder Include="Views\Home\Partials\" />
     <Folder Include="ViewModels\" />
     <Folder Include="Framework\Extensions\" />
     <Folder Include="Views\Credits\" />
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="Views\Account\_partials\" />
+    <Folder Include="wwwroot\js\jobs\" />
+    <Folder Include="wwwroot\css\jobs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
     <ProjectReference Include="..\AppServices\AppServices.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
   </ItemGroup>
 </Project>
