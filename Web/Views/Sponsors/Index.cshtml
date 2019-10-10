@@ -1,0 +1,149 @@
+﻿@{
+    ViewBag.Title = "Patrocinadores";
+}
+<div class="inner-bg">
+    <section>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h3>Equipo</h3>
+                    <p>Conoce a las personas que están uniendo a la comunidad! 🙌</p>
+                </div>
+            </div>
+            <div class="row" id="teamList">
+
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h3>Patrocinadores</h3>
+                    <p>
+                        <span id="organizationCount"></span> organizaciones y <span id="usersCount"></span> personas nos están apoyando.
+                        Forma parte, <a class="highlighted-link" href="https://opencollective.com/emplea_do" target="_blank">haz click aqui!</a>
+                    </p>
+                </div>
+            </div>
+            <div class="row" id="organizationsList">
+
+            </div>
+            <br />
+            <div class="row" id="backersList">
+
+            </div>
+        </div>
+    </section>
+</div>
+@section scripts
+    {
+    <script src="~/lib/mustache.js"></script>
+
+    <script id="sponsorsOrganizationTemplate" type="x-tmpl-mustache">
+        {{#data }}
+        <div class="col-lg-3 col-md-3 col-sm-6">
+            <div class="candidate-grid style-1">
+                <div class="candidate-wrap"> 
+                    <div class="candidate-thumb">
+                        <a href="{{profile}}" target="_blank"><img src="{{image}}" class="img-fluid mx-auto circle" alt=""></a>
+                    </div>
+                    <h4 class="candidate-name"><a href="{{profile}}" target="_blank">{{name}}</a></h4>
+                    <p>&nbsp;{{company}}&nbsp;</p>
+                    <hr>
+                    <div>
+                        <h6>&nbsp;{{tier}}&nbsp;</h6>
+                        <h6>Desde {{#formatDate}}{{createdAt}}{{/formatDate}}</h6>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        {{/data}}
+    </script>
+    <script id="sponsorsUsersTemplate" type="x-tmpl-mustache">
+        {{#data }}
+        <div class="col-lg-3 col-md-3 col-sm-6">
+            <div class="small-category-2">
+                <div class="small-category-2-thumb">
+                    <a href="{{profile}}" target="_blank"><img src="{{image}}" class="img-fluid mx-auto circle" alt=""></a>
+                </div>
+                <div class="sc-2-detail">
+                    <h5 class="title"><a href="{{profile}}" target="_blank">{{name}}</a></h5>
+                    <p>
+                        {{tier}} desde {{#formatDate}}{{createdAt}}{{/formatDate}}
+                    </p>
+                </div>
+            </div>
+        </div>
+        {{/data}}
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $.getJSON("/sponsors/GetOpenCollective?members=organizations.json", function (data) {
+
+                var filteredData = data.filter(({ role }) => role.toUpperCase() === 'BACKER');
+                $('#organizationCount').text(filteredData.length);
+
+                var template = $('#sponsorsOrganizationTemplate').html();
+                Mustache.parse(template);
+                var rendered = Mustache.render(template, {
+                    "data": filteredData,
+                    "formatDate": function () {
+                        return function (text, render) {
+                            return formatDate(text, render);
+                        }
+                    }
+                });
+                $('#organizationsList').html(rendered);
+            });
+
+            $.getJSON("/sponsors/GetOpenCollective?members=users.json", function (data) {
+
+                var filteredTeamData = data.filter(({ role }) => role.toUpperCase() === 'ADMIN');
+                var filteredBackersData = data.filter(({ role }) => role.toUpperCase() === 'BACKER');
+
+                $('#usersCount').text(filteredBackersData.length);
+
+                var templateTeam = $('#sponsorsOrganizationTemplate').html();
+                var renderedTeam = Mustache.render(templateTeam, {
+                    "data": filteredTeamData,
+                    "formatDate": function () {
+                        return function (text, render) {
+                            return formatDate(text, render);
+                        }
+                    }
+                });
+                $('#teamList').html(renderedTeam);
+
+                var templateBackers = $('#sponsorsUsersTemplate').html();
+                var renderedBackers = Mustache.render(templateBackers, {
+                    "data": filteredBackersData,
+                    "formatDate": function () {
+                        return function (text, render) {
+                            return formatDate(text, render);
+                        }
+                    }
+                });
+                $('#backersList').html(renderedBackers);
+            });
+
+            function formatDate(text, render) {
+                var date = new Date(render(text));
+                var monthNames = [
+                    "Enero", "Febrero", "Marzo",
+                    "Abril", "Mayo", "Junio", "Julio",
+                    "Agosto", "Septiembre", "Octubre",
+                    "Noviembre", "Diciembre"
+                ];
+
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                return monthNames[monthIndex] + ' ' + year;
+            }
+
+        });</script>
+}
