@@ -61,12 +61,6 @@
             "library": "select2@4.0.6-rc.1",
             "destination": "wwwroot/lib/select2",
             "files": ["dist/js/select2.min.js"]
-        },
-        {
-            "provider": "unpkg",
-            "library": "owl.carousel@v2.3.4",
-            "destination": "wwwroot/lib/owl",
-            "files": ["dist/owl.carousel.min.js"]
         }
     ]
 }
