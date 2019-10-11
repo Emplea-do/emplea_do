@@ -13,8 +13,7 @@
         },
         {
             "library": "popper.js@1.15.0",
-            "destination": "wwwroot/lib/popper.js",
-            "files": ["popper.min.js"]
+            "destination": "wwwroot/lib/popperjs"
         },
         {
             "library": "twitter-bootstrap@4.0.0-beta",
@@ -23,8 +22,7 @@
         },
         {
             "library": "aos@2.3.4",
-            "destination": "wwwroot/lib/aos",
-            "files": ["aos.js"]
+            "destination": "wwwroot/lib/aos"
         },
         {
             "library": "jquery.perfect-scrollbar@0.8.1",
