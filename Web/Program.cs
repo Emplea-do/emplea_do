@@ -28,8 +28,6 @@ namespace Web
                 HostingEnvironment = hostingContext.HostingEnvironment;
                 if(hostingContext.HostingEnvironment.IsDevelopment())
                 {
-                    // For Development, the already configured provider(s) for App Settings are:
-                    // (1) Appsettings.json files and (2) secure secrets (secrets.json) 
                 }
 
                 if (hostingContext.HostingEnvironment.IsProduction())

@@ -8,16 +8,6 @@
 
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <CustomCommands>
-      <CustomCommands>
-        <Command>
-          <type>BeforeBuild</type>
-          <command>libman restore</command>
-          <workingdir>${ProjectDir}</workingdir>
-          <externalConsole>True</externalConsole>
-        </Command>
-      </CustomCommands>
-    </CustomCommands>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="2.1.0" />
@@ -46,6 +36,7 @@
     <Folder Include="Views\Account\_partials\" />
     <Folder Include="wwwroot\js\jobs\" />
     <Folder Include="wwwroot\css\jobs\" />
+    <Folder Include="wwwroot\lib\bootstrap\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

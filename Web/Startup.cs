@@ -39,7 +39,7 @@ namespace Web
 
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
-            services.AddFeatureManagement();
+            services.AddFeatureManagement(Configuration.GetSection("FeatureFlags"));
 
             if (Program.HostingEnvironment.IsDevelopment ())
             {
