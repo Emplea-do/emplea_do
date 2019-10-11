@@ -11,7 +11,7 @@
     @{
         var ogTitle = String.IsNullOrWhiteSpace(@ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
         var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La manera más fácil de encontrar un empleo en el área de tecnología." : ViewBag.Description;
-        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? new Uri(Context.Request.Host.ToUriComponent() + "/images/logo.png") : ViewBag.ImageUrl;
+        /*var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? Context.Request.Host.ToUriComponent() + "/images/logo.png" : ViewBag.ImageUrl;*/
     }
     <meta property="og:title" content="@ogTitle">
     <meta property="og:description" content="@ogDescription">
