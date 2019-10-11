@@ -7,11 +7,11 @@
             <div class="tr-list-wrap">
                 <div class="tr-list-detail">
                     <div class="tr-list-thumb">
-                        <img src="https://via.placeholder.com/150x150" class="img-responsive" alt="" />
+                        <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
                     </div>
                     <div class="tr-list-info">
-                        <h4 class="mb-1">Software Develpement</h4>
-                        <h6 class="font-14"><a href="company-detail.html" class="text-warning">Solo Info</a></h6>
+                        <h4 class="mb-1">@Model.Job.Title</h4>
+                        <h6 class="font-14"><a href="@Model.Job.Company.Url" class="text-warning">@Model.Job.Company.Name</a></h6>
                         <p class="mb-1"><i class="ti-location-pin mr-2"></i>Blick Market, USA</p>
                     </div>
                 </div>
@@ -49,8 +49,10 @@
                         <h4><i class="ti-info"></i>Job Overview</h4>
                     </div>
                     <div class="tr-single-body">
-                        <p>We are seeking an experienced Wordpress developer with minimum 2+ years of experiencea WordPress Developer responsible for both back-end and front-end development, including creating WordPress themes and plugins. This position requires a combination of programming skills (namely PHP, HTML5, CSS3, and JavaScript) and aesthetics (understanding element arrangements on the screen, the color and font choices, and so on). The candidate should have a strong understanding of industry trends and content management systems.</p>
-                        <p> Experience with the responsive and adaptive design is strongly preferred. Also, an understanding of the entire web development process, including design, development, and deployment is preferred.</p>
+                        @*  <p>We are seeking an experienced Wordpress developer with minimum 2+ years of experiencea WordPress Developer responsible for both back-end and front-end development, including creating WordPress themes and plugins. This position requires a combination of programming skills (namely PHP, HTML5, CSS3, and JavaScript) and aesthetics (understanding element arrangements on the screen, the color and font choices, and so on). The candidate should have a strong understanding of industry trends and content management systems.</p>
+        <p> Experience with the responsive and adaptive design is strongly preferred. Also, an understanding of the entire web development process, including design, development, and deployment is preferred.</p>
+                        *@
+                        <p>@Model.Job.Description</p>
                     </div>
                 </div>
 

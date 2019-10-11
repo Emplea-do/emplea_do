@@ -62,7 +62,6 @@ namespace Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
             }
             else
             {
@@ -77,8 +76,6 @@ namespace Web
                 app.UseAzureAppConfiguration();
 
             }
-            else
-
                
             app.UseStaticFiles();
             app.UseCookiePolicy();
