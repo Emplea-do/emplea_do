@@ -1,7 +1,5 @@
-﻿using System;
-using Data.TableConfigurations;
-using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace Data
 {

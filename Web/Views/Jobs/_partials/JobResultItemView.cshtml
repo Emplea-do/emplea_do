@@ -3,7 +3,7 @@
 *@
 @{ 
     //Fake User for test
-    var User = new { Identity = new { UserId = 10 } };
+    var User = new { Identity = new { UserId = -1, Name="Claudio", Email="claudio@megsoft.io"} };
 
     bool isPreview = User != null ?  User.Identity.UserId.Equals(Model.UserId) && !Model.Approved : false;
 
@@ -21,7 +21,7 @@
         <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a><span class="j-full-time">Full Time</span></h5>
         <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
-            <li class="list-inline-item"><h5>Sallery</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
+            <li class="list-inline-item"><h5>Salary</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
             <li class="list-inline-item"><h5>Status</h5>3 days ago</li>
             <li class="list-inline-item">
                 <h5>Skills</h5>

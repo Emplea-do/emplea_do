@@ -153,15 +153,20 @@ public override List<Job> GetAll()
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var job = _mainRepository.Get(j => j.Id == id && j.Approved == !isPreview)
+            var job = _mainRepository.Get(j => j.Id == id && j.Approved == !isPreview, "Company")
                 .FirstOrDefault();
 
             return job;
         }
 
+        public override List<Job> GetAll()
+        {
+                return _mainRepository.Get(x => x.IsActive, "Company").ToList();
+        }
+
         public IEnumerable<Job> GetRecentJobs()
         {
-            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden).OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden, "Company").OrderByDescending(x => x.PublishedDate).Take(10).ToList();
             /*
             List<Job> jobsList = new List<Job>
             {
