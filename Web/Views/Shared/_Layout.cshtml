@@ -11,14 +11,14 @@
     @{
         var ogTitle = String.IsNullOrWhiteSpace(@ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
         var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La manera más fácil de encontrar un empleo en el área de tecnología." : ViewBag.Description;
-        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? new Uri(Context.Request.Host.ToUriComponent() + "/images/logo.png") : ViewBag.ImageUrl;
+        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl);// ? new Uri(Context.Request.Host.ToUriComponent(),"/images/logo.png") : ViewBag.ImageUrl;
     }
     <meta property="og:title" content="@ogTitle">
     <meta property="og:description" content="@ogDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="@Context.Request.Host">
-    <meta property="og:image" content="@ogImage">
-
+   @* <meta property="og:image" content="@ogImage">
+    *@
     <link href="~/css/plugins.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
     <link href="~/css/slick-theme.css" rel="stylesheet">
@@ -36,27 +36,26 @@
         <div class="clearfix"></div>
         <!-- ============================================================== -->
         <!-- Top header  -->
-        @RenderBody();
+        @RenderBody()
 
         <!-- ============================ Footer Start ================================== -->
         <partial name="_Footer" />
         <!-- ============================ Footer End ================================== -->
-
     </div>
 
     <environment include="Development,Production">
-        <script src="~/js/jquery.min.js"></script>
-        <script src="~/js/popper.min.js"></script>
-        <script src="~/js/bootstrap.min.js"></script>
-        <script src="~/js/select2.min.js"></script>
-        <script src="~/js/aos.js"></script>
-        <script src="~/js/perfect-scrollbar.jquery.min.js"></script>
-        <script src="~/js/owl.carousel.min.js"></script>
-        <script src="~/js/jquery.counterup.min.js"></script>
-        <script src="~/js/slick.js"></script>
-        <script src="~/js/bootstrap-datepicker.js"></script>
-        <script src="~/js/isotope.min.js"></script>
-        <script src="~/js/summernote.js"></script>
+        <script src="~/lib/jquery/jquery.min.js"></script>
+        <script src="~/lib/popperjs/umd/popper.min.js"></script>
+        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
+        <script src="~/lib/select2/dist/js/select2.min.js"></script>
+        <script src="~/lib/aos/aos.js"></script>
+        <script src="~/lib/jquery.perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
+        <script src="~/lib/owl/dist/owl.carousel.min.js"></script>
+        <script src="~/lib/Counter-Up/jquery.counterup.min.js"></script>
+        <script src="~/lib/slick-carousel/slick.min.js"></script>
+        <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="~/lib/jquery.isotope/isotope.pkgd.min.js"></script>
+        <script src="~/lib/summernote/summernote.min.js"></script>
         <script src="~/js/custom.js"></script>
     </environment>
 

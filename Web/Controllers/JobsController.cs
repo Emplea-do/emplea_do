@@ -33,7 +33,7 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
-        [Authorize]
+       [Authorize]
         public IActionResult Wizard()
         {
             var model = new WizardViewModel
@@ -65,11 +65,12 @@ namespace Web.Controllers
                 return RedirectToAction(nameof(this.Index));
 
 
-            int jobId = this.GetJobIdFromTitle(Id);
+            //int jobId = this.GetJobIdFromTitle(Id);
 
-            if (jobId == 0)
-                return RedirectToAction(nameof(this.Index));
+            //if (jobId == 0)
+            //    return RedirectToAction(nameof(this.Index));
 
+            int jobId = Int32.Parse(Id);
             var job = this._jobsService.GetDetails(jobId, isPreview);
 
             //Manage error message
