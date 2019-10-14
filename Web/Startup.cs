@@ -44,10 +44,12 @@ namespace Web
             if (Program.HostingEnvironment.IsDevelopment ())
             {
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             }
             else if(Program.HostingEnvironment.IsProduction())
             {
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             }
 
             IocConfiguration.Init(Configuration, services);

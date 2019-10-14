@@ -13,12 +13,14 @@ namespace Web.Controllers
         private IJobsService _jobsService;
         private ICategoriesService _categoriesService;
         private IHireTypesService _hiretypesService;
-
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService)
+        private ITwitterService _twitterService;
+        
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
             _hiretypesService = hiretypesService;
+            _twitterService = twitterService;
         }
 
         public IActionResult Index(string keyword = "", bool isRemote = false)
@@ -51,6 +53,8 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                var url = $"{this.Request.Scheme}://{this.Request.Host}/";
+                System.Threading.Tasks.Task.Run(()=>_twitterService.Tweet($"Se busca: {model.Title} para mas informacion dirigirse emplea.do {url} "));
 
                 return RedirectToAction("", "");
             }
