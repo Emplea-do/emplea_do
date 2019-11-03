@@ -39,7 +39,6 @@ namespace Web
                     if (!String.IsNullOrWhiteSpace(connectionString))
                     {
                         config.AddAzureAppConfiguration(options =>
-
                         {
                             options.Connect(connectionString).UseFeatureFlags();
                             options.ConfigureRefresh(r => r.SetCacheExpiration(TimeSpan.FromSeconds(5)));

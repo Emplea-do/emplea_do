@@ -29,7 +29,8 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddFeatureManagement();
+            Console.WriteLine("Startup.ConfigureServices() Begin");
+            
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -51,31 +52,35 @@ namespace Web
             
             }
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
+            var featureManager =   services.BuildServiceProvider().GetService<IFeatureManager>();
+            
             IocConfiguration.Init(Configuration, services);
-            AuthConfiguration.Init(Configuration, services);
+            AuthConfiguration.Init(Configuration, services, featureManager);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+        
+            Console.WriteLine("Startup.ConfigureServices() End");
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+             Console.WriteLine("Startup.Configure() Begin");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseAzureAppConfiguration();
             }
-            else
+            else if (env.IsProduction())
             {
-                app.UseDeveloperExceptionPage();
-               // app.UseExceptionHandler("/Home/Error");
+               // app.UseDeveloperExceptionPage();
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            }
 
-            if (env.IsProduction())
-            {
                 app.UseAzureAppConfiguration();
-
             }
                
             app.UseStaticFiles();
@@ -88,6 +93,7 @@ namespace Web
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+         Console.WriteLine("Startup.Configure() End");
         }
     }
 }
