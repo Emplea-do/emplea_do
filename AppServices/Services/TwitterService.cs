@@ -34,7 +34,7 @@ namespace AppServices.Services
         /// </summary>
         public TwitterService(IOptions<TwitterConfig> app)
         {
-            validateConfig(app);
+            //validateConfig(app);
             this.consumerKey = app.Value.consumerKey;
             this.consumerKeySecret = app.Value.consumerKeySecret;
             this.accessToken = app.Value.accessToken;

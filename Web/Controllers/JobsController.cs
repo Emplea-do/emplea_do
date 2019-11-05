@@ -54,7 +54,7 @@ namespace Web.Controllers
             if (ModelState.IsValid)
             {
                 var url = $"{this.Request.Scheme}://{this.Request.Host}/";
-                System.Threading.Tasks.Task.Run(()=>_twitterService.Tweet($"Se busca: {model.Title} para mas información, dirigirse a emplea.do {url} "));
+                //System.Threading.Tasks.Task.Run(()=>_twitterService.Tweet($"Se busca: {model.Title} para mas información, dirigirse a emplea.do {url} "));
 
                 return RedirectToAction("", "");
             }
