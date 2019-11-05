@@ -30,6 +30,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             Console.WriteLine("Startup.ConfigureServices() Begin");
+            services.AddFeatureManagement();
             
             services.Configure<CookiePolicyOptions>(options =>
             {
@@ -40,34 +41,31 @@ namespace Web
 
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
-            services.AddFeatureManagement(Configuration.GetSection("FeatureFlags"));
-
+            
             if (Program.HostingEnvironment.IsDevelopment ())
             {
-                services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                   services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             }
             else if(Program.HostingEnvironment.IsProduction())
             {
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            
             }
+           
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
-            var featureManager =   services.BuildServiceProvider().GetService<IFeatureManager>();
-            
+           
             IocConfiguration.Init(Configuration, services);
-            AuthConfiguration.Init(Configuration, services, featureManager);
+            AuthConfiguration.Init(Configuration, services);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         
             Console.WriteLine("Startup.ConfigureServices() End");
-          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
              Console.WriteLine("Startup.Configure() Begin");
-
+          
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -75,7 +73,7 @@ namespace Web
             }
             else if (env.IsProduction())
             {
-               // app.UseDeveloperExceptionPage();
+               app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();

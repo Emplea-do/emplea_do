@@ -12,8 +12,10 @@ namespace Web.Framework.Configurations
 {
     public class AuthConfiguration
     {
-        public static void Init(IConfiguration configuration, IServiceCollection services, IFeatureManager featureManager )
+        public static void Init(IConfiguration configuration, IServiceCollection services)
         {
+
+            var featureManager = services.BuildServiceProvider().GetService<IFeatureManager>();
             services.AddAuthentication(options =>
             {
                 options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -25,8 +27,7 @@ namespace Web.Framework.Configurations
                 options.LogoutPath = "/account/logout";
                 options.SlidingExpiration = true;
             });
-            
-            if(featureManager.IsEnabled(FeatureFlags.UseGoogleAuthentication))
+            //if(featureManager.IsEnabled(FeatureFlags.UseGoogleAuthentication))
                 services.AddAuthentication().AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -42,28 +43,25 @@ namespace Web.Framework.Configurations
                     googleOptions.SaveTokens = true;
             });
             
-            if(featureManager.IsEnabled(FeatureFlags.UseFacebookAuthentication))
+            //if(featureManager.IsEnabled(FeatureFlags.UseFacebookAuthentication))
                 services.AddAuthentication().AddFacebook(facebookOptions =>
                 {
                     facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
                 });
-            
-            if(featureManager.IsEnabled(FeatureFlags.UseMicrosoftAuthentication))
+            //if(featureManager.IsEnabled(FeatureFlags.UseMicrosoftAuthentication))
                 services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
                 {
                     microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                     microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
                 });
-
-            if(featureManager.IsEnabled(FeatureFlags.UseLinkedInAuthentication))
+            //if(featureManager.IsEnabled(FeatureFlags.UseLinkedInAuthentication))
                 services.AddAuthentication().AddLinkedIn(linkedinOptions =>
                 {
                     linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                     linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
                 });
-            
-            if(featureManager.IsEnabled(FeatureFlags.UseGithubAuthentication))
+            //if(featureManager.IsEnabled(FeatureFlags.UseGithubAuthentication))
                 services.AddAuthentication().AddGitHub(githubOptions =>
                     {
                     githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
