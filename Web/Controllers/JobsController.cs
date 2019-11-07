@@ -14,13 +14,15 @@ namespace Web.Controllers
         private ICategoriesService _categoriesService;
         private IHireTypesService _hiretypesService;
         private ITwitterService _twitterService;
-        
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService)
+        private LegacyApiClient _client;
+
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient client)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
             _hiretypesService = hiretypesService;
             _twitterService = twitterService;
+            _client = client;
         }
 
         public IActionResult Index(string keyword = "", bool isRemote = false)
