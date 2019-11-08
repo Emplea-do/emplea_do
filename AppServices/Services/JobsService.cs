@@ -65,4 +65,111 @@ namespace AppServices.Services
 
         Job GetDetails(int id, bool isPreview = false);
     }
+
+    public class MockJobsService : IJobsService
+    {
+        public TaskResult<Job> Create(Job entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public TaskResult Delete(Job entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public List<Job> GetAll() => new List<Job>(getMockRecords());
+
+        public List<Job> GetByUser(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Job GetDetails(int id, bool isPreview = false) => getMockRecords().First();
+
+        public IEnumerable<Job> GetRecentJobs() => getMockRecords();
+
+        public TaskResult<Job> Update(Job entity)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private IEnumerable<Job> getMockRecords() => new List<Job>
+        {
+            new Job
+            {
+                Id=1,
+                Title = "Full Stack Web Developer",
+                Description="Esto es un lorem ipsum",
+                HowToApply="Para aplicar mandame un correo plz",
+                PublishedDate = new System.DateTime(2019,10,01),
+                Approved=true,
+                ViewCount=150,
+                Likes =34,
+                IsRemote = true,
+                Company= new Company
+                {
+                    Name = "Megsoft",
+                    Url="https://megsoftconsulting.com/",
+                    LogoUrl = "https://megsoftconsulting.com/wp-content/uploads/2018/08/my_business.png"
+                },
+                Category = new Category(){Name="Categoria", Description="Descripción de esta categoria"},
+                Location = new Location(){Name="Remote"}, 
+                HireType = new HireType(){Name="Trabajo completo"}
+            },
+            new Job
+            {
+                Id=2,
+                Title = "Trabajo de prueba 2",
+                Description="Esto es un lorem ipsum",
+                HowToApply="Para aplicar mandame un correo plz",
+                Approved=true,
+                Company= new Company
+                {
+                    Url="https://megsoftconsulting.com/",
+                    LogoUrl = "https://localhost:5001/img/logo.png"
+                }
+            },
+            new Job
+            {
+                Id=14,
+                Title = "Trabajo de prueba 4",
+                Description="Esto es un lorem ipsum",
+                HowToApply="Para aplicar mandame un correo plz",
+
+                Company= new Company
+                {
+                    Url="https://megsoftconsulting.com/",
+                    LogoUrl = "https://localhost:5001/img/logo.png"
+                }
+            },
+            new Job
+            {
+                Id=7,
+                Title = "Trabajo de prueba 55",
+                Description="Esto es un lorem ipsum",
+                HowToApply="Para aplicar mandame un correo plz",
+                UserId=10,
+                Approved = false,
+                Company= new Company
+                {
+                    Url="https://megsoftconsulting.com/",
+                    LogoUrl = "https://localhost:5001/img/logo.png"
+                },
+            },
+            new Job
+            {
+                Id=16,
+                Title = "Trabajo de prueba",
+                Description="Esto es un lorem ipsum",
+                HowToApply="Para aplicar mandame un correo plz",
+
+                Company= new Company
+                {
+                    Url="https://megsoftconsulting.com/",
+                    LogoUrl = "https://localhost:5001/img/logo.png"
+                }
+            }
+        };
+    }
 }

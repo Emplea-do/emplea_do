@@ -13,20 +13,24 @@ namespace Web.Controllers
     public class HomeController : BaseController
     {
         private IJobsService _jobsService;
+        private readonly LegacyApiClient apiClient;
 
-        public HomeController(IJobsService jobsService)
+        public HomeController(IJobsService jobsService, LegacyApiClient apiClient)
         {
             _jobsService = jobsService;
+            this.apiClient = apiClient;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var recentJobs = _jobsService.GetRecentJobs();
+            //var recentJobs = _jobsService.GetRecentJobs();
+            var jobCards = await apiClient.GetJobsFromLegacy();
 
             var x = _currentUser;
             var viewModel = new HomeViewModel
             {
-                Jobs = recentJobs
+               // Jobs = recentJobs,
+                JobCards = jobCards
             };
 
             return View(viewModel);

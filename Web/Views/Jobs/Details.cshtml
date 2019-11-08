@@ -1,4 +1,5 @@
 ﻿@model JobDetailsViewModel
+@using Microsoft.AspNetCore.Html;
 <!-- ============================================================== -->
 <!-- ======================= Start Banner ===================== -->
 <section class="page-title-banner" style="background-image:url(https://via.placeholder.com/1280x855);">
@@ -7,12 +8,12 @@
             <div class="tr-list-wrap">
                 <div class="tr-list-detail">
                     <div class="tr-list-thumb">
-                        <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
+                        <img src="@Model.JobCard.CompanyLogoUrl" class="img-responsive" alt="" />
                     </div>
                     <div class="tr-list-info">
-                        <h4 class="mb-1">@Model.Job.Title</h4>
-                        <h6 class="font-14"><a href="@Model.Job.Company.Url" class="text-warning">@Model.Job.Company.Name</a></h6>
-                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>Blick Market, USA</p>
+                        <h4 class="mb-1">@Model.JobCard.Title</h4>
+                        <h6 class="font-14"><a href="@Model.JobCard.CompanyLogoUrl" class="text-warning">@Model.JobCard.CompanyName</a></h6>
+                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.JobCard.Location</p>
                     </div>
                 </div>
                 <div class="listing-detail_right">
@@ -49,46 +50,17 @@
                         <h4><i class="ti-info"></i>Job Overview</h4>
                     </div>
                     <div class="tr-single-body">
-                        @*  <p>We are seeking an experienced Wordpress developer with minimum 2+ years of experiencea WordPress Developer responsible for both back-end and front-end development, including creating WordPress themes and plugins. This position requires a combination of programming skills (namely PHP, HTML5, CSS3, and JavaScript) and aesthetics (understanding element arrangements on the screen, the color and font choices, and so on). The candidate should have a strong understanding of industry trends and content management systems.</p>
-        <p> Experience with the responsive and adaptive design is strongly preferred. Also, an understanding of the entire web development process, including design, development, and deployment is preferred.</p>
-                        *@
-                        <p>@Model.Job.Description</p>
+                    @Html.Raw( Model.JobCard.Description.Trim())
                     </div>
                 </div>
 
                 <!-- Job Qualifications -->
                 <div class="tr-single-box">
                     <div class="tr-single-header">
-                        <h4><i class="ti-book"></i>Skills and Qualifications</h4>
+                        <h4><i class="ti-book"></i>How to Apply</h4>
                     </div>
                     <div class="tr-single-body">
-                        <ul class="jb-detail-list">
-                            <li>Hand On experience with Wordpress</li>
-                            <li>Good understanding of front-end technologies, including HTML5, CSS3, JavaScript, jQuery</li>
-                            <li>Experience building user interfaces for websites and/or web applications</li>
-                            <li>Experience designing and developing responsive design websites</li>
-                            <li>Comfortable working with debugging tools like Firebug, Chrome inspector, etc.</li>
-                            <li>Ability to understand CSS changes and their ramifications to ensure consistent style across platforms and browsers</li>
-                            <li>Ability to convert comprehensive layout and wireframes into working HTML pages</li>
-                            <li>Knowledge of how to interact with RESTful APIs and formats (JSON, XML)</li>
-                            <li>Proficient understanding of code versioning tool GIT</li>
-                            <li>Strong understanding of PHP back-end development</li>
-                        </ul>
-                    </div>
-                </div>
-
-
-                <!-- Job Education -->
-                <div class="tr-single-box">
-                    <div class="tr-single-header">
-                        <h4><i class="ti-cup"></i>Education</h4>
-                    </div>
-                    <div class="tr-single-body">
-                        <ul class="jb-detail-list">
-                            <li>Higher(10th Pass) (Preferred)</li>
-                            <li>Higher Secondary(12th Pass) (Preferred)</li>
-                            <li>Any Graduattion Degree(13th Pass) (Preferred)</li>
-                        </ul>
+                         @Html.Raw( Model.JobCard.HowToApply.Trim())
                     </div>
                 </div>
 
@@ -101,79 +73,6 @@
 
                 <div class="offer-btn-wrap mb-4">
                     <a href="#" class="btn btn-info btn-md full-width"><i class="mr-2 ti-bookmark"></i>Bookmark This Job</a>
-                </div>
-
-                <!-- Job Overview -->
-                <div class="tr-single-box">
-                    <div class="tr-single-header">
-                        <h4><i class="ti-direction"></i> Job Overview</h4>
-                    </div>
-
-                    <div class="tr-single-body">
-                        <ul class="extra-service">
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <div class="icon-box-round">
-                                        <i class="ti-money"></i>
-                                    </div>
-                                    <div class="icon-box-text">
-                                        <strong class="d-block">Offerd Salary</strong>
-                                        $80k - $270k
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <div class="icon-box-round">
-                                        <i class="lni-users"></i>
-                                    </div>
-                                    <div class="icon-box-text">
-                                        <strong class="d-block">Gender</strong>
-                                        Male
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <div class="icon-box-round">
-                                        <i class="ti-home"></i>
-                                    </div>
-                                    <div class="icon-box-text">
-                                        <strong class="d-block">Industry</strong>
-                                        Management
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <div class="icon-box-round">
-                                        <i class="lni-certificate"></i>
-                                    </div>
-                                    <div class="icon-box-text">
-                                        <strong class="d-block">Experience</strong>
-                                        5 Years
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <div class="icon-box-round">
-                                        <i class="lni-graduation"></i>
-                                    </div>
-                                    <div class="icon-box-text">
-                                        <strong class="d-block">Qualification</strong>
-                                        Master Degree
-                                    </div>
-                                </div>
-                            </li>
-
-                        </ul>
-                    </div>
-
                 </div>
 
                 <!-- Company Address -->
@@ -241,7 +140,7 @@
 
                 </div>
 
-                <!-- Share this -->
+                <!-- Share this
                 <div class="tr-single-box">
                     <div class="tr-single-header">
                         <h4><i class="ti-share"></i> Share this Job</h4>
@@ -330,7 +229,7 @@
                         </ul>
                     </div>
 
-                </div>
+                </div> -->
 
             </div>
             <!-- /col-md-4 -->
