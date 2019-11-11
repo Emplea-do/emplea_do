@@ -6,6 +6,7 @@ using Flurl.Http;
 using Flurl.Util;
 using LegacyAPI;
 using Microsoft.Extensions.Configuration;
+using Microsoft.FeatureManagement;
 using Newtonsoft.Json;
 
 public class LegacyJobCardsResult
@@ -15,40 +16,51 @@ public class LegacyJobCardsResult
     public int PagesCount;
     public int CurrentPage;
     public int PageSize;
-
-
 }
 public class LegacyApiClient
 {
-    private string _baseUrl= "https://emplea-do-api.azurewebsites.net/api";
-    public LegacyApiClient()
+     private readonly IFeatureManager _featureManager;
+    private readonly IConfiguration _configuration;
+
+    public LegacyApiClient(IFeatureManager featureManager, IConfiguration configuration)
     {
-        //_client =  new Url(_baseUrl);
+        _featureManager = featureManager;
+        _configuration = configuration;
     }
     
     public async Task<IList<JobCardDTO>> GetJobsFromLegacy()
     {
-        //return await GetJobsFromLegacyCore();
+        if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
         return GetJobsFromMockData();
+        return await GetJobsFromLegacyCore();
+        
     }
 
     public async Task<JobCardDTO> GetJobById(string Id)
     {
+        if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
+        return  GetJobByIdFromMockData(Id);
         return await GetJobByIdCore(Id);
     }
 
     private async Task<IList<JobCardDTO>> GetJobsFromLegacyCore()
     {
-        var r = await _baseUrl
+        var r = await GetBaseAPIUrl()
                     .AppendPathSegment("jobs")
                     .SetQueryParams(new { pagesize = 100, page = 1 })  // This should be parameterized in the future. 
                     .GetJsonAsync<LegacyJobCardsResult>();
 
         return r.Jobs;
     }
+
+    private string GetBaseAPIUrl()
+    {
+        return _configuration.GetValue("BaseAPIUrl", string.Empty);
+    }
+
     private async Task<JobCardDTO> GetJobByIdCore(string Id)
     {
-        var r = await _baseUrl
+        var r = await GetBaseAPIUrl()
                 .AppendPathSegment("jobs")
                 //.AppendPathSegment("details")
                 .SetQueryParams(new { id = Id })  // This should be parameterized in the future. 
