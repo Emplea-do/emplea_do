@@ -33,7 +33,6 @@ public class LegacyApiClient
         if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
         return GetJobsFromMockData();
         return await GetJobsFromLegacyCore();
-        
     }
 
     public async Task<JobCardDTO> GetJobById(string Id)
@@ -45,14 +44,15 @@ public class LegacyApiClient
 
     private async Task<IList<JobCardDTO>> GetJobsFromLegacyCore()
     {
+        var howMany = string.IsNullOrWhiteSpace(_configuration["LegacyApiClient:PageSize"]) ? int.Parse(_configuration["LegacyApiClient:PageSize"]) : 25;
+        
         var r = await GetBaseAPIUrl()
                     .AppendPathSegment("jobs")
-                    .SetQueryParams(new { pagesize = 100, page = 1 })  // This should be parameterized in the future. 
+                    .SetQueryParams(new { pagesize = howMany, page = 1 })  // This should be parameterized in the future. 
                     .GetJsonAsync<LegacyJobCardsResult>();
 
         return r.Jobs;
     }
-
     private string GetBaseAPIUrl()
     {
         return _configuration.GetValue("BaseAPIUrl", string.Empty);
