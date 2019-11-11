@@ -53,6 +53,8 @@ namespace Web
            
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
            
+           services.Configure<LegacyApiClient>(Configuration);
+           
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
 

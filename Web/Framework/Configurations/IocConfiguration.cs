@@ -18,12 +18,15 @@ namespace Web.Framework.Configurations
                 .AsMatchingInterface()
                 .WithScopedLifetime());
 
+            
             services.Scan(x => x.FromAssemblyOf<IJobsService>()
                 .AddClasses()
                 .UsingRegistrationStrategy(RegistrationStrategy.Skip)
                 .AsMatchingInterface()
                 .WithScopedLifetime());
 
+            services.AddSingleton<LegacyApiClient, LegacyApiClient>();    
+            services.AddSingleton<IJobsService, MockJobsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }

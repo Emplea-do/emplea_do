@@ -4,32 +4,36 @@
 @{ 
     //Fake User for test
     var User = new { Identity = new { UserId = -1, Name="Claudio", Email="claudio@megsoft.io"} };
-
-    bool isPreview = User != null ?  User.Identity.UserId.Equals(Model.UserId) && !Model.Approved : false;
-
-
+    bool isPreview = true;
 }
-@model Domain.Entities.Job
+@model LegacyAPI.JobCardDTO
 
 <div class="job-new-list">
     <div class="vc-thumb">
         <a asp-controller="company" asp-action="index" asp-route-data="new { Model.Company.Id }">
-            <img class="img-fluid rounded-circle" src="@Model.Company.LogoUrl" alt="@Model.Company.Name">
+           @if(!string.IsNullOrWhiteSpace(Model.CompanyLogoUrl))
+           {
+            <img class="img-fluid" src="@Model.CompanyLogoUrl" alt="@Model.CompanyName">
+           }
+           else 
+           {
+            <h5 style="font-size:30px">@Model.CompanyName.Substring(0,2)</h5>
+           }
         </a>
     </div>
     <div class="vc-content">
-        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a><span class="j-full-time">Full Time</span></h5>
-        <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
+        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.JobType</span> </h5>
+        <p>@(string.IsNullOrWhiteSpace(Model.CompanyName) ? "No disponible" : Model.CompanyName)</p>
         <ul class="vc-info-list">
-            <li class="list-inline-item"><h5>Salary</h5> <i class="ti-credit-card"></i>$3.5k-$5k P.A</li>
-            <li class="list-inline-item"><h5>Status</h5>3 days ago</li>
-            <li class="list-inline-item">
+            <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(string.IsNullOrWhiteSpace(Model.Location) ? "N/A" : Model.Location)</li>
+            <li class="list-inline-item"><h5>Publicado</h5>@Model.PublishedDate.ToDominicanFormat()</li>
+            <!-- <li class="list-inline-item">
                 <h5>Skills</h5>
                 <div class="skills">
                     <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
                 </div>
-            </li>
+            </li> -->
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
+    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
 </div>

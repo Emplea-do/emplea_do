@@ -5,6 +5,7 @@ using AppServices.Services;
 using Web.ViewModels;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace Web.Controllers
 {
@@ -14,23 +15,26 @@ namespace Web.Controllers
         private ICategoriesService _categoriesService;
         private IHireTypesService _hiretypesService;
         private ITwitterService _twitterService;
-        
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService)
+        private readonly LegacyApiClient _apiClient;
+
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
             _hiretypesService = hiretypesService;
             _twitterService = twitterService;
+            _apiClient = apiClient;
         }
 
-        public IActionResult Index(string keyword = "", bool isRemote = false)
+        public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
         {
-            var filteredJobs = _jobsService.GetAll();
+            var legacyJobs =  await _apiClient.GetJobsFromLegacy();
             var viewModel = new JobSeachViewModel
             {
                 Keyword = keyword,
                 IsRemote = isRemote,
-                Jobs = filteredJobs
+                //Jobs = filteredJobs,
+                JobCards = legacyJobs
             };
             return View(viewModel);
         }
@@ -62,12 +66,11 @@ namespace Web.Controllers
         }
 
 
-        public IActionResult Details(string Id, bool isPreview)
+        public async Task<ActionResult> Details(string Id, bool isPreview)
         {
 
             if (String.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
-
 
             //int jobId = this.GetJobIdFromTitle(Id);
 
@@ -75,7 +78,7 @@ namespace Web.Controllers
             //    return RedirectToAction(nameof(this.Index));
 
             int jobId = Int32.Parse(Id);
-            var job = this._jobsService.GetDetails(jobId, isPreview);
+            var job = await _apiClient.GetJobById(Id);//this._jobsService.GetDetails(jobId, isPreview);
 
             //Manage error message
             if (job == null)
@@ -84,7 +87,7 @@ namespace Web.Controllers
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {
-                Job = job
+                JobCard = job
             };
 
             if (isPreview)
@@ -92,9 +95,6 @@ namespace Web.Controllers
                 viewModel.IsPreview = isPreview;
                 return View(viewModel);
             }
-
-
-
             return View(viewModel);
         }
 
