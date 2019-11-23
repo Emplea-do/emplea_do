@@ -45,9 +45,11 @@ public class LegacyApiClient
 
     private async Task<IList<JobCardDTO>> GetJobsFromLegacyCore()
     {
+        int pageSize = _configuration.GetValue<int>(ConfigurationFlags.LegacyApiClient.PageSize, 10);
+        
         var r = await GetBaseAPIUrl()
                     .AppendPathSegment("jobs")
-                    .SetQueryParams(new { pagesize = 100, page = 1 })  // This should be parameterized in the future. 
+                    .SetQueryParams(new { pagesize = pageSize, page = 1 })  // This should be parameterized in the future. 
                     .GetJsonAsync<LegacyJobCardsResult>();
 
         return r.Jobs;

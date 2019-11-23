@@ -12,7 +12,7 @@ namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        private IJobsService _jobsService;
+        private readonly IJobsService _jobsService;
         private readonly LegacyApiClient apiClient;
 
         public HomeController(IJobsService jobsService, LegacyApiClient apiClient)
@@ -29,7 +29,6 @@ namespace Web.Controllers
             var x = _currentUser;
             var viewModel = new HomeViewModel
             {
-               // Jobs = recentJobs,
                 JobCards = jobCards
             };
 
