@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -17,7 +18,7 @@
     <meta property="og:description" content="@ogDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="@Context.Request.Host">
-   @* <meta property="og:image" content="@ogImage">
+    @* <meta property="og:image" content="@ogImage">
     *@
     <link href="~/css/plugins.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
@@ -25,6 +26,8 @@
     <link href="~/css/custom.css" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
+    @Html.Raw(JavaScriptSnippet.FullScript)
+
 </head>
 <body>
     <div class="Loader"></div>

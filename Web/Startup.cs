@@ -30,6 +30,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             Console.WriteLine("Startup.ConfigureServices() Begin");
+            services.AddApplicationInsightsTelemetry();
             services.AddFeatureManagement();
             
             services.Configure<CookiePolicyOptions>(options =>
