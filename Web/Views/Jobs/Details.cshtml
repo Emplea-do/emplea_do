@@ -16,30 +16,30 @@
                         <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.JobCard.Location</p>
                     </div>
                 </div>
-                <div class="listing-detail_right">
-                    <div class="listing-detail-item">
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply This Job</a><br>
-                        <a href="#" class="btn btn-list full-width color--linkedin"><i class="ti-linkedin mr-2"></i> Apply With linkedin</a>
+                <feature name="@FeatureFlags.EnableApplyForJob">
+                    <div class="listing-detail_right">
+                        <div class="listing-detail-item">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply This Job</a><br>
+                            <a href="#" class="btn btn-list full-width color--linkedin"><i class="ti-linkedin mr-2"></i> Apply With linkedin</a>
+                        </div>
                     </div>
-                </div>
+                </feature>
             </div>
         </div>
     </div>
 </section>
 <!-- ======================= End Banner ===================== -->
-
-
-
-
 <!-- ============== Job Detail ====================== -->
 <section class="tr-single-detail gray-bg">
     <div class="container">
-        @if (Model.IsPreview)
-        {
-            <div class="alert alert-warning">
-                <b>Esta vacante no ha sido aprobada. Revise de nuevo más tarde.</b>
-            </div>
-        }
+        <feature name="@FeatureFlags.ShowPreviewWarning">
+            @if (Model.IsPreview)
+            {
+                <div class="alert alert-warning">
+                    <b>Esta vacante no ha sido aprobada. Revise de nuevo más tarde.</b>
+                </div>
+            }
+        </feature>
         <div class="row">
 
             <div class="col-md-8 col-sm-12">
@@ -47,38 +47,39 @@
                 <!-- Job Overview -->
                 <div class="tr-single-box">
                     <div class="tr-single-header">
-                        <h4><i class="ti-info"></i>Job Overview</h4>
+                        <h4><i class="ti-info"></i>Descripción</h4>
                     </div>
                     <div class="tr-single-body">
-                    @Html.Raw( Model.JobCard.Description.Trim())
+                        @Html.Raw(Model.JobCard.Description.Trim())
                     </div>
                 </div>
 
                 <!-- Job Qualifications -->
                 <div class="tr-single-box">
                     <div class="tr-single-header">
-                        <h4><i class="ti-book"></i>How to Apply</h4>
+                        <h4><i class="ti-book"></i>Como aplicar</h4>
                     </div>
                     <div class="tr-single-body">
-                         @Html.Raw( Model.JobCard.HowToApply.Trim())
+                        @Html.Raw(Model.JobCard.HowToApply.Trim())
                     </div>
                 </div>
-
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-info full-width mb-2"> Apply This Job</a>
-
+                <feature name="@FeatureFlags.EnableApplyForJob">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-info full-width mb-2"> Apply This Job</a>
+                </feature>
             </div>
 
             <!-- Sidebar Start -->
             <div class="col-md-4 col-sm-12">
-
-                <div class="offer-btn-wrap mb-4">
-                    <a href="#" class="btn btn-info btn-md full-width"><i class="mr-2 ti-bookmark"></i>Bookmark This Job</a>
-                </div>
+                <feature name="@FeatureFlags.AllowBookmarking">
+                    <div class="offer-btn-wrap mb-4">
+                        <a href="#" class="btn btn-info btn-md full-width"><i class="mr-2 ti-bookmark"></i>Bookmark This Job</a>
+                    </div>
+                </feature>
 
                 <!-- Company Address -->
                 <div class="tr-single-box">
                     <div class="tr-single-header">
-                        <h4><i class="ti-direction"></i> Company Address</h4>
+                        <h4><i class="ti-direction"></i>Compañía</h4>
                     </div>
 
                     <div class="tr-single-body">
@@ -90,13 +91,13 @@
                                             <i class="lni-map-marker"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            524 New Ave, CA 548, USA
+                                            @Model.JobCard.Location
                                         </div>
                                     </a>
                                 </div>
                             </li>
 
-                            <li>
+                            @*<li>
                                 <div class="icon-box-icon-block">
                                     <a href="#">
                                         <div class="icon-box-round">
@@ -107,7 +108,7 @@
                                         </div>
                                     </a>
                                 </div>
-                            </li>
+                            </li>*@
 
                             <li>
                                 <div class="icon-box-icon-block">
@@ -116,24 +117,24 @@
                                             <i class="lni-envelope"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            helpsupport.com@finding.com
+                                            @Model.JobCard.CompanyName
                                         </div>
                                     </a>
                                 </div>
                             </li>
 
-                            <li>
+                            @*<li>
                                 <div class="icon-box-icon-block">
                                     <a href="#">
                                         <div class="icon-box-round">
                                             <i class="lni-world"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            www.myfinding.com
+                                            @Model.JobCard.CompanyLogoUrl
                                         </div>
                                     </a>
                                 </div>
-                            </li>
+                            </li>*@
 
                         </ul>
                     </div>
