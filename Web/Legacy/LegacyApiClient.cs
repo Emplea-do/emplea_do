@@ -62,14 +62,13 @@ public class LegacyApiClient
 
     private async Task<JobCardDTO> GetJobByIdCore(string Id)
     {
-        var r = await GetBaseAPIUrl()
-                .AppendPathSegment("jobs")
-                //.AppendPathSegment("details")
-                .SetQueryParams(new { id = Id })  // This should be parameterized in the future. 
-                .GetJsonAsync<LegacyJobCardsResult>();
 
-        return r.Jobs.FirstOrDefault(j => j.Link == Id);
-    }
+        var jobs = await GetJobsFromLegacy();
+        var j = jobs.FirstOrDefault(i => i.Link == Id);
+
+        return j;
+
+        }
 
     private IList<JobCardDTO> GetJobsFromMockData()
     {

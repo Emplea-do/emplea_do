@@ -10,6 +10,11 @@
 
                 <div class="collapse navbar-collapse hover-dropdown font-14 ml-auto" id="navigation">
                     <ul class="navbar-nav ml-auto">
+
+                        <li class="nav-item">
+                            <a asp-controller="home" asp-action="index" class="nav-link">Inicio</a>
+                        </li>
+
                         <li class="nav-item">
                             <a asp-controller="sponsors" asp-action="index" class="nav-link">Patrocinadores</a>
                         </li>
@@ -18,9 +23,9 @@
                             <a asp-controller="credits" asp-action="index" class="nav-link">Colaboradores</a>
                         </li>
 
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a asp-controller="companies" asp-action="index" class="nav-link">Compañías</a>
-                        </li>
+                        </li>*@
 
                         <li class="nav-item">
                             <a asp-controller="jobs" asp-action="index" class="nav-link">Empleos</a>
