@@ -18,7 +18,14 @@ namespace Web
         public static IHostingEnvironment HostingEnvironment;
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            try
+            {
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (System.ArgumentException ex)
+            {
+                Console.Error.WriteLine(ex);
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -34,13 +41,15 @@ namespace Web
             // For the production environment, we are going to use 
             //Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
             var settings = config.Build();
-            
+
             var connectionString = settings["AzureAppConfigurationConnectionString"];
-             config.AddAzureAppConfiguration(options=> {
-                 options.Connect(connectionString)
-                 .UseFeatureFlags(); // Very Important. It wires up the FeatureManagement capabilities to Azure App Configuration.
-             });
-            
+
+            if (HostingEnvironment.IsProduction())
+            config.AddAzureAppConfiguration(options =>
+            {
+                options.Connect(connectionString)
+                .UseFeatureFlags(); // Very Important. It wires up the FeatureManagement capabilities to Azure App Configuration.
+            });
         }
     }
 }
