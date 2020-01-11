@@ -30,8 +30,8 @@ public class LegacyApiClient
     
     public async Task<IList<JobCardDTO>> GetJobsFromLegacy()
     {
-        if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
-        return GetJobsFromMockData();
+        //if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
+           return GetJobsFromMockData();
         return await GetJobsFromLegacyCore();
         
     }

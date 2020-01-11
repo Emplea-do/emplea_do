@@ -2647,6 +2647,7 @@ outline:none;
   right: 0px;
 }
 /*----------- GLobal Settings: Custom Radio Button ------------*/
+/*
 [type="radio"]:checked,
 [type="radio"]:not(:checked) {
     position: absolute;
@@ -2695,7 +2696,7 @@ outline:none;
     opacity: 1;
     -webkit-transform: scale(1);
     transform: scale(1);
-}
+}*/
 /*------------- GLobal Settings: Bootstrap 4 hack --------------*/
 .card-columns {
   -webkit-column-gap: 30px;

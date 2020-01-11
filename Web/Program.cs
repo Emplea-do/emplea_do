@@ -40,16 +40,19 @@ namespace Web
         {
             // For the production environment, we are going to use 
             //Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
-            var settings = config.Build();
-
-            var connectionString = settings["AzureAppConfigurationConnectionString"];
 
             if (HostingEnvironment.IsProduction())
-            config.AddAzureAppConfiguration(options =>
             {
-                options.Connect(connectionString)
-                .UseFeatureFlags(); // Very Important. It wires up the FeatureManagement capabilities to Azure App Configuration.
-            });
+
+                var settings = config.Build();
+
+                var connectionString = settings["AzureAppConfigurationConnectionString"];
+                config.AddAzureAppConfiguration(options =>
+                {
+                    options.Connect(connectionString)
+                    .UseFeatureFlags(); // Very Important. It wires up the FeatureManagement capabilities to Azure App Configuration.
+                });
+            }
         }
     }
 }

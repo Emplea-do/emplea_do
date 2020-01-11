@@ -45,7 +45,8 @@ namespace Web
             
             if (Program.HostingEnvironment.IsDevelopment ())
             {
-                   services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                //DO NOT CHANGE PLZ THNX <3
+                   services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             }
             else if(Program.HostingEnvironment.IsProduction())
             {

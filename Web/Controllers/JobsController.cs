@@ -7,6 +7,8 @@ using Domain;
 using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Web.Framework.Helpers.Alerts;
+using Domain.Entities;
 
 namespace Web.Controllers
 {
@@ -18,8 +20,9 @@ namespace Web.Controllers
         private readonly ITwitterService _twitterService;
         private readonly LegacyApiClient _apiClient;
         private readonly IConfiguration _configuration;
+        private readonly ICompaniesService _companiesService;
 
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration)
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration, ICompaniesService companiesService)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
@@ -27,6 +30,7 @@ namespace Web.Controllers
             _twitterService = twitterService;
             _apiClient = apiClient;
             _configuration = configuration;
+            _companiesService = companiesService;
         }
 
         public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
@@ -48,7 +52,8 @@ namespace Web.Controllers
             var model = new WizardViewModel
             {
                 Categories = _categoriesService.GetAll(),
-                JobTypes = _hiretypesService.GetAll()
+                JobTypes = _hiretypesService.GetAll(),
+                Companies  = _companiesService.GetByUserId(_currentUser.UserId)
             };
 
             return View(model);
@@ -58,13 +63,67 @@ namespace Web.Controllers
         [HttpPost]
         public IActionResult Wizard(WizardViewModel model)
         {
+            model.Categories = _categoriesService.GetAll();
+            model.JobTypes = _hiretypesService.GetAll();
+            model.Companies = _companiesService.GetByUserId(_currentUser.UserId);
+
             if (ModelState.IsValid)
             {
-                //var url = $"{this.Request.Scheme}://{this.Request.Host}/";
-                //System.Threading.Tasks.Task.Run(()=>_twitterService.Tweet($"Se busca: {model.Title} para mas información, dirigirse a emplea.do {url} "));
+                try
+                {
+                    var companyId = model.CompanyId;
+                    if (model.CreateNewCompany)
+                    {
+                        var company = new Company
+                        {
+                            Name = model.CompanyName,
+                            Url = model.CompanyUrl,
+                            LogoUrl = model.CompanyLogoUrl,
+                            UserId = _currentUser.UserId,
+                            Email = model.CompanyEmail
+                        };
 
-                return RedirectToAction("", "");
+                        _companiesService.Create(company);
+                        companyId = company.Id;
+                    }
+
+                    var newJob = new Job
+                    {
+                        CategoryId = model.CategoryId,
+                        HireTypeId = model.JobTypeId,
+                        CompanyId = companyId.Value,
+                        HowToApply = model.HowToApply,
+                        Description = model.Description,
+                        Title = model.Title,
+                        IsRemote = model.IsRemote,
+                        Location = new Location
+                        {
+                            PlaceId = model.LocationPlaceId,
+                            Name = model.LocationName,
+                            Longitude = model.LocationLongitude,
+                            Latitude = model.LocationLatitude
+                        },
+                        UserId = _currentUser.UserId,
+                        IsHidden = true,
+                        Approved = false
+                    };
+                    var result = _jobsService.Create(newJob);
+
+                    if(result.Success)
+                    {
+                        //TODO Llamar al slack service para aprobar la posición
+                        return RedirectToAction("Details", new { newJob.Id, isPreview=true } ).WithInfo(result.Messages);
+                    }
+                    return View(model).WithError(result.Messages);
+
+                }
+                catch(Exception ex)
+                {
+                    return View(model).WithError(ex.Message);
+                }
             }
+
+
             return View(model);
         }
 

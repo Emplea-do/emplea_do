@@ -3,3 +3,7 @@
     text-decoration: underline;
     font-weight: bold;
 }
+
+.control-label {
+    font-weight: bold;
+}

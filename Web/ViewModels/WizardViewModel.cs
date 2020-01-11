@@ -8,7 +8,7 @@ namespace Web.ViewModels
 {
     public class WizardViewModel: BaseViewModel
     {
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Display(Name = "Localidad")]
         public string LocationName { get; set; }
@@ -17,6 +17,10 @@ namespace Web.ViewModels
         public string LocationPlaceId { get; set; }
         public string MapsApiKey { get; set; }
 
+
+        public bool CreateNewCompany { get; set; } = true;
+        [Display(Name = "Compañía")]
+        public int? CompanyId { get; set; }
 
         [Required(ErrorMessage = "El campo título es requerido."), StringLength(int.MaxValue)]
         [Display(Name = "Título. ¿Qué estás buscando?")]
@@ -54,14 +58,15 @@ namespace Web.ViewModels
 
 
         [Required(ErrorMessage = "Debes elegir una categoría.")]
+        [Display(Name = "Categoría")]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "Debes elegir un tipo de jornada.")]
+        [Display(Name = "Tipo de jornada")]
         public int JobTypeId { get; set; }
 
-        [Display(Name = "Categoría")]
         public IEnumerable<Category> Categories { get; set; } = new List<Category>();
-        [Display(Name = "Tipo")]
         public IEnumerable<HireType> JobTypes { get; set; } = new List<HireType>();
+        public List<Company> Companies { get; internal set; }
     }
 }

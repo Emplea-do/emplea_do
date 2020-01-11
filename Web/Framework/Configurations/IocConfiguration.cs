@@ -26,7 +26,7 @@ namespace Web.Framework.Configurations
                 .WithScopedLifetime());
 
             services.AddSingleton<LegacyApiClient, LegacyApiClient>();    
-            services.AddSingleton<IJobsService, MockJobsService>();
+            //services.AddSingleton<IJobsService, MockJobsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
         }
