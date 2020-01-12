@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Web.Framework.Helpers.Alerts;
 using Domain.Entities;
+using AppServices.Framework;
 
 namespace Web.Controllers
 {
@@ -47,7 +48,7 @@ namespace Web.Controllers
         }
 
         [Authorize]
-        public IActionResult Wizard()
+        public IActionResult Wizard(int? id)
         {
             var model = new WizardViewModel
             {
@@ -55,6 +56,31 @@ namespace Web.Controllers
                 JobTypes = _hiretypesService.GetAll(),
                 Companies  = _companiesService.GetByUserId(_currentUser.UserId)
             };
+
+            if (id.HasValue)
+            {
+                var originalJob = _jobsService.GetById(id.Value);
+                if(originalJob.UserId == _currentUser.UserId)
+                {
+                    model.Id = originalJob.Id;
+                    model.CompanyId = originalJob.Company.Id;
+                    model.CreateNewCompany = false;
+                    model.Title = originalJob.Title;
+                    model.Description = originalJob.Description;
+                    model.HowToApply = originalJob.HowToApply;
+                    model.CategoryId = originalJob.CategoryId;
+                    model.JobTypeId = originalJob.HireTypeId;
+                    model.IsRemote = originalJob.IsRemote;
+                    model.LocationName = originalJob.Location.Name;
+                    model.LocationPlaceId = originalJob.Location.PlaceId;
+                    model.LocationLatitude = originalJob.Location.Latitude;
+                    model.LocationLongitude = originalJob.Location.Longitude;
+                }
+                else
+                { 
+                    return RedirectToAction("Index", "Home").WithError("No tienes permiso para editar esta posición");
+                }
+            }
 
             return View(model);
         }
@@ -87,34 +113,71 @@ namespace Web.Controllers
                         companyId = company.Id;
                     }
 
-                    var newJob = new Job
+                    if (model.Id.HasValue)
                     {
-                        CategoryId = model.CategoryId,
-                        HireTypeId = model.JobTypeId,
-                        CompanyId = companyId.Value,
-                        HowToApply = model.HowToApply,
-                        Description = model.Description,
-                        Title = model.Title,
-                        IsRemote = model.IsRemote,
-                        Location = new Location
+                        var originalJob = _jobsService.GetById(model.Id.Value);
+                        if(originalJob.UserId == _currentUser.UserId)
                         {
-                            PlaceId = model.LocationPlaceId,
-                            Name = model.LocationName,
-                            Longitude = model.LocationLongitude,
-                            Latitude = model.LocationLatitude
-                        },
-                        UserId = _currentUser.UserId,
-                        IsHidden = true,
-                        Approved = false
-                    };
-                    var result = _jobsService.Create(newJob);
 
-                    if(result.Success)
-                    {
-                        //TODO Llamar al slack service para aprobar la posición
-                        return RedirectToAction("Details", new { newJob.Id, isPreview=true } ).WithInfo(result.Messages);
+                            originalJob.CategoryId = model.CategoryId;
+                            originalJob.HireTypeId = model.JobTypeId;
+                            originalJob.CompanyId = companyId.Value;
+                            originalJob.HowToApply = model.HowToApply;
+                            originalJob.Description = model.Description;
+                            originalJob.Title = model.Title;
+                            originalJob.IsRemote = model.IsRemote;
+                            if(originalJob.Location.PlaceId != model.LocationPlaceId)
+                            { 
+                                originalJob.Location = new Location
+                                {
+                                    PlaceId = model.LocationPlaceId,
+                                    Name = model.LocationName,
+                                    Longitude = model.LocationLongitude,
+                                    Latitude = model.LocationLatitude
+                                };
+                            }
+                            var result = _jobsService.Update(originalJob);
+                            if(result.Success)
+                                return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
+
+                            return View(model).WithError(result.Messages);
+                        }
+                        else
+                        {
+                            return RedirectToAction("Index", "Home").WithError("No tienes permiso para editar esta posición");
+                        }
                     }
-                    return View(model).WithError(result.Messages);
+                    else
+                    {
+                        var newJob = new Job
+                        {
+                            CategoryId = model.CategoryId,
+                            HireTypeId = model.JobTypeId,
+                            CompanyId = companyId.Value,
+                            HowToApply = model.HowToApply,
+                            Description = model.Description,
+                            Title = model.Title,
+                            IsRemote = model.IsRemote,
+                            Location = new Location
+                            {
+                                PlaceId = model.LocationPlaceId,
+                                Name = model.LocationName,
+                                Longitude = model.LocationLongitude,
+                                Latitude = model.LocationLatitude
+                            },
+                            UserId = _currentUser.UserId,
+                            IsHidden = true,
+                            Approved = false
+                        };
+                        var result = _jobsService.Create(newJob);
+                        if (result.Success)
+                        {
+                            //TODO Llamar al slack service para aprobar la posición
+                            return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
+                        }
+
+                        return View(model).WithError(result.Messages);
+                    }
 
                 }
                 catch(Exception ex)

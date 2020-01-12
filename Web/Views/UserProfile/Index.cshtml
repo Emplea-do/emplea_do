@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewData["Title"] = "User Profile";
+    ViewData["Title"] = "Perfil de usuario";
 }
 
 <!-- ============================ Hero Banner  Start================================== -->
@@ -8,7 +8,7 @@
     <div class="container">
         <div class="col-lg-12 col-md-12">
             <div class="pt-caption">
-                <h1>Hello! Asana</h1>
+                <h1>Hola! @User.Identity.Name</h1>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
                     <!-- Nav tabs -->
                     <ul class="nav dashboard-verticle-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Company Profile</a>
+                            <a class="nav-link active" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Perfil de compañías</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manage jobs</a>
@@ -50,7 +50,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
 
-                    <partial name="_partials/CompanyProfileView"  model="@Model.Company" />
+                    @*<partial name="_partials/CompanyProfileView"  model="@Model.Company" />*@
 
                     <partial name="_partials/ManageJobsView" model="@Model.Jobs" />
 

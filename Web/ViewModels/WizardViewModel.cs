@@ -14,8 +14,8 @@ namespace Web.ViewModels
         public string LocationName { get; set; }
         public double LocationLatitude { get; set; }
         public double LocationLongitude { get; set; }
+        [Required(ErrorMessage = "Debes seleccionar una localidad válida")]
         public string LocationPlaceId { get; set; }
-        public string MapsApiKey { get; set; }
 
 
         public bool CreateNewCompany { get; set; } = true;
@@ -35,7 +35,7 @@ namespace Web.ViewModels
         [Display(Name = "¿Cómo Aplicar?")]
         public string HowToApply { get; set; }
 
-        [Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
+        //[Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
         [Display(Name = "Nombre de la empresa")]
         public string CompanyName { get; set; }
 
@@ -43,8 +43,9 @@ namespace Web.ViewModels
         [Display(Name = "Sitio Web (opcional)")]
         public string CompanyUrl { get; set; }
 
-        [Required(ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
+        //[Required(ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
         [Display(Name = "Correo electrónico"),]
+        [DataType(DataType.EmailAddress)]
         public string CompanyEmail { get; set; }
 
 
@@ -54,8 +55,6 @@ namespace Web.ViewModels
 
         [Display(Name = "¿Es un puesto remoto?")]
         public bool IsRemote { get; set; }
-
-
 
         [Required(ErrorMessage = "Debes elegir una categoría.")]
         [Display(Name = "Categoría")]

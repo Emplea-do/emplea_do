@@ -7,6 +7,7 @@ using AppServices.Services;
 using AppServices.Framework;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppServices.Services
 {
@@ -35,7 +36,13 @@ namespace AppServices.Services
         }
         public List<Job> GetByUser(int userId)
         {
-            return _mainRepository.Get(x=>x.UserId == userId).OrderByDescending(x=>x.PublishedDate).ToList();
+            return _mainRepository
+                .Get(x=>x.UserId == userId)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .OrderByDescending(x=>x.PublishedDate).ToList();
         }
 
         public Job GetDetails(int id, bool isPreview = false)
@@ -53,13 +60,31 @@ namespace AppServices.Services
 
         public IEnumerable<Job> GetRecentJobs()
         {
-            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden, "Company").OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+        }
+
+        public Job GetById(int id)
+        {
+            return _mainRepository
+                .Get(x => x.Id == id)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .FirstOrDefault();
         }
     }
 
     public interface IJobsService : IBaseService<Job, IJobsRepository>
     {
-        List<Job> GetByUser(int id);
+        List<Job> GetByUser(int userid);
+
+        Job GetById(int id);
 
         IEnumerable<Job> GetRecentJobs();
 
@@ -79,6 +104,11 @@ namespace AppServices.Services
         }
 
         public List<Job> GetAll() => new List<Job>(getMockRecords());
+
+        public Job GetById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public List<Job> GetByUser(int id)
         {

@@ -1,11 +1,11 @@
 ﻿@model List<Domain.Entities.Job>
 
 <!-- Manage jobs -->
-<div class="tab-pane" id="manage-jobs">
+<div class="tab-pane active" id="manage-jobs">
 
     <div class="tr-single-box">
         <div class="tr-single-header">
-            <h4><i class="lni-file"></i> Manage jobs</h4>
+            <h4><i class="lni-file"></i> Manejar empleos</h4>
         </div>
 
         <div class="tr-single-body">
@@ -19,28 +19,20 @@
 
                             <div class="mg-list-wrap">
                                 <div class="mg-list-thumb">
-                                    <img  class="img-fluid rounded-circle" src="@job.Company.LogoUrl"  alt="c2.jpg"/>
+                                    <img class="img-fluid rounded-circle" src="@job.Company.LogoUrl"  alt="@job.Company.Name"/>
                                 </div>
                                 <div class="mg-list-caption">
                                     <h4 class="mg-title">@job.Title</h4>
                                     <span class="mg-subtitle">Web Designer</span>
-                                    <span><em>Last activity</em> 4 weeks ago. <em>Registered</em> 4 weeks ago</span>
-
+                                    <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
                                 </div>
                             </div>
 
                             <div class="mg-action">
-                                <div class="btn-group custom-drop">
-                                    <button type="button" class="btn btn-more" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="ti-more"></i>
-                                    </button>
-                                    <div class="dropdown-menu pull-right animated flipInX">
-                                        <a href="#">Accending</a>
-                                        <a href="#">Decending</a>
-                                        <a href="#">By Date</a>
-                                    </div>
-                                </div>
+                                <span class="badge badge-danger">Sin publicar</span>
                                 <div class="btn-group ml-2">
+                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id" ><i class="ti-pencil-alt"></i></a>
+
                                     <a href="#" class="mg-delete"><i class="ti-trash"></i></a>
                                 </div>
                             </div>
