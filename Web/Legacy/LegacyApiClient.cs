@@ -40,6 +40,7 @@ public class LegacyApiClient
     {
         if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
         return  GetJobByIdFromMockData(Id);
+
         return await GetJobByIdCore(Id);
     }
 
