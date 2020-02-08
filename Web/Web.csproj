@@ -30,7 +30,6 @@
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="Views\Account\_partials\" />
     <Folder Include="wwwroot\js\jobs\" />
     <Folder Include="wwwroot\css\jobs\" />
     <Folder Include="wwwroot\lib\bootstrap\" />

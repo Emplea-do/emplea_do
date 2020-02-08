@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Web.Framework.Helpers.Alerts;
 using Domain.Entities;
 using AppServices.Framework;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Web.Controllers
 {
@@ -36,13 +38,52 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
         {
-           
+            var recentJobs = _jobsService.GetRecentJobs();
+
             var legacyJobs = await _apiClient.GetJobsFromLegacy();
+
+            if(legacyJobs != null)
+            {
+                List<Job> legacyJobsTemp = new List<Job>();
+
+                foreach (var legacyJob in legacyJobs)
+                {
+                    legacyJobsTemp.Add(new Job()
+                    {
+                        Company = new Company()
+                        {
+                            Name = legacyJob.CompanyName,
+                            LogoUrl = legacyJob.CompanyLogoUrl,
+                            Url = legacyJob.Link,
+                            Email = legacyJob.Email
+                        },
+                        Title = legacyJob.Title,
+                        PublishedDate = legacyJob.PublishedDate,
+                        Description = legacyJob.Description,
+                        HowToApply = legacyJob.HowToApply,
+                        IsRemote = legacyJob.IsRemote,
+                        ViewCount = legacyJob.ViewCount,
+                        Likes = legacyJob.Likes,
+                        Location = new Location
+                        {
+                            Name = legacyJob.Location
+                        },
+                        HireType = new HireType
+                        {
+                            Description = legacyJob.JobType
+                        }
+                    });
+                }
+
+                recentJobs = recentJobs.Concat(legacyJobsTemp).ToList();
+            }
+
+
             var viewModel = new JobSeachViewModel
             {
                 Keyword = keyword,
                 IsRemote = isRemote,
-                JobCards = legacyJobs
+                Jobs = recentJobs
             };
             return View(viewModel);
         }
@@ -191,19 +232,52 @@ namespace Web.Controllers
         }
 
 
-        public async Task<ActionResult> Details(string Id, bool isPreview)
+        public async Task<ActionResult> Details(string Id, bool isPreview, bool isLegacy = false)
         {
 
             if (String.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
 
-            //int jobId = this.GetJobIdFromTitle(Id);
-
-            //if (jobId == 0)
-            //    return RedirectToAction(nameof(this.Index));
-
             int jobId = Int32.Parse(Id);
-            var job = await _apiClient.GetJobById(Id);//this._jobsService.GetDetails(jobId, isPreview);
+            Job job = new Job();
+            if (isLegacy)
+            {
+                var legacyJob = await _apiClient.GetJobById(Id);
+                if(legacyJob != null) { 
+                    job = new Job()
+                    {
+                        Company = new Company()
+                        {
+                            Name = legacyJob.CompanyName,
+                            LogoUrl = legacyJob.CompanyLogoUrl,
+                            Url = legacyJob.Link,
+                            Email = legacyJob.Email
+                        },
+                        Title = legacyJob.Title,
+                        PublishedDate = legacyJob.PublishedDate,
+                        Description = legacyJob.Description,
+                        HowToApply = legacyJob.HowToApply,
+                        IsRemote = legacyJob.IsRemote,
+                        ViewCount = legacyJob.ViewCount,
+                        Likes = legacyJob.Likes,
+                        Location = new Location
+                        {
+                            Name = legacyJob.Location
+                        },
+                        HireType = new HireType
+                        {
+                            Description = legacyJob.JobType
+                        }
+                    };
+                }
+            }
+            else
+            {
+               job = this._jobsService.GetDetails(jobId, isPreview);
+               
+                job.ViewCount++;
+               _jobsService.Update(job);
+            }
 
             //Manage error message
             if (job == null)
@@ -211,8 +285,8 @@ namespace Web.Controllers
 
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
-            {
-                JobCard = job
+            {   
+                Job = job
             };
 
             if (isPreview)

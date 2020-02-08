@@ -15,5 +15,6 @@ namespace Web.ViewModels
 
         public bool IsPreview { get; set; }
         public IList<JobCardDTO> JobCards { get; internal set; }
+        public IEnumerable<Job> Jobs { get; set; }
     }
 }
