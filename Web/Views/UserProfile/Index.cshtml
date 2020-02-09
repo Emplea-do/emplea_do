@@ -4,16 +4,28 @@
 }
 
 <!-- ============================ Hero Banner  Start================================== -->
-<div class="page-title-wrap">
+
+<section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
-        <div class="col-lg-12 col-md-12">
-            <div class="pt-caption">
-                <h1>Hola! @User.Identity.Name</h1>
+        <div class="row m-0 align-items-end detail-swap">
+            <div class="tr-list-wrap">
+                <div class="tr-list-detail">
+                    <div class="tr-list-info" style="max-width:80%">
+                        <h1 style="color:white" class="mb-1">Hola! @User.Identity.Name</h1>
+                    </div>
+                </div>
+                <feature name="@FeatureFlags.EnableApplyForJob">
+                    <div class="listing-detail_right">
+                        <div class="listing-detail-item">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply This Job</a><br>
+                            <a href="#" class="btn btn-list full-width color--linkedin"><i class="ti-linkedin mr-2"></i> Apply With linkedin</a>
+                        </div>
+                    </div>
+                </feature>
             </div>
         </div>
     </div>
-</div>
-<div class="clearfix"></div>
+</section>
 <!-- ============================ Hero Banner End ================================== -->
 <!-- ============== Candidate Dashboard ====================== -->
 <section class="tr-single-detail gray-bg">
@@ -23,22 +35,22 @@
             <!-- Sidebar Start -->
             <div class="col-md-4 col-sm-12">
                 <div class="dashboard-wrap">
-
-                    <div class="dashboard-thumb">
-                        <div class="dashboard-th-pic">
-                            <img src="/img/logo.png" class="img-fluid mx-auto img-circle" alt="" />
+                    @*
+                        <div class="dashboard-thumb">
+                            <div class="dashboard-th-pic">
+                                <img src="/img/logo.png" class="img-fluid mx-auto img-circle" alt="" />
+                            </div>
+                            <h4 class="mb-1">Asana</h4>
+                            <span class="text-success">Project Management</span>
                         </div>
-                        <h4 class="mb-1">Asana</h4>
-                        <span class="text-success">Project Management</span>
-                    </div>
-
+                    *@
                     <!-- Nav tabs -->
                     <ul class="nav dashboard-verticle-nav">
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Perfil de compañías</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manage jobs</a>
+                            <a class="nav-link" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manejar empleos</a>
                         </li>
                     </ul>
 
@@ -48,7 +60,7 @@
 
             <div class="col-md-8 col-sm-12">
                 <!-- Tab panes -->
-                <div class="tab-content">
+                <div class="tab-content" style="padding:0;">
 
                     @*<partial name="_partials/CompanyProfileView"  model="@Model.Company" />*@
 

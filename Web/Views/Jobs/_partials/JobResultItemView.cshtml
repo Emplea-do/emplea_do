@@ -18,7 +18,7 @@
            }
         </a>
     </div>
-    <div class="vc-content">
+    <div class="vc-content" style="max-width:75%">
         <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.HireType.Name</span> </h5>
         <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
