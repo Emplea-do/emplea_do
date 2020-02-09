@@ -73,3 +73,52 @@
     </div>
 </section>
 <!-- ============== Candidate Dashboard ====================== -->
+
+
+@section Scripts {
+    <script>
+    $(document).ready(function(){
+        $(".btn-delete").click(function(e){
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/delete/' + jobId
+                    $.post(url, function (response) {
+                        console.log(response);
+                        if (response.success) {
+
+                            Swal.fire(
+                                'Registro eliminado',
+                                response.messages,
+                                'success'
+                            );
+                            $("#job-" + jobId).hide();
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
+                    });
+                }
+            });
+            return false;
+        });
+    });
+    </script>
+}
