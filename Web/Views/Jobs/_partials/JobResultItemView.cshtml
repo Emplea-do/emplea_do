@@ -14,7 +14,7 @@
            }
            else 
            {
-            <h5 style="font-size:30px">@Model.Company,Name.Substring(0,2)</h5>
+            <h5 style="font-size:30px">@Model.Company.Name.Substring(0,2)</h5>
            }
         </a>
     </div>
@@ -22,7 +22,7 @@
         <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.HireType.Name</span> </h5>
         <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
-            <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(string.IsNullOrWhiteSpace(Model.Location.Name) ? "N/A" : Model.Location.Name)</li>
+            <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(Model.Location != null ? string.IsNullOrWhiteSpace(Model.Location.Name) ? "N/A" : Model.Location.Name : "N/A")</li>
             <li class="list-inline-item"><h5>Publicado</h5>@Model.PublishedDate.ToDominicanFormat()</li>
             <li class="list-inline-item"><i class="ti-hand-point-up mr-2"></i>@Model.Likes</li>
             <li class="list-inline-item"><i class="ti-eye mr-2"></i>@Model.ViewCount</li>

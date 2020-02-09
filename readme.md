@@ -45,6 +45,12 @@ git update-index --assume-unchanged Web/appsettings.Development.json
 
 The `init.sh` does this automatically.
 
+## In case of connection issues ##
+
+If you happen to run to the following error while running for the first time, something about database connection issue: [SQLite Error 14: 'unable to open database file']. Try Setting the connection string to use the full path location of the `mydb.db` file. 
+
+Example:` "Data Source=C:\\CODE\\emplea_do\\mydb.db;" `
+
 ## If you have any questions or just want to hang out ##
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)

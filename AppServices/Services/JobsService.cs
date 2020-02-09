@@ -47,7 +47,7 @@ namespace AppServices.Services
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var job = _mainRepository.Get(j => j.Id == id && j.Approved == !isPreview, "Company")
+            var job = _mainRepository.Get(j => j.Id == id, "Company,Location")
                 .FirstOrDefault();
 
             return job;
