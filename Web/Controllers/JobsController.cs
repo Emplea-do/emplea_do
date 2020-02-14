@@ -283,8 +283,10 @@ namespace Web.Controllers
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {   
-                Job = job
+                Job = job,
+                IsJobOwner = (job.UserId == _currentUser.UserId)
             };
+
             if(!isLegacy)
             { 
                 job.ViewCount++;
@@ -299,7 +301,6 @@ namespace Web.Controllers
             return View(viewModel);
         }
 
-
         private int GetJobIdFromTitle(string title)
         {
             var url = title.Split('-');
@@ -308,7 +309,35 @@ namespace Web.Controllers
             return id;
         }
 
-
+        [Authorize]
+        [HttpPost]
+        public JsonResult Hide(int id)
+        {
+            var result = new TaskResult();
+            try
+            {
+                var job = _jobsService.GetById(id);
+                if (job == null)
+                {
+                    result.AddErrorMessage("No puedes esconder un puesto que no existe.");
+                }
+                else if (job.UserId == _currentUser.UserId)
+                {
+                    job.IsHidden = !job.IsHidden;
+                    result = _jobsService.Update(job);
+                }
+                else
+                {
+                    result.AddErrorMessage("No puedes esconder un puesto que no creaste.");
+                }
+            }
+            catch (Exception ex)
+                        {
+                result.AddErrorMessage(ex.Message);
+            }
+            return Json(result);
+        }
+        
         [Authorize]
         [HttpPost]
         public JsonResult Delete(int id)
@@ -317,6 +346,7 @@ namespace Web.Controllers
             try
             {
                 var job = _jobsService.GetById(id);
+
                 if(job == null)
                 {
                     result.AddErrorMessage("No puedes eliminar un puesto que no existe.");
@@ -343,5 +373,6 @@ namespace Web.Controllers
             }
             return Json(result);
         }
+
     }
 }
