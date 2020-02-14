@@ -303,7 +303,6 @@
                     var jobId = $(e.currentTarget).data("jobid");
                     var url = base_url + '/jobs/hide/' + jobId
                     $.post(url, function (response) {
-                        console.log(response);
                         if (response.success) {
                             Swal.fire(
                                 respMsg,

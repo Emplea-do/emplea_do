@@ -284,8 +284,8 @@ namespace Web.Controllers
             var viewModel = new JobDetailsViewModel
             {   
                 Job = job,
-                IsJobOwner = job.UserId == _currentUser.UserId ? true : false
-            };
+                IsJobOwner = (job.UserId == _currentUser.UserId)
+        };
 
             if(!isLegacy)
             { 
