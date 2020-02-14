@@ -286,9 +286,9 @@ namespace Web.Controllers
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {   
-                Job = job
+                Job = job,
+                IsJobOwner = job.UserId == _currentUser.UserId ? true : false
             };
-
             if (isPreview)
             {
                 viewModel.IsPreview = isPreview;
@@ -304,6 +304,35 @@ namespace Web.Controllers
             if (String.IsNullOrEmpty(title) || title.Length == 0 || !int.TryParse(url[0], out int id))
                 return 0;
             return id;
+        }
+
+        [Authorize]
+        [HttpPost]
+        public JsonResult Hide(int id)
+        {
+            var result = new TaskResult();
+            try
+            {
+                var job = _jobsService.GetById(id);
+                if (job == null)
+                {
+                    result.AddErrorMessage("No puedes esconder un puesto que no existe.");
+                }
+                else if (job.UserId == _currentUser.UserId)
+                {
+                    job.IsHidden = !job.IsHidden;
+                    result = _jobsService.Update(job);
+                }
+                else
+                {
+                    result.AddErrorMessage("No puedes esconder un puesto que no creaste.");
+                }
+            }
+            catch (Exception ex)
+            {
+                result.AddErrorMessage(ex.Message);
+            }
+            return Json(result);
         }
 
     }
