@@ -285,7 +285,7 @@ namespace Web.Controllers
             {   
                 Job = job,
                 IsJobOwner = (job.UserId == _currentUser.UserId)
-        };
+            };
 
             if(!isLegacy)
             { 
