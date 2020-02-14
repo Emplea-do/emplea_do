@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Html;
 <!-- ============================================================== -->
 <!-- ======================= Start Banner ===================== -->
-<section class="page-title-banner" style="background-image:url(https://via.placeholder.com/1280x855);">
+<section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
         <div class="row m-0 align-items-end detail-swap">
             <div class="tr-list-wrap">
@@ -10,7 +10,7 @@
                     <div class="tr-list-thumb">
                         <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
                     </div>
-                    <div class="tr-list-info">
+                    <div class="tr-list-info" style="max-width:80%">
                         <h4 class="mb-1">@Model.Job.Title</h4>
                         <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
                         <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location.Name</p>

@@ -66,6 +66,7 @@ namespace AppServices.Services
                 try
                 {
                     _mainRepository.SoftDelete(entity.Id);
+                    _mainRepository.CommitChanges();
                     taskResult.AddMessage("Registro eliminado exitosamente");
                     taskResult.Data = entity;
                 }

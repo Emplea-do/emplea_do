@@ -232,7 +232,7 @@ namespace Web.Controllers
         }
 
 
-        public async Task<ActionResult> Details(string Id, bool isPreview, bool isLegacy = false)
+        public async Task<IActionResult> Details(string Id, bool isPreview, bool isLegacy = false)
         {
 
             if (String.IsNullOrEmpty(Id))
@@ -274,14 +274,11 @@ namespace Web.Controllers
             else
             {
                job = this._jobsService.GetDetails(jobId, isPreview);
-               
-                job.ViewCount++;
-               _jobsService.Update(job);
             }
 
             //Manage error message
             if (job == null)
-                return RedirectToAction(nameof(this.Index));
+                return RedirectToAction(nameof(this.Index)).WithError("El puesto que buscas no existe.");
 
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
@@ -289,6 +286,13 @@ namespace Web.Controllers
                 Job = job,
                 IsJobOwner = job.UserId == _currentUser.UserId ? true : false
             };
+
+            if(!isLegacy)
+            { 
+                job.ViewCount++;
+                _jobsService.Update(job);
+            }
+
             if (isPreview)
             {
                 viewModel.IsPreview = isPreview;
@@ -296,7 +300,6 @@ namespace Web.Controllers
             }
             return View(viewModel);
         }
-
 
         private int GetJobIdFromTitle(string title)
         {
@@ -329,6 +332,42 @@ namespace Web.Controllers
                 }
             }
             catch (Exception ex)
+                        {
+                result.AddErrorMessage(ex.Message);
+            }
+            return Json(result);
+        }
+        
+        [Authorize]
+        [HttpPost]
+        public JsonResult Delete(int id)
+        {
+            var result = new TaskResult();
+            try
+            {
+                var job = _jobsService.GetById(id);
+
+                if(job == null)
+                {
+                    result.AddErrorMessage("No puedes eliminar un puesto que no existe.");
+                }
+                else if(job.UserId == _currentUser.UserId)
+                {
+                    if (!job.IsActive)
+                    {
+                        result.AddErrorMessage("El puesto que intentas eliminar ya está eliminado.");
+                    }
+                    else
+                    { 
+                        result = _jobsService.Delete(job);
+                    }
+                }
+                else
+                {
+                    result.AddErrorMessage("No puedes eliminar un puesto que no creaste.");
+                }
+            }
+            catch(Exception ex)
             {
                 result.AddErrorMessage(ex.Message);
             }

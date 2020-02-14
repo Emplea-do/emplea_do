@@ -59,6 +59,12 @@
             "library": "select2@4.0.6-rc.1",
             "destination": "wwwroot/lib/select2",
             "files": ["dist/js/select2.min.js"]
+        },
+        {
+            "provider": "jsdelivr",
+            "library": "sweetalert2@9.7.2",
+            "destination": "wwwroot/lib/swal",
+            "files": [ "dist/sweetalert2.all.min.js", "dist/sweetalert2.min.css" ]
         }
     ]
 }

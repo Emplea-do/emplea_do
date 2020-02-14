@@ -37,7 +37,7 @@ namespace AppServices.Services
         public List<Job> GetByUser(int userId)
         {
             return _mainRepository
-                .Get(x=>x.UserId == userId)
+                .Get(x=>x.UserId == userId && x.IsActive)
                 .Include(x => x.Company)
                 .Include(x => x.Category)
                 .Include(x => x.HireType)
@@ -47,7 +47,7 @@ namespace AppServices.Services
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var job = _mainRepository.Get(j => j.Id == id, "Company,Location")
+            var job = _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
                 .FirstOrDefault();
 
             return job;
@@ -71,7 +71,7 @@ namespace AppServices.Services
         public Job GetById(int id)
         {
             return _mainRepository
-                .Get(x => x.Id == id)
+                .Get(x => x.IsActive && x.Id == id)
                 .Include(x => x.Company)
                 .Include(x => x.Category)
                 .Include(x => x.HireType)

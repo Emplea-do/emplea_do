@@ -30,6 +30,7 @@
     <Folder Include="Views\Employers\" />
     <Folder Include="Views\Jobs\_partials\" />
     <Folder Include="wwwroot\lib\" />
+    <Folder Include="Views\Account\_partials\" />
     <Folder Include="wwwroot\js\jobs\" />
     <Folder Include="wwwroot\css\jobs\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
@@ -41,7 +42,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
-    <Content Remove="libman.json" />
     <Content Remove="bundleconfig.json" />
     <Content Remove="bundleconfig.json" />
     <Content Remove="Properties\launchSettings.json" />
