@@ -54,14 +54,14 @@ namespace Web
             }
            
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
+            services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
            
            services.Configure<LegacyApiClient>(Configuration);
            
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-        
+            services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }
 

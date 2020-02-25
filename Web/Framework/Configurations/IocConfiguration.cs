@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
+using Web.Services.Slack;
+
 namespace Web.Framework.Configurations
 {
     public static class IocConfiguration
@@ -28,6 +30,7 @@ namespace Web.Framework.Configurations
             services.AddSingleton<LegacyApiClient, LegacyApiClient>();    
             //services.AddSingleton<IJobsService, MockJobsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<ISlackService, SlackService>();
 
         }
 
