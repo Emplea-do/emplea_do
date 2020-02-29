@@ -16,6 +16,8 @@ using Web.Services.Slack;
 using Newtonsoft.Json;
 using Web.Models.Slack;
 using System.Net;
+using System.IO;
+using System.Text;
 
 namespace Web.Controllers
 {
@@ -396,7 +398,13 @@ namespace Web.Controllers
         //[ValidateInput(false)]
         public async Task Validate()
         {
-            var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(Request.Form["payload"]);
+            var bodyStr = "";
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                bodyStr = await reader.ReadToEndAsync();
+            }
+
+            var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
             int jobOpportunityId = Convert.ToInt32(payload.callback_id);
             var jobOpportunity = _jobsService.GetById(jobOpportunityId);
             var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
