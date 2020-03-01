@@ -18,7 +18,14 @@ namespace Web
         public static IHostingEnvironment HostingEnvironment;
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+            try
+            {
+                CreateWebHostBuilder(args).Build().Run();
+            }
+            catch (System.ArgumentException ex)
+            {
+                Console.Error.WriteLine(ex);
+            }
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
@@ -26,33 +33,23 @@ namespace Web
            .ConfigureAppConfiguration((hostingContext, config) =>
             {
                 HostingEnvironment = hostingContext.HostingEnvironment;
-                if(hostingContext.HostingEnvironment.IsDevelopment())
-                {
-                }
+                ConfigureAzureAppConfiguration(ref config);
+            }).UseStartup<Startup>();
 
-                if (hostingContext.HostingEnvironment.IsProduction())
-                {
-                   // For the production environment, we are going to use 
-                   //Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
-                    var settings = config.Build();
-                    var connectionString = settings["AzureAppConfigurationConnectionString"];
-                    if (!String.IsNullOrWhiteSpace(connectionString))
-                    {
-                        config.AddAzureAppConfiguration(options =>
+        private static void ConfigureAzureAppConfiguration(ref IConfigurationBuilder config)
+        {
+            // For the production environment, we are going to use 
+            //Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
+            var settings = config.Build();
 
-                        {
-                            options.Connect(connectionString).UseFeatureFlags();
-                            options.ConfigureRefresh(r => r.SetCacheExpiration(TimeSpan.FromSeconds(5)));
-                        });
-                    }
-                    else
-                    {
-                        // Something went terribly wrong, this environment does not have Azure App Configuration setup
-                        throw new Exception("No connection string to Azure App Configuration service found.");
-                    }
-                }
-        }).UseStartup<Startup>();
+            var connectionString = settings["AzureAppConfigurationConnectionString"];
 
-
+            if (HostingEnvironment.IsProduction())
+            config.AddAzureAppConfiguration(options =>
+            {
+                options.Connect(connectionString)
+                .UseFeatureFlags(); // Very Important. It wires up the FeatureManagement capabilities to Azure App Configuration.
+            });
+        }
     }
 }

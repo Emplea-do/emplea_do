@@ -4,37 +4,39 @@
 
 <!-- ============================================================== -->
 <!-- ============================ Hero Banner  Start================================== -->
-<div class="container-fluid home-2 h-100">
-    <div class="row align-items-center gray">
-        <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
-            <h2 class="mb-4">Encuentra tu empleo ideal</h2>
-            <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
-                <div class="row">
-                    <div class="form-group col-md-12 col-sm-12 p-0">
-                        <i class="ti-search"></i>
-                        <input type="text" class="form-control" placeholder="título, descripción, compañía">
-                    </div>
+    <feature name="@FeatureFlags.EnableSearch">
+        <div class="container-fluid home-2 h-100">
+            <div class="row align-items-center gray">
+                <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
+                    <h2 class="mb-4">Encuentra tu empleo ideal</h2>
+                    <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
+                        <div class="row">
+                            <div class="form-group col-md-12 col-sm-12 p-0">
+                                <i class="ti-search"></i>
+                                <input type="text" class="form-control" placeholder="título, descripción, compañía">
+                            </div>
 
-                    <div class="form-group col-md-8 col-sm-12  br-all p-0">
-                        <select id="category" class="js-states form-control">
-                            <option value="">&nbsp;</option>
-                            <option value="1">SEO & Web Design</option>
-                            <option value="2">Wealth & Healthcare</option>
-                            <option value="3">Account / Finance</option>
-                            <option value="4">Education</option>
-                            <option value="5">Banking Jobs</option>
-                        </select>
-                    </div>
+                            <div class="form-group col-md-8 col-sm-12  br-all p-0">
+                                <select id="category" class="js-states form-control">
+                                    <option value="">&nbsp;</option>
+                                    <option value="1">SEO & Web Design</option>
+                                    <option value="2">Wealth & Healthcare</option>
+                                    <option value="3">Account / Finance</option>
+                                    <option value="4">Education</option>
+                                    <option value="5">Banking Jobs</option>
+                                </select>
+                            </div>
 
-                    <div class="col-md-4 col-sm-12 p-0 pl-3">
-                        <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
-                    </div>
+                            <div class="col-md-4 col-sm-12 p-0 pl-3">
+                                <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+                <partial name="_partials/Banner" />
+            </div>
         </div>
-        <partial name="_partials/Banner" />
-    </div>
-</div>
+    </feature>
 <!-- ============================ Hero Banner End ================================== -->
 <!-- ============================ Job List Start ================================== -->
 <section>
@@ -51,7 +53,7 @@
 
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 p-0">
-                @foreach (var job in Model.Jobs)
+                @foreach (var job in Model.JobCards)
             {
                 <partial name="../Jobs/_partials/JobResultItemView" model="job" />
         }

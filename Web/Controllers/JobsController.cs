@@ -5,35 +5,44 @@ using AppServices.Services;
 using Web.ViewModels;
 using Domain;
 using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace Web.Controllers
 {
     public class JobsController : BaseController
     {
-        private IJobsService _jobsService;
-        private ICategoriesService _categoriesService;
-        private IHireTypesService _hiretypesService;
+        private readonly IJobsService _jobsService;
+        private readonly ICategoriesService _categoriesService;
+        private readonly IHireTypesService _hiretypesService;
+        private readonly ITwitterService _twitterService;
+        private readonly LegacyApiClient _apiClient;
+        private readonly IConfiguration _configuration;
 
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService)
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
             _hiretypesService = hiretypesService;
+            _twitterService = twitterService;
+            _apiClient = apiClient;
+            _configuration = configuration;
         }
 
-        public IActionResult Index(string keyword = "", bool isRemote = false)
+        public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
         {
-            var filteredJobs = _jobsService.GetAll();
+           
+            var legacyJobs = await _apiClient.GetJobsFromLegacy();
             var viewModel = new JobSeachViewModel
             {
                 Keyword = keyword,
                 IsRemote = isRemote,
-                Jobs = filteredJobs
+                JobCards = legacyJobs
             };
             return View(viewModel);
         }
 
-       [Authorize]
+        [Authorize]
         public IActionResult Wizard()
         {
             var model = new WizardViewModel
@@ -51,6 +60,8 @@ namespace Web.Controllers
         {
             if (ModelState.IsValid)
             {
+                //var url = $"{this.Request.Scheme}://{this.Request.Host}/";
+                //System.Threading.Tasks.Task.Run(()=>_twitterService.Tweet($"Se busca: {model.Title} para mas información, dirigirse a emplea.do {url} "));
 
                 return RedirectToAction("", "");
             }
@@ -58,12 +69,11 @@ namespace Web.Controllers
         }
 
 
-        public IActionResult Details(string Id, bool isPreview)
+        public async Task<ActionResult> Details(string Id, bool isPreview)
         {
 
             if (String.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
-
 
             //int jobId = this.GetJobIdFromTitle(Id);
 
@@ -71,16 +81,16 @@ namespace Web.Controllers
             //    return RedirectToAction(nameof(this.Index));
 
             int jobId = Int32.Parse(Id);
-            var job = this._jobsService.GetDetails(jobId, isPreview);
+            var job = await _apiClient.GetJobById(Id);//this._jobsService.GetDetails(jobId, isPreview);
 
             //Manage error message
             if (job == null)
                 return RedirectToAction(nameof(this.Index));
-            
+
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {
-                Job = job
+                JobCard = job
             };
 
             if (isPreview)
@@ -88,9 +98,6 @@ namespace Web.Controllers
                 viewModel.IsPreview = isPreview;
                 return View(viewModel);
             }
-
-
-
             return View(viewModel);
         }
 
