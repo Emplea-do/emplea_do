@@ -12,6 +12,12 @@ using Domain.Entities;
 using AppServices.Framework;
 using System.Linq;
 using System.Collections.Generic;
+using Web.Services.Slack;
+using Newtonsoft.Json;
+using Web.Models.Slack;
+using System.Net;
+using System.IO;
+using System.Text;
 
 namespace Web.Controllers
 {
@@ -24,8 +30,9 @@ namespace Web.Controllers
         private readonly LegacyApiClient _apiClient;
         private readonly IConfiguration _configuration;
         private readonly ICompaniesService _companiesService;
+        private readonly ISlackService _slackService;
 
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration, ICompaniesService companiesService)
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration, ICompaniesService companiesService, ISlackService slackService)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
@@ -34,6 +41,7 @@ namespace Web.Controllers
             _apiClient = apiClient;
             _configuration = configuration;
             _companiesService = companiesService;
+            _slackService = slackService;
         }
 
         public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
@@ -128,7 +136,7 @@ namespace Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Wizard(WizardViewModel model)
+        public async Task<IActionResult> Wizard(WizardViewModel model)
         {
             model.Categories = _categoriesService.GetAll();
             model.JobTypes = _hiretypesService.GetAll();
@@ -178,8 +186,11 @@ namespace Web.Controllers
                                 };
                             }
                             var result = _jobsService.Update(originalJob);
-                            if(result.Success)
+                            if (result.Success)
+                            {
+                                await _slackService.PostNewJobOpportunity(originalJob, Url);
                                 return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
+                            }
 
                             return View(model).WithError(result.Messages);
                         }
@@ -214,6 +225,9 @@ namespace Web.Controllers
                         if (result.Success)
                         {
                             //TODO Llamar al slack service para aprobar la posición
+                            await _slackService.PostNewJobOpportunity(newJob, Url).ConfigureAwait(false);
+
+
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
 
@@ -372,6 +386,61 @@ namespace Web.Controllers
                 result.AddErrorMessage(ex.Message);
             }
             return Json(result);
+        }
+
+
+        /// <summary>
+        /// Validates the payload response that comes from the Slack interactive message actions
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>s
+        [HttpPost]
+        //[ValidateInput(false)]
+        public async Task Validate()
+        {
+            var bodyStr = "";
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                bodyStr = await reader.ReadToEndAsync();
+            }
+
+            var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+            int jobOpportunityId = Convert.ToInt32(payload.callback_id);
+            var jobOpportunity = _jobsService.GetById(jobOpportunityId);
+            var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
+            var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
+            var isTokenValid = payload.token == _configuration["slackVerificationToken"];
+
+            try
+            {
+                if (isTokenValid && isJobApproved)
+                {
+                    jobOpportunity.Approved = true;
+                    _jobsService.Update(jobOpportunity);
+                    await _slackService.PostJobOpportunityResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
+                }
+                else if (isTokenValid && isJobRejected)
+                {
+                    // Jobs are rejected by default, so there's no need to update the DB
+                    if (jobOpportunity == null)
+                    {
+                        await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
+                    }
+                    else
+                    {
+                        await _slackService.PostJobOpportunityResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, false);
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                }
+            }
+            catch (Exception ex)
+            {
+                //Catches exceptions so that the raw HTML doesn't appear on the slack channel
+              //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
+            }
         }
 
     }

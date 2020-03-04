@@ -100,7 +100,7 @@
                                             <i class="eye-icon icofont-eye-alt"></i>
                                         }
                                     </a>
-                                    <a href="#" class="btn btn-danger"><i class="ti-trash"></i></a>
+                                    <a href="#" class="btn btn-danger btn-delete" data-jobid="@Model.Job.Id"><i class="ti-trash"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -281,13 +281,15 @@
             var respMsg = "Registro solo podra ser visto por tí";
             var eyeClassToAdd = "icofont-eye-blocked";
             var eyeClassToRemove = "icofont-eye-alt";
-            
+            var confirmText = "Sí, ocúltalo";
+
             if ($('.eye-icon').hasClass(eyeClassToAdd)) {
                 titleMsg = "¿Seguro que deseas mostrar este registro?";
                 textMsg = "¡Sera visible para todos!";
                 respMsg = "Registro sera visible para todos";
                 eyeClassToAdd = "icofont-eye-alt";
                 eyeClassToRemove = "icofont-eye-blocked";
+                confirmText = "Sí, muestralo";
             } 
 
             Swal.fire({
@@ -297,7 +299,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, ocúltalo'
+                confirmButtonText: confirmText
             }).then((result) => {
                 if (result.value) {
                     var jobId = $(e.currentTarget).data("jobid");
@@ -321,6 +323,49 @@
                             );
                         }
                     }).fail(function () {
+                    });
+                }
+            });
+            return false;
+        });
+
+        $(".btn-delete").click(function(e){
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/delete/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+
+                            Swal.fire({
+                                title: 'Registro eliminado',
+                                text: response.messages,
+                                 icon: 'success',
+                                 confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                 window.location.replace(base_url);
+                            });
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
                     });
                 }
             });

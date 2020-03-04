@@ -77,7 +77,63 @@
 
 @section Scripts {
     <script>
-    $(document).ready(function(){
+        $(document).ready(function () {
+
+        $(".btn-hide").click(function (e) {
+            var titleMsg = "¿Seguro que deseas ocultar este registro?";
+            var textMsg = "¡Solo sera visible para tí!";
+            var respMsg = "Registro solo podra ser visto por tí";
+            var eyeClassToAdd = "icofont-eye-blocked";
+            var eyeClassToRemove = "icofont-eye-alt";
+            var confirmText = "Sí, ocúltalo";
+            
+            if ($('.eye-icon').hasClass(eyeClassToAdd)) {
+                titleMsg = "¿Seguro que deseas mostrar este registro?";
+                textMsg = "¡Sera visible para todos!";
+                respMsg = "Registro sera visible para todos";
+                eyeClassToAdd = "icofont-eye-alt";
+                eyeClassToRemove = "icofont-eye-blocked";
+                confirmText = "Sí, muestralo";
+
+            } 
+
+            Swal.fire({
+                title: titleMsg,
+                text: textMsg,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmText
+            }).then((result) => {
+                if (result.value) {
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/hide/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+                            Swal.fire(
+                                respMsg,
+                                response.messages,
+                                'success'
+                            );
+                           
+                            $('.eye-icon').removeClass(eyeClassToRemove);
+                            $('.eye-icon').addClass(eyeClassToAdd);  
+                        }
+                        else {
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+                        }
+                    }).fail(function () {
+                    });
+                }
+            });
+            return false;
+                    });
+
         $(".btn-delete").click(function(e){
             Swal.fire({
                 title: '¿Seguro que deseas eliminar este registro?',
@@ -93,7 +149,6 @@
                     var jobId = $(e.currentTarget).data("jobid");
                     var url = base_url + '/jobs/delete/' + jobId
                     $.post(url, function (response) {
-                        console.log(response);
                         if (response.success) {
 
                             Swal.fire(

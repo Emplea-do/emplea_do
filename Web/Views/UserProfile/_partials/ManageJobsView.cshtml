@@ -33,11 +33,32 @@
                                 </div>
 
                                 <div class="mg-action">
-                                    <span class="badge badge-danger">Sin publicar</span>
-                                    <div class="btn-group ml-2">
-                                        <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id" ><i class="ti-pencil-alt"></i></a>
+                                    @if (job.Approved)
+                                    {
+                                        <span class="badge badge-success">Publicado</span>
 
-                                        <a href="#" class="mg-delete btn-delete" data-jobid="@job.Id"><i class="ti-trash"></i></a>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Sin publicar</span>
+
+                                    }
+
+                                    <div class="btn-group ml-2">
+                                        <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
+
+                                        <a href="#" class="btn-hide btn btn-light" data-jobid="@job.Id">
+                                            @if (job.IsHidden)
+                                            {
+                                                <i class="eye-icon icofont-eye-blocked"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="eye-icon icofont-eye-alt"></i>
+                                            }
+                                        </a>
+                                        <a href="#" class="btn btn-danger btn-delete" data-jobid="@job.Id"><i class="ti-trash"></i></a>
+
                                     </div>
                                 </div>
                             </div>
