@@ -51,6 +51,14 @@ If you happen to run to the following error while running for the first time, so
 
 Example:` "Data Source=C:\\CODE\\emplea_do\\mydb.db;" `
 
+## Slack Configuration
+
+To configure your own slackservice just follow the [Official](https://api.slack.com/messaging/webhooks#getting_started) to get started. After you completed slack configuration, you should have a **token** and a **workspace section**, with a Webhook URL that'll look something like this `https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX`, you should only be interested in `T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX` (because that is what we are going to use in the appsetting). 
+
+Now add your **token** with key `"slackVerificationToken"` and **workspace section** with key `"slackWebhookEndpoint"` in `appsettings.json`.
+
+
+
 ## If you have any questions or just want to hang out ##
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)

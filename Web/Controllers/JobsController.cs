@@ -224,9 +224,7 @@ namespace Web.Controllers
                         var result = _jobsService.Create(newJob);
                         if (result.Success)
                         {
-                            //TODO Llamar al slack service para aprobar la posición
                             await _slackService.PostNewJobOpportunity(newJob, Url).ConfigureAwait(false);
-
 
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
