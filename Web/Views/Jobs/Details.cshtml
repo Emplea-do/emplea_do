@@ -13,7 +13,7 @@
                     <div class="tr-list-info" style="max-width:80%">
                         <h4 class="mb-1">@Model.Job.Title</h4>
                         <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
-                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location.Name</p>
+                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location?.Name</p>
                     </div>
                 </div>
                 <feature name="@FeatureFlags.EnableApplyForJob">
@@ -135,7 +135,7 @@
                                             <i class="lni-map-marker"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            @Model.Job.Location.Name
+                                            @Model.Job.Location?.Name
                                         </div>
                                     </a>
                                 </div>

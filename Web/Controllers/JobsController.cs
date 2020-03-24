@@ -188,7 +188,7 @@ namespace Web.Controllers
                             var result = _jobsService.Update(originalJob);
                             if (result.Success)
                             {
-                                await _slackService.PostNewJobOpportunity(originalJob, Url);
+                                await _slackService.PostJob(originalJob, Url);
                                 return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
                             }
 
@@ -218,13 +218,13 @@ namespace Web.Controllers
                                 Latitude = model.LocationLatitude
                             },
                             UserId = _currentUser.UserId,
-                            IsHidden = true,
-                            Approved = false
+                            IsHidden = false,
+                            IsApproved = false
                         };
                         var result = _jobsService.Create(newJob);
                         if (result.Success)
                         {
-                            await _slackService.PostNewJobOpportunity(newJob, Url).ConfigureAwait(false);
+                            await _slackService.PostJob(newJob, Url).ConfigureAwait(false);
 
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
@@ -238,15 +238,11 @@ namespace Web.Controllers
                     return View(model).WithError(ex.Message);
                 }
             }
-
-
             return View(model);
         }
 
-
-        public async Task<IActionResult> Details(string Id, bool isPreview, bool isLegacy = false)
+        public async Task<IActionResult> Details(string Id, bool isPreview = false, bool isLegacy = false)
         {
-
             if (String.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
 
@@ -407,26 +403,26 @@ namespace Web.Controllers
             var jobOpportunity = _jobsService.GetById(jobOpportunityId);
             var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
             var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
-            var isTokenValid = payload.token == _configuration["slackVerificationToken"];
+            var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
 
             try
             {
                 if (isTokenValid && isJobApproved)
                 {
-                    jobOpportunity.Approved = true;
+                    jobOpportunity.IsApproved = true;
                     _jobsService.Update(jobOpportunity);
-                    await _slackService.PostJobOpportunityResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
+                    await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
                 }
                 else if (isTokenValid && isJobRejected)
                 {
                     // Jobs are rejected by default, so there's no need to update the DB
                     if (jobOpportunity == null)
                     {
-                        await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
+                        await _slackService.PostJobErrorResponse(jobOpportunity, Url, payload.response_url);
                     }
                     else
                     {
-                        await _slackService.PostJobOpportunityResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, false);
+                        await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, false);
                     }
                 }
                 else

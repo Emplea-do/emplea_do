@@ -22,11 +22,11 @@ namespace Web.Services.Slack
 
         public SlackService(IConfiguration configuration)
         {
-            var slackWebhookEndpoint = configuration["slackWebhookEndpoint"];
+            var slackWebhookEndpoint = configuration["Slack:WebhookEndpoint"];
             _slackWebhookUrl = "https://hooks.slack.com/services/" + slackWebhookEndpoint;
         }
 
-        public async Task PostJobOpportunityErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl)
+        public async Task PostJobErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl)
         {
             if (jobOpportunity == null)
             {
@@ -62,7 +62,7 @@ namespace Web.Services.Slack
             }
         }
 
-        public async Task PostJobOpportunityResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl, string userId, bool approved)
+        public async Task PostJobResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl, string userId, bool approved)
         {
             if (string.IsNullOrWhiteSpace(jobOpportunity?.Title) || jobOpportunity.Id <= 0)
                 return;
@@ -102,7 +102,7 @@ namespace Web.Services.Slack
             await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
         }
 
-        public async Task PostNewJobOpportunity(Job jobOpportunity, IUrlHelper urlHelper)
+        public async Task PostJob(Job jobOpportunity, IUrlHelper urlHelper)
         {
             if (string.IsNullOrWhiteSpace(jobOpportunity?.Title) || jobOpportunity.Id <= 0)
                 return;
@@ -168,8 +168,8 @@ namespace Web.Services.Slack
 
     public interface ISlackService
     {
-        Task PostNewJobOpportunity(Job jobOpportunity, IUrlHelper urlHelper);
-        Task PostJobOpportunityResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl, string userId, bool approved);
-        Task PostJobOpportunityErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl);
+        Task PostJob(Job jobOpportunity, IUrlHelper urlHelper);
+        Task PostJobResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl, string userId, bool approved);
+        Task PostJobErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl);
     }
 }

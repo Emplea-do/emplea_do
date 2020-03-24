@@ -47,20 +47,29 @@ namespace AppServices.Services
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var job = _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
-                .FirstOrDefault();
+            if (isPreview)
+            {
+                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
+                    .FirstOrDefault();
 
-            return job;
+            }
+            else
+            {
+                return _mainRepository
+                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location")
+                    .FirstOrDefault();
+
+            }
         }
 
         public override List<Job> GetAll()
         {
-                return _mainRepository.Get(x => x.IsActive, "Company").ToList();
+                return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company").ToList();
         }
 
         public IEnumerable<Job> GetRecentJobs()
         {
-            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden)
+            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden && x.IsApproved)
                 .Include(x => x.Company)
                 .Include(x => x.Category)
                 .Include(x => x.HireType)
@@ -90,7 +99,7 @@ namespace AppServices.Services
 
         Job GetDetails(int id, bool isPreview = false);
     }
-
+    /*
     public class MockJobsService : IJobsService
     {
         public TaskResult<Job> Create(Job entity)
@@ -133,7 +142,7 @@ namespace AppServices.Services
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
                 PublishedDate = new System.DateTime(2019,10,01),
-                Approved=true,
+                IsApproved = true,
                 ViewCount=150,
                 Likes =34,
                 IsRemote = true,
@@ -153,7 +162,7 @@ namespace AppServices.Services
                 Title = "Trabajo de prueba 2",
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
-                Approved=true,
+                IsApproved = true,
                 Company= new Company
                 {
                     Url="https://megsoftconsulting.com/",
@@ -180,7 +189,7 @@ namespace AppServices.Services
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
                 UserId=10,
-                Approved = false,
+                IsApproved = false,
                 Company= new Company
                 {
                     Url="https://megsoftconsulting.com/",
@@ -201,5 +210,5 @@ namespace AppServices.Services
                 }
             }
         };
-    }
+    }*/
 }
