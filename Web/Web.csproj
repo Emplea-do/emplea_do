@@ -43,5 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="bundleconfig.json" />
+    <Content Remove="Properties\launchSettings.json" />
+    <Content Remove="appsettings.template.json" />
   </ItemGroup>
 </Project>

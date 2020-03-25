@@ -7,7 +7,28 @@ using Microsoft.AspNetCore.Mvc.Routing;
 namespace Web.Framework.Extensions
 {
     public static class UrlExtensions
-    {       
+    {
+        /// <summary>
+        /// Sanitiza un URL
+        /// </summary>
+        /// <remarks>http://stackoverflow.com/questions/6716832/sanitizing-string-to-url-safe-format</remarks>
+        public static string SanitizeUrl(this string strToSanitize)
+        {
+            return strToSanitize == null
+                ? null
+                : Regex.Replace(strToSanitize, @"[^A-Za-z0-9_~]+", "-");
+        }
+
+        public static string SeoUrl(int id, string title)
+        {
+            return string.IsNullOrEmpty(title) ? id.ToString() : $"{id}-{SanitizeUrl(title)}";
+        }
+
+        public static string SeoUrl(string actionName, int id)
+        {
+            return $"{SanitizeUrl(actionName)}/{id}";
+        }
+
 
         public static bool IsValidImageUrl(string imageUrl)
         {
@@ -47,11 +68,20 @@ namespace Web.Framework.Extensions
             return url.Action(actionName, controllerName, routeValues, scheme);
         }
 
-        public static string AbsoluteUrl(this UrlHelper url, string actionName, string controllerName,
+        public static string AbsoluteUrl(this IUrlHelper url, string actionName, string controllerName,
             object routeValues = null)
         {
+            if (url.ActionContext.HttpContext.Request.Path == null) return null;
             var scheme = url.ActionContext.HttpContext.Request.Scheme;
             return url.Action(actionName, controllerName, routeValues, scheme);
+        }
+
+        public static string AbsoluteUrl(this IUrlHelper url, string actionName, int jobId, string controllerName,
+         object routeValues = null)
+        {
+            if (url.ActionContext.HttpContext.Request.Path == null) return null;
+            var scheme = url.ActionContext.HttpContext.Request.Scheme;
+            return url.Action(actionName, controllerName, new { id = jobId, isPreview = true }, scheme);
         }
     }
 }

@@ -2,18 +2,18 @@
 @using Microsoft.AspNetCore.Html;
 <!-- ============================================================== -->
 <!-- ======================= Start Banner ===================== -->
-<section class="page-title-banner" style="background-image:url(https://via.placeholder.com/1280x855);">
+<section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
         <div class="row m-0 align-items-end detail-swap">
             <div class="tr-list-wrap">
                 <div class="tr-list-detail">
                     <div class="tr-list-thumb">
-                        <img src="@Model.JobCard.CompanyLogoUrl" class="img-responsive" alt="" />
+                        <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
                     </div>
-                    <div class="tr-list-info">
-                        <h4 class="mb-1">@Model.JobCard.Title</h4>
-                        <h6 class="font-14"><a href="@Model.JobCard.CompanyLogoUrl" class="text-warning">@Model.JobCard.CompanyName</a></h6>
-                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.JobCard.Location</p>
+                    <div class="tr-list-info" style="max-width:80%">
+                        <h4 class="mb-1">@Model.Job.Title</h4>
+                        <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
+                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location?.Name</p>
                     </div>
                 </div>
                 <feature name="@FeatureFlags.EnableApplyForJob">
@@ -40,6 +40,7 @@
                 </div>
             }
         </feature>
+
         <div class="row">
 
             <div class="col-md-8 col-sm-12">
@@ -50,7 +51,7 @@
                         <h4><i class="ti-info"></i>Descripción</h4>
                     </div>
                     <div class="tr-single-body">
-                        @Html.Raw(Model.JobCard.Description.Trim())
+                        @Html.Raw(Model.Job.Description.Trim())
                     </div>
                 </div>
 
@@ -60,7 +61,7 @@
                         <h4><i class="ti-book"></i>Como aplicar</h4>
                     </div>
                     <div class="tr-single-body">
-                        @Html.Raw(Model.JobCard.HowToApply.Trim())
+                        @Html.Raw(Model.Job.HowToApply.Trim())
                     </div>
                 </div>
                 <feature name="@FeatureFlags.EnableApplyForJob">
@@ -76,6 +77,40 @@
                     </div>
                 </feature>
 
+                <!-- Maintenance -->
+                @if (Model.IsJobOwner)
+                {
+                    <div class="tr-single-box">
+                        <div class="tr-single-header">
+                            <h4><i class="ti-panel"></i>Mantenimiento</h4>
+                        </div>
+                        <div class="tr-single-body">
+                            <a href="#" class="btn-hide" data-jobid="@Model.Job.Id">
+                            </a>
+                            <div class="mg-action">
+                                <div class="btn-group ml-2">
+                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@Model.Job.Id"><i class="ti-pencil-alt"></i></a>
+                                    @if (Model.Job.IsApproved)
+                                    {
+                                    <a href="#" class="btn-hide btn btn-light" data-jobid="@Model.Job.Id">
+                                        @if (Model.Job.IsHidden)
+                                        {
+                                            <i class="eye-icon icofont-eye-blocked"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="eye-icon icofont-eye-alt"></i>
+                                        }
+                                    </a>
+                                    }
+                                    <a href="#" class="btn btn-danger btn-delete" data-jobid="@Model.Job.Id"><i class="ti-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
                 <!-- Company Address -->
                 <div class="tr-single-box">
                     <div class="tr-single-header">
@@ -88,28 +123,39 @@
                                 <div class="icon-box-icon-block">
                                     <a href="#">
                                         <div class="icon-box-round">
+                                            <i class="lni-world"></i>
+                                        </div>
+                                        <div class="icon-box-text">
+                                            @Model.Job.Company.Name
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="#">
+                                        <div class="icon-box-round">
                                             <i class="lni-map-marker"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            @Model.JobCard.Location
+                                            @Model.Job.Location?.Name
                                         </div>
                                     </a>
                                 </div>
                             </li>
 
                             @*<li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-phone-handset"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            +1 415-989-1002
-                                        </div>
-                                    </a>
+                        <div class="icon-box-icon-block">
+                            <a href="#">
+                                <div class="icon-box-round">
+                                    <i class="lni-phone-handset"></i>
                                 </div>
-                            </li>*@
-
+                                <div class="icon-box-text">
+                                    +1 415-989-1002
+                                </div>
+                            </a>
+                        </div>
+                    </li>*@
                             <li>
                                 <div class="icon-box-icon-block">
                                     <a href="#">
@@ -117,124 +163,217 @@
                                             <i class="lni-envelope"></i>
                                         </div>
                                         <div class="icon-box-text">
-                                            @Model.JobCard.CompanyName
+                                            @Model.Job.Company.Email
                                         </div>
                                     </a>
                                 </div>
                             </li>
-
-                            @*<li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-world"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            @Model.JobCard.CompanyLogoUrl
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>*@
-
                         </ul>
                     </div>
-
                 </div>
 
                 <!-- Share this
-                <div class="tr-single-box">
-                    <div class="tr-single-header">
-                        <h4><i class="ti-share"></i> Share this Job</h4>
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="ti-share"></i> Share this Job</h4>
+        </div>
+
+        <div class="tr-single-body">
+            <ul class="extra-service half">
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-facebook"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Facebook
+                            </div>
+                        </a>
                     </div>
+                </li>
 
-                    <div class="tr-single-body">
-                        <ul class="extra-service half">
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-facebook"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Facebook
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-google-plus"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Google plus
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-twitter"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Twitter
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-linkedin"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            LinkedIn
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-instagram"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Instagram
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="fa fa-pinterest"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Pinterest
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-
-                        </ul>
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-google-plus"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Google plus
+                            </div>
+                        </a>
                     </div>
+                </li>
 
-                </div> -->
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-twitter"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Twitter
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-linkedin"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                LinkedIn
+                            </div>
+                        </a>glyphicon-eye-close
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-instagram"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Instagram
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="fa fa-pinterest"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Pinterest
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div> -->
+
 
             </div>
             <!-- /col-md-4 -->
         </div>
-    </div>
+    
+        </div>
 </section>
 <!-- ============== Job Detail ====================== -->
+
+
+
+
+@section Scripts {
+    <script>
+    $(document).ready(function(){
+        $(".btn-hide").click(function (e) {
+            var titleMsg = "¿Seguro que deseas ocultar este registro?";
+            var textMsg = "¡Solo sera visible para tí!";
+            var respMsg = "Registro solo podra ser visto por tí";
+            var eyeClassToAdd = "icofont-eye-blocked";
+            var eyeClassToRemove = "icofont-eye-alt";
+            var confirmText = "Sí, ocúltalo";
+
+            if ($('.eye-icon').hasClass(eyeClassToAdd)) {
+                titleMsg = "¿Seguro que deseas mostrar este registro?";
+                textMsg = "¡Sera visible para todos!";
+                respMsg = "Registro sera visible para todos";
+                eyeClassToAdd = "icofont-eye-alt";
+                eyeClassToRemove = "icofont-eye-blocked";
+                confirmText = "Sí, muestralo";
+            } 
+
+            Swal.fire({
+                title: titleMsg,
+                text: textMsg,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmText
+            }).then((result) => {
+                if (result.value) {
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/hide/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+                            Swal.fire(
+                                respMsg,
+                                response.messages,
+                                'success'
+                            );
+                           
+                            $('.eye-icon').removeClass(eyeClassToRemove);
+                            $('.eye-icon').addClass(eyeClassToAdd);  
+                        }
+                        else {
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+                        }
+                    }).fail(function () {
+                    });
+                }
+            });
+            return false;
+        });
+
+        $(".btn-delete").click(function(e){
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/delete/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+
+                            Swal.fire({
+                                title: 'Registro eliminado',
+                                text: response.messages,
+                                 icon: 'success',
+                                 confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                 window.location.replace(base_url);
+                            });
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
+                    });
+                }
+            });
+            return false;
+        });
+    });
+    </script>
+}

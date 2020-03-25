@@ -1,0 +1,15 @@
+﻿[
+    {
+        "outputFileName": "wwwroot/css/site.min.css",
+        "inputFiles": [
+            "wwwroot/css/plugins.css",
+            "wwwroot/css/styles.css",
+            "wwwroot/css/slick-theme.css",
+            "wwwroot/css/custom.css",
+            "wwwroot/css/site.css"
+        ],
+        "minify": {
+            "enabled": true
+        }
+    }
+]

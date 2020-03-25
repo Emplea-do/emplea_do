@@ -1,31 +1,28 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{ 
+﻿@{ 
     //Fake User for test
     var User = new { Identity = new { UserId = -1, Name="Claudio", Email="claudio@megsoft.io"} };
     bool isPreview = false;
 }
-@model LegacyAPI.JobCardDTO
+@model Domain.Entities.Job
 
 <div class="job-new-list">
     <div class="vc-thumb">
         <a asp-controller="company" asp-action="index" asp-route-data="new { Model.Company.Id }">
-           @if(!string.IsNullOrWhiteSpace(Model.CompanyLogoUrl))
+           @if(!string.IsNullOrWhiteSpace(Model.Company.LogoUrl))
            {
-            <img class="img-fluid" src="@Model.CompanyLogoUrl" alt="@Model.CompanyName">
+            <img class="img-fluid" src="@Model.Company.LogoUrl" alt="@Model.Company.Name">
            }
            else 
            {
-            <h5 style="font-size:30px">@Model.CompanyName.Substring(0,2)</h5>
+            <h5 style="font-size:30px">@Model.Company.Name.Substring(0,2)</h5>
            }
         </a>
     </div>
-    <div class="vc-content">
-        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.JobType</span> </h5>
-        <p>@(string.IsNullOrWhiteSpace(Model.CompanyName) ? "No disponible" : Model.CompanyName)</p>
+    <div class="vc-content" style="max-width:75%">
+        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.HireType.Name</span> </h5>
+        <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
-            <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(string.IsNullOrWhiteSpace(Model.Location) ? "N/A" : Model.Location)</li>
+            <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(Model.Location != null ? string.IsNullOrWhiteSpace(Model.Location.Name) ? "N/A" : Model.Location.Name : "N/A")</li>
             <li class="list-inline-item"><h5>Publicado</h5>@Model.PublishedDate.ToDominicanFormat()</li>
             <li class="list-inline-item"><i class="ti-hand-point-up mr-2"></i>@Model.Likes</li>
             <li class="list-inline-item"><i class="ti-eye mr-2"></i>@Model.ViewCount</li>
@@ -37,5 +34,5 @@
     </li> -->
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
+    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
 </div>

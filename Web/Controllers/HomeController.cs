@@ -23,13 +23,13 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            //var recentJobs = _jobsService.GetRecentJobs();
+            var recentJobs = _jobsService.GetRecentJobs();
             var jobCards = await apiClient.GetJobsFromLegacy();
 
-            var x = _currentUser;
             var viewModel = new HomeViewModel
             {
-                JobCards = jobCards
+                JobCards = jobCards,
+                Jobs = recentJobs
             };
 
             return View(viewModel);

@@ -21,7 +21,7 @@ namespace Domain.Entities
 
         public bool IsHidden { get; set; }
 
-        public bool Approved { get; set; }
+        public bool IsApproved { get; set; }
 
         public DateTime PublishedDate { get; set; }
 

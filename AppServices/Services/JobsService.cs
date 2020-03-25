@@ -7,6 +7,7 @@ using AppServices.Services;
 using AppServices.Framework;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppServices.Services
 {
@@ -35,37 +36,95 @@ namespace AppServices.Services
         }
         public List<Job> GetByUser(int userId)
         {
-            return _mainRepository.Get(x=>x.UserId == userId).OrderByDescending(x=>x.PublishedDate).ToList();
+            return _mainRepository
+                .Get(x=>x.UserId == userId && x.IsActive)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .OrderByDescending(x=>x.PublishedDate).ToList();
         }
 
         public Job GetDetails(int id, bool isPreview = false)
         {
-            var job = _mainRepository.Get(j => j.Id == id && j.Approved == !isPreview, "Company")
-                .FirstOrDefault();
+            if (isPreview)
+            {
+                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
+                    .FirstOrDefault();
 
-            return job;
+            }
+            else
+            {
+                return _mainRepository
+                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location")
+                    .FirstOrDefault();
+
+            }
         }
 
         public override List<Job> GetAll()
         {
-                return _mainRepository.Get(x => x.IsActive, "Company").ToList();
+                return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company").ToList();
         }
 
         public IEnumerable<Job> GetRecentJobs()
         {
-            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden, "Company").OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden && x.IsApproved)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .OrderByDescending(x => x.PublishedDate).Take(10).ToList();
+        }
+
+        public Job GetById(int id)
+        {
+            return _mainRepository
+                .Get(x => x.IsActive && x.Id == id)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .FirstOrDefault();
+        }
+
+        public List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote)
+        {
+            var query = _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company,Category,Location,HireType");
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(x => x.Title.Contains(keyword) || x.Description.Contains(keyword) || x.HowToApply.Contains(keyword));
+            }
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+            if (hireTypeId.HasValue)
+            {
+                query = query.Where(x => x.HireTypeId == hireTypeId.Value);
+
+            }
+            if (isRemote.HasValue)
+            {
+                query = query.Where(x => x.IsRemote == isRemote.Value);
+            }
+            return query.ToList();
         }
     }
 
     public interface IJobsService : IBaseService<Job, IJobsRepository>
     {
-        List<Job> GetByUser(int id);
+        List<Job> GetByUser(int userid);
+
+        Job GetById(int id);
 
         IEnumerable<Job> GetRecentJobs();
 
         Job GetDetails(int id, bool isPreview = false);
+        List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote);
     }
-
+    /*
     public class MockJobsService : IJobsService
     {
         public TaskResult<Job> Create(Job entity)
@@ -79,6 +138,11 @@ namespace AppServices.Services
         }
 
         public List<Job> GetAll() => new List<Job>(getMockRecords());
+
+        public Job GetById(int id)
+        {
+            throw new System.NotImplementedException();
+        }
 
         public List<Job> GetByUser(int id)
         {
@@ -103,7 +167,7 @@ namespace AppServices.Services
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
                 PublishedDate = new System.DateTime(2019,10,01),
-                Approved=true,
+                IsApproved = true,
                 ViewCount=150,
                 Likes =34,
                 IsRemote = true,
@@ -123,7 +187,7 @@ namespace AppServices.Services
                 Title = "Trabajo de prueba 2",
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
-                Approved=true,
+                IsApproved = true,
                 Company= new Company
                 {
                     Url="https://megsoftconsulting.com/",
@@ -150,7 +214,7 @@ namespace AppServices.Services
                 Description="Esto es un lorem ipsum",
                 HowToApply="Para aplicar mandame un correo plz",
                 UserId=10,
-                Approved = false,
+                IsApproved = false,
                 Company= new Company
                 {
                     Url="https://megsoftconsulting.com/",
@@ -171,5 +235,5 @@ namespace AppServices.Services
                 }
             }
         };
-    }
+    }*/
 }

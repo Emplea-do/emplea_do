@@ -29,7 +29,7 @@ namespace AppServices.Services
                 {
                     _mainRepository.Insert(entity);
                     _mainRepository.CommitChanges();
-                    taskResult.AddErrorMessage("Registro agregado exitosamente");
+                    taskResult.AddMessage("Registro agregado exitosamente");
                 }
                 catch(Exception ex)
                 {
@@ -47,7 +47,7 @@ namespace AppServices.Services
                 {
                     _mainRepository.Update(entity);
                     _mainRepository.CommitChanges();
-                    taskResult.AddErrorMessage("Registro actualizado exitosamente");
+                    taskResult.AddMessage("Registro actualizado exitosamente");
                     taskResult.Data = entity;
                 }
                 catch (Exception ex)
@@ -66,7 +66,8 @@ namespace AppServices.Services
                 try
                 {
                     _mainRepository.SoftDelete(entity.Id);
-                    taskResult.AddErrorMessage("Registro eliminado exitosamente");
+                    _mainRepository.CommitChanges();
+                    taskResult.AddMessage("Registro eliminado exitosamente");
                     taskResult.Data = entity;
                 }
                 catch (Exception ex)
