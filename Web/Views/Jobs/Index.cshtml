@@ -1,41 +1,36 @@
-﻿@{
-    ViewData["Title"] = "Empleos";
+﻿@model Web.ViewModels.JobSeachViewModel
+@{
+    ViewData["Title"] = "Listado de Empleos";
 }
 <feature name="@FeatureFlags.EnableSearch">
 <!-- ============================ Search Form Start================================== -->
 <section class="dark-search">
     <div class="container">
 
-        <form class="search-dark-form">
+        <form class="search-dark-form" method="get">
             <div class="row">
 
-                <div class="col-lg-4 col-md-4">
+                <div class="col-sm-3">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Keywords or Job Title">
+                        <input type="text" asp-for="Keyword" class="form-control" placeholder="Palabras clave">
+                        <label style="color:white">
+                            <input type="checkbox" asp-for="IsRemote" class="i-checks" /> Sólo mostrar posiciones remotas
+                        </label>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="form-group">
+                        <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2"></select>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3">
+                    <div class="form-group">
+                        <select asp-for="HireTypeId" asp-items="@(new SelectList(Model.HireTypes, "Id", "Name"))" data-placeholder="Jornada" data-allowClear="true" class="form-control select2"></select>
                     </div>
                 </div>
 
-                <div class="col-lg-3 col-md-4">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Location">
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-4">
-                    <div class="form-group">
-                        <select id="category" class="js-states form-control">
-                            <option value="">&nbsp;</option>
-                            <option value="1">SEO & Web Design</option>
-                            <option value="2">Wealth & Healthcare</option>
-                            <option value="3">Account / Finance</option>
-                            <option value="4">Education</option>
-                            <option value="5">Banking Jobs</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="col-lg-2 col-md-4">
-                    <button type="submit" class="btn btn-search-dark full-width">Filter Jobs</button>
+                <div class="col-sm-3">
+                    <button type="submit" class="btn btn-search-dark full-width">Buscar empleos</button>
                 </div>
 
             </div>
@@ -47,15 +42,6 @@
 </feature>
 <section>
     <div class="container">
-
-        <!-- row -->
-        <div class="row">
-            <div class="col-lg-12 col-md-12">
-                <h4>El número total de empleos es: @Model.Jobs.Count</h4>
-            </div>
-        </div>
-        <!-- /row -->
-
         <div class="row">
 
             <div class="col-md-12">

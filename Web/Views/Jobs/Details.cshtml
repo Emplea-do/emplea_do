@@ -90,6 +90,8 @@
                             <div class="mg-action">
                                 <div class="btn-group ml-2">
                                     <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@Model.Job.Id"><i class="ti-pencil-alt"></i></a>
+                                    @if (Model.Job.IsApproved)
+                                    {
                                     <a href="#" class="btn-hide btn btn-light" data-jobid="@Model.Job.Id">
                                         @if (Model.Job.IsHidden)
                                         {
@@ -100,6 +102,7 @@
                                             <i class="eye-icon icofont-eye-alt"></i>
                                         }
                                     </a>
+                                    }
                                     <a href="#" class="btn btn-danger btn-delete" data-jobid="@Model.Job.Id"><i class="ti-trash"></i></a>
                                 </div>
                             </div>

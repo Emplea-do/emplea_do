@@ -87,6 +87,30 @@ namespace AppServices.Services
                 .Include(x => x.Location)
                 .FirstOrDefault();
         }
+
+        public List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote)
+        {
+            var query = _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company,Category,Location,HireType");
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+            {
+                query = query.Where(x => x.Title.Contains(keyword) || x.Description.Contains(keyword) || x.HowToApply.Contains(keyword));
+            }
+            if (categoryId.HasValue)
+            {
+                query = query.Where(x => x.CategoryId == categoryId.Value);
+            }
+            if (hireTypeId.HasValue)
+            {
+                query = query.Where(x => x.HireTypeId == hireTypeId.Value);
+
+            }
+            if (isRemote.HasValue)
+            {
+                query = query.Where(x => x.IsRemote == isRemote.Value);
+            }
+            return query.ToList();
+        }
     }
 
     public interface IJobsService : IBaseService<Job, IJobsRepository>
@@ -98,6 +122,7 @@ namespace AppServices.Services
         IEnumerable<Job> GetRecentJobs();
 
         Job GetDetails(int id, bool isPreview = false);
+        List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote);
     }
     /*
     public class MockJobsService : IJobsService

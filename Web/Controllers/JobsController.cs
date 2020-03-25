@@ -44,9 +44,11 @@ namespace Web.Controllers
             _slackService = slackService;
         }
 
-        public async Task<IActionResult> Index(string keyword = "", bool isRemote = false)
+        public async Task<IActionResult> Index(JobSeachViewModel model)
         {
-            var recentJobs = _jobsService.GetRecentJobs();
+
+            /*
+             var recentJobs = _jobsService.GetRecentJobs();
 
             var legacyJobs = await _apiClient.GetJobsFromLegacy();
 
@@ -85,15 +87,22 @@ namespace Web.Controllers
 
                 recentJobs = recentJobs.Concat(legacyJobsTemp).ToList();
             }
+            */
 
-
-            var viewModel = new JobSeachViewModel
+            if (model == null)
             {
-                Keyword = keyword,
-                IsRemote = isRemote,
-                Jobs = recentJobs
-            };
-            return View(viewModel);
+                model = new JobSeachViewModel();
+            }
+
+            var jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, model.IsRemote);
+
+
+            model.Jobs = jobs;
+
+            model.Categories = _categoriesService.GetAll();
+            model.HireTypes = _hiretypesService.GetAll();
+
+            return View(model);
         }
 
         [Authorize]

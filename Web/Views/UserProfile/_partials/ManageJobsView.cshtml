@@ -26,7 +26,18 @@
                                         <img class="img-fluid rounded-circle" src="@job.Company.LogoUrl"  alt="@job.Company.Name"/>
                                     </div>
                                     <div class="mg-list-caption">
-                                        <h4 class="mg-title">@job.Title</h4>
+                                        @if (job.IsApproved)
+                                        {
+                                            <a asp-controller="jobs" asp-action="details" asp-route-id="@job.Id">
+                                                <h4 class="mg-title">@job.Title</h4>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="jobs" asp-action="details" asp-route-id="@job.Id" asp-route-ispreview="true">
+                                                <h4 class="mg-title">@job.Title</h4>
+                                            </a>
+                                        }
                                         <span class="mg-subtitle">Web Designer</span>
                                         <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
                                     </div>
@@ -44,9 +55,11 @@
 
                                     }
 
-                                    <div class="btn-group ml-2">
-                                        <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
+                                <div class="btn-group ml-2">
+                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
 
+                                    @if (job.IsApproved)
+                                    {
                                         <a href="#" class="btn-hide btn btn-light" data-jobid="@job.Id">
                                             @if (job.IsHidden)
                                             {
@@ -57,6 +70,7 @@
                                                 <i class="eye-icon icofont-eye-alt"></i>
                                             }
                                         </a>
+                                    }
                                         <a href="#" class="btn btn-danger btn-delete" data-jobid="@job.Id"><i class="ti-trash"></i></a>
 
                                     </div>
