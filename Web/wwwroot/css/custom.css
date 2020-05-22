@@ -3,3 +3,12 @@
     text-decoration: underline;
     font-weight: bold;
 }
+
+.control-label {
+    font-weight: bold;
+}
+
+.btn-info {
+    background-color: rgb(20, 177, 187) !important;
+    border-color: rgb(20, 177, 187) !important;
+}

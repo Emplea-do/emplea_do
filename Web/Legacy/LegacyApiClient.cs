@@ -30,8 +30,8 @@ public class LegacyApiClient
     
     public async Task<IList<JobCardDTO>> GetJobsFromLegacy()
     {
-        if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
-        return GetJobsFromMockData();
+        //if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
+           return GetJobsFromMockData();
         return await GetJobsFromLegacyCore();
         
     }
@@ -40,6 +40,7 @@ public class LegacyApiClient
     {
         if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
         return  GetJobByIdFromMockData(Id);
+
         return await GetJobByIdCore(Id);
     }
 
@@ -90,7 +91,7 @@ public static class FakeData
 {
     public static string GetFakeData()
     {
-        return 
+        return
         @"{
 Jobs: [
 {
@@ -105,7 +106,8 @@ ViewCount: 24,
 Likes: 0,
 CompanyLogoUrl: null,
 Description: '--',
-HowToApply: '--'
+HowToApply: '--',
+Email:'test@mail'
 },
 {
 Link: '1297',
@@ -119,7 +121,8 @@ ViewCount: 40,
 Likes: 0,
 CompanyLogoUrl: null,
 Description: '---',
-HowToApply: '---'
+HowToApply: '---',
+Email:'test@mail'
 },
 {
 Link: '1296',
@@ -134,7 +137,8 @@ Likes: 0,
 CompanyLogoUrl: 'http://www.help-net.net/logo.png',
 Description: '<p> We’re a USA based company in Miami, FL, and Santiago DR, and we’re looking for candidates like you to fill an IOS Developer position that focuses on designing/implementing the overall architecture of mobile applications that interacts with complex API’s and implement complex business logic and an awesome UI/UX. We’d love to hear from qualified, self-learner and proactive people that loves creating wonderful and scalable apps with high quality and standardized code. <br></p><p> Expertise in:<br>- Apple’s Xcode IDE<br>- Swift (3.0 and above).<br>- Both iPhone and iPad Apps and Architectures<br>- Apple Frameworks and APIs<br><br>Vast Knowledge of:<br><br>- Mobile development and best practices<br>- Application life cycle including Certificates, Profiles and Publishing to the App Store<br>- Strong understanding of security best practices at the application and network level<br>- UI and UX design experience<br>- Consuming REST APIs and JSON data.<br>- Apple Human Interface Guidelines<br>- Implementation of Push Notifications<br>- Git code repository technology<br><br>Ideal / Optional / Plus:<br><br>- TFS<br>- Jira<br>- Scrum and Agile methodologies <br></p>',
 HowToApply: '<p>Please send your resume to hr@help-net.net and answer the following questions:</p><p>What is your English level?<br>How many years working with native iOS development do you have?<br></p>'
-},
+,
+Email:'test@mail'},
 {
 Link: '1295',
 CompanyName: 'NtechSRL',
@@ -147,7 +151,8 @@ ViewCount: 51,
 Likes: 0,
 CompanyLogoUrl: null,
 Description: '---',
-HowToApply: '---'
+HowToApply: '---',
+Email:'test@mail'
 },
 ]
 }";

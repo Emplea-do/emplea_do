@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AppServices.Framework;
 using AppServices.Services;
 using Data.Repositories;
@@ -10,6 +12,11 @@ namespace AppServices.Services
     {
         public CompaniesService(ICompaniesRepository mainRepository) : base(mainRepository)
         {
+        }
+
+        public List<Company> GetByUserId(int userId)
+        {
+            return _mainRepository.Get(x=>x.IsActive && x.UserId == userId).ToList();
         }
 
         protected override TaskResult<Company> ValidateOnCreate(Company entity)
@@ -30,6 +37,6 @@ namespace AppServices.Services
 
     public interface ICompaniesService : IBaseService<Company, ICompaniesRepository>
     {
-
+        List<Company> GetByUserId(int userId);
     }
 }

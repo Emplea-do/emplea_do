@@ -23,6 +23,7 @@
     <link href="~/css/plugins.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
     <link href="~/css/slick-theme.css" rel="stylesheet">
+    <link src="~/lib/swal/dist/sweetalert2.min.css" rel="stylesheet">
     <link href="~/css/custom.css" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
@@ -47,6 +48,9 @@
     </div>
 
     <environment include="Development,Production">
+        <script>
+        var base_url = '@(this.Context.Request.Scheme +"://" + this.Context.Request.Host.ToUriComponent())';
+        </script>
         <script src="~/lib/jquery/jquery.min.js"></script>
         <script src="~/lib/popperjs/umd/popper.min.js"></script>
         <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
@@ -59,7 +63,9 @@
         <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
         <script src="~/lib/jquery.isotope/isotope.pkgd.min.js"></script>
         <script src="~/lib/summernote/summernote.min.js"></script>
+        <script src="~/lib/swal/dist/sweetalert2.all.min.js"></script>
         <script src="~/js/custom.js"></script>
+        <script src="~/js/site.js"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

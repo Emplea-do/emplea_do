@@ -24,7 +24,7 @@ namespace Migrations
                 .WithColumn("Likes").AsInt32().NotNullable()
                 .WithColumn("IsRemote").AsBoolean().NotNullable()
                 .WithColumn("IsHidden").AsBoolean().NotNullable()
-                .WithColumn("Approved").AsBoolean().NotNullable()
+                .WithColumn("IsApproved").AsBoolean().NotNullable()
                 .WithColumn("PublishedDate").AsDateTime().NotNullable()
                 .WithColumn("CategoryId").AsInt32().NotNullable()
                 .WithColumn("CompanyId").AsInt32().Nullable()
