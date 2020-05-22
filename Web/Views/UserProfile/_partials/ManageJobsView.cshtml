@@ -39,7 +39,10 @@
                                             </a>
                                         }
                                         <span class="mg-subtitle">Web Designer</span>
-                                        <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
+                                        @if (job.IsApproved)
+                                        {
+                                            <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
+                                        }
                                     </div>
                                 </div>
 

@@ -94,7 +94,11 @@ namespace Web.Controllers
                 model = new JobSeachViewModel();
             }
 
-            var jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, model.IsRemote);
+            bool? isOnlyRemotes = null;
+            if (model.IsRemote)
+                isOnlyRemotes = model.IsRemote;
+
+            var jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, isOnlyRemotes);
 
 
             model.Jobs = jobs;
@@ -419,6 +423,7 @@ namespace Web.Controllers
                 if (isTokenValid && isJobApproved)
                 {
                     jobOpportunity.IsApproved = true;
+                    jobOpportunity.PublishedDate = DateTime.UtcNow;
                     _jobsService.Update(jobOpportunity);
                     await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
                 }
