@@ -62,3 +62,5 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 ## If you have any questions or just want to hang out ##
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)
+
+Some dummy text
