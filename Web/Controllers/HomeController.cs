@@ -14,22 +14,26 @@ namespace Web.Controllers
     {
         private readonly IJobsService _jobsService;
         private readonly LegacyApiClient apiClient;
+        private readonly ICategoriesService _categoriesService;
 
-        public HomeController(IJobsService jobsService, LegacyApiClient apiClient)
+        public HomeController(IJobsService jobsService, LegacyApiClient apiClient, ICategoriesService categoriesService)
         {
             _jobsService = jobsService;
             this.apiClient = apiClient;
+            _categoriesService = categoriesService;
         }
 
         public async Task<IActionResult> Index()
         {
             var recentJobs = _jobsService.GetRecentJobs();
             var jobCards = await apiClient.GetJobsFromLegacy();
+            var categories = _categoriesService.GetAll();
 
             var viewModel = new HomeViewModel
             {
                 JobCards = jobCards,
-                Jobs = recentJobs
+                Jobs = recentJobs,
+                Categories = categories
             };
 
             return View(viewModel);
