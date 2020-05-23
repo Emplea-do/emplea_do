@@ -77,6 +77,20 @@ Below you will find the instructions, step by step to configure the following ex
 
 ### Google
 
+0. Log In in [Google](https://www.google.com/) using your account
+1. Go to [Integrating Google Sign-In into your web app](https://developers.google.com/identity/sign-in/web/sign-in) and click in the _Configure a project_ button
+2. From the dropdown, select _+ Create a new project_, we need to fill the basic information about the application:
+
+   - Set the _Project name_ and click next, eg.: _Empleado_.
+   - Enter the _Product Name_ and click next, eg.: _Emplea.do_
+   - From the dropdown select _Web server_ as _your OAuth client_ and set https://localhost:5001/ as _Authorized redirect URIs_ and click _Create_
+
+3. Copy the _Client ID_ and _Client Secret_, we will need it in the next step.
+
+4. Back in our Emplea.do _Web_ project go to the file _appsettings.Development.json_ to the _Google_ object under _Authentication_ and paste the _ClientId_ and _ClientSecret_ copied in the previous steps.
+
+5. Run the project and Log In using Google.
+
 ## References
 
 - [Facebook, Google, and external provider authentication in ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/security/authentication/social/index?view=aspnetcore-2.2&tabs=visual-studio)
