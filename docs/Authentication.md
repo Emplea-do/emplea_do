@@ -24,15 +24,8 @@ Below you will find the instructions, step by step to configure the following ex
    ![Step 5, Configure Settings for Facebook Login](images/authentication-facebook-2.jpg)
 6. In the menu on the left, under _Settings_, click on _Basic_, you will see the Facebook _App ID_ and _App Secret_, necessary to configure the Authentication in the project, copy them, you will need it in next step.
    ![Step 6, copying the App ID and App Secret](images/authentication-facebook-3.jpg)
-7. In the _Web_ project go to the file _appsettings.Development.json_ go to the _Facebook_ object, under _Authentication_, paste the _App ID_ and _App Secret_ copied in the previous step.  
-   ![Step 7, using the App ID and App Secret](images/authentication-facebook-4.jpg)
+7. In the _Web_ project go to the file _appsettings.Development.json_ go to the _Facebook_ object, under _Authentication_, paste the _App ID_ and _App Secret_ copied in the previous step.
 8. Run the project and Log In using Facebook.
-
-   - Log In using _Facebook_  
-     ![Step 8, Log In using Facebook](images/authentication-facebook-5.jpg)
-
-   - Successful Log In
-     ![Step 8, Successful Log In](images/authentication-facebook-6.jpg)
 
 ### Microsoft
 
@@ -43,7 +36,7 @@ Below you will find the instructions, step by step to configure the following ex
    - Fill the _Name_ field for the application name, eg.: _Emplea.do_.
    - For _Supported account types_ choose _Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)_, this will allow to login anyone with a Microsoft account.
    - For _Redirect URI_ we need to use: https://localhost:5001/signin-microsoft, in the Development Environment this is the local url that the projects use, appending the '_signin-microsoft_' that identifies the login provider, in this case, Microsoft.
-   - Click the Register button.
+   - Click the _Register_ button.
 
      ![Step 2, Register Application in Microsoft](images/authentication-microsoft-1.jpg)
 
@@ -57,14 +50,30 @@ Below you will find the instructions, step by step to configure the following ex
 
 4. In the left menu, go to the application _Overview_, there you will see the _Application (client) ID_, copy it, we will need it in the next step.
 
-5. Back in our Emplea.do _Web_ project go to the file _appsettings.Development.json_ to the _Microsoft_ object under _Authentication_ and paste the _App ID_ and _App Secret_ copied in the previous steps.  
-   ![Step 7, using the App ID and App Secret](images/authentication-microsoft-2.jpg)
+5. Back in our Emplea.do _Web_ project go to the file _appsettings.Development.json_ to the _Microsoft_ object under _Authentication_ and paste the _App ID_ and _App Secret_ copied in the previous steps.
 
 7) Run the project and Log In using Microsoft.
 
 ### LinkedIn
 
 ### GitHub
+
+0. Log In in [GitHub](https://github.com/) using your account
+1. Go to [New OAuth Application](https://github.com/settings/applications/new)
+2. We need to fill the basic information about the application:
+
+   - Set the _Application Name_, eg.: _Emplea.do_.
+   - _Homepage URL_: https://localhost:5001
+   - For _Authorization callback URL_ we need to use: https://localhost:5001/signin-github, in the Development Environment this is the local url that the projects use, appending the '_signin-github_' that identifies the login provider, in this case, GitHub.
+   - Click the _Register Application_ button.
+
+     ![Step 2, Register Application in GitHub](images/authentication-github-1.jpg)
+
+3. Copy the _Client ID_ and _Client Secret_, we will need it in the next step.
+
+4. Back in our Emplea.do _Web_ project go to the file _appsettings.Development.json_ to the _Github_ object under _Authentication_ and paste the _ClientId_ and _ClientSecret_ copied in the previous steps.
+
+5. Run the project and Log In using GitHub.
 
 ### Google
 
