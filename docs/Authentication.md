@@ -83,7 +83,7 @@ Below you will find the instructions, step by step to configure the following ex
 
    - Set the _Project name_ and click next, eg.: _Empleado_.
    - Enter the _Product Name_ and click next, eg.: _Emplea.do_
-   - From the dropdown select _Web server_ as _your OAuth client_ and set https://localhost:5001/ as _Authorized redirect URIs_ and click _Create_
+   - From the dropdown select _Web server_ as _your OAuth client_ and set https://localhost:44343/signin-google as _Authorized redirect URIs_ and click _Create_
 
 3. Copy the _Client ID_ and _Client Secret_, we will need it in the next step.
 
