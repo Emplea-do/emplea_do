@@ -4,7 +4,7 @@ ASP.NET Core Identity is a membership system that adds login functionality to AS
 
 ## Instructions
 
-Below you will find the instructions, step by step to configure the following external login provider in your development environment.
+Below you will find the instructions, step-by-step to configure the following external login provider in your development environment.
 
 - [Facebook](#Facebook)
 - [Microsoft](#Microsoft)
