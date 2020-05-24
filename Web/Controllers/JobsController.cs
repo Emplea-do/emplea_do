@@ -100,7 +100,6 @@ namespace Web.Controllers
 
             var jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, isOnlyRemotes);
 
-
             model.Jobs = jobs;
 
             model.Categories = _categoriesService.GetAll();

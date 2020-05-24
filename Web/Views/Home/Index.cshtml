@@ -13,20 +13,15 @@
                     <div class="row">
                         <div class="form-group col-md-12 col-sm-12 p-0">
                             <i class="ti-search"></i>
-                            <input type="text" class="form-control" placeholder="título, descripción, compañía">
+                            <input type="text" id="Keyword" name="Keyword" class="form-control" placeholder="Título, Descripción, Compañía">
                         </div>
 
                         <div class="form-group col-md-8 col-sm-12  br-all p-0">
-                            <select id="category" class="js-states form-control">
-                                <option value="">&nbsp;</option>
-                                <option value="1">SEO & Web Design</option>
-                                <option value="2">Wealth & Healthcare</option>
-                                <option value="3">Account / Finance</option>
-                                <option value="4">Education</option>
-                                <option value="5">Banking Jobs</option>
+                            <select id="CategoryId" name="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
+                                <option></option>
                             </select>
                         </div>
-
+                        
                         <div class="col-md-4 col-sm-12 p-0 pl-3">
                             <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
                         </div>
@@ -37,6 +32,7 @@
         </div>
     </div>
 </feature>
+
 <!-- ============================ Hero Banner End ================================== -->
 <!-- ============================ Job List Start ================================== -->
 <section>
