@@ -5,7 +5,13 @@
 
 
 $(document).ready(function () {
+    $('.select2').each(function () {
+        let placeholder = $(this).data('placeholder') || 'seleccione una opción';
+        let allowClear = $(this).data('allowClear') || $(this).attr('data-allowClear');;
 
-
-    $(".select2").select2();
+        $(this).select2({
+            placeholder: placeholder,
+            allowClear: allowClear
+        });
+    });
 });

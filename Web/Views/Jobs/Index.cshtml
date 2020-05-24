@@ -20,12 +20,16 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="form-group">
-                        <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2"></select>
+                        <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" camelCase="true" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
+                            <option></option>
+                        </select>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="form-group">
-                        <select asp-for="HireTypeId" asp-items="@(new SelectList(Model.HireTypes, "Id", "Name"))" data-placeholder="Jornada" data-allowClear="true" class="form-control select2"></select>
+                        <select asp-for="HireTypeId" asp-items="@(new SelectList(Model.HireTypes, "Id", "Name"))" data-placeholder="Jornada" data-allowClear="true" class="form-control select2">
+                            <option></option>
+                        </select>
                     </div>
                 </div>
 
