@@ -47,7 +47,7 @@ namespace Web.Controllers
         public async Task<IActionResult> Index(JobSeachViewModel model)
         {
 
-
+            /*
              var recentJobs = _jobsService.GetRecentJobs();
 
             var legacyJobs = await _apiClient.GetJobsFromLegacy();
@@ -86,7 +86,7 @@ namespace Web.Controllers
                 }
 
                 recentJobs = recentJobs.Concat(legacyJobsTemp).ToList();
-            }
+            }*/
             
 
             if (model == null)
