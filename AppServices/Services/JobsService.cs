@@ -91,10 +91,10 @@ namespace AppServices.Services
         public List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote)
         {
             var query = _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company,Category,Location,HireType");
-
+            var search = keyword.ToLower();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Title.Contains(keyword) || x.Description.Contains(keyword) || x.HowToApply.Contains(keyword));
+                query = query.Where(x => x.Title.ToLower().Contains(search) || x.Description.ToLower().Contains(search));
             }
             if (categoryId.HasValue)
             {
