@@ -1,10 +1,13 @@
-﻿using AppServices.Framework;
-using Data.Repositories;
+﻿using Domain;
 using Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using Data.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using AppServices.Services;
+using AppServices.Framework;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace AppServices.Services
 {
@@ -34,12 +37,12 @@ namespace AppServices.Services
         public List<Job> GetByUser(int userId)
         {
             return _mainRepository
-                .Get(x => x.UserId == userId && x.IsActive)
+                .Get(x=>x.UserId == userId && x.IsActive)
                 .Include(x => x.Company)
                 .Include(x => x.Category)
                 .Include(x => x.HireType)
                 .Include(x => x.Location)
-                .OrderByDescending(x => x.PublishedDate).ToList();
+                .OrderByDescending(x=>x.PublishedDate).ToList();
         }
 
         public Job GetDetails(int id, bool isPreview = false)
@@ -61,12 +64,12 @@ namespace AppServices.Services
 
         public override List<Job> GetAll()
         {
-            return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company").ToList();
+                return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company").ToList();
         }
 
         public IEnumerable<Job> GetRecentJobs()
         {
-            return _mainRepository.Get(x => x.IsActive && !x.IsHidden && x.IsApproved)
+            return _mainRepository.Get(x=>x.IsActive && !x.IsHidden && x.IsApproved)
                 .Include(x => x.Company)
                 .Include(x => x.Category)
                 .Include(x => x.HireType)
@@ -88,7 +91,7 @@ namespace AppServices.Services
         public List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote)
         {
             var query = _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company,Category,Location,HireType");
-            var search = keyword?.ToLower();
+            var search = keyword.ToLower();
             if (!string.IsNullOrWhiteSpace(keyword))
             {
                 query = query.Where(x => x.Title.ToLower().Contains(search) || x.Description.ToLower().Contains(search));
