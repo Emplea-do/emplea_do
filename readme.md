@@ -10,10 +10,12 @@
 
 ## Running the app for the first time
 
-0. Run the init.sh script, this will install all command line tools
+0. Run the script (init.sh or init.bat), this will install all command line tools
 1. Open the solution
 2. Restore the nuget packages
 3. Run the Web project
+
+This project has two initializations for Windows and for Linux or Mac
 
 ## Workflow
 
@@ -35,7 +37,7 @@ It gets installed when you run the `init.sh` script.
 
 Rename the `appsetting.template.json` file to `appsetting.json` and complete the client ids and secrets for each authentication provider you want to use.
 
-You can see a [step-by-step guide](docs/authentication.md) of how to do it.
+You can see a [step-by-step guide](docs/Authentication.md) of how to do it.
 
 #### Ignoring changes of the appsettings file
 
@@ -62,5 +64,3 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 ## If you have any questions or just want to hang out
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)
-
-Some dummy text

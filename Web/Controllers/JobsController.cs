@@ -86,8 +86,8 @@ namespace Web.Controllers
                 }
 
                 recentJobs = recentJobs.Concat(legacyJobsTemp).ToList();
-            }
-            */
+            }*/
+            
 
             if (model == null)
             {
