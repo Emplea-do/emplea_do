@@ -1,3 +1,4 @@
+Web/wwwroot/Helpers/log/**/*
 *.db
 # Autosave files
 *~
