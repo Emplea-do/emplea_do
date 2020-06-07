@@ -434,17 +434,19 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         //[ValidateInput(false)]
-        public async Task Validate()
+        public async Task Validate([FromBody] PayloadResponseDto payload)
         {
             try
             {
-                var bodyStr = "";
-                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                /*var bodyStr = "";
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
                 {
                     bodyStr = await reader.ReadToEndAsync();
                 }
 
                 var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+                */
+
                 int jobOpportunityId = Convert.ToInt32(payload.callback_id);
                 var jobOpportunity = _jobsService.GetById(jobOpportunityId);
                 var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
