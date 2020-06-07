@@ -45,7 +45,7 @@ namespace Web.Framework.Extensions
                 !httpContext.Request.Body.CanSeek) return body;
             httpContext.Request.EnableRewind();
             httpContext.Request.Body.Seek(0, SeekOrigin.Begin);
-            using (var reader = new StreamReader(httpContext.Request.Body, encoding, true, 1024, true))
+            using (var reader = new StreamReader(httpContext.Request.Body, encoding))
             {
                 body = reader.ReadToEnd();
             }

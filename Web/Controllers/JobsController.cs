@@ -434,7 +434,7 @@ namespace Web.Controllers
         /// <returns></returns>s
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateInput(false)]
+        [Consumes("application/x-www-form-urlencoded")]
         public async Task Validate()
         {
             try
