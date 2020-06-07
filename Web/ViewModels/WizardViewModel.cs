@@ -12,8 +12,8 @@ namespace Web.ViewModels
 
         [Display(Name = "Localidad")]
         public string LocationName { get; set; }
-        public double LocationLatitude { get; set; }
-        public double LocationLongitude { get; set; }
+        public string LocationLatitude { get; set; }
+        public string LocationLongitude { get; set; }
         [Required(ErrorMessage = "Debes seleccionar una localidad válida")]
         public string LocationPlaceId { get; set; }
 
