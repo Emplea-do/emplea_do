@@ -1,5 +1,7 @@
 # Emplea.do
 
+[![Build Status](https://dev.azure.com/megsoft/EmpleaDo%20Build%20System/_apis/build/status/Emplea.Do%20Beta/beta.emplea.do%20-%20PR%20Builds?branchName=development)](https://dev.azure.com/megsoft/EmpleaDo%20Build%20System/_build/latest?definitionId=26&branchName=development)
+
 ## Getting the project up and running
 
 ### Install the following software
