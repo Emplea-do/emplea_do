@@ -15,13 +15,13 @@ namespace Domain.Entities
 
         public int ViewCount { get; set; }
 
-        public int Likes { get; set; }
+        public int Likes { get; set; } =  0;
 
-        public bool IsRemote { get; set; }
+        public bool IsRemote { get; set; } = false;
 
-        public bool IsHidden { get; set; }
+        public bool IsHidden { get; set; } = false;
 
-        public bool IsApproved { get; set; }
+        public bool IsApproved { get; set; } = false;
 
         public DateTime PublishedDate { get; set; }
 

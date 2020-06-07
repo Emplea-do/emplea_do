@@ -32,7 +32,7 @@ public class LegacyApiClient
     {
         //if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
            return GetJobsFromMockData();
-        return await GetJobsFromLegacyCore();
+        //return await GetJobsFromLegacyCore();
         
     }
 
