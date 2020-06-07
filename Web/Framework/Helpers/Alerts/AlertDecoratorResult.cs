@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Web.Framework.Helpers.Alerts
 {
@@ -24,6 +25,7 @@ namespace Web.Framework.Helpers.Alerts
             var tempData = factory.GetTempData(context.HttpContext);
             var alerts = tempData.GetAlerts();
             alerts.Add(new Alert(AlertClass, Message));
+            tempData[AlertExtensions.Alerts] = JsonConvert.SerializeObject(alerts);
             await InnerResult.ExecuteResultAsync(context);
         }
     }

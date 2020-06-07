@@ -1,21 +1,22 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Newtonsoft.Json;
 
 namespace Web.Framework.Helpers.Alerts
 {
     public static class AlertExtensions
     {
-        private const string Alerts = "_Alerts";
+        public const string Alerts = "_Alerts";
 
         public static List<Alert> GetAlerts(this ITempDataDictionary tempData)
         {
             if (!tempData.ContainsKey(Alerts))
             {
-                tempData[Alerts] = new List<Alert>();
+                return new List<Alert>();
             }
 
-            return (List<Alert>)tempData[Alerts];
+            return JsonConvert.DeserializeObject<List<Alert>>(tempData[Alerts].ToString());
         }
 
         public static IActionResult WithSuccess(this IActionResult result, string message)
