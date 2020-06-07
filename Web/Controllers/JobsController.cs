@@ -270,7 +270,6 @@ namespace Web.Controllers
                         }
 
                         throw new Exception(result.Messages);
-                        //return View(model).WithError(result.Messages);
                     }
 
                 }
@@ -430,7 +429,7 @@ namespace Web.Controllers
         /// <summary>
         /// Validates the payload response that comes from the Slack interactive message actions
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="payload"></param>
         /// <returns></returns>s
         [HttpPost]
         [AllowAnonymous]
@@ -438,12 +437,6 @@ namespace Web.Controllers
         {
             try
             {
-                /*var bodyStr = Request.HttpContext.GetRawBodyString(Encoding.UTF8);
-                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
-                {
-                    bodyStr = await reader.ReadToEndAsync();
-                }
-                */
                 var data = JsonConvert.DeserializeObject<PayloadResponseDto>(payload);
                 
                 if(data == null)
@@ -484,18 +477,9 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
-                var bodyStr = "";
-                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-                {
-                    bodyStr = await reader.ReadToEndAsync();
-                }
-                ex.Data.Add("body", bodyStr);
                 HttpContext.RiseError(ex);
                 if(ex.InnerException != null)
                     HttpContext.RiseError(ex.InnerException);
-
-                //Catches exceptions so that the raw HTML doesn't appear on the slack channel
-                //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
             }
         }
 
