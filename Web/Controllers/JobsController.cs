@@ -242,7 +242,8 @@ namespace Web.Controllers
                             },
                             UserId = _currentUser.UserId,
                             IsHidden = false,
-                            IsApproved = false
+                            IsApproved = false,
+                            PublishedDate = DateTime.Now
                         };
                         var result = _jobsService.Create(newJob);
                         if (result.Success)
