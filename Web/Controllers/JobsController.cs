@@ -198,6 +198,7 @@ namespace Web.Controllers
                             originalJob.Description = model.Description;
                             originalJob.Title = model.Title;
                             originalJob.IsRemote = model.IsRemote;
+                            originalJob.IsApproved = false;
                             if(originalJob.Location.PlaceId != model.LocationPlaceId)
                             { 
                                 originalJob.Location = new Location
@@ -211,7 +212,14 @@ namespace Web.Controllers
                             var result = _jobsService.Update(originalJob);
                             if (result.Success)
                             {
-                                await _slackService.PostJob(originalJob, Url);
+                                try
+                                {
+                                    await _slackService.PostJob(originalJob, Url);
+                                }
+                                catch (Exception ex)
+                                {
+                                    HttpContext.RiseError(ex);
+                                }
                                 return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
                             }
 
