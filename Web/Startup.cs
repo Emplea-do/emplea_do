@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Data;
 using ElmahCore;
 using ElmahCore.Mvc;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.FeatureManagement;
+using Web.Framework;
 using Web.Framework.Configurations;
 
 namespace Web
@@ -59,7 +61,9 @@ namespace Web
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
            
             services.Configure<LegacyApiClient>(Configuration);
-           
+
+            services.AddSingleton<ITelemetryInitializer, RequestBodyInitializer>();
+
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
 
