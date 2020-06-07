@@ -248,7 +248,14 @@ namespace Web.Controllers
                         var result = _jobsService.Create(newJob);
                         if (result.Success)
                         {
-                            await _slackService.PostJob(newJob, Url).ConfigureAwait(false);
+                            try
+                            {
+                                await _slackService.PostJob(newJob, Url).ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                HttpContext.RiseError(ex);
+                            }
 
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
@@ -417,6 +424,7 @@ namespace Web.Controllers
         /// <param name="model"></param>
         /// <returns></returns>s
         [HttpPost]
+        [AllowAnonymous]
         //[ValidateInput(false)]
         public async Task Validate()
         {
@@ -441,6 +449,7 @@ namespace Web.Controllers
                     jobOpportunity.PublishedDate = DateTime.UtcNow;
                     _jobsService.Update(jobOpportunity);
                     await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
+
                 }
                 else if (isTokenValid && isJobRejected)
                 {

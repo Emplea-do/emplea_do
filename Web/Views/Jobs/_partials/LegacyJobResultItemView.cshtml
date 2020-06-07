@@ -11,7 +11,7 @@
 <div class="job-new-list">
     <div class="vc-thumb">
         <a asp-controller="company" asp-action="index" asp-route-data="new { Model.Company.Id }">
-           @if(!string.IsNullOrWhiteSpace(Model.CompanyLogoUrl))
+           @if(!string.IsNullOrWhiteSpace(Model.CompanyLogoUrl) && !Model.CompanyLogoUrl.StartsWith("http://"))
            {
             <img class="img-fluid" src="@Model.CompanyLogoUrl" alt="@Model.CompanyName">
            }
