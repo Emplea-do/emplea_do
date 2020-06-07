@@ -447,6 +447,10 @@ namespace Web.Controllers
                 */
                 var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
                 
+                if(payload == null)
+                {
+                    throw new Exception($"Payload is null, Body: {bodyStr}");
+                }
 
                 int jobOpportunityId = Convert.ToInt32(payload.callback_id);
                 var jobOpportunity = _jobsService.GetById(jobOpportunityId);
