@@ -46,14 +46,14 @@ namespace AppServices.Services
         {
             if (isPreview)
             {
-                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
+                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location,HireType,Category")
                     .FirstOrDefault();
 
             }
             else
             {
                 return _mainRepository
-                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location")
+                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location,HireType,Category")
                     .FirstOrDefault();
 
             }
@@ -61,7 +61,8 @@ namespace AppServices.Services
 
         public override List<Job> GetAll()
         {
-            return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company").ToList();
+            return _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company")
+                .OrderByDescending(x => x.PublishedDate).ToList();
         }
 
         public IEnumerable<Job> GetRecentJobs()
@@ -106,7 +107,7 @@ namespace AppServices.Services
             {
                 query = query.Where(x => x.IsRemote == isRemote.Value);
             }
-            return query.ToList();
+            return query.OrderByDescending(x => x.PublishedDate).ToList();
         }
     }
 
