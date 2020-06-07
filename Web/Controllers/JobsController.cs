@@ -19,6 +19,7 @@ using System.Net;
 using System.IO;
 using System.Text;
 using Web.Framework;
+using ElmahCore;
 
 namespace Web.Controllers
 {
@@ -251,12 +252,14 @@ namespace Web.Controllers
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
 
-                        return View(model).WithError(result.Messages);
+                        throw new Exception(result.Messages);
+                        //return View(model).WithError(result.Messages);
                     }
 
                 }
                 catch(Exception ex)
                 {
+                    HttpContext.RiseError(ex);
                     return View(model).WithError(ex.Message);
                 }
             }
@@ -362,7 +365,8 @@ namespace Web.Controllers
                 }
             }
             catch (Exception ex)
-                        {
+            {
+                HttpContext.RiseError(ex);
                 result.AddErrorMessage(ex.Message);
             }
             return Json(result);
@@ -399,6 +403,7 @@ namespace Web.Controllers
             }
             catch(Exception ex)
             {
+                HttpContext.RiseError(ex);
                 result.AddErrorMessage(ex.Message);
             }
             return Json(result);
@@ -455,8 +460,9 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
+                HttpContext.RiseError(ex);
                 //Catches exceptions so that the raw HTML doesn't appear on the slack channel
-              //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
+                //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
             }
         }
 
