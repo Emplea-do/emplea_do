@@ -46,7 +46,7 @@ namespace Web.Controllers
             _slackService = slackService;
         }
 
-        public async Task<IActionResult> Index(JobSeachViewModel model)
+        public IActionResult Index(JobSeachViewModel model)
         {
 
             /*
