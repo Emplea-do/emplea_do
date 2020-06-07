@@ -19,7 +19,11 @@
         </a>
     </div>
     <div class="vc-content" style="max-width:75%">
-        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">@Model.Title</a> <span class='j-full-time'>@Model.HireType.Name</span> </h5>
+        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Id })">@Model.Title</a> <span class='badge badge-primary'>@Model.HireType.Name</span>
+            @if (Model.IsRemote) { 
+                <span class="badge badge-warning">Remoto</span>
+            }
+        </h5>
         <p>@(string.IsNullOrWhiteSpace(Model.Company.Name) ? "No disponible" : Model.Company.Name)</p>
         <ul class="vc-info-list">
             <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(Model.Location != null ? string.IsNullOrWhiteSpace(Model.Location.Name) ? "N/A" : Model.Location.Name : "N/A")</li>

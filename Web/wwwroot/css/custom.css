@@ -16,3 +16,7 @@
 textarea{
     min-height:300px;
 }
+
+.badge-warning{
+    color:white;
+}

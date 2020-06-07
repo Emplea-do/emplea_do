@@ -1,7 +1,6 @@
 ﻿@model JobDetailsViewModel
-@using Microsoft.AspNetCore.Html;
-<!-- ============================================================== -->
-<!-- ======================= Start Banner ===================== -->
+@using Microsoft.AspNetCore.Html
+
 <section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
         <div class="row m-0 align-items-end detail-swap">
@@ -11,6 +10,11 @@
                         <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
                     </div>
                     <div class="tr-list-info" style="max-width:80%">
+                        <span class='badge badge-primary'>@Model.Job.HireType.Name</span>
+                        @if (Model.Job.IsRemote)
+                        {
+                            <span class="badge badge-warning">Remoto</span>
+                        }
                         <h4 class="mb-1">@Model.Job.Title</h4>
                         <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
                         <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location?.Name</p>
@@ -19,7 +23,7 @@
                 <feature name="@FeatureFlags.EnableApplyForJob">
                     <div class="listing-detail_right">
                         <div class="listing-detail-item">
-                            <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply This Job</a><br>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply To This Job</a><br>
                             <a href="#" class="btn btn-list full-width color--linkedin"><i class="ti-linkedin mr-2"></i> Apply With linkedin</a>
                         </div>
                     </div>
@@ -28,12 +32,11 @@
         </div>
     </div>
 </section>
-<!-- ======================= End Banner ===================== -->
-<!-- ============== Job Detail ====================== -->
+
 <section class="tr-single-detail gray-bg">
     <div class="container">
         <feature name="@FeatureFlags.ShowPreviewWarning">
-            @if (Model.IsPreview)
+            @if (Model.IsPreview && !Model.Job.IsApproved)
             {
                 <div class="alert alert-warning">
                     <b>Esta vacante no ha sido aprobada. Revise de nuevo más tarde.</b>

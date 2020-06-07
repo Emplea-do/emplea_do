@@ -22,7 +22,7 @@
         </a>
     </div>
     <div class="vc-content">
-        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview, isLegacy = true})">@Model.Title</a> <span class='j-full-time'>@Model.JobType</span> </h5>
+        <h5 class="title"><a href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isPreview = isPreview, isLegacy = true})">@Model.Title</a> <span class='badge badge-primary'>@Model.JobType</span> </h5>
         <p>@(string.IsNullOrWhiteSpace(Model.CompanyName) ? "No disponible" : Model.CompanyName)</p>
         <ul class="vc-info-list">
             <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(string.IsNullOrWhiteSpace(Model.Location) ? "N/A" : Model.Location)</li>

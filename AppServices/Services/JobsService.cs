@@ -46,14 +46,14 @@ namespace AppServices.Services
         {
             if (isPreview)
             {
-                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location")
+                return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location,HireType,Category")
                     .FirstOrDefault();
 
             }
             else
             {
                 return _mainRepository
-                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location")
+                    .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location,HireType,Category")
                     .FirstOrDefault();
 
             }
