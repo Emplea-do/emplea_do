@@ -34,6 +34,9 @@ namespace AppServices.Services
                 catch(Exception ex)
                 {
                     taskResult.AddErrorMessage(ex.Message);
+                    if(ex.InnerException != null)
+                        taskResult.AddErrorMessage(ex.InnerException.Message);
+
                 }
             }
             return taskResult;
@@ -53,6 +56,8 @@ namespace AppServices.Services
                 catch (Exception ex)
                 {
                     taskResult.AddErrorMessage(ex.Message);
+                    if (ex.InnerException != null)
+                        taskResult.AddErrorMessage(ex.InnerException.Message);
                 }
             }
             return taskResult;
@@ -73,6 +78,8 @@ namespace AppServices.Services
                 catch (Exception ex)
                 {
                     taskResult.AddErrorMessage(ex.Message);
+                    if (ex.InnerException != null)
+                        taskResult.AddErrorMessage(ex.InnerException.Message);
                 }
             }
             return taskResult;
