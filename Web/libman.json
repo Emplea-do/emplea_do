@@ -65,6 +65,11 @@
             "library": "sweetalert2@9.7.2",
             "destination": "wwwroot/lib/swal",
             "files": [ "dist/sweetalert2.all.min.js", "dist/sweetalert2.min.css" ]
+        },
+        {
+            "library": "iCheck@1.0.2",
+            "destination": "wwwroot/lib/icheck",
+            "files": [ "icheck.min.js", "skins/**/*"]
         }
     ]
 }

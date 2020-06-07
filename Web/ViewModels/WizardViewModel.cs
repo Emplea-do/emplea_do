@@ -50,7 +50,7 @@ namespace Web.ViewModels
 
 
         [StringLength(int.MaxValue), Url(ErrorMessage = "El logo de la compañía debe ser un Url válido.")]
-        [Display(Name = "Logo de la empresa(opcional)")]
+        [Display(Name = "Logo de la empresa (.jpg, .png) (opcional)")]
         public string CompanyLogoUrl { get; set; }
 
         [Display(Name = "¿Es un puesto remoto?")]

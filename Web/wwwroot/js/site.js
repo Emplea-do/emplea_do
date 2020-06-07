@@ -14,4 +14,9 @@ $(document).ready(function () {
             allowClear: allowClear
         });
     });
+
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-aero',
+        radioClass: 'iradio_square-aero'
+    });
 });
