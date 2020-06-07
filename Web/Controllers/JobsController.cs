@@ -436,21 +436,21 @@ namespace Web.Controllers
         //[ValidateInput(false)]
         public async Task Validate()
         {
-            var bodyStr = "";
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-            {
-                bodyStr = await reader.ReadToEndAsync();
-            }
-
-            var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
-            int jobOpportunityId = Convert.ToInt32(payload.callback_id);
-            var jobOpportunity = _jobsService.GetById(jobOpportunityId);
-            var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
-            var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
-            var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
-
             try
             {
+                var bodyStr = "";
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    bodyStr = await reader.ReadToEndAsync();
+                }
+
+                var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+                int jobOpportunityId = Convert.ToInt32(payload.callback_id);
+                var jobOpportunity = _jobsService.GetById(jobOpportunityId);
+                var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
+                var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
+                var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
+
                 if (isTokenValid && isJobApproved)
                 {
                     jobOpportunity.IsApproved = true;
@@ -478,7 +478,16 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
+                var bodyStr = "";
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    bodyStr = await reader.ReadToEndAsync();
+                }
+                ex.Data.Add("body", bodyStr);
                 HttpContext.RiseError(ex);
+                if(ex.InnerException != null)
+                    HttpContext.RiseError(ex.InnerException);
+
                 //Catches exceptions so that the raw HTML doesn't appear on the slack channel
                 //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
             }
