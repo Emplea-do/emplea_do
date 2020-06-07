@@ -434,36 +434,35 @@ namespace Web.Controllers
         /// <returns></returns>s
         [HttpPost]
         [AllowAnonymous]
-        [Consumes("application/x-www-form-urlencoded")]
-        public async Task Validate()
+        public async Task Validate([FromForm] string payload)
         {
             try
             {
-                var bodyStr = Request.HttpContext.GetRawBodyString(Encoding.UTF8);
-                /*using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
+                /*var bodyStr = Request.HttpContext.GetRawBodyString(Encoding.UTF8);
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
                 {
                     bodyStr = await reader.ReadToEndAsync();
                 }
                 */
-                var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+                var data = JsonConvert.DeserializeObject<PayloadResponseDto>(payload);
                 
-                if(payload == null)
+                if(data == null)
                 {
-                    throw new Exception($"Payload is null, Body: {bodyStr}");
+                    throw new Exception($"Payload is null, Body: {payload}");
                 }
 
-                int jobOpportunityId = Convert.ToInt32(payload.callback_id);
+                int jobOpportunityId = Convert.ToInt32(data.callback_id);
                 var jobOpportunity = _jobsService.GetById(jobOpportunityId);
-                var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
-                var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
-                var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
+                var isJobApproved = data.actions.FirstOrDefault()?.value == "approve";
+                var isJobRejected = data.actions.FirstOrDefault()?.value == "reject";
+                var isTokenValid = data.token == _configuration["Slack:VerificationToken"];
 
                 if (isTokenValid && isJobApproved)
                 {
                     jobOpportunity.IsApproved = true;
                     jobOpportunity.PublishedDate = DateTime.UtcNow;
                     _jobsService.Update(jobOpportunity);
-                    await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
+                    await _slackService.PostJobResponse(jobOpportunity, Url, data.response_url, data?.user?.id, true);
 
                 }
                 else if (isTokenValid && isJobRejected)
@@ -471,11 +470,11 @@ namespace Web.Controllers
                     // Jobs are rejected by default, so there's no need to update the DB
                     if (jobOpportunity == null)
                     {
-                        await _slackService.PostJobErrorResponse(jobOpportunity, Url, payload.response_url);
+                        await _slackService.PostJobErrorResponse(jobOpportunity, Url, data.response_url);
                     }
                     else
                     {
-                        await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, false);
+                        await _slackService.PostJobResponse(jobOpportunity, Url, data.response_url, data?.user?.id, false);
                     }
                 }
                 else
