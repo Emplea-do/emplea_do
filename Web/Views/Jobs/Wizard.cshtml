@@ -8,12 +8,12 @@
         @using (Html.BeginForm("Wizard", "Jobs", FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
-            
+
             <input type="hidden" asp-for="Id" />
             <div class="form-check">
-                        
+
                 <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="true" /><label class="form-check-label control-label">Crear nueva compañía</label>
-                       
+
             </div>
             <div class="form-check">
                 <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="false" /><label class="form-check-label control-label">Usar compañía existente</label>
@@ -88,12 +88,6 @@
                 <span class="text-danger">@Html.ValidationMessageFor(m => m.JobTypeId)</span>
             </div>
             <div class="form-group">
-                <label class="control-label" asp-for="HowToApply"></label>
-                <textarea asp-for="HowToApply" class="form-control summernote" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo."></textarea>
-
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.HowToApply)</span>
-            </div>
-            <div class="form-group">
                 <label class="control-label" asp-for="LocationName"></label>
                 <input asp-for="LocationName" class="form-control" placeholder="Selecciona una localidad" autocomplete="off" />
                 <input type="hidden" asp-for="LocationLatitude" />
@@ -108,12 +102,18 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="Description"></label>
-                <textarea asp-for="Description" class="form-control summernote"></textarea>
+                <textarea asp-for="Description" class="form-control summernote" placeholder="Escribe los requerimientos de tu candidato ideal."></textarea>
                 <span class="text-danger">@Html.ValidationMessageFor(m => m.Description)</span>
                 <span>
                     <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
                     tecnología sobre cuales son los requerimientos técnicos.
                 </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="HowToApply"></label>
+                <textarea asp-for="HowToApply" class="form-control summernote" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo."></textarea>
+
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.HowToApply)</span>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
         }
@@ -167,6 +167,25 @@
             toggleCompanySelect();
             $(".form-check-input").on("ifChanged", function () {
                 toggleCompanySelect();
+            });
+
+            new Quill('#Description', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'  // or 'bubble'
+            });
+            new Quill('#HowToApply', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'  // or 'bubble'
             });
         });
     </script>

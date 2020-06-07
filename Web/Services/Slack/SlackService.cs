@@ -23,7 +23,7 @@ namespace Web.Services.Slack
         public SlackService(IConfiguration configuration)
         {
             var slackWebhookEndpoint = configuration["Slack:WebhookEndpoint"];
-            _slackWebhookUrl = "https://hooks.slack.com/services/" + slackWebhookEndpoint;
+            _slackWebhookUrl = slackWebhookEndpoint; //"https://hooks.slack.com/services/" + slackWebhookEndpoint;
         }
 
         public async Task PostJobErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl)

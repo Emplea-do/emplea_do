@@ -74,9 +74,9 @@
         },
         {
             "provider": "jsdelivr",
-            "library": "froala-editor@latest",
-            "destination": "wwwroot/lib/froala-editor",
-            "files": [ "**/*" ]
+            "library": "quill@1.3.7",
+            "destination": "wwwroot/lib/quill",
+            "files": [ "dist/**/*" ]
         }
     ]
 }
