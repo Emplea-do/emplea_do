@@ -179,7 +179,7 @@ namespace Web.Controllers
                              !company.LogoUrl.EndsWith(".jpeg") &&
                              !company.LogoUrl.EndsWith(".png")))
                         {
-                            company.LogoUrl = Constants.DefaultLogoUrl;
+                            company.LogoUrl = $"{this.Request.Scheme}://{this.Request.Host}{Constants.DefaultLogoUrl}";
                         }
                         _companiesService.Create(company);
                         companyId = company.Id;
