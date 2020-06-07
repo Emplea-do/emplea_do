@@ -35,6 +35,7 @@
     <Folder Include="wwwroot\js\jobs\" />
     <Folder Include="wwwroot\css\jobs\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="Views\Companies\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
