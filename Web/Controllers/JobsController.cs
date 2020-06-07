@@ -433,7 +433,6 @@ namespace Web.Controllers
         /// <returns></returns>s
         [HttpPost]
         [AllowAnonymous]
-        [ContentType(")]
         //[ValidateInput(false)]
         public async Task Validate([FromBody] PayloadResponseDto payload)
         {
