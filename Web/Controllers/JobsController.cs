@@ -20,6 +20,7 @@ using System.IO;
 using System.Text;
 using Web.Framework;
 using ElmahCore;
+using Web.Framework.Extensions;
 
 namespace Web.Controllers
 {
@@ -434,18 +435,18 @@ namespace Web.Controllers
         [HttpPost]
         [AllowAnonymous]
         //[ValidateInput(false)]
-        public async Task Validate([FromBody] PayloadResponseDto payload)
+        public async Task Validate()
         {
             try
             {
-                /*var bodyStr = "";
-                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
+                var bodyStr = Request.HttpContext.GetRawBodyString(Encoding.UTF8);
+                /*using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8, false))
                 {
                     bodyStr = await reader.ReadToEndAsync();
                 }
-
-                var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
                 */
+                var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+                
 
                 int jobOpportunityId = Convert.ToInt32(payload.callback_id);
                 var jobOpportunity = _jobsService.GetById(jobOpportunityId);
