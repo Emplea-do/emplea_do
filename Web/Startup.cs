@@ -4,6 +4,9 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Data;
+using ElmahCore;
+using ElmahCore.Mvc;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -29,20 +32,19 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            Console.WriteLine("Startup.ConfigureServices() Begin");
             services.AddApplicationInsightsTelemetry();
             services.AddFeatureManagement();
             
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                //options.CheckConsentNeeded = context => true;
+                // options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
-            
+
             if (Program.HostingEnvironment.IsDevelopment ())
             {
                 //DO NOT CHANGE PLZ THNX <3
@@ -56,10 +58,17 @@ namespace Web
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
            
-           services.Configure<LegacyApiClient>(Configuration);
+            services.Configure<LegacyApiClient>(Configuration);
            
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
+
+            services.AddElmah<XmlFileErrorLog>(options => {
+                options.LogPath = "~/Helpers/log";
+                options.Path = "ErrorLogs";
+                options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
+            });
+            services.AddSession();
 
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
@@ -88,14 +97,15 @@ namespace Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseSession();
 
+            app.UseElmah();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
-         Console.WriteLine("Startup.Configure() End");
         }
     }
 }

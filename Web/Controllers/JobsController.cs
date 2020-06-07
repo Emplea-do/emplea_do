@@ -18,6 +18,7 @@ using Web.Models.Slack;
 using System.Net;
 using System.IO;
 using System.Text;
+using Web.Framework;
 
 namespace Web.Controllers
 {
@@ -161,6 +162,7 @@ namespace Web.Controllers
                     var companyId = model.CompanyId;
                     if (model.CreateNewCompany)
                     {
+
                         var company = new Company
                         {
                             Name = model.CompanyName,
@@ -170,6 +172,14 @@ namespace Web.Controllers
                             Email = model.CompanyEmail
                         };
 
+                        if (string.IsNullOrWhiteSpace(company.LogoUrl) ||
+                            !company.LogoUrl.StartsWith("https") ||
+                            (!company.LogoUrl.EndsWith(".jpg") &&
+                             !company.LogoUrl.EndsWith(".jpeg") &&
+                             !company.LogoUrl.EndsWith(".png")))
+                        {
+                            company.LogoUrl = Constants.DefaultLogoUrl;
+                        }
                         _companiesService.Create(company);
                         companyId = company.Id;
                     }

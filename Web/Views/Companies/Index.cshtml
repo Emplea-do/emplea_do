@@ -1,0 +1,36 @@
+﻿@model System.Collections.Generic.List<Domain.Entities.Company>
+@{
+}
+
+<div class="inner-bg">
+    <section>
+
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12">
+                    <h3>Estas son algunas de las compañías que confían en nuestra plataforma</h3>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (var company in Model)
+                {
+
+                    <div class="col-lg-3 col-md-3 col-sm-6">
+                        <div class="candidate-grid style-1">
+                            <div class="candidate-wrap">
+                                <div class="candidate-thumb">
+                                    <a href="@company.Url" target="_blank"><img src="@company.LogoUrl" class="img-fluid mx-auto circle" alt=""></a>
+                                </div>
+                                <h5 class="company-name" style="min-height:44px"><a href="@company.Url" target="_blank">@company.Name</a></h5>
+                                <!--<p>4 publicaciones</p>-->
+                                <hr>
+                                <div class="candidate-detail">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+</div>

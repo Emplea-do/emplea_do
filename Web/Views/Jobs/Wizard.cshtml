@@ -1,17 +1,7 @@
 ﻿@using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
-@using Web.Framework.Helpers
 @model Web.ViewModels.WizardViewModel
-@*if (!ViewBag.IsEdit)
-    {
-        ViewBag.Title = "Nuevo Empleo";
-    }
-    else
-    {
-        ViewBag.Title = "Editar Empleo";
 
-    }
-*@
 
 <section class="wizard-container">
     <div class="container">
@@ -22,11 +12,11 @@
             <input type="hidden" asp-for="Id" />
             <div class="form-check">
                         
-                <input class="form-check-input" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="true" /><label class="form-check-label control-label">Crear nueva compañía</label>
+                <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="true" /><label class="form-check-label control-label">Crear nueva compañía</label>
                        
             </div>
             <div class="form-check">
-                <input class="form-check-input" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="false" /><label class="form-check-label control-label">Usar compañía existente</label>
+                <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="false" /><label class="form-check-label control-label">Usar compañía existente</label>
 
             </div>
             <div id="newCompanyDetails">
@@ -53,8 +43,7 @@
                     <span>
                         <b>Tip:</b> Muchos aplicantes visitar&aacute;n tu sitio web y lo tomar&aacute;n
                         como referencia antes de decidirse por t&iacute;. Si tu empresa no tiene un sitio web
-                        o crees que necesita unas mejoras, considera buscar un web developer en
-                        <a href="@Url.Action("Index", "Home" )">emplea.do</a>
+                        o crees que necesita unas mejoras, considera buscar un web developer aquí mismo.
                     </span>
                     <br />
                     <span class="text-danger">
@@ -65,8 +54,8 @@
                     <label class="control-label" asp-for="CompanyLogoUrl"></label>
                     <input asp-for="CompanyLogoUrl" class="form-control" type="url" placeholder="https://companyx.com/logo.png" />
                     <span>
-                        Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
-                        Si no sabes que es eso, no te preocupes, sube el logo a <a href="https://imgur.com" target="_blank">imgur</a> y pega la url aqu&iacute;
+                        <b>Tip:</b> Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
+                        Si no sabes que es eso, no te preocupes, sube el logo a <b><a href="https://imgur.com" target="_blank">imgur</a></b> y pega la url aqu&iacute;
                     </span>
                     <br />
                     <span class="text-danger">
@@ -81,6 +70,7 @@
                     <span class="text-danger">@Html.ValidationMessageFor(m => m.CompanyId)</span>
                 </div>
             </div>
+            <hr />
             <div class="form-group">
                 <label class="control-label" asp-for="Title"></label>
                 <input asp-for="Title" class="form-control" placeholder="ejemp. Se busca Web Designer" />
@@ -159,14 +149,12 @@
 
             if ($("#CreateNewCompany[value=true]")[0].checked)
             {
-                console.log("Create new company");
                 $("#newCompanyDetails").show();
                 $("#selectCompany").hide();
                 $("#CompanyName").attr("required", "required");
                 $("#CompanyEmail").attr("required", "required");
             }
             else {
-                console.log("Use existing company");
                 $("#newCompanyDetails").hide();
                 $("#selectCompany").show();
                 $("#CompanyName").removeAttr("required");
@@ -177,8 +165,7 @@
 
         $(document).ready(function () {
             toggleCompanySelect();
-            $(".form-check-input").change(function () {
-                console.log("Here");
+            $(".form-check-input").on("ifChanged", function () {
                 toggleCompanySelect();
             });
         });
