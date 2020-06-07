@@ -103,7 +103,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="Description"></label>
-                <textarea asp-for="Description" class="form-control summernote" placeholder="Escribe los requerimientos de tu candidato ideal."></textarea>
+                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Model.Description</div>
+                <input type="hidden" asp-for="Description" />
                 <span class="text-danger">@Html.ValidationMessageFor(m => m.Description)</span>
                 <span>
                     <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
@@ -112,8 +113,8 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="HowToApply"></label>
-                <textarea asp-for="HowToApply" class="form-control summernote" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo."></textarea>
-
+                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Model.HowToApply</div>
+                <input type="hidden" asp-for="HowToApply" />
                 <span class="text-danger">@Html.ValidationMessageFor(m => m.HowToApply)</span>
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
@@ -121,11 +122,23 @@
     </div>
 </section>
 
+@section Styles {
+    <style type="text/css">
+        .ql-container {
+            font-size: 16px;
+            font-family: 'Muli', sans-serif;
+            max-height: 450px;
+            min-height: 300px;
+        }
+    </style>
+
+}
+
 
 @section Scripts{
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(Configuration["GoogleMapsApiKey"])&libraries=places"></script>
     <script type="text/javascript">
-        google.maps.event.addDomListener(window, 'load', function () {
+google.maps.event.addDomListener(window, 'load', function () {
             var places = new google.maps.places.Autocomplete(document.getElementById('LocationName'));
             google.maps.event.addListener(places, 'place_changed', function () {
                 var place = places.getPlace();
@@ -148,8 +161,7 @@
 
         var toggleCompanySelect = function () {
 
-            if ($("#CreateNewCompany[value=true]")[0].checked)
-            {
+            if ($("#CreateNewCompany[value=true]")[0].checked) {
                 $("#newCompanyDetails").show();
                 $("#selectCompany").hide();
                 $("#CompanyName").attr("required", "required");
@@ -170,7 +182,20 @@
                 toggleCompanySelect();
             });
 
-            new Quill('#Description', {
+            var descriptionBox = new Quill('#Description-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+
+            descriptionBox.on('text-change', function (delta) {
+                $("#Description").val(descriptionBox.getText(0));
+            });
+            var applyBox = new Quill('#HowToApply-editor', {
                 modules: {
                     toolbar: [
                         ['bold', 'italic', 'underline'],
@@ -179,16 +204,10 @@
                 placeholder: '',
                 theme: 'snow'  // or 'bubble'
             });
-            new Quill('#HowToApply', {
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                    ]
-                },
-                placeholder: '',
-                theme: 'snow'  // or 'bubble'
+
+            applyBox.on('text-change', function (delta) {
+                $("#HowToApply").val(applyBox.getText(0));
             });
-        });
-    </script>
+        });</script>
 
 }

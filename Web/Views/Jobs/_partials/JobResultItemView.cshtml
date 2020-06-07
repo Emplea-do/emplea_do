@@ -8,7 +8,7 @@
 <div class="job-new-list">
     <div class="vc-thumb">
         <a asp-controller="company" asp-action="index" asp-route-data="new { Model.Company.Id }">
-           @if(!string.IsNullOrWhiteSpace(Model.Company.LogoUrl))
+           @if(!string.IsNullOrWhiteSpace(Model.Company.LogoUrl)&& !Model.Company.LogoUrl.StartsWith("http://"))
            {
             <img class="img-fluid" src="@Model.Company.LogoUrl" alt="@Model.Company.Name">
            }

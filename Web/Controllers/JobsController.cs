@@ -179,7 +179,7 @@ namespace Web.Controllers
                              !company.LogoUrl.EndsWith(".jpeg") &&
                              !company.LogoUrl.EndsWith(".png")))
                         {
-                            company.LogoUrl = Constants.DefaultLogoUrl;
+                            company.LogoUrl = $"{this.Request.Scheme}://{this.Request.Host}{Constants.DefaultLogoUrl}";
                         }
                         _companiesService.Create(company);
                         companyId = company.Id;
@@ -198,6 +198,7 @@ namespace Web.Controllers
                             originalJob.Description = model.Description;
                             originalJob.Title = model.Title;
                             originalJob.IsRemote = model.IsRemote;
+                            originalJob.IsApproved = false;
                             if(originalJob.Location.PlaceId != model.LocationPlaceId)
                             { 
                                 originalJob.Location = new Location
@@ -211,7 +212,14 @@ namespace Web.Controllers
                             var result = _jobsService.Update(originalJob);
                             if (result.Success)
                             {
-                                await _slackService.PostJob(originalJob, Url);
+                                try
+                                {
+                                    await _slackService.PostJob(originalJob, Url);
+                                }
+                                catch (Exception ex)
+                                {
+                                    HttpContext.RiseError(ex);
+                                }
                                 return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
                             }
 
@@ -248,7 +256,14 @@ namespace Web.Controllers
                         var result = _jobsService.Create(newJob);
                         if (result.Success)
                         {
-                            await _slackService.PostJob(newJob, Url).ConfigureAwait(false);
+                            try
+                            {
+                                await _slackService.PostJob(newJob, Url).ConfigureAwait(false);
+                            }
+                            catch (Exception ex)
+                            {
+                                HttpContext.RiseError(ex);
+                            }
 
                             return RedirectToAction("Details", new { newJob.Id, isPreview = true }).WithInfo(result.Messages);
                         }
@@ -417,30 +432,32 @@ namespace Web.Controllers
         /// <param name="model"></param>
         /// <returns></returns>s
         [HttpPost]
+        [AllowAnonymous]
         //[ValidateInput(false)]
         public async Task Validate()
         {
-            var bodyStr = "";
-            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
-            {
-                bodyStr = await reader.ReadToEndAsync();
-            }
-
-            var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
-            int jobOpportunityId = Convert.ToInt32(payload.callback_id);
-            var jobOpportunity = _jobsService.GetById(jobOpportunityId);
-            var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
-            var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
-            var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
-
             try
             {
+                var bodyStr = "";
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    bodyStr = await reader.ReadToEndAsync();
+                }
+
+                var payload = JsonConvert.DeserializeObject<PayloadResponseDto>(bodyStr);
+                int jobOpportunityId = Convert.ToInt32(payload.callback_id);
+                var jobOpportunity = _jobsService.GetById(jobOpportunityId);
+                var isJobApproved = payload.actions.FirstOrDefault()?.value == "approve";
+                var isJobRejected = payload.actions.FirstOrDefault()?.value == "reject";
+                var isTokenValid = payload.token == _configuration["Slack:VerificationToken"];
+
                 if (isTokenValid && isJobApproved)
                 {
                     jobOpportunity.IsApproved = true;
                     jobOpportunity.PublishedDate = DateTime.UtcNow;
                     _jobsService.Update(jobOpportunity);
                     await _slackService.PostJobResponse(jobOpportunity, Url, payload.response_url, payload?.user?.id, true);
+
                 }
                 else if (isTokenValid && isJobRejected)
                 {
@@ -461,7 +478,16 @@ namespace Web.Controllers
             }
             catch (Exception ex)
             {
+                var bodyStr = "";
+                using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+                {
+                    bodyStr = await reader.ReadToEndAsync();
+                }
+                ex.Data.Add("body", bodyStr);
                 HttpContext.RiseError(ex);
+                if(ex.InnerException != null)
+                    HttpContext.RiseError(ex.InnerException);
+
                 //Catches exceptions so that the raw HTML doesn't appear on the slack channel
                 //  await _slackService.PostJobOpportunityErrorResponse(jobOpportunity, Url, payload.response_url);
             }
