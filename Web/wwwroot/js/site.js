@@ -19,4 +19,7 @@ $(document).ready(function () {
         checkboxClass: 'icheckbox_square-aero',
         radioClass: 'iradio_square-aero'
     });
+
+
+    new FroalaEditor('textarea');
 });

@@ -1,15 +1,16 @@
 {
     "version": "1.0",
     "defaultProvider": "cdnjs",
-    "libraries": [{
+    "libraries": [
+        {
             "library": "mustache.js@3.0.3",
             "destination": "wwwroot/lib/mustache",
-            "files": ["mustache.min.js"]
+            "files": [ "mustache.min.js" ]
         },
         {
             "library": "jquery@2.1.4",
             "destination": "wwwroot/lib/jquery",
-            "files": ["jquery.min.js"]
+            "files": [ "jquery.min.js" ]
         },
         {
             "library": "popper.js@1.15.0",
@@ -18,7 +19,7 @@
         {
             "library": "twitter-bootstrap@4.0.0-beta",
             "destination": "wwwroot/lib/bootstrap",
-            "files": ["js/bootstrap.min.js"]
+            "files": [ "js/bootstrap.min.js" ]
         },
         {
             "library": "aos@2.3.4",
@@ -27,38 +28,38 @@
         {
             "library": "jquery.perfect-scrollbar@0.8.1",
             "destination": "wwwroot/lib/jquery.perfect-scrollbar",
-            "files": ["js/perfect-scrollbar.jquery.min.js"]
+            "files": [ "js/perfect-scrollbar.jquery.min.js" ]
         },
         {
             "library": "Counter-Up@1.0.0",
             "destination": "wwwroot/lib/Counter-Up",
-            "files": ["jquery.counterup.min.js"]
+            "files": [ "jquery.counterup.min.js" ]
         },
         {
             "library": "slick-carousel@1.6.0",
             "destination": "wwwroot/lib/slick-carousel",
-            "files": ["slick.min.js"]
+            "files": [ "slick.min.js" ]
         },
         {
             "library": "bootstrap-datepicker@1.6.4",
             "destination": "wwwroot/lib/bootstrap-datepicker",
-            "files": ["js/bootstrap-datepicker.min.js"]
+            "files": [ "js/bootstrap-datepicker.min.js" ]
         },
         {
             "library": "jquery.isotope@3.0.5",
             "destination": "wwwroot/lib/jquery.isotope",
-            "files": ["isotope.pkgd.min.js"]
+            "files": [ "isotope.pkgd.min.js" ]
         },
         {
             "library": "summernote@0.8.11",
             "destination": "wwwroot/lib/summernote",
-            "files": ["summernote.min.js"]
+            "files": [ "summernote.min.js" ]
         },
         {
             "provider": "unpkg",
             "library": "select2@4.0.6-rc.1",
             "destination": "wwwroot/lib/select2",
-            "files": ["dist/js/select2.min.js"]
+            "files": [ "dist/js/select2.min.js" ]
         },
         {
             "provider": "jsdelivr",
@@ -69,7 +70,13 @@
         {
             "library": "iCheck@1.0.2",
             "destination": "wwwroot/lib/icheck",
-            "files": [ "icheck.min.js", "skins/**/*"]
+            "files": [ "icheck.min.js", "skins/**/*" ]
+        },
+        {
+            "provider": "jsdelivr",
+            "library": "froala-editor@latest",
+            "destination": "wwwroot/lib/froala-editor",
+            "files": [ "**/*" ]
         }
     ]
 }
