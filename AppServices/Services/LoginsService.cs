@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AppServices.Framework;
 using Data.Repositories;
 using Domain.Entities;
@@ -9,6 +10,11 @@ namespace AppServices.Services
     {
         public LoginsService(ILoginsRepository mainRepository) : base(mainRepository)
         {
+        }
+
+        public Login GetLogin(string provider, string socialId)
+        {
+            return _mainRepository.Get(x=>x.ProviderKey== socialId && x.LoginProvider == provider).FirstOrDefault();
         }
 
         protected override TaskResult<Login> ValidateOnCreate(Login entity)
@@ -29,6 +35,6 @@ namespace AppServices.Services
 
     public interface ILoginsService : IBaseService<Login, ILoginsRepository>
     {
-
+        Login GetLogin(string provider, string socialId);
     }
 }
