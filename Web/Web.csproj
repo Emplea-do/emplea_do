@@ -47,5 +47,7 @@
   <ItemGroup>
     <Content Remove="Views\Home\_partials\recentJobsResultView.cshtml" />
     <Content Remove="Properties\launchSettings.json" />
+    <Content Remove="wwwroot\css\site.min.css" />
+    <Content Remove="wwwroot\js\site.min.js" />
   </ItemGroup>
 </Project>
