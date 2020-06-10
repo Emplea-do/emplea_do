@@ -18,20 +18,13 @@
     <meta property="og:description" content="@ogDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="@Context.Request.Host">
-    @* <meta property="og:image" content="@ogImage">
-    *@
-    <link href="~/css/plugins.css" rel="stylesheet">
+    @* <meta property="og:image" content="@ogImage">*@
+
+    <link href="~/css/site.min.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
-    <link href="~/css/slick-theme.css" rel="stylesheet">
-    <link href="~/lib/swal/dist/sweetalert2.min.css" rel="stylesheet">
-    <link href="~/lib/icheck/skins/square/_all.css" rel="stylesheet">
-    <link href="~/lib/quill/dist/quill.bubble.css" rel="stylesheet">
-    <link href="~/lib/quill/dist/quill.snow.css" rel="stylesheet">
-    <link href="~/css/custom.css" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
     @Html.Raw(JavaScriptSnippet.FullScript)
-
 </head>
 <body>
     <div class="Loader"></div>
@@ -55,24 +48,7 @@
         <script>
         var base_url = '@(this.Context.Request.Scheme +"://" + this.Context.Request.Host.ToUriComponent())';
         </script>
-        <script src="~/lib/jquery/jquery.min.js"></script>
-        <script src="~/lib/popperjs/umd/popper.min.js"></script>
-        <script src="~/lib/bootstrap/js/bootstrap.min.js"></script>
-        <script src="~/lib/select2/dist/js/select2.min.js"></script>
-        <script src="~/lib/aos/aos.js"></script>
-        <script src="~/lib/jquery.perfect-scrollbar/js/perfect-scrollbar.jquery.min.js"></script>
-        <script src="~/js/owl.carousel.min.js"></script>
-        <script src="~/lib/Counter-Up/jquery.counterup.min.js"></script>
-        <script src="~/lib/slick-carousel/slick.min.js"></script>
-        <script src="~/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-        <script src="~/lib/jquery.isotope/isotope.pkgd.min.js"></script>
-        <script src="~/lib/summernote/summernote.min.js"></script>
-        <script src="~/lib/swal/dist/sweetalert2.all.min.js"></script>
-        <script src="~/lib/icheck/icheck.min.js"></script>
-        <script type="text/javascript" src="~/lib/quill/dist/quill.js"></script>
-
-        <script src="~/js/custom.js"></script>
-        <script src="~/js/site.js"></script>
+        <script src="~/js/site.min.js"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
