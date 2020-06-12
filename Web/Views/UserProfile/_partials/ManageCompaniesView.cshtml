@@ -1,0 +1,50 @@
+@model List<Domain.Entities.Company>
+
+<div class="tab-pane" id="c-profile">
+
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="ti-user"></i> Perfil de Compañías</h4>
+        </div>
+
+        <div class="tr-single-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    @if(Model == null || Model.Count == 0)
+                    {
+                        <span>No tienes Compañías agregads, <a href="@Url.Action("Wizard", "Jobs")"><b style=" text-decoration: underline !important;">haz click aquí</b></a> para agregar tu Compañia</span>
+                    }
+                    else
+                    {
+                        @foreach (var company in Model)
+                        {
+                            <div class="manage-list" id="job-@company.Id">
+                                <div class="mg-list-wrap">
+                                    <div class="mg-list-thumb">
+                                        <img class="img-fluid rounded-circle" src="@company.LogoUrl"  alt="@company.Name"/>
+                                    </div>
+                                    <div class="mg-list-caption">
+                                        <a asp-controller="jobs" asp-action="details" asp-route-id="@company.Id" asp-route-ispreview="true">
+                                            <h4 class="mg-title">@company.Name</h4>
+                                        </a>
+                                        <span class="mg-subtitle">@company.Email</span>
+                                    </div>
+                                </div>
+
+                                <div class="mg-action">
+                                    <div class="btn-group ml-2">
+                                        <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@company.Id"><i class="ti-pencil-alt"></i></a>
+                                        <a href="#" class="btn-hide btn btn-light" data-jobid="@company.Id"><i class="eye-icon icofont-eye-alt"></i></a>
+                                        <a href="#" class="btn btn-danger btn-delete" data-jobid="@company.Id"><i class="ti-trash"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }  
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
