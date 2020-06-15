@@ -47,3 +47,6 @@ Web/wwwroot/lib/*
 .vscode/
 
 appsettings.json
+
+Web/wwwroot/css/site.min.css
+Web/wwwroot/js/site.min.js

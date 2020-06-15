@@ -1,16 +1,44 @@
 ﻿[
-    {
-        "outputFileName": "wwwroot/css/site.min.css",
-        "inputFiles": [
-            "wwwroot/css/plugins.css",
-            "wwwroot/lib/icheck/skins/all.css",
-            "wwwroot/css/styles.css",
-            "wwwroot/css/slick-theme.css",
-            "wwwroot/css/custom.css",
-            "wwwroot/css/site.css"
-        ],
-        "minify": {
-            "enabled": true
-        }
+  {
+    "outputFileName": "wwwroot/css/site.min.css",
+    "inputFiles": [
+      "wwwroot/lib/icheck/skins/all.css",
+      "wwwroot/css/plugins.css",
+      "wwwroot/css/slick-theme.css",
+      "wwwroot/css/custom.css",
+      "wwwroot/lib/icheck/skins/square/_all.css",
+      "wwwroot/lib/quill/dist/quill.bubble.css",
+      "wwwroot/lib/quill/dist/quill.snow.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
     }
+  },
+  {
+    "outputFileName": "wwwroot/js/site.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/popperjs/umd/popper.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+      "wwwroot/lib/select2/dist/js/select2.min.js",
+      "wwwroot/lib/aos/aos.js",
+      "wwwroot/lib/jquery.perfect-scrollbar/js/perfect-scrollbar.jquery.min.js",
+      "wwwroot/js/owl.carousel.min.js",
+      "wwwroot/lib/Counter-Up/jquery.counterup.min.js",
+      "wwwroot/lib/slick-carousel/slick.min.js",
+      "wwwroot/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+      "wwwroot/lib/jquery.isotope/isotope.pkgd.min.js",
+      "wwwroot/lib/summernote/summernote.min.js",
+      "wwwroot/lib/swal/dist/sweetalert2.all.min.js",
+      "wwwroot/lib/icheck/icheck.min.js",
+      "wwwroot/lib/quill/dist/quill.js",
+      "wwwroot/js/custom.js",
+      "wwwroot/js/site.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
 ]
