@@ -70,6 +70,7 @@ namespace Web
                 options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
             });
 
+            services.AddSession();
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }
