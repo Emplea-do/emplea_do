@@ -58,11 +58,8 @@ namespace Web
             }
            
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
-            services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
-           
             services.Configure<LegacyApiClient>(Configuration);
 
-            services.AddSingleton<ITelemetryInitializer, RequestBodyInitializer>();
 
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
@@ -72,8 +69,8 @@ namespace Web
                 options.Path = "ErrorLogs";
                 options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
             });
-            services.AddSession();
 
+            services.AddSession();
             services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }

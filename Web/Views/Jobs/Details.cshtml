@@ -17,7 +17,6 @@
                         }
                         <h4 class="mb-1">@Model.Job.Title</h4>
                         <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
-                        <p class="mb-1"><i class="ti-location-pin mr-2"></i>@Model.Job.Location?.Name</p>
                     </div>
                 </div>
                 <feature name="@FeatureFlags.EnableApplyForJob">
@@ -140,25 +139,13 @@
                                         <div class="icon-box-round">
                                             <i class="lni-map-marker"></i>
                                         </div>
-                                        <div class="icon-box-text">
-                                            @Model.Job.Location?.Name
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            @(Model.Job.Location?.Name??"N/A")
                                         </div>
                                     </a>
                                 </div>
                             </li>
 
-                            @*<li>
-                        <div class="icon-box-icon-block">
-                            <a href="#">
-                                <div class="icon-box-round">
-                                    <i class="lni-phone-handset"></i>
-                                </div>
-                                <div class="icon-box-text">
-                                    +1 415-989-1002
-                                </div>
-                            </a>
-                        </div>
-                    </li>*@
                             <li>
                                 <div class="icon-box-icon-block">
                                     <a href="#">
