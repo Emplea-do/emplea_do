@@ -19,6 +19,11 @@ namespace AppServices.Services
             return _mainRepository.Get(x=>x.IsActive && x.UserId == userId).ToList();
         }
 
+         public Company GetById(int id)
+        {
+            return _mainRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
+        }
+
         protected override TaskResult<Company> ValidateOnCreate(Company entity)
         {
             return new TaskResult<Company>();
@@ -38,5 +43,6 @@ namespace AppServices.Services
     public interface ICompaniesService : IBaseService<Company, ICompaniesRepository>
     {
         List<Company> GetByUserId(int userId);
+         Company GetById(int id);
     }
 }
