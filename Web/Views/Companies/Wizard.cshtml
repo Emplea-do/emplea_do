@@ -1,0 +1,64 @@
+@model Web.ViewModels.CompanyViewModel
+
+<section class="wizard-container">
+    <div class="container">
+        @using (Html.BeginForm("Wizard", "Companies", FormMethod.Post, new { role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+            <div id="newCompanyDetails">
+                <div class="form-group">
+                    <label class="control-label" asp-for="@Model.Name"></label>
+                    <input asp-for="@Model.Name" class="form-control" placeholder="CompanyX, SRL." />
+                    <br />
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.Name)
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" placeholder="email@companyx.com" />
+
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="Url"></label>
+                    <input asp-for="Url" class="form-control" type="url" placeholder="http://www.companyx.com" />
+                    <br />
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.Url)
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="LogoUrl"></label>
+                    <input asp-for="LogoUrl" class="form-control" type="url" placeholder="https://companyx.com/logo.png" />
+                    <span>
+                        <b>Tip:</b> Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
+                        Si no sabes que es eso, no te preocupes, sube el logo a <b><a href="https://imgur.com" target="_blank">imgur</a></b> y pega la url aqu&iacute;
+                    </span>
+                    <br />
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.LogoUrl)
+                    </span>
+                </div>
+                <span>Al agregar una compañía aceptas que tienes permiso de parte de la compañía para publicar posiciones en su nombre</span>
+            </div>
+             <br/>
+            <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
+        }
+    </div>
+</section>
+
+@section Styles {
+    <style type="text/css">
+        .ql-container {
+            font-size: 16px;
+            font-family: 'Muli', sans-serif;
+            max-height: 450px;
+            min-height: 300px;
+        }
+    </style>
+}

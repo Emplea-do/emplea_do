@@ -10,20 +10,26 @@ namespace Web.Controllers
     {
         private IJobsService _jobsService;
         private IUsersService _usersService;
+        private ICompaniesService _companiesService;
 
-        public UserProfileController(IJobsService jobsService, IUsersService usersService)
+        public UserProfileController(IJobsService jobsService, IUsersService usersService, ICompaniesService companiesService)
         {
             _jobsService = jobsService;
             _usersService = usersService;
+            _companiesService = companiesService;
         }
 
         public IActionResult Index()
         {
             var filteredJobsByUserProfile = _jobsService.GetByUser(_currentUser.UserId);
+            //var filteredCompaniesByUserProfile = _companiesService.GetByUserId(_currentUser.UserId);
+            var filteredCompaniesByUserProfile = _companiesService.GetAll();
             var viewModel = new UserProfileViewModel
             {
-                Jobs = filteredJobsByUserProfile
+                Jobs = filteredJobsByUserProfile,
+                Companies = filteredCompaniesByUserProfile
             };
+
             return View(viewModel);
         }
     }

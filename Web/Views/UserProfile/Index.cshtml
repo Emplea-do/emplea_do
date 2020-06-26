@@ -47,10 +47,10 @@
                     <!-- Nav tabs -->
                     <ul class="nav dashboard-verticle-nav">
                         <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Perfil de compañías</a>
+                            <a class="nav-link" data-toggle="tab" href="#c-profile"><i class="ti-user"></i>Perfil de compañías</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manejar empleos</a>
+                            <a class="nav-link active" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manejar empleos</a>
                         </li>
                     </ul>
 
@@ -63,7 +63,7 @@
                 <div class="tab-content" style="padding:0;">
 
                     @*<partial name="_partials/CompanyProfileView"  model="@Model.Company" />*@
-
+                    <partial name="_partials/ManageCompaniesView"  model="@Model.Companies" />
                     <partial name="_partials/ManageJobsView" model="@Model.Jobs" />
 
                 </div>
@@ -157,6 +157,46 @@
                                 'success'
                             );
                             $("#job-" + jobId).hide();
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
+                    });
+                }
+            });
+            return false;
+        });
+
+        $(".btn-delete-company").click(function(e){
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/companies/delete/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+
+                            Swal.fire(
+                                'Registro eliminado',
+                                response.messages,
+                                'success'
+                            );
                         }
                         else {
 
