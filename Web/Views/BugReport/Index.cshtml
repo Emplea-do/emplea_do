@@ -1,0 +1,196 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model Web.ViewModels.BugReportViewModel
+@{
+    ViewData["Title"] = "Reportar error";
+}
+<section class="bugReport-container">
+    <div class="container">
+        <h2>@ViewData["Title"]</h2>
+        <span>Los campos marcados con astericos (<b>*</b>) son obligatorios.</span>
+        <hr />
+        @using (Html.BeginForm("index", "BugReport", FormMethod.Post))
+        {
+
+            <div class="form-group">
+                <label class="control-label" asp-for="Title"></label>
+                <input class="form-control" asp-for="Title" type="text" placeholder="Ej.: Error al intentar iniciar sesión con google." />
+                <span class="text-danger">
+                    @Html.ValidationMessageFor(m => m.Title)
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="Description"></label>
+                <div id="Description-editor"  class="form-control" placeholder="Escribe una descripción clara y concisa de lo que es el error."></div>
+                <input type="hidden" asp-for="Description" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Description)</span>
+                <span>
+                    <b>Tip:</b> Escribe una descripción clara y concisa de lo que es el error.
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="ToReproduce"></label>
+                <div id="ToReproduce-editor"  class="form-control" placeholder="Escribe los pasos para reproducir el error."></div>
+                <input type="hidden" asp-for="ToReproduce"/>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.ToReproduce)</span>
+                <span>
+                    <b>Ej.:</b> 1. Ir a '...' 2. Click en '....' 3. Deslizar hacia '....' 4. Ver error.
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="ExpectedBehavior"></label>
+                <div id="ExpectedBehavior-editor"  class="form-control" placeholder="Escribe una descripción clara y concisa de lo que esperaba que sucediera."></div>
+                <input type="hidden" asp-for="ExpectedBehavior"/>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.ExpectedBehavior)</span>
+                <span>
+                    <b>Tip:</b> Una descripción clara y concisa de lo que esperaba que sucediera.
+                </span>
+            </div> 
+            <div class="form-group">
+                <label class="control-label" asp-for="UrlScreeshot"></label>
+                <input class="form-control" asp-for="UrlScreeshot" type="url" placeholder="Si aplica, agrega links de capturas de pantalla donde expliquen el problema." />
+                <span>
+                    <b>Tip:</b> Puede subir la captura de pantalla a <b><a href="https://imgur.com" target="_blank">imgur</a></b> y pega la url aqu&iacute; o si usas windows puedes usar <b> <a href="https://recordit.co/" target="_blank">recordit</a></b> y pega la url aqu&iacute;. Si desea pegar varios links debe separarlo por comas(,).
+                    <br>Ej.: <em>https://imgur.com/img/ejemplo1<b>,</b>https://imgur.com/img/ejemplo2</em>
+                </span>
+                <br />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.UrlScreeshot)</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="Specification"></label>
+                <div id="Specifications-editor"  class="form-control" placeholder=""></div>
+                <input type="hidden" asp-for="Specification" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Specification)</span>
+                <span>
+                    <b>Tip:</b> Operating System: [e.g. macOS High Sierra, Windows 10] <br/>
+                                Browser: [e.g. chrome v83.0.4103.97, safari v13.0, firefox v77.0] <br/>
+                                Emplea.do Version: [e.g. v1.0.0.0]
+                </span>
+            </div> 
+            <div class="form-group">
+                <label class="control-label" asp-for="AdditionalContext"></label>
+                <div id="AdditionalContext-editor"  class="form-control" placeholder=""></div>
+                <input type="hidden" asp-for="AdditionalContext" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.AdditionalContext)</span>
+                <span>
+                    <b>Tip:</b> Agregue cualquier otro contexto sobre el problema aquí.
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="OtherInformation"></label>
+                <div id="OtherInformation-editor"  class="form-control" placeholder=""></div>
+                <input type="hidden" asp-for="OtherInformation" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.OtherInformation)</span>
+                <span>
+                    <b>Tip:</b> Explicación detallada, stacktraces, problemas relacionados, sugerencias sobre cómo solucionarlos, enlaces para que tengamos contexto, Ej. stackoverflow, gitter, etc.
+                </span>
+            </div>
+            <div class="form-group">
+                <div class="g-recaptcha" data-sitekey="@ViewData["ReCaptchaKey"]"></div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Enviar roporte</button>
+        }
+    </div>
+</section>
+
+@section Styles {
+    <style type="text/css">
+        .ql-container {
+            font-size: 16px;
+            font-family: 'Muli', sans-serif;
+            max-height: 250px;
+            min-height: 100px;
+        }
+    </style>
+
+}
+
+@section Scripts{
+    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script type="text/javascript">
+        $(document).ready(function () {            
+
+            var descriptionBox = new Quill('#Description-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            
+            descriptionBox.on('text-change', function (delta) {
+                $("#Description").val(descriptionBox.getText(0));
+            });
+
+            var ToReproduceBox = new Quill('#ToReproduce-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{ 'list': 'ordered'}],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            ToReproduceBox.on('text-change', function (delta) {
+                $("#ToReproduce").val(ToReproduceBox.getText(0));
+            });
+
+            var ExpectedBehaviorBox = new  Quill('#ExpectedBehavior-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            ExpectedBehaviorBox.on('text-change', function (delta) {
+                $("#ExpectedBehavior").val(ExpectedBehaviorBox.getText(0));
+            });
+
+            var SpecificationsBox = new  Quill('#Specifications-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                        [{ 'list': 'bullet' }],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            SpecificationsBox.on('text-change', function (delta) {
+                $("#Specification").val(SpecificationsBox.getText(0));
+            });
+
+            var AdditionalContextBox = new  Quill('#AdditionalContext-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline']
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            AdditionalContextBox.on('text-change', function (delta) {
+                $("#AdditionalContext").val(AdditionalContextBox.getText(0));
+            });
+
+            var OtherInformationBox = new  Quill('#OtherInformation-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline']
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+            OtherInformationBox.on('text-change', function (delta) {
+                $("#OtherInformation").val(OtherInformationBox.getText(0));
+            });
+        });</script>
+
+}

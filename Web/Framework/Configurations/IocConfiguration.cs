@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Scrutor;
 using Web.Services.Slack;
+using Web.Services.ReCaptcha;
 
 namespace Web.Framework.Configurations
 {
@@ -31,6 +32,7 @@ namespace Web.Framework.Configurations
             //services.AddSingleton<IJobsService, MockJobsService>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ISlackService, SlackService>();
+            services.AddSingleton<IReCaptchaService, ReCaptchaService>();
 
         }
 
