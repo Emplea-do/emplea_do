@@ -38,7 +38,7 @@ public class LegacyApiClient
 
     public async Task<JobCardDTO> GetJobById(string Id)
     {
-        if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
+        if(await _featureManager.IsEnabledAsync(FeatureFlags.LegacyClient.UseMockData))
         return  GetJobByIdFromMockData(Id);
 
         return await GetJobByIdCore(Id);

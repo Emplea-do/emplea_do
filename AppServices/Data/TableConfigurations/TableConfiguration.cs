@@ -5,7 +5,7 @@ using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.TableConfigurations
+namespace AppServices.Data.TableConfigurations
 {
     public abstract class TableConfiguration<T> : IEntityTypeConfiguration<T> where T : Entity
     {

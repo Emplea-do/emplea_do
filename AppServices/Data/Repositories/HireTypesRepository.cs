@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Entities;
 
-namespace Data.Repositories
+namespace AppServices.Data.Repositories
 {
     public class HireTypesRepository : BaseRepository<HireType>, IHireTypesRepository
     {
