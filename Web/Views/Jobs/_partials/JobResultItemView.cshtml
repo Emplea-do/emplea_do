@@ -9,7 +9,7 @@
            }
            else 
            {
-            <h5 style="font-size:30px">@Model.Company.Name.Substring(0,2)</h5>
+            <h5 style="font-size:30px">@(Model.Company.Name.Length > 2 ? Model.Company.Name.Substring(0,2) : Model.Company.Name)</h5>
            }
         </a>
     </div>
