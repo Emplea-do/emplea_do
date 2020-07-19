@@ -1,24 +1,20 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
-using Data;
+using AppServices.Data;
 using ElmahCore;
 using ElmahCore.Mvc;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
-using Web.Framework;
 using Web.Framework.Configurations;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace Web
 {
@@ -36,7 +32,7 @@ namespace Web
         {
             services.AddApplicationInsightsTelemetry();
             services.AddFeatureManagement();
-            
+
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -47,16 +43,12 @@ namespace Web
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
 
-            if (Program.HostingEnvironment.IsDevelopment ())
-            {
-                //DO NOT CHANGE PLZ THNX <3
-                   services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            }
-            else if(Program.HostingEnvironment.IsProduction())
-            {
+            #if DEBUG
+                services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            #else
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            }
-           
+            #endif
+
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             services.Configure<LegacyApiClient>(Configuration);
 
@@ -71,41 +63,38 @@ namespace Web
             });
 
             services.AddSession();
-            services.AddMvc(option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app)
         {
-             Console.WriteLine("Startup.Configure() Begin");
-          
-            if (env.IsDevelopment())
-            {
+            Console.WriteLine("Startup.Configure() Begin");
+
+            #if DEBUG
                 app.UseDeveloperExceptionPage();
-                app.UseAzureAppConfiguration();
-            }
-            else if (env.IsProduction())
-            {
-               app.UseDeveloperExceptionPage();
+#else
+                app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-
-                app.UseAzureAppConfiguration();
-            }
-               
+#endif
+            app.UseAzureAppConfiguration();
             app.UseStaticFiles();
+
+            app.UseRouting();
+
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseSession();
 
             app.UseElmah();
-            app.UseMvc(routes =>
+            app.UseEndpoints(routes =>
             {
-                routes.MapRoute(
+                routes.MapControllerRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

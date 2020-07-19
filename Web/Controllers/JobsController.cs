@@ -457,6 +457,17 @@ namespace Web.Controllers
                     _jobsService.Update(jobOpportunity);
                     await _slackService.PostJobResponse(jobOpportunity, Url, data.response_url, data?.user?.id, true);
 
+                    try
+                    { 
+                        var tweetText = jobOpportunity.Title + " " + Url.AbsoluteUrl("Details", "Jobs", new { Id=jobOpportunityId });
+                        await _twitterService.Tweet(tweetText);
+                    }
+                    catch(Exception tweetException)
+                    {
+                        HttpContext.RiseError(tweetException);
+                        if (tweetException.InnerException != null)
+                            HttpContext.RiseError(tweetException.InnerException);
+                    }
                 }
                 else if (isTokenValid && isJobRejected)
                 {

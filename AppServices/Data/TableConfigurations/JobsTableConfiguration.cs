@@ -4,7 +4,7 @@ using Domain.Framework.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.TableConfigurations
+namespace AppServices.Data.TableConfigurations
 {
     public class JobsTableConfiguration : TableConfiguration<Job>
     {

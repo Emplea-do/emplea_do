@@ -27,7 +27,7 @@ namespace Web.Framework.Configurations
                 options.LogoutPath = "/account/logout";
                 options.SlidingExpiration = true;
             });
-            if(featureManager.IsEnabled(FeatureFlags.UseGoogleAuthentication))
+            if(featureManager.IsEnabledAsync(FeatureFlags.UseGoogleAuthentication).Result)
                 services.AddAuthentication().AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -43,25 +43,25 @@ namespace Web.Framework.Configurations
                     googleOptions.SaveTokens = true;
                 });
             
-            if(featureManager.IsEnabled(FeatureFlags.UseFacebookAuthentication))
+            if(featureManager.IsEnabledAsync(FeatureFlags.UseFacebookAuthentication).Result)
                 services.AddAuthentication().AddFacebook(facebookOptions =>
                 {
                     facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
                 });
-            if(featureManager.IsEnabled(FeatureFlags.UseMicrosoftAuthentication))
+            if(featureManager.IsEnabledAsync(FeatureFlags.UseMicrosoftAuthentication).Result)
                 services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
                 {
                     microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                     microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
                 });
-            if(featureManager.IsEnabled(FeatureFlags.UseLinkedInAuthentication))
+            if(featureManager.IsEnabledAsync(FeatureFlags.UseLinkedInAuthentication).Result)
                 services.AddAuthentication().AddLinkedIn(linkedinOptions =>
                 {
                     linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                     linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
                 });
-            if(featureManager.IsEnabled(FeatureFlags.UseGithubAuthentication))
+            if(featureManager.IsEnabledAsync(FeatureFlags.UseGithubAuthentication).Result)
                 services.AddAuthentication().AddGitHub(githubOptions =>
                     {
                     githubOptions.ClientId = configuration["Authentication:Github:ClientId"];

@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.Extensions
+namespace AppServices.Data.Extensions
 {
     public static class QueryableExtensions
     {
