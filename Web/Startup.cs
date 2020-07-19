@@ -62,6 +62,9 @@ namespace Web
                 options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
             });
 
+            services.Configure<IISServerOptions>(options => {
+                options.AllowSynchronousIO = true;
+            });
             services.AddSession();
             services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
@@ -86,6 +89,7 @@ namespace Web
             app.UseRouting();
 
             app.UseCookiePolicy();
+            app.UseAuthorization();
             app.UseAuthentication();
             app.UseSession();
 
