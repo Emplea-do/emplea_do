@@ -36,6 +36,6 @@ echo
 cd Migrations/
 dotnet restore Migrations.csproj
 dotnet build Migrations.csproj
-dotnet fm migrate -p sqlserver -c "Data Source=localhost,1433;User id=sa;Password=<$YouR_SuPeR_STR0NG_PaSSW0RD!>" -a "bin/Debug/netcoreapp2.2/Migrations.dll"
+dotnet fm migrate -p sqlserver -c "Data Source=localhost,1433;User id=sa;Password=<$YouR_SuPeR_STR0NG_PaSSW0RD!>" -a "bin/Debug/netcoreapp3.1/Migrations.dll"
 
 cd ../

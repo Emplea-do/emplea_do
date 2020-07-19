@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using AppServices.Framework;
-using Data.Repositories;
+using AppServices.Data.Repositories;
 using Domain.Entities;
 
 namespace AppServices.Services

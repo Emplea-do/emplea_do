@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Web.Framework.Extensions
@@ -37,7 +36,7 @@ namespace Web.Framework.Extensions
                     where string.Equals(scheme.Name, provider, StringComparison.OrdinalIgnoreCase)
                     select scheme).Any();
         }
-
+        /*
         public static string GetRawBodyString(this HttpContext httpContext, Encoding encoding)
         {
             var body = "";
@@ -51,6 +50,6 @@ namespace Web.Framework.Extensions
             }
             httpContext.Request.Body.Position = 0;
             return body;
-        }
+        }*/
     }
 }

@@ -1,5 +1,5 @@
 ﻿using AppServices.Framework;
-using Data.Repositories;
+using AppServices.Data.Repositories;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

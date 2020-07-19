@@ -1,9 +1,4 @@
-﻿@{ 
-    //Fake User for test
-    var User = new { Identity = new { UserId = -1, Name="Claudio", Email="claudio@megsoft.io"} };
-    bool isPreview = false;
-}
-@model Domain.Entities.Job
+﻿@model Domain.Entities.Job
 
 <div class="job-new-list">
     <div class="vc-thumb">
@@ -14,7 +9,7 @@
            }
            else 
            {
-            <h5 style="font-size:30px">@Model.Company.Name.Substring(0,2)</h5>
+            <h5 style="font-size:30px">@(Model.Company.Name.Length > 2 ? Model.Company.Name.Substring(0,2) : Model.Company.Name)</h5>
            }
         </a>
     </div>
@@ -38,5 +33,5 @@
     </li> -->
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id, isPreview = isPreview})">Ver más<i class="ti-arrow-right ml-1"></i></a>
+    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Id })">Ver más<i class="ti-arrow-right ml-1"></i></a>
 </div>

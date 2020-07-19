@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,13 +9,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration.AzureAppConfiguration;
-
+using Microsoft.Extensions.Hosting;
 
 namespace Web
 {
     public class Program
     {
-        public static IHostingEnvironment HostingEnvironment;
+        public static IWebHostEnvironment HostingEnvironment;
         public static void Main(string[] args)
         {
             try
@@ -31,10 +31,10 @@ namespace Web
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
            .ConfigureAppConfiguration((hostingContext, config) =>
-            {
-                HostingEnvironment = hostingContext.HostingEnvironment;
-                ConfigureAzureAppConfiguration(ref config);
-            }).UseStartup<Startup>();
+           {
+               HostingEnvironment = hostingContext.HostingEnvironment;
+               ConfigureAzureAppConfiguration(ref config);
+           }).UseStartup<Startup>();
 
         private static void ConfigureAzureAppConfiguration(ref IConfigurationBuilder config)
         {

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Data
+namespace AppServices.Data
 {
     public class EmpleaDbContext : DbContext
     {

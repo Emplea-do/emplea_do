@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Domain;
 using Domain.Entities;
 
-namespace Data.Repositories
+namespace AppServices.Data.Repositories
 {
     public abstract class BaseRepository<T> : IBaseRepository<T> where T : Entity
     {

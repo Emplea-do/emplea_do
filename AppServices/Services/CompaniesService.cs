@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using AppServices.Framework;
 using AppServices.Services;
-using Data.Repositories;
+using AppServices.Data.Repositories;
 using Domain.Entities;
 
 namespace AppServices.Services
