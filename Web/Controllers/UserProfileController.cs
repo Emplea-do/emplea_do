@@ -23,7 +23,7 @@ namespace Web.Controllers
         {
             var filteredJobsByUserProfile = _jobsService.GetByUser(_currentUser.UserId);
             //var filteredCompaniesByUserProfile = _companiesService.GetByUserId(_currentUser.UserId);
-            var filteredCompaniesByUserProfile = _companiesService.GetAll();
+            var filteredCompaniesByUserProfile = _companiesService.GetByUserId(_currentUser.UserId);
             var viewModel = new UserProfileViewModel
             {
                 Jobs = filteredJobsByUserProfile,
