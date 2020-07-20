@@ -31,4 +31,42 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\lib\icheck\skins\flat\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\flat%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\yellow%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\futurico\futurico%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\line\line%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\yellow%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\polaris\polaris%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\minimal%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\square%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\yellow%402x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\img\banners\" />
+  </ItemGroup>
 </Project>
