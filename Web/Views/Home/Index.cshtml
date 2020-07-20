@@ -3,30 +3,32 @@
 }
 
 <feature name="@FeatureFlags.EnableSearch">
-    <div class="container-fluid home-2 h-100">
-        <div class="row align-items-center gray">
-            <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
-                <h2 class="mb-4">Encuentra tu empleo ideal</h2>
-                <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
-                    <div class="row">
-                        <div class="form-group col-md-12 col-sm-12 p-0">
-                            <i class="ti-search"></i>
-                            <input type="text" id="Keyword" name="Keyword" class="form-control" placeholder="Título, Descripción, Compañía">
-                        </div>
+    <div class="container-fluid home-2 gray">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
+                    <h2 class="mb-4">Encuentra tu empleo ideal</h2>
+                    <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
+                        <div class="row">
+                            <div class="form-group col-md-12 col-sm-12 p-0">
+                                <i class="ti-search"></i>
+                                <input type="text" id="Keyword" name="Keyword" class="form-control" placeholder="Título, Descripción, Compañía">
+                            </div>
 
-                        <div class="form-group col-md-8 col-sm-12  br-all p-0">
-                            <select id="CategoryId" name="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
-                                <option></option>
-                            </select>
+                            <div class="form-group col-md-8 col-sm-12  br-all p-0">
+                                <select id="CategoryId" name="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
+                                    <option></option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 p-0 pl-3">
+                                <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
+                            </div>
                         </div>
-                        
-                        <div class="col-md-4 col-sm-12 p-0 pl-3">
-                            <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <partial name="_partials/Banner" />
             </div>
-            <partial name="_partials/Banner" />
         </div>
     </div>
 </feature>
@@ -73,6 +75,9 @@
 
         .job-new-list .vc-content {
             max-width: 75%;
+        }
+        .home-2 img {
+            max-height: 400px;
         }
     </style>
 }
