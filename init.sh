@@ -1,6 +1,6 @@
 
 # Getting Fluent Migrator CLI to Run Migrations
-dotnet tool install -g FluentMigrator.DotNet.Cli --version 3.2.1
+dotnet tool install -g FluentMigrator.DotNet.Cli --version 3.2.7
 
 #Getting libman CLI for js package management
 dotnet tool install -g Microsoft.Web.LibraryManager.Cli 
@@ -16,6 +16,6 @@ libman restore
 cd ../Migrations
 dotnet restore Migrations.csproj
 dotnet build Migrations.csproj
-dotnet fm migrate -p sqlite -c "Data Source=../mydb.db" -a "bin/Debug/netcoreapp3.1/Migrations.dll"
+dotnet fm migrate -p sqlite -c "Data Source=../mydb.db" -a "bin/Debug/netcoreapp2.2/Migrations.dll"
 
 cd ../
