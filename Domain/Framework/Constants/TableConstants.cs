@@ -15,5 +15,7 @@ namespace Domain.Framework.Constants
 
         public static string Roles => "Roles";
         public static string Logins => "Logins";
+
+        public static string Banners => "Banners";
     }
 }
