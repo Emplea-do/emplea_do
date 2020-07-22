@@ -97,7 +97,8 @@ namespace AppServices.Services
                                || x.Description.ToLower().Contains(search)
                                || x.Category.Name.ToLower().Contains(search)
                                || x.HireType.Name.ToLower().Contains(search)
-                               || x.Company.Name.ToLower().Contains(search));
+                               || x.Company.Name.ToLower().Contains(search)
+                               || x.Location.Name.ToLower().Contains(search));
             }
 
             if (categoryId.HasValue)
