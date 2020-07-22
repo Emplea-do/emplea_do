@@ -1,5 +1,5 @@
-﻿using AppServices.Framework;
-using AppServices.Data.Repositories;
+﻿using AppServices.Data.Repositories;
+using AppServices.Framework;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -31,6 +31,7 @@ namespace AppServices.Services
         {
             return new TaskResult<Job>();
         }
+
         public List<Job> GetByUser(int userId)
         {
             return _mainRepository
@@ -48,14 +49,12 @@ namespace AppServices.Services
             {
                 return _mainRepository.Get(j => j.IsActive && j.Id == id, "Company,Location,HireType,Category")
                     .FirstOrDefault();
-
             }
             else
             {
                 return _mainRepository
                     .Get(j => j.IsActive && j.Id == id && j.IsApproved, "Company,Location,HireType,Category")
                     .FirstOrDefault();
-
             }
         }
 
@@ -90,23 +89,27 @@ namespace AppServices.Services
         {
             var query = _mainRepository.Get(x => x.IsActive && x.IsApproved, "Company,Category,Location,HireType");
             var search = keyword?.ToLower();
+
             if (!string.IsNullOrWhiteSpace(keyword))
             {
-                query = query.Where(x => x.Title.ToLower().Contains(search) || x.Description.ToLower().Contains(search));
+                query = query
+                        .Where(x => x.Title.ToLower().Contains(search)
+                               || x.Description.ToLower().Contains(search)
+                               || x.Category.Name.ToLower().Contains(search)
+                               || x.HireType.Name.ToLower().Contains(search)
+                               || x.Company.Name.ToLower().Contains(search)
+                               || x.Location.Name.ToLower().Contains(search));
             }
+
             if (categoryId.HasValue)
-            {
                 query = query.Where(x => x.CategoryId == categoryId.Value);
-            }
+
             if (hireTypeId.HasValue)
-            {
                 query = query.Where(x => x.HireTypeId == hireTypeId.Value);
 
-            }
             if (isRemote.HasValue)
-            {
                 query = query.Where(x => x.IsRemote == isRemote.Value);
-            }
+
             return query.OrderByDescending(x => x.PublishedDate).ToList();
         }
     }
@@ -120,8 +123,10 @@ namespace AppServices.Services
         IEnumerable<Job> GetRecentJobs();
 
         Job GetDetails(int id, bool isPreview = false);
+
         List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote);
     }
+
     /*
     public class MockJobsService : IJobsService
     {
@@ -176,7 +181,7 @@ namespace AppServices.Services
                     LogoUrl = "https://megsoftconsulting.com/wp-content/uploads/2018/08/my_business.png"
                 },
                 Category = new Category(){Name="Categoria", Description="Descripción de esta categoria"},
-                Location = new Location(){Name="Remote"}, 
+                Location = new Location(){Name="Remote"},
                 HireType = new HireType(){Name="Trabajo completo"}
             },
             new Job
