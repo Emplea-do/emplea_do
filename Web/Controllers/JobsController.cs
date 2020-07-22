@@ -49,49 +49,6 @@ namespace Web.Controllers
 
         public IActionResult Index(JobSeachViewModel model)
         {
-
-            /*
-             var recentJobs = _jobsService.GetRecentJobs();
-
-            var legacyJobs = await _apiClient.GetJobsFromLegacy();
-
-            if(legacyJobs != null)
-            {
-                List<Job> legacyJobsTemp = new List<Job>();
-
-                foreach (var legacyJob in legacyJobs)
-                {
-                    legacyJobsTemp.Add(new Job()
-                    {
-                        Company = new Company()
-                        {
-                            Name = legacyJob.CompanyName,
-                            LogoUrl = legacyJob.CompanyLogoUrl,
-                            Url = legacyJob.Link,
-                            Email = legacyJob.Email
-                        },
-                        Title = legacyJob.Title,
-                        PublishedDate = legacyJob.PublishedDate,
-                        Description = legacyJob.Description,
-                        HowToApply = legacyJob.HowToApply,
-                        IsRemote = legacyJob.IsRemote,
-                        ViewCount = legacyJob.ViewCount,
-                        Likes = legacyJob.Likes,
-                        Location = new Location
-                        {
-                            Name = legacyJob.Location
-                        },
-                        HireType = new HireType
-                        {
-                            Description = legacyJob.JobType
-                        }
-                    });
-                }
-
-                recentJobs = recentJobs.Concat(legacyJobsTemp).ToList();
-            }*/
-            
-
             if (model == null)
             {
                 model = new JobSeachViewModel();
@@ -325,11 +282,9 @@ namespace Web.Controllers
                job = this._jobsService.GetDetails(jobId, isPreview);
             }
 
-            //Manage error message
             if (job == null)
                 return RedirectToAction(nameof(this.Index)).WithError("El puesto que buscas no existe.");
 
-            //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {   
                 Job = job,
