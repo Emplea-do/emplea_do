@@ -10,15 +10,16 @@
     }
     <title>@title</title>
     @{
-        var ogTitle = String.IsNullOrWhiteSpace(@ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
+        var ogTitle = String.IsNullOrWhiteSpace(ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
         var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La manera más fácil de encontrar un empleo en el área de tecnología." : ViewBag.Description;
-        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl);// ? new Uri(Context.Request.Host.ToUriComponent(),"/images/logo.png") : ViewBag.ImageUrl;
+        var defaultImage = "https://" + this.Context.Request.Host.ToUriComponent()+"/img/logo.png";
+        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? defaultImage : ViewBag.ImageUrl;
     }
     <meta property="og:title" content="@ogTitle">
     <meta property="og:description" content="@ogDescription">
     <meta property="og:type" content="website">
     <meta property="og:url" content="@Context.Request.Host">
-    @* <meta property="og:image" content="@ogImage">*@
+    <meta property="og:image" content="@ogImage">
 
     <link href="~/css/site.min.css" rel="stylesheet">
     <link href="~/css/styles.css" rel="stylesheet">
@@ -43,14 +44,14 @@
         <partial name="_Footer" />
         <!-- ============================ Footer End ================================== -->
     </div>
-
+    <partial name="_Analytics" />
     <environment include="Development,Production">
         <script>
         var base_url = '@(this.Context.Request.Scheme +"://" + this.Context.Request.Host.ToUriComponent())';
         </script>
         <script src="~/js/site.min.js"></script>
     </environment>
-
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

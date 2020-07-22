@@ -329,6 +329,8 @@ namespace Web.Controllers
             if (job == null)
                 return RedirectToAction(nameof(this.Index)).WithError("El puesto que buscas no existe.");
 
+            ViewBag.Title = job.Title;
+            ViewBag.Description = job.Description;
             //If reach this line is because the job exists
             var viewModel = new JobDetailsViewModel
             {   
