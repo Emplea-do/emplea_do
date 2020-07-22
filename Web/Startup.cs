@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.FeatureManagement;
 using Web.Framework.Configurations;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Web
 {
@@ -30,6 +30,7 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddApplicationInsightsTelemetry();
             services.AddFeatureManagement();
 
@@ -39,12 +40,11 @@ namespace Web
                 //options.CheckConsentNeeded = context => true;
                 // options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
 
-            #if DEBUG
-                services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+#if DEBUG
+            services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
             #else
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             #endif
@@ -66,7 +66,7 @@ namespace Web
                 options.AllowSynchronousIO = true;
             });
             services.AddSession();
-            services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            //services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }
 
@@ -77,23 +77,23 @@ namespace Web
 
             #if DEBUG
                 app.UseDeveloperExceptionPage();
-#else
-                app.UseDeveloperExceptionPage();
-                app.UseExceptionHandler("/Home/Error");
+            #else
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-#endif
+            #endif
             app.UseAzureAppConfiguration();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseCookiePolicy();
 
             app.UseRouting();
 
-            app.UseCookiePolicy();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseSession();
 
             app.UseElmah();
+
             app.UseEndpoints(routes =>
             {
                 routes.MapControllerRoute(

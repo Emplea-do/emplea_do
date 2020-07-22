@@ -1,4 +1,28 @@
 ﻿
-<div class="col-lg-6 col-md-6 bg-primary pt-5 pb-5">
-    <img alt="" src="~/img/home-mockup.png" class="img-fluid mx-auto">
-</div>
+    <div class="col-lg-6 col-md-6 pt-5 pb-5 gray">
+
+        @{
+            var randomGenerator = new Random();
+        }
+        @if ((DateTime.UtcNow.Millisecond % 2) == 0)
+        {
+            <a href="http://bit.ly/streamelopersub"><img class="img-fluid" src="~/img/banners/subscribe-banner.gif" /></a>
+        }
+        else
+        {
+            var selector = (randomGenerator.Next() % 3) + 1;
+
+            switch (selector)
+            {
+                case 1:
+                    <a href="https://bit.ly/xam-dev"><img class="img-fluid" src="~/img/banners/megsoft-job.png" /></a>
+                    break;
+                case 2:
+                    <a href="http://devhiring.com/qa-automation-engineer/"><img class="img-fluid" src="~/img/banners/devhire3.png" /></a>
+                    break;
+                case 3:
+                    <a href="https://bit.ly/newtech-empleado"><img class="img-fluid" src="~/img/banners/newtech.png" /></a>
+                    break;
+            }
+        }
+    </div>
