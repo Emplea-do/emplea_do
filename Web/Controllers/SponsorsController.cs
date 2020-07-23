@@ -16,10 +16,13 @@ namespace Web.Controllers
             return View();
         }
 
-        public IActionResult GetOpenCollective(string members)
+        public string GetOpenCollective(string members)
         {
             // It's not call directly from AJAX due to CORS.
-            return new JsonResult(JsonConvert.DeserializeObject(WebRequestHelper("https://opencollective.com/emplea_do/members/" + members)));
+            var resultString = WebRequestHelper("https://opencollective.com/emplea_do/members/" + members);
+            //var resultObject = JsonConvert.DeserializeObject<dynamic>(resultString);
+
+            return resultString;
         }
 
         public string WebRequestHelper(string endpoint)
