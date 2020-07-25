@@ -49,7 +49,7 @@ namespace Web.Controllers
                 return BadRequest();
             }
 
-            return Challenge(new AuthenticationProperties { RedirectUri = Url.Action("OnPostConfirmation", "Account", new { returnUrl, provider } )}, provider);
+            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, provider); // Url.Action("OnPostConfirmation", "Account", new { returnUrl, provider } )}, provider);
         }
 
         [HttpGet]
@@ -67,6 +67,7 @@ namespace Web.Controllers
 
         public async Task<IActionResult> OnPostConfirmation(string returnUrl, string provider)
         {
+            
             try
             {
                 if (string.IsNullOrWhiteSpace(provider))
