@@ -6,7 +6,7 @@
 
 ### Install the following software
 
-- [.NET SDK](https://www.microsoft.com/net/learn/get-started/)
+- [.NET SDK](https://dotnet.microsoft.com/download)
 - [Visual Studio Code](https://code.visualstudio.com)
 - [Visual Studio Community](https://visualstudio.microsoft.com/es/vs/)
 
@@ -67,6 +67,22 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)
 
+
+## Powered By
+
+- [.Net Core](https://www.microsoft.com/net/learn/get-started/)
+- [Azure DevOps](https://azure.microsoft.com/en-us/services/devops/)
+- [Azure](https://azure.com)
+- [JetBrains](https://www.jetbrains.com/?from=emplea.do)
+- [Our community](https://github.com/Emplea-do/emplea_do/graphs/contributors)
+- [Visual Studio & Visual Studio Code](https://visualstudio.microsoft.com/)
+
+<img src="docs/images/poweredbylogos/dotnet.svg" width="100" alt=".Net"/>
+<img src="docs/images/poweredbylogos/azure.png" width="100" alt="Azure" />
+<img src="docs/images/poweredbylogos/azuredevops.png" width="100" alt="Azure devops" />
+<img src="docs/images/poweredbylogos/jetbrains.png" width="100" alt="Jetbrains" />
+<img src="docs/images/poweredbylogos/visualstudio.png" width="100" alt="Visual Studio" />
+<img src="docs/images/poweredbylogos/visualstudiocode.svg" width="100" alt="Visual Studio Code" />
 
 ## License
 
