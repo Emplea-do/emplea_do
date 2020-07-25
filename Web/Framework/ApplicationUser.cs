@@ -15,6 +15,8 @@ namespace Web.Framework
         {
             _user = user;
         }
+
+        public bool IsAuthenticated { get {  return _user.Identity.IsAuthenticated; } }
         public int UserId { get { return Convert.ToInt32(_user.FindFirst("UserId").Value); } }
         public string SocialId { get { return _user.FindFirst(ClaimTypes.NameIdentifier).Value; } }
         public string Email { get { return _user.FindFirst(ClaimTypes.Email).Value; } }
