@@ -8,7 +8,7 @@ namespace Web.Framework
     {
         public String Title { get; set; }
 
-        protected ApplicationUser CurrentUser => new ApplicationUser(Context.User, Context.Session);
+        protected ApplicationUser CurrentUser => new ApplicationUser(Context.User);
 
     }
 }
