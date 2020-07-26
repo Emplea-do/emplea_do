@@ -1,6 +1,6 @@
 ﻿@model JobDetailsViewModel
 @using Microsoft.AspNetCore.Html
-
+@inject IUrlHelper urlHelper;
 <section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
         <div class="row m-0 align-items-end detail-swap">
@@ -112,6 +112,43 @@
                     </div>
 
                 }
+
+                <!-- Share -->
+                <div class="tr-single-box">
+                    <div class="tr-single-header">
+                        <h4><i class="lni lni-share"></i>Compartir</h4>           
+                    </div>
+
+                    <div class="tr-single-body">
+                        <ul class="extra-service">
+                            <li>
+                                <div class="icon-box-icon-block">
+                                   <a href="http://twitter.com/intent/tweet?text=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-twitter-original"></i>
+                                        </div>
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            Twitter
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-facebook-original"></i>
+                                        </div>
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            Facebook
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
 
                 <!-- Company Address -->
                 <div class="tr-single-box">
