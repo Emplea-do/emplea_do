@@ -123,7 +123,7 @@
                         <ul class="extra-service">
                             <li>
                                 <div class="icon-box-icon-block">
-                                   <a href="http://twitter.com/intent/tweet?text=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
+                                   <a href="http://twitter.com/intent/tweet?text=@Model.Job.Title @urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
                                         <div class="icon-box-round">
                                             <i class="lni lni-twitter-original"></i>
                                         </div>
@@ -135,7 +135,7 @@
                             </li>
                             <li>
                                 <div class="icon-box-icon-block">
-                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})&t=@Model.Job.Title" target="_blank">
                                         <div class="icon-box-round">
                                             <i class="lni lni-facebook-original"></i>
                                         </div>
