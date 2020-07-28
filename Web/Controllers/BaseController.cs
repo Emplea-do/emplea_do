@@ -10,7 +10,7 @@ namespace Web.Controllers
 {
     public class BaseController : Controller
     {
-        protected ApplicationUser _currentUser => new ApplicationUser(HttpContext.User, HttpContext.Session);
+        protected ApplicationUser _currentUser => new ApplicationUser(HttpContext.User);
 
 
         public override void OnActionExecuting(ActionExecutingContext context)
