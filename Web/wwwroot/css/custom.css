@@ -20,3 +20,9 @@ textarea{
 .badge-warning{
     color:white;
 }
+
+/* Job details
+-------------------------------------------------- */
+.preserve-spaces {
+    white-space: pre-line;
+}
