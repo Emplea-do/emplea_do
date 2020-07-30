@@ -73,7 +73,6 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 
 - We have a [slack channel](https://empleado-slack.azurewebsites.net)
 
-
 ## Powered By
 
 - [.Net Core](https://www.microsoft.com/net/learn/get-started/)
@@ -83,14 +82,15 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 - [Our community](https://github.com/Emplea-do/emplea_do/graphs/contributors)
 - [Visual Studio & Visual Studio Code](https://visualstudio.microsoft.com/)
 
-<img src="docs/images/poweredbylogos/dotnet.svg" width="100" alt=".Net"/>
-<img src="docs/images/poweredbylogos/azure.png" width="100" alt="Azure" />
-<img src="docs/images/poweredbylogos/azuredevops.png" width="100" alt="Azure devops" />
-<img src="docs/images/poweredbylogos/jetbrains.png" width="100" alt="Jetbrains" />
-<img src="docs/images/poweredbylogos/visualstudio.png" width="100" alt="Visual Studio" />
-<img src="docs/images/poweredbylogos/visualstudiocode.svg" width="100" alt="Visual Studio Code" />
+<div align="center">
+  <img src="docs/images/poweredbylogos/dotnet.svg" width="100" alt=".Net"/>
+  <img src="docs/images/poweredbylogos/azure.png" width="100" alt="Azure" style="margin-left:10px;"/>
+  <img src="docs/images/poweredbylogos/azuredevops.png" width="100" alt="Azure devops" style="margin-left:10px;"/>
+  <img src="docs/images/poweredbylogos/jetbrains.png" width="100" alt="Jetbrains" style="margin-left:10px;"/>
+  <img src="docs/images/poweredbylogos/visualstudio.png" width="100" alt="Visual Studio" style="margin-left:10px;"/>
+  <img src="docs/images/poweredbylogos/visualstudiocode.svg" width="100" alt="Visual Studio Code" style="margin-left:10px;"/>
+</div>
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
-
