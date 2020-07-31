@@ -31,16 +31,17 @@ namespace AppServices.Services
                     _mainRepository.CommitChanges();
                     taskResult.AddMessage("Registro agregado exitosamente");
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     taskResult.AddErrorMessage(ex.Message);
-                    if(ex.InnerException != null)
+                    if (ex.InnerException != null)
                         taskResult.AddErrorMessage(ex.InnerException.Message);
-
                 }
             }
+
             return taskResult;
         }
+
         public TaskResult<T> Update(T entity)
         {
             var taskResult = ValidateOnUpdate(entity);
@@ -60,6 +61,7 @@ namespace AppServices.Services
                         taskResult.AddErrorMessage(ex.InnerException.Message);
                 }
             }
+
             return taskResult;
         }
 
@@ -82,15 +84,17 @@ namespace AppServices.Services
                         taskResult.AddErrorMessage(ex.InnerException.Message);
                 }
             }
+
             return taskResult;
         }
+
         public virtual List<T> GetAll()
         {
             return _mainRepository.Get(x => x.IsActive).ToList();
         }
     }
 
-    public interface IBaseService<T, U> where T:Entity where U:IBaseRepository<T>
+    public interface IBaseService<T, U> where T : Entity where U : IBaseRepository<T>
     {
         List<T> GetAll();
         TaskResult<T> Create(T entity);

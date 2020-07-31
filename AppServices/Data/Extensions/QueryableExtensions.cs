@@ -25,7 +25,6 @@ namespace AppServices.Data.Extensions
             return FullTextSearch(queryable, searchKey, false);
         }
 
-
         /// <summary>
         /// Searches in all string properties for the specifed search key.
         /// It is also able to search for several words. If the searchKey is for example 'John Travolta' then
@@ -44,7 +43,6 @@ namespace AppServices.Data.Extensions
             var parameter = Expression.Parameter(typeof(T), "c");
 
             var indexOfMethod = typeof(string).GetMethod("IndexOf", new[] { typeof(string), typeof(StringComparison) });
-
 
             var publicProperties = typeof(T)
                 .GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly)
@@ -79,8 +77,8 @@ namespace AppServices.Data.Extensions
             ParameterExpression param = Expression.Parameter(typeof(T), string.Empty);
 
             #region Sort by sub properties
-            //This part is what sorts by sub properties
-            //For example: Manufacturer.Name
+            // This part is what sorts by sub properties
+            // For example: Manufacturer.Name
             var parts = propertyName.Split('.');
 
             Expression parent = param;
@@ -102,18 +100,22 @@ namespace AppServices.Data.Extensions
 
             return (IOrderedQueryable<T>)source.Provider.CreateQuery<T>(call);
         }
+
         public static IOrderedQueryable<T> OrderBy<T>(this IQueryable<T> source, string propertyName)
         {
             return OrderingHelper(source, propertyName, false, false);
         }
+
         public static IOrderedQueryable<T> OrderByDescending<T>(this IQueryable<T> source, string propertyName)
         {
             return OrderingHelper(source, propertyName, true, false);
         }
+
         public static IOrderedQueryable<T> ThenBy<T>(this IOrderedQueryable<T> source, string propertyName)
         {
             return OrderingHelper(source, propertyName, false, true);
         }
+
         public static IOrderedQueryable<T> ThenByDescending<T>(this IOrderedQueryable<T> source, string propertyName)
         {
             return OrderingHelper(source, propertyName, true, true);

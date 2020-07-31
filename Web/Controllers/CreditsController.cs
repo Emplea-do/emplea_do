@@ -5,7 +5,6 @@ namespace Web.Controllers
 {
     public class CreditsController : BaseController
     {
-
         public IActionResult Index()
         {
             return View();

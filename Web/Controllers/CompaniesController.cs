@@ -29,8 +29,8 @@ namespace Web.Controllers
             var companies = _companiesService.GetAll();
             return View(companies);
         }
-        
-                [Authorize]
+
+        [Authorize]
         public IActionResult Wizard(int? id)
         {
             var model = new CompanyViewModel();
@@ -39,7 +39,7 @@ namespace Web.Controllers
             {
                 var company = _companiesService.GetById(id.Value);
 
-                if(company.UserId == _currentUser.UserId)
+                if (company.UserId == _currentUser.UserId)
                 {
                     model.Id = company.Id;
                     model.Name = company.Name;
@@ -49,7 +49,7 @@ namespace Web.Controllers
                     model.Email = company.Email;
                 }
                 else
-                { 
+                {
                     return RedirectToAction("Index", "UserProfile").WithError("No tienes permiso para editar esta Compañia");
                 }
             }
@@ -57,7 +57,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-         [Authorize]
+        [Authorize]
         [HttpPost]
         public IActionResult Wizard(CompanyViewModel model)
         {
@@ -66,11 +66,11 @@ namespace Web.Controllers
 
             try
             {
-                if(model.Id > 0) 
+                if (model.Id > 0)
                 {
                     var companyToUpdate = _companiesService.GetById(model.Id);
 
-                    if(companyToUpdate.UserId == _currentUser.UserId)
+                    if (companyToUpdate.UserId == _currentUser.UserId)
                     {
                         companyToUpdate.Name = model.Name;
                         companyToUpdate.Url = model.Url;
@@ -79,7 +79,7 @@ namespace Web.Controllers
 
                         var result = _companiesService.Update(companyToUpdate);
 
-                        if(result.Success)
+                        if (result.Success)
                         {
                             return RedirectToAction("Index", "UserProfile").WithSuccess("Compañia editada exitosamente");
                         }
@@ -87,10 +87,11 @@ namespace Web.Controllers
                         return View(model).WithError(result.Messages);
                     }
                     else
-                    { 
+                    {
                         return RedirectToAction("Index", "UserProfile").WithError("No tienes permiso para editar esta Compañia");
                     }
-                } else 
+                }
+                else
                 {
                     var company = new Company
                     {
@@ -112,22 +113,20 @@ namespace Web.Controllers
 
                     var result = _companiesService.Create(company);
 
-                    if(result.Success)
+                    if (result.Success)
                     {
                         return RedirectToAction("Index", "UserProfile").WithSuccess("Compañia creada exitosamente");
                     }
 
                     return View(model).WithError(result.Messages);
-                }                  
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HttpContext.RiseError(ex);
                 return View(model).WithError(ex.Message);
             }
-            
         }
-
 
         [Authorize]
         [HttpPost]
@@ -139,23 +138,23 @@ namespace Web.Controllers
             {
                 var company = _companiesService.GetById(id);
 
-                if(company == null)
+                if (company == null)
                 {
                     result.AddErrorMessage("No puedes eliminar una Compañia que no existe.");
                 }
-                else if(company.UserId != _currentUser.UserId)
+                else if (company.UserId != _currentUser.UserId)
                 {
                     result.AddErrorMessage("No puedes eliminar una Compañia que no creaste.");
                 }
-                
+
                 result = _companiesService.Delete(company);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HttpContext.RiseError(ex);
                 result.AddErrorMessage(ex.Message);
             }
-            
+
             return Json(result);
         }
     }

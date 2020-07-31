@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 namespace Web.Framework.Extensions
 {
     public static class StringExtensions
-	{
+    {
         /// <summary>
         /// Sanitiza un URL
         /// </summary>

@@ -9,7 +9,7 @@ using Microsoft.Extensions.Options;
 /// <summary>
 /// Simple class for sending tweets to Twitter using Single-user OAuth.
 /// https://dev.twitter.com/oauth/overview/single-user
-/// 
+///
 /// Get your access keys by creating an app at apps.twitter.com then visiting the
 /// "Keys and Access Tokens" section for your app. They can be found under the
 /// "Your Access Token" heading.
@@ -23,18 +23,18 @@ namespace AppServices.Services
         readonly string consumerKey, consumerKeySecret, accessToken, accessTokenSecret;
         readonly HMACSHA1 sigHasher;
         readonly DateTime epochUtc = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        //readonly IOptions<TwitterConfig> appSettings; 
+        // readonly IOptions<TwitterConfig> appSettings;
 
         /// <summary>
         /// Creates an object for sending tweets to Twitter using Single-user OAuth.
-        /// 
+        ///
         /// Get your access keys by creating an app at apps.twitter.com then visiting the
         /// "Keys and Access Tokens" section for your app. They can be found under the
         /// "Your Access Token" heading.
         /// </summary>
         public TwitterService(IOptions<TwitterConfig> app)
         {
-            //validateConfig(app);
+            // validateConfig(app);
             this.consumerKey = app.Value.consumerKey;
             this.consumerKeySecret = app.Value.consumerKeySecret;
             this.accessToken = app.Value.accessToken;
@@ -61,7 +61,7 @@ namespace AppServices.Services
             var fullUrl = TwitterApiBaseUrl + url;
 
             // Timestamps are in seconds since 1/1/1970.
-            var timestamp = (int)((DateTime.UtcNow - epochUtc).TotalSeconds);
+            var timestamp = (int)(DateTime.UtcNow - epochUtc).TotalSeconds;
 
             // Add all the OAuth headers we'll need to use when constructing the hash.
             data.Add("oauth_consumer_key", consumerKey);
@@ -93,15 +93,13 @@ namespace AppServices.Services
                 data
                     .Union(data)
                     .Select(kvp => string.Format("{0}={1}", Uri.EscapeDataString(kvp.Key), Uri.EscapeDataString(kvp.Value)))
-                    .OrderBy(s => s)
-            );
+                    .OrderBy(s => s));
 
             var fullSigData = string.Format(
                 "{0}&{1}&{2}",
                 "POST",
                 Uri.EscapeDataString(url),
-                Uri.EscapeDataString(sigString.ToString())
-            );
+                Uri.EscapeDataString(sigString.ToString()));
 
             return Convert.ToBase64String(sigHasher.ComputeHash(new System.Text.ASCIIEncoding().GetBytes(fullSigData.ToString())));
         }
@@ -116,8 +114,7 @@ namespace AppServices.Services
                 data
                     .Where(kvp => kvp.Key.StartsWith("oauth_"))
                     .Select(kvp => string.Format("{0}=\"{1}\"", Uri.EscapeDataString(kvp.Key), Uri.EscapeDataString(kvp.Value)))
-                    .OrderBy(s => s)
-            );
+                    .OrderBy(s => s));
         }
 
         /// <summary>
@@ -138,21 +135,21 @@ namespace AppServices.Services
 
         void validateConfig(IOptions<TwitterConfig> app)
         {
-            if(String.IsNullOrEmpty(app.Value.consumerKey)||String.IsNullOrEmpty(app.Value.consumerKeySecret) || String.IsNullOrEmpty(app.Value.accessToken) || String.IsNullOrEmpty(app.Value.accessTokenSecret)) 
+            if (string.IsNullOrEmpty(app.Value.consumerKey) || string.IsNullOrEmpty(app.Value.consumerKeySecret) || string.IsNullOrEmpty(app.Value.accessToken) || string.IsNullOrEmpty(app.Value.accessTokenSecret))
                 throw new ArgumentException("Twitter configuration setting are required");
         }
     }
+
     public interface ITwitterService
     {
         Task<string> Tweet(string text);
-
     }
+
     public class TwitterConfig
     {
         public string consumerKey { get; set; }
         public string consumerKeySecret { get; set; }
         public string accessToken { get; set; }
         public string accessTokenSecret { get; set; }
-
     }
 }

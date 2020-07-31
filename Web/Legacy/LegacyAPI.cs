@@ -5,16 +5,16 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace LegacyAPI
-{   
+{
     public class JobCardDTO
-	{
-		public string Link{ get; set; }
+    {
+        public string Link { get; set; }
         public string CompanyName { get; set; }
         public string Title { get; set; }
-		public string JobType{ get; set; }
-		public string Location{ get; set; }
+        public string JobType { get; set; }
+        public string Location { get; set; }
         public DateTime PublishedDate { get; set; }
-        public bool IsRemote{ get; set; }
+        public bool IsRemote { get; set; }
         public int ViewCount { get; set; }
         public int Likes { get; set; }
         public string CompanyLogoUrl { get; set; }

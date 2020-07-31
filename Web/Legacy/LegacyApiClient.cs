@@ -17,9 +17,10 @@ public class LegacyJobCardsResult
     public int CurrentPage;
     public int PageSize;
 }
+
 public class LegacyApiClient
 {
-     private readonly IFeatureManager _featureManager;
+    private readonly IFeatureManager _featureManager;
     private readonly IConfiguration _configuration;
 
     public LegacyApiClient(IFeatureManager featureManager, IConfiguration configuration)
@@ -27,19 +28,18 @@ public class LegacyApiClient
         _featureManager = featureManager;
         _configuration = configuration;
     }
-    
+
     public async Task<IList<JobCardDTO>> GetJobsFromLegacy()
     {
-        //if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
-           return GetJobsFromMockData();
-        //return await GetJobsFromLegacyCore();
-        
+        // if(_featureManager.IsEnabled(FeatureFlags.LegacyClient.UseMockData))
+        return GetJobsFromMockData();
+        // return await GetJobsFromLegacyCore();
     }
 
     public async Task<JobCardDTO> GetJobById(string Id)
     {
-        if(await _featureManager.IsEnabledAsync(FeatureFlags.LegacyClient.UseMockData))
-        return  GetJobByIdFromMockData(Id);
+        if (await _featureManager.IsEnabledAsync(FeatureFlags.LegacyClient.UseMockData))
+            return GetJobByIdFromMockData(Id);
 
         return await GetJobByIdCore(Id);
     }
@@ -47,10 +47,10 @@ public class LegacyApiClient
     private async Task<IList<JobCardDTO>> GetJobsFromLegacyCore()
     {
         int pageSize = _configuration.GetValue<int>(ConfigurationFlags.LegacyApiClient.PageSize, 10);
-        
+
         var r = await GetBaseAPIUrl()
                     .AppendPathSegment("jobs")
-                    .SetQueryParams(new { pagesize = pageSize, page = 1 })  // This should be parameterized in the future. 
+                    .SetQueryParams(new { pagesize = pageSize, page = 1 }) // This should be parameterized in the future.
                     .GetJsonAsync<LegacyJobCardsResult>();
 
         return r.Jobs;
@@ -63,13 +63,11 @@ public class LegacyApiClient
 
     private async Task<JobCardDTO> GetJobByIdCore(string Id)
     {
-
         var jobs = await GetJobsFromLegacy();
         var j = jobs.FirstOrDefault(i => i.Link == Id);
 
         return j;
-
-        }
+    }
 
     private IList<JobCardDTO> GetJobsFromMockData()
     {
@@ -80,14 +78,11 @@ public class LegacyApiClient
     private JobCardDTO GetJobByIdFromMockData(string Id)
     {
         var list = GetJobsFromMockData();
-        return list.FirstOrDefault(j=> j.Link == Id);
+        return list.FirstOrDefault(j => j.Link == Id);
     }
-
 }
 
-
 public static class FakeData
-
 {
     public static string GetFakeData()
     {
@@ -156,6 +151,5 @@ Email:'test@mail'
 },
 ]
 }";
+    }
 }
-} 
-

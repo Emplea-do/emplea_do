@@ -31,8 +31,6 @@ namespace Migrations
                 .WithColumn("HireTypeId").AsInt32().NotNullable()
                 .WithColumn("JoelTestId").AsInt32().Nullable()
                 .WithColumn("LocationId").AsInt32().Nullable();
-
         }
     }
 }
-

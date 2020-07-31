@@ -4,6 +4,7 @@
     {
         public static readonly string PageSize = "LegacyApiClient:PageSize";
     }
+
     public static class HomeController
     {
         public static readonly string RecentJobCount = "HomeController:RecenJobCount";

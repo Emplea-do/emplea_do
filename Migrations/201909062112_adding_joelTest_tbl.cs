@@ -28,7 +28,6 @@ namespace Migrations
                          .WithColumn("HasTesters").AsBoolean().NotNullable()
                           .WithColumn("HasWrittenTest").AsBoolean().NotNullable()
                           .WithColumn("HasHallwayTests").AsBoolean().NotNullable();
-
         }
     }
 }

@@ -36,6 +36,7 @@ namespace Web.Framework.Extensions
                     where string.Equals(scheme.Name, provider, StringComparison.OrdinalIgnoreCase)
                     select scheme).Any();
         }
+
         /*
         public static string GetRawBodyString(this HttpContext httpContext, Encoding encoding)
         {

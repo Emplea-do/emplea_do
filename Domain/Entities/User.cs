@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 
 namespace Domain.Entities
-
 {
     public class User : Entity
     {
-        //public string LegacyId { get; set; }
+        // public string LegacyId { get; set; }
 
         public string Email { get; set; }
 

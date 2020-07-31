@@ -10,5 +10,5 @@ namespace AppServices.Data.Repositories
         }
     }
 
-    public interface IUsersRepository: IBaseRepository<User> { }
+    public interface IUsersRepository : IBaseRepository<User> { }
 }

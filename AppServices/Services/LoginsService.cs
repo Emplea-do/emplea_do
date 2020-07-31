@@ -14,7 +14,7 @@ namespace AppServices.Services
 
         public Login GetLogin(string provider, string socialId)
         {
-            return _mainRepository.Get(x=>x.ProviderKey== socialId && x.LoginProvider == provider).FirstOrDefault();
+            return _mainRepository.Get(x => x.ProviderKey == socialId && x.LoginProvider == provider).FirstOrDefault();
         }
 
         protected override TaskResult<Login> ValidateOnCreate(Login entity)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities
-
 {
     public class Job : Entity
     {
@@ -15,7 +14,7 @@ namespace Domain.Entities
 
         public int ViewCount { get; set; }
 
-        public int Likes { get; set; } =  0;
+        public int Likes { get; set; } = 0;
 
         public bool IsRemote { get; set; } = false;
 
@@ -24,7 +23,6 @@ namespace Domain.Entities
         public bool IsApproved { get; set; } = false;
 
         public DateTime PublishedDate { get; set; }
-
 
         // Relationships with other entities
 
@@ -45,8 +43,5 @@ namespace Domain.Entities
 
         public int? UserId { get; set; }
         public virtual User User { get; set; }
-
-
-
     }
 }

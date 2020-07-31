@@ -37,36 +37,37 @@ namespace Web
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                //options.CheckConsentNeeded = context => true;
+                // options.CheckConsentNeeded = context => true;
                 // options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
-            //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
+            // Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
 
 #if DEBUG
             services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            #else
+#else
                 services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            #endif
+#endif
 
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             services.Configure<LegacyApiClient>(Configuration);
 
-
             IocConfiguration.Init(Configuration, services);
             AuthConfiguration.Init(Configuration, services);
 
-            services.AddElmah<XmlFileErrorLog>(options => {
+            services.AddElmah<XmlFileErrorLog>(options =>
+            {
                 options.LogPath = "~/Helpers/log";
                 options.Path = "ErrorLogs";
                 options.CheckPermissionAction = context => context.User.Identity.IsAuthenticated;
             });
 
-            services.Configure<IISServerOptions>(options => {
+            services.Configure<IISServerOptions>(options =>
+            {
                 options.AllowSynchronousIO = true;
             });
             services.AddSession();
-            //services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            // services.AddMvc();//option => option.EnableEndpointRouting = false).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             Console.WriteLine("Startup.ConfigureServices() End");
         }
 
@@ -75,12 +76,12 @@ namespace Web
         {
             Console.WriteLine("Startup.Configure() Begin");
 
-            #if DEBUG
-                app.UseDeveloperExceptionPage();
-            #else
+#if DEBUG
+            app.UseDeveloperExceptionPage();
+#else
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
-            #endif
+#endif
             app.UseAzureAppConfiguration();
             app.UseHttpsRedirection();
             app.UseStaticFiles();

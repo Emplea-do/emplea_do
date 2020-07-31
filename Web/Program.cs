@@ -38,12 +38,11 @@ namespace Web
 
         private static void ConfigureAzureAppConfiguration(ref IConfigurationBuilder config)
         {
-            // For the production environment, we are going to use 
-            //Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
+            // For the production environment, we are going to use
+            // Azure App Configuration as our provider of (1) App Configuration and (2) Feature Flags
 
             if (HostingEnvironment.IsProduction())
             {
-
                 var settings = config.Build();
 
                 var connectionString = settings["AzureAppConfigurationConnectionString"];

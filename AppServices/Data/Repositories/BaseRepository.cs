@@ -103,6 +103,7 @@ namespace AppServices.Data.Repositories
                     entry.State = EntityState.Modified;
                 }
             }
+
             return entity;
         }
 

@@ -67,17 +67,18 @@ namespace Web.Controllers
 
         public async Task<IActionResult> OnPostConfirmation(string returnUrl, string provider)
         {
-            
             try
             {
                 if (string.IsNullOrWhiteSpace(provider))
                 {
                     return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme).WithError("Ocurrió un error autenticando tu cuenta");
                 }
+
                 var loginInfo = _loginService.GetLogin(provider.ToLower(), _currentUser.SocialId);
-                if(loginInfo == null) //Create new account
+                if (loginInfo == null) // Create new account
                 {
-                    var newUser = new User {
+                    var newUser = new User
+                    {
                         Email = _currentUser.Email,
                         Name = _currentUser.Name,
                     };
@@ -99,10 +100,10 @@ namespace Web.Controllers
                 }
                 else
                 {
-                    HttpContext.Session.SetInt32("UserId",loginInfo.UserId);
+                    HttpContext.Session.SetInt32("UserId", loginInfo.UserId);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 HttpContext.RiseError(ex);
                 if (ex.InnerException != null)
@@ -110,6 +111,7 @@ namespace Web.Controllers
 
                 return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme).WithError(ex.Message);
             }
+
             returnUrl = returnUrl ?? Url.Content("~/");
 
             return Redirect(returnUrl);

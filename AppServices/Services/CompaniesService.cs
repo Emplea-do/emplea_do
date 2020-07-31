@@ -16,12 +16,12 @@ namespace AppServices.Services
 
         public List<Company> GetByUserId(int userId)
         {
-            return _mainRepository.Get(x=>x.IsActive && x.UserId == userId).ToList();
+            return _mainRepository.Get(x => x.IsActive && x.UserId == userId).ToList();
         }
 
-         public Company GetById(int id)
+        public Company GetById(int id)
         {
-            return _mainRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
+            return _mainRepository.Get(x => x.IsActive && x.Id == id).FirstOrDefault();
         }
 
         protected override TaskResult<Company> ValidateOnCreate(Company entity)
@@ -43,6 +43,6 @@ namespace AppServices.Services
     public interface ICompaniesService : IBaseService<Company, ICompaniesRepository>
     {
         List<Company> GetByUserId(int userId);
-         Company GetById(int id);
+        Company GetById(int id);
     }
 }
