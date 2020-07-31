@@ -71,7 +71,7 @@ Now add your **token** with key `"slackVerificationToken"` and **workspace secti
 
 ## If you have any questions or just want to hang out
 
-- We have a [slack channel](https://empleado-slack.azurewebsites.net)
+- We have a [slack channel](https://join.slack.com/t/empleado/shared_invite/zt-g630paqe-KNb0DctptHqH6Ch~zDdGog)
 
 ## Powered By
 
