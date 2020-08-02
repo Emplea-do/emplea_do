@@ -112,6 +112,16 @@ namespace AppServices.Services
 
             return query.OrderByDescending(x => x.PublishedDate).ToList();
         }
+
+        public List<Job> GetAllByCompanyId(int Id)
+        {
+            return _mainRepository.Get(x => x.IsActive && !x.IsHidden && x.IsApproved && x.CompanyId == Id)
+                .Include(x => x.Company)
+                .Include(x => x.Category)
+                .Include(x => x.HireType)
+                .Include(x => x.Location)
+                .ToList();
+        }
     }
 
     public interface IJobsService : IBaseService<Job, IJobsRepository>
@@ -125,6 +135,7 @@ namespace AppServices.Services
         Job GetDetails(int id, bool isPreview = false);
 
         List<Job> Search(string keyword, int? categoryId, int? hireTypeId, bool? isRemote);
+        List<Job> GetAllByCompanyId(int Id);
     }
 
     /*
