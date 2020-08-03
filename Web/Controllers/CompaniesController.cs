@@ -14,7 +14,6 @@ using Domain.Entities;
 
 namespace Web.Controllers
 {
-    [Authorize]
     public class CompaniesController : BaseController
     {
         private readonly ICompaniesService _companiesService;
