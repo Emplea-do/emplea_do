@@ -58,7 +58,7 @@
                 </div>
 
                 <!-- Job Qualifications -->
-                <div class="tr-single-box">
+                <div class="tr-single-box mb-4">
                     <div class="tr-single-header">
                         <h4><i class="ti-book"></i>Como aplicar</h4>
                     </div>
@@ -191,6 +191,18 @@
                                         </div>
                                         <div class="icon-box-text">
                                             @Model.Job.Company.Email
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="/company/@Html.Raw(Model.Job.CompanyId)">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-list"></i>
+                                        </div>
+                                        <div class="icon-box-text">
+                                            Ver más empleos de la compañía
                                         </div>
                                     </a>
                                 </div>
