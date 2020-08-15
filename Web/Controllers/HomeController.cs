@@ -3,35 +3,51 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using AppService.Framework.Social;
-using AppService.Services;
+using AppServices.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Web.Framework;
+using Web.Models;
 using Web.ViewModels;
 
 namespace Web.Controllers
 {
     public class HomeController : BaseController
     {
-        IJobService _jobService;
+        private readonly IJobsService _jobsService;
+        private readonly LegacyApiClient apiClient;
+        private readonly ICategoriesService _categoriesService;
 
-        public HomeController(IOptions<SocialKeys> socialKeys, IJobService jobsService) : base(socialKeys)
+        public HomeController(IJobsService jobsService, LegacyApiClient apiClient, ICategoriesService categoriesService)
         {
-            _jobService = jobsService;
+            _jobsService = jobsService;
+            this.apiClient = apiClient;
+            _categoriesService = categoriesService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.SearchViewModel = new JobSearchViewModel()
+            var recentJobs = _jobsService.GetRecentJobs();
+            var jobCards = await apiClient.GetJobsFromLegacy();
+            var categories = _categoriesService.GetAll();
+
+            var viewModel = new HomeViewModel
             {
-                CategoriesCount = _jobService.GetJobCountByCategory()
+                JobCards = jobCards,
+                Jobs = recentJobs,
+                Categories = categories
             };
 
-            ViewBag.MapsApiKey = _socialKeys.GoogleMapsApiKey;
-            var model = _jobService.GetLatestJobs(7);
+            return View(viewModel);
+        }
 
-            return View(model);
+        public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

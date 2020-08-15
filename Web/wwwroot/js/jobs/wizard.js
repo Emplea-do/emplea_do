@@ -2,7 +2,7 @@
 
 var Wizard = function () {
     var currentSection = 0;
-    var sections = ["INFORMACIÓN DE LA EMPRESA", "INFORMACIÓN DEL PUESTO", "LA PRUEBA DE JOEL"];
+    var sections = ["INFORMACIÓN DE LA EMPRESA", "INFORMACIÓN DEL PUESTO"];
     var owl = $("#wizard").owlCarousel({
         slideSpeed: 300,
         paginationSpeed: 400,
@@ -86,8 +86,8 @@ var Wizard = function () {
     };
 }
 
+var wizard = new Wizard();
 $(function () {
-    var wizard = new Wizard();
     $('form').submit(function (e) { wizard.submitForm(); });
     $(window).keydown(function (e) { wizard.preventEnter(e); });
     $("input").keydown(function (e) { wizard.goNextOnEnter(e); });

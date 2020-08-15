@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domain.Entities;
+using System;
 namespace Domain.Framework.Dto
 {
     public class CategoryCountDto

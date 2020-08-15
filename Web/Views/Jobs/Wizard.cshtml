@@ -1,245 +1,213 @@
-﻿@using Web.Framework.Helpers
-@*using reCAPTCHA.MVC*@
-@model Web.ViewModels.Jobs.Wizard
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+@model Web.ViewModels.WizardViewModel
 
-@if (!ViewBag.IsEdit)
-{
-    ViewBag.Title = "Nuevo Empleo";
-}
-else
-{
-    ViewBag.Title = "Editar Empleo";
-
-}
-
-@if (!Html.ViewData.ModelState.IsValid)
-{
-    <div class="container" id="validation-errors">
-        <div class='validation-summary-errors" panel panel-danger' data-valmsg-summary="true">
-            <div class="panel-heading">
-                Errores:
-            </div>
-            <div class="panel-body">
-                <ul>
-                    @foreach (var m in ViewData.ModelState)
-                    {
-                        if (m.Value.Errors.Any())
-                        {
-                            <li>
-                                <a href="javascript:void(0)" data-field="@m.Key" class="text-danger">
-                                    @m.Value.Errors.First().ErrorMessage
-                                </a>
-                            </li>
-                        }
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
-}
 
 <section class="wizard-container">
     <div class="container">
         @using (Html.BeginForm("Wizard", "Jobs", FormMethod.Post, new { role = "form" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary()
-        <input type="hidden" asp-for="Id" />
-        <div>
-            <span class="h2 section-title"></span>
-            <hr class="hidden-xs" />
-            <div class="tab section-1">
-                <span class="hidden-xs">1</span>
-                <span class="hidden-lg hidden-md hidden-sm hidden-print">Paso 1 de 3</span>
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+            <div class="form-check">
+
+                <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="true" /><label class="form-check-label control-label">Crear nueva compañía</label>
+
             </div>
-            <div class="tab section-2">
-                <span class="hidden-xs">2</span>
-                <span class="hidden-lg hidden-md hidden-sm hidden-print">Paso 2 de 3</span>
+            <div class="form-check">
+                <input class="form-check-input i-checks" style="margin-left:0" type="radio" asp-for="CreateNewCompany" value="false" /><label class="form-check-label control-label">Usar compañía existente</label>
+
             </div>
-            <div class="tab section-3">
-                <span class="hidden-xs">3</span>
-                <span class="hidden-lg hidden-md hidden-sm hidden-print">Paso 3 de 3</span>
-            </div>
-        </div>
-        <div id="wizard" class="owl-carousel owl-theme">
-            <div class="item" data-parsley-group="business-details">
-                <div class="form-group" id="company-name-group">
-                    <label asp-for="@Model.CompanyName"></label>
-                    <input asp-for="@Model.CompanyName" class="form-control" placeholder="CompanyX, SRL." required="" data-parsley-group="business-details" />
+            <div id="newCompanyDetails">
+                <div class="form-group">
+                    <label class="control-label" asp-for="@Model.CompanyName"></label>
+                    <input asp-for="@Model.CompanyName" class="form-control" placeholder="CompanyX, SRL." />
                     <span><b>Tip:</b> Los mejores candidatos tienden a hacer caso omiso de propuestas an&oacute;nimas</span>
                     <br />
-                    @Html.ValidationMessageFor(m => m.CompanyName)
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.CompanyName)
+                    </span>
                 </div>
-                <div class="form-group" id="company-email-group">
-                    <label asp-for="CompanyEmail"></label>
-                    <input asp-for="CompanyEmail" class="form-control" type="email" placeholder="email@companyx.com" required="" data-parsley-group="business-details" />
-                    @Html.ValidationMessageFor(m => m.CompanyEmail)
+                <div class="form-group">
+                    <label class="control-label" asp-for="CompanyEmail"></label>
+                    <input asp-for="CompanyEmail" class="form-control" placeholder="email@companyx.com" />
+
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.CompanyEmail)
+                    </span>
                 </div>
-                <div class="form-group" id="company-website-group">
-                    <label asp-for="CompanyUrl"></label>
-                    <input asp-for="CompanyUrl" class="form-control" type="url" data-parsley-group="business-details" placeholder="http://www.companyx.com" data-parsley-type="url" />
+                <div class="form-group">
+                    <label class="control-label" asp-for="CompanyUrl"></label>
+                    <input asp-for="CompanyUrl" class="form-control" type="url" placeholder="http://www.companyx.com" />
                     <span>
                         <b>Tip:</b> Muchos aplicantes visitar&aacute;n tu sitio web y lo tomar&aacute;n
                         como referencia antes de decidirse por t&iacute;. Si tu empresa no tiene un sitio web
-                        o crees que necesita unas mejoras, considera buscar un web developer en
-                        <a href="@Url.Action("Index", "Home" )">emplea.do</a>
+                        o crees que necesita unas mejoras, considera buscar un web developer aquí mismo.
                     </span>
                     <br />
-                    @Html.ValidationMessageFor(m => m.CompanyUrl)
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.CompanyUrl)
+                    </span>
                 </div>
-                <div class="form-group" id="company-logo-group">
-                    <label asp-for="CompanyLogoUrl"></label>
-                    <input asp-for="CompanyLogoUrl" class="form-control" type="url" data-parsley-type="url" data-parsley-group="business-details" placeholder="https://companyx.com/logo.png" />
+                <div class="form-group">
+                    <label class="control-label" asp-for="CompanyLogoUrl"></label>
+                    <input asp-for="CompanyLogoUrl" class="form-control" type="url" placeholder="https://companyx.com/logo.png" />
                     <span>
-                        Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
-                        Si no sabes que es eso, no te preocupes, sube el logo a <a href="https://imgur.com" target="_blank">imgur</a> y pega la url aqu&iacute;
+                        <b>Tip:</b> Asegurate de que el servidor donde est&eacute; alojado el logo acepte hotlinks.
+                        Si no sabes que es eso, no te preocupes, sube el logo a <b><a href="https://imgur.com" target="_blank">imgur</a></b> y pega la url aqu&iacute;
                     </span>
                     <br />
-                    @Html.ValidationMessageFor(m => m.CompanyLogoUrl)
-                </div>
-                <a class="btn-next btn btn-primary btn-lg">Siguiente</a>
-            </div>
-            <div class="item" data-parsley-group="job-details">
-                <div class="form-group" id="job-title-group">
-                    <label asp-for="Title"></label>
-                    <input asp-for="Title" class="form-control" placeholder="ejemp. Se busca Web Designer" data-parsley-group="job-details" required />
-                    @Html.ValidationMessageFor(m => m.Title)
-                </div>
-                <div class="form-group" id="job-category-group">
-                    <label asp-for="Categories"></label>
-                    <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" class="form-control" id="category" data-parsley-group="job-details"></select>
-                </div>
-                <div class="form-group" id="job-category-group">
-                    Empleado
-                    <select asp-for="JobTypeId" asp-items="@(new SelectList(Model.JobTypes, "Id", "Name"))" class="form-control" id="job-type"></select>
-                </div>
-                <div class="form-group" id="how-apply-group">
-                    <label asp-for="HowToApply"></label>
-                    <textarea asp-for="HowToApply" class="form-control textarea" required data-parsley-group="job-details" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo."></textarea>
-                    @Html.ValidationMessageFor(m => m.HowToApply)
-                </div>
-                <div class="form-group" id="job-location-group">
-                    <label asp-for="LocationName"></label>
-                    <input asp-for="LocationName" class="form-control" placeholder="Selecciona una localidad" id="location-input" required data-parsley-group="job-details" autocomplete="off" />
-                    <input type="hidden" asp-for="LocationLatitude" id="location-latitude" data-parsley-group="job-details" />
-                    <input type="hidden" asp-for="LocationLongitude" id="location-longitude" data-parsley-group="job-details" />
-                    <input type="hidden" asp-for="LocationPlaceId" id="location-placeid" data-parsley-group="job-details" />
-                    @Html.ValidationMessageFor(x => x.LocationName)
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="IsRemote" />
-                    <label asp-for="IsRemote"></label>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Description"></label>
-                    <textarea asp-for="Description" class="form-control textarea" data-parsley-group="job-details" data-parsley-errors-container="#description-erros" required></textarea>
-                    @Html.ValidationMessageFor(m => m.Description)
-                    <span>
-                        <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
-                        tecnología sobre cuales son los requerimientos técnicos.
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.CompanyLogoUrl)
                     </span>
-                    <span id="description_errors" class="danger"></span>
                 </div>
-                <a class="btn-prev btn btn-warning btn-lg">Anterior</a>
-                <a class="btn-next btn btn-primary btn-lg">Siguiente</a>
+                <span>Al agregar una compañía aceptas que tienes permiso de parte de la compañía para publicar posiciones en su nombre</span>
             </div>
-            <div class="item">
-                <p>
-                    Si no sabes que es puedes
-                    <a href="http://local.joelonsoftware.com/wiki/El_Test_de_Joel:_12_pasos_hacia_un_c%C3%B3digo_mejor" target="_blank">leer aqu&iacute;</a>.
-                    En resumen, es un cuestionario para medir la calidad del equipo de desarrollo de tu empresa. Coteja las opciones que apliquen.
-                    <br />**Este paso es opcional y solo aplica para posiciones relacionadas al Desarrollo de Software
-                </p>
+            <div id="selectCompany">
                 <div class="form-group">
-                    <input type="checkbox" asp-for="HasSourceControl" />
-                    <label asp-for="HasSourceControl"></label>
+                    <label class="control-label" asp-for="CompanyId"></label>
+                    <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies, "Id", "Name"))" class="form-control select2"></select>
+                    <span class="text-danger">@Html.ValidationMessageFor(m => m.CompanyId)</span>
                 </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasOneStepBuilds" />
-                    <label asp-for="HasOneStepBuilds"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasDailyBuilds" />
-                    <label asp-for="HasDailyBuilds"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasBugDatabase" />
-                    <label asp-for="HasBugDatabase"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasBusFixedBeforeProceding" />
-                    <label asp-for="HasBusFixedBeforeProceding"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasUpToDateSchedule" />
-                    <label asp-for="HasUpToDateSchedule"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasSpec" />
-                    <label asp-for="HasSpec"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasQuiteEnvironment" />
-                    <label asp-for="HasQuiteEnvironment"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasBestTools" />
-                    <label asp-for="HasBestTools"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasTesters" />
-                    <label asp-for="HasTesters"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasWrittenTest" />
-                    <label asp-for="HasWrittenTest"></label>
-                </div>
-                <div class="form-group">
-                    <input type="checkbox" asp-for="HasHallwayTests" />
-                    <label asp-for="HasHallwayTests"></label>
-                </div>
-                @*<div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <input type="hidden" name="ReCaptcha" value="" />
-                            @Html.Recaptcha()
-                            @Html.ValidationMessage("ReCaptcha")
-                        </div>
-                    </div>
-                </div>*@
-                <a class="btn-prev btn btn-warning btn-lg">Anterior</a>
-                <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
             </div>
-        </div>
-}
+            <hr />
+            <div class="form-group">
+                <label class="control-label" asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" placeholder="ejemp. Se busca Web Designer" />
+
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="CategoryId"></label>
+                <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" class="form-control select2"></select>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.CategoryId)</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="JobTypeId"></label>
+                <select asp-for="JobTypeId" asp-items="@(new SelectList(Model.JobTypes, "Id", "Name"))" class="form-control select2"></select>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.JobTypeId)</span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="LocationName"></label>
+                <input asp-for="LocationName" class="form-control" placeholder="Selecciona una localidad" autocomplete="off" />
+                <input type="hidden" asp-for="LocationLatitude" />
+                <input type="hidden" asp-for="LocationLongitude" />
+                <input type="hidden" asp-for="LocationPlaceId" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.LocationName)</span>
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.LocationPlaceId)</span>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" class="i-checks" asp-for="IsRemote" />
+                <label asp-for="IsRemote"></label>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="Description"></label>
+                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Model.Description</div>
+                <input type="hidden" asp-for="Description" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.Description)</span>
+                <span>
+                    <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
+                    tecnología sobre cuales son los requerimientos técnicos.
+                </span>
+            </div>
+            <div class="form-group">
+                <label class="control-label" asp-for="HowToApply"></label>
+                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Model.HowToApply</div>
+                <input type="hidden" asp-for="HowToApply" />
+                <span class="text-danger">@Html.ValidationMessageFor(m => m.HowToApply)</span>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
+        }
     </div>
 </section>
-@section styles{
-    <link href="~/css/jobs/wizard.css" rel="stylesheet" />
+
+@section Styles {
+    <style type="text/css">
+        .ql-container {
+            font-size: 16px;
+            font-family: 'Muli', sans-serif;
+            max-height: 450px;
+            min-height: 300px;
+        }
+    </style>
+
 }
-@section scripts {
-    <script type="text/javascript" src="~/js/parsley.min.js"></script>
-    <script type="text/javascript" src="~/js/i18n/parsley/es.js"></script>
-    <script type="text/javascript" src="~/js/jobs/wizard.js"></script>
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(Model.MapsApiKey)&libraries=places"></script>
-    <script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
-            var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
-            google.maps.event.addListener(places, 'place_changed', function() {
+
+
+@section Scripts{
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(Configuration["GoogleMapsApiKey"])&libraries=places"></script>
+    <script type="text/javascript">
+google.maps.event.addDomListener(window, 'load', function () {
+            var places = new google.maps.places.Autocomplete(document.getElementById('LocationName'));
+            google.maps.event.addListener(places, 'place_changed', function () {
                 var place = places.getPlace();
                 if (place) {
                     var latitude = place.geometry.location.lat();
                     var longitude = place.geometry.location.lng();
                     var placeId = place.place_id;
 
-                    $('#location-latitude').val(latitude);
-                    $('#location-longitude').val(longitude);
-                    $('#location-placeid').val(placeId);
+                    $('#LocationLatitude').val(latitude);
+                    $('#LocationLongitude').val(longitude);
+                    $('#LocationPlaceId').val(placeId);
                 } else {
-                    $('#location-input').val('');
-                    $('#location-latitude').val('');
-                    $('#location-longitude').val('');
-                    $('#location-placeid').val('');
+                    $('#LocationName').val('');
+                    $('#LocationLatitude').val('');
+                    $('#LocationLongitude').val('');
+                    $('#LocationPlaceId').val('');
                 }
             });
-});</script>
+        });
+
+        var toggleCompanySelect = function () {
+
+            if ($("#CreateNewCompany[value=true]")[0].checked) {
+                $("#newCompanyDetails").show();
+                $("#selectCompany").hide();
+                $("#CompanyName").attr("required", "required");
+                $("#CompanyEmail").attr("required", "required");
+            }
+            else {
+                $("#newCompanyDetails").hide();
+                $("#selectCompany").show();
+                $("#CompanyName").removeAttr("required");
+                $("#CompanyEmail").removeAttr("required");
+            }
+        };
+
+
+        $(document).ready(function () {
+            toggleCompanySelect();
+            $(".form-check-input").on("ifChanged", function () {
+                toggleCompanySelect();
+            });
+
+            var descriptionBox = new Quill('#Description-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'
+            });
+
+            descriptionBox.on('text-change', function (delta) {
+                $("#Description").val(descriptionBox.getText(0));
+            });
+            var applyBox = new Quill('#HowToApply-editor', {
+                modules: {
+                    toolbar: [
+                        ['bold', 'italic', 'underline'],
+                    ]
+                },
+                placeholder: '',
+                theme: 'snow'  // or 'bubble'
+            });
+
+            applyBox.on('text-change', function (delta) {
+                $("#HowToApply").val(applyBox.getText(0));
+            });
+        });</script>
+
 }

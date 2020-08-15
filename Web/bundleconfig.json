@@ -1,46 +1,44 @@
-﻿// Configure bundling and minification for the project.
-// More info at https://go.microsoft.com/fwlink/?LinkId=808241
-[
+﻿[
   {
     "outputFileName": "wwwroot/css/site.min.css",
-    // An array of relative input file paths. Globbing patterns supported
     "inputFiles": [
-      "wwwroot/css/bootstrap.min.css",
-      "wwwroot/css/theme/jquery.flexmenu.css",
-      "wwwroot/css/theme/owl.carousel.css",
-      "wwwroot/css/theme/animate.css",
-      "wwwroot/css/theme/jquery.nouislider.css",
-      "wwwroot/css/theme/sweetalert2.min.css",
-      "wwwroot/css/theme/flat/green.css",
-      "wwwroot/css/theme/select2.min.css",
-      "wwwroot/css/theme/font-awesome.min.css",
-      "wwwroot/css/theme/select2.min.css",
-      "wwwroot/css/theme/style.css",
-      "wwwroot/css/site.css"
-    ]
+      "wwwroot/lib/icheck/skins/all.css",
+      "wwwroot/css/plugins.css",
+      "wwwroot/css/slick-theme.css",
+      "wwwroot/css/custom.css",
+      "wwwroot/lib/icheck/skins/square/_all.css",
+      "wwwroot/lib/quill/dist/quill.bubble.css",
+      "wwwroot/lib/quill/dist/quill.snow.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "commentMode": "none"
+    }
   },
   {
     "outputFileName": "wwwroot/js/site.min.js",
     "inputFiles": [
-      "wwwroot/js/theme/jquery.nouislider.all.min.js",
-      "wwwroot/js/theme/jquery.counterup.min.js",
-      "wwwroot/js/theme/jquery.ba-cond.min.js",
-      "wwwroot/js/theme/jquery.flexmenu.js",
-      "wwwroot/js/theme/owl.carousel.js",
-      "wwwroot/js/theme/bootstrap3-wysihtml5.all.min.js",
-      "wwwroot/js/theme/instafedd.min.js",
-      "wwwroot/js/theme/jflickrfeed.min.js",
-      "wwwroot/js/theme/sweetalert2.js",
-      "wwwroot/js/theme/icheck.min.js",
-      "wwwroot/js/theme/settings.js",
+      "wwwroot/lib/jquery/jquery.min.js",
+      "wwwroot/lib/popperjs/umd/popper.min.js",
+      "wwwroot/lib/bootstrap/js/bootstrap.min.js",
+      "wwwroot/lib/select2/dist/js/select2.min.js",
+      "wwwroot/lib/aos/aos.js",
+      "wwwroot/lib/jquery.perfect-scrollbar/js/perfect-scrollbar.jquery.min.js",
+      "wwwroot/js/owl.carousel.min.js",
+      "wwwroot/lib/Counter-Up/jquery.counterup.min.js",
+      "wwwroot/lib/slick-carousel/slick.min.js",
+      "wwwroot/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js",
+      "wwwroot/lib/jquery.isotope/isotope.pkgd.min.js",
+      "wwwroot/lib/summernote/summernote.min.js",
+      "wwwroot/lib/swal/dist/sweetalert2.all.min.js",
+      "wwwroot/lib/icheck/icheck.min.js",
+      "wwwroot/lib/quill/dist/quill.js",
+      "wwwroot/js/custom.js",
       "wwwroot/js/site.js"
     ],
-    // Optionally specify minification options
     "minify": {
       "enabled": true,
-      "renameLocals": false
-    },
-    // Optionally generate .map file
-    "sourceMap": false
+      "renameLocals": true
+    }
   }
 ]

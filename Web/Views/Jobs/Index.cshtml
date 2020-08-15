@@ -1,56 +1,69 @@
-﻿@model JobSearchViewModel
-
+﻿@model Web.ViewModels.JobSeachViewModel
 @{
-    ViewBag.Title = "Listado de Empleos";
+    ViewData["Title"] = "Listado de Empleos";
 }
+<feature name="@FeatureFlags.EnableSearch">
+    <!-- ============================ Search Form Start================================== -->
+    <section class="dark-search">
+        <div class="container">
 
-@* This added here because the partial view _FindsJobPartinal need this JS to work :( *@
-@section scripts {
-<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&key=@ViewBag.MapsApiKey"></script>
-<script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
-        var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
-        google.maps.event.addListener(places, 'place_changed', function() {
-            var place = places.getPlace();
-            if (place) {
-                var placeId = place.place_id;
-                var latitude = place.geometry.location.lat();
-                var longitude = place.geometry.location.lng();
+            <form class="search-dark-form" method="get">
+                <div class="row">
 
-                $('#location-placeid').val(placeId);
-                $('#location-latitude').val(latitude);
-                $('#location-longitude').val(longitude);
-            } else {
-                $('#location-input').val('');
-                $('#location-placeid').val('');
-            }
-        });
-});</script>
-}
-<partial name="../Jobs/_Partials/FindJobsPartial", model="Model" />
+                    <div class="col-sm-3">
+                        <div class="form-group">
+                            <input type="text" asp-for="Keyword" class="form-control" placeholder="Palabras clave">
+                            <label style="color:white">
+                                <input type="checkbox" asp-for="IsRemote" class="i-checks" /> Sólo mostrar posiciones remotas
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="form-group">
+                            <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" camelCase="true" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-3">
+                        <div class="form-group">
+                            <select asp-for="HireTypeId" asp-items="@(new SelectList(Model.HireTypes, "Id", "Name"))" data-placeholder="Jornada" data-allowClear="true" class="form-control select2">
+                                <option></option>
+                            </select>
+                        </div>
+                    </div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            @if (Model.Jobs == null || !Model.Jobs.Any())
-            {
-                <div>
-                    <h5>No se encontraron resultados para esta búsqueda.</h5>
-                    <hr />
+                    <div class="col-sm-3">
+                        <button type="submit" class="btn btn-search-dark full-width">Buscar empleos</button>
+                    </div>
+
                 </div>
-            }
-            else
-            {
-                <div>
-                    <h5>@Model.Jobs.Count() Empleo(s) disponibles para esta búsqueda.</h5>
-                </div>
+            </form>
 
-                <br />
-                <partial name="../Jobs/_Partials/JobList" model="Model.Jobs" />
-                <br />
-
-                @*Pagination*@
-                <pager source="Model.Jobs" />
-            }
         </div>
+    </section>
+    <!-- ============================ Search Form End ================================== -->
+</feature>
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+
+                @if (Model.Jobs != null && Model.Jobs.Any())
+                {
+                    @foreach (var job in Model.Jobs)
+                    {
+                        <partial name="_partials/JobResultItemView" model="job" />
+                    }
+                }
+                else
+                {
+                    <p class="text-center"> ): no encontramos el empleo que buscas</p>
+                }
+            </div>
+
+        </div>
+        <!-- Pager -->
+
     </div>
-</div>
+</section>

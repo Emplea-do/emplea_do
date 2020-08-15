@@ -1,12 +1,25 @@
-﻿@{
-    ViewBag.Title = "Inicia sesión";
-}
+@using Microsoft.AspNetCore.Authentication
 
-@section styles
-{
-<link href="~/css/theme/bootstrap-social.min.css" rel="stylesheet" />
-}
+    <div class="page-title-wrap pt-img-wrap">
+        <div class="container">
+            <div class="col-lg-12 col-md-12">
+                <div class="pt-caption text-center">
+                    <h1>Inicia Sesión</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <section class="section-no-padding">
+        <div class="container">
 
-<div class="container">
-    <partial name="_Partials/ExternalLoginProviders" />
-</div>
+            <div class="row justify-content-center">
+
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <partial name="_partials/LoginForm" />
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="clearfix"></div>
+    

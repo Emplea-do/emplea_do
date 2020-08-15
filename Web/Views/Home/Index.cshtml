@@ -1,45 +1,83 @@
-﻿@using Web.ViewModels
-@model List<Domain.Job>
-@{
-    ViewBag.Title = "";
+﻿@{
+    ViewData["Title"] = "Home Page";
 }
 
-@* This added here because the partial view _FindsJobPartinal need this JS to work :( *@
-@section scripts
-    {
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places"></script>
-    <script type="text/javascript">google.maps.event.addDomListener(window, 'load', function() {
-            var places = new google.maps.places.Autocomplete(document.getElementById('location-input'));
-            google.maps.event.addListener(places, 'place_changed', function() {
-                var place = places.getPlace();
-                if (place) {
-                    var placeId = place.place_id;
-                    var latitude = place.geometry.location.lat();
-                    var longitude = place.geometry.location.lng();
-
-                    $('#location-placeid').val(placeId);
-                    $('#location-latitude').val(latitude);
-                    $('#location-longitude').val(longitude);
-                } else {
-                    $('#location-input').val('');
-                    $('#location-placeid').val('');
-                }
-            });
-});</script>
-}
-<partial name="../Jobs/_Partials/FindJobsPartial" model="(JobSearchViewModel)ViewBag.SearchViewModel" />
-
-<div class="container" style="margin-top: -50px;">
-    <section id="jobs">
+<feature name="@FeatureFlags.EnableSearch">
+    <div class="container-fluid home-2 gray">
         <div class="container">
-            <div class="row">
-                <div>
-                    <h2>Empleos Recientes</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6 pl-5 pr-5 mb-2 hm-space">
+                    <h2 class="mb-4">Encuentra tu empleo ideal</h2>
+                    <form class="search-form" method="get" asp-controller="jobs" asp-action="index">
+                        <div class="row">
+                            <div class="form-group col-md-12 col-sm-12 p-0">
+                                <i class="ti-search"></i>
+                                <input type="text" id="Keyword" name="Keyword" class="form-control" placeholder="Título, Descripción, Compañía, Categoría, Jornada, Ubicación">
+                            </div>
+
+                            <div class="form-group col-md-8 col-sm-12  br-all p-0">
+                                <select id="CategoryId" name="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" data-placeholder="Categoría" data-allowClear="true" class="form-control select2">
+                                    <option></option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-4 col-sm-12 p-0 pl-3">
+                                <button type="submit" class="btn btn-info full-width"><i class="fa fa-search"></i> Buscar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <partial name="../Jobs/_Partials/JobList", model="Model" />
-                <br />
-                <a class="btn btn-primary" asp-controller="Jobs" asp-action="Index">Mostrar mas empleos</a>
+                <partial name="_partials/Banner" />
             </div>
         </div>
-    </section>
-</div>
+    </div>
+</feature>
+
+<section>
+    <div class="container">
+
+        <div class="row">
+            <div class="col text-center">
+                <div class="sec-heading mx-auto">
+                    <h2>Las publicaciones más recientes</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                @foreach (var job in Model.Jobs)
+                {
+                    <partial name="../Jobs/_partials/JobResultItemView" model="job" />
+                }
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 p-0">
+                @foreach (var job in Model.JobCards)
+                {
+                    <partial name="../Jobs/_partials/LegacyJobResultItemView" model="job" />
+                }
+            </div>
+        </div>
+        <div class="pr-button-wrap">
+            <a class="btn price-btn btn-outline-warning" asp-controller="jobs" asp-action="index">Ver todos<i class="ti-arrow-right ml-2"></i></a>
+        </div>
+    </div>
+</section>
+<div class="clearfix"></div>
+
+
+@section Styles
+{
+    <style>
+
+        .job-new-list .vc-content {
+            max-width: 75%;
+        }
+        .home-2 img {
+            max-height: 400px;
+        }
+    </style>
+}

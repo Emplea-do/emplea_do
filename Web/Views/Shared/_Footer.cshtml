@@ -1,0 +1,97 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+<footer class="dark-footer skin-dark-footer">
+    <div>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">Emplea.do</h4>
+                        <p>Este es un proyecto OpenSource mantenido por la comunidad. Puedes ayudar entrando a nuestro repositorio.</p>
+                        <a href="https://github.com/developersdo/emplea_do" class="other-store-link">
+                            <div class="other-store-app" style="width:250px">
+                                <div class="os-app-icon">
+                                    <i class="fa fa-github"></i>
+                                </div>
+                                <div class="os-app-caps">
+                                    Fork us on github
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">Urls de interés</h4>
+                        <ul class="footer-menu">
+                            <li><a href="@Configuration["Slack:WorkSpaceUrl"]"><i class="fa fa-slack"></i> Hablemos por Slack</a></li>
+                            <li><a asp-controller="credits" asp-action="index"><i class="fa fa-github"></i> Contribuyentes</a></li>
+                            <li><a href="https://opencollective.com/emplea_do"><i class="fa fa-money"></i> Open Collective</a></li>
+                            <li><a asp-controller="companies" asp-action="index"><i class="fa fa-building"></i> Compañías que confían en nosotros</a></li>
+                            <li><a href="http://bit.ly/streamelopersub"><i class="fa fa-youtube"></i> Sesiones de live coding</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--
+                <div class="col-lg-3 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">Get in Touch</h4>
+                        <div class="fw-address-wrap">
+                            <div class="fw fw-location">
+                                7744 North Park, New York
+                            </div>
+                            <div class="fw fw-mail">
+                                support@drizvato77.com
+                            </div>
+                            <div class="fw fw-call">
+                                +91 254 584 7584
+                            </div>
+                            <div class="fw fw-skype">
+                                drizvato77
+                            </div>
+                            <div class="fw fw-web">
+                                www.drizvato.com
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-widget">
+                        <h4 class="widget-title">Siguenos en las redes</h4>
+                        <p>Enterate de todos los avances en la plataforma.</p>
+                        <ul class="footer-bottom-social">
+                            <li><a href="https://www.facebook.com/empleadonet"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://twitter.com/emplea_do"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="https://github.com/developersdo/emplea_do"><i class="fa fa-github"></i></a></li>
+                        </ul>
+                        @*
+                            <form class="f-newsletter mt-4">
+                                <input type="email" class="form-control sigmup-me" placeholder="Your Email Address" required="required">
+                                <button type="submit" class="btn"><i class="ti-arrow-right"></i></button>
+                            </form>
+                        *@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-lg-12 col-md-12 text-center">
+                    <p class="mb-0">
+                        ©2016 - @DateTime.UtcNow.Year Emplea.do All Rights Reserved<br />
+                        Made with <i class="fa fa-heart fa-inverse"></i> by <b><a class="highlighted-link" asp-action="index" asp-controller="credits">all of us</a></b><br>
+                        Sponsored by <b><a class="highlighted-link" href="http://www.megsoftconsulting.com/">Megsoft Consulting, Inc., Xamarin Specialists</a></b><br>
+                        Ver. @Html.AssemblyVersion()
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

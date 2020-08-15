@@ -1,0 +1,44 @@
+﻿@model CompanyJobsViewModel
+@{
+    ViewData["Title"] = "Jobs";
+}
+<section>
+    <div class="container">
+        @{
+
+            if (Model.Company == null)
+            {
+                <p class="text-center">No se ha encontrado la compañía</p>
+            }
+            else
+            {
+
+
+
+                <h3>Empleos de @Model.Company.Name</h3>
+                <div class="row">
+                    <div class="col-md-12">
+
+                        @if (Model.Jobs != null && Model.Jobs.Any())
+                        {
+                            @foreach (var job in Model.Jobs)
+                            {
+                                <partial name="../Jobs/_partials/JobResultItemView" model="job" />
+                            }
+                        }
+                        else
+                        {
+                    <p class="text-center">No encontramos vacantes publicado por la compañía @Model.Company.Name</p>
+                        }
+                    </div>
+
+                </div>
+                <!-- Pager -->
+            }
+
+        }
+    </div>
+</section>
+
+
+

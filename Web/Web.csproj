@@ -1,165 +1,72 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' " />
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.1.1" />
-    <PackageReference Include="BuildBundlerMinifier" Version="2.8.391" />
-    <PackageReference Include="Sakura.AspNetCore.Mvc.PagedList" Version="2.0.12" />
-    <PackageReference Include="Sakura.AspNetCore.PagedList" Version="2.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Framework\" />
-    <Folder Include="Framework\Configurations\" />
-    <Folder Include="Framework\Extensions\" />
-    <Folder Include="Framework\Helpers\" />
-    <Folder Include="ViewModels\Jobs\" />
-    <Folder Include="Views\Credits\" />
-    <Folder Include="Views\Jobs\" />
-    <Folder Include="Views\Jobs\_Partials\" />
-    <Folder Include="Views\UnderMaintenance\" />
-    <Folder Include="Views\Error\" />
-    <Folder Include="Views\Shared\" />
-    <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\css\fonts\" />
-    <Folder Include="wwwroot\css\theme\" />
-    <Folder Include="wwwroot\images\" />
-    <Folder Include="wwwroot\images\sponsors\" />
-    <Folder Include="wwwroot\js\" />
-    <Folder Include="wwwroot\js\jobs\" />
-    <Folder Include="Framework\Filters\" />
-    <Folder Include="Views\Account\" />
-    <Folder Include="ViewModels\Account\" />
-    <Folder Include="Views\Account\_Partials\" />
-    <Folder Include="wwwroot\css\jobs\">
-    </Folder>
+    <ProjectReference Include="..\Domain\Domain.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+    <ProjectReference Include="..\AppServices\AppServices.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Domain\Domain.csproj" />
-    <ProjectReference Include="..\Data\Data.csproj" />
-    <ProjectReference Include="..\AppService\AppService.csproj" />
+    <PackageReference Include="ElmahCore" Version="1.2.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="2.0.0" />
+    <PackageReference Include="Scrutor" Version="3.2.1" />
+    <PackageReference Include="Flurl" Version="2.8.2" />
+    <PackageReference Include="Flurl.Http" Version="2.4.2" />
+    <PackageReference Include="AspNet.Security.OAuth.GitHub" Version="3.1.3" />
+    <PackageReference Include="AspNet.Security.OAuth.LinkedIn" Version="3.1.3" />
+    <PackageReference Include="BuildBundlerMinifier" Version="3.2.449" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Facebook" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.MicrosoftAccount" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Azure.AppConfiguration.AspNetCore" Version="3.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.6" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.6" />
   </ItemGroup>
   <ItemGroup>
-    <Content Remove="wwwroot\js\jobs\likes.js" />
-    <Content Remove="wwwroot\js\jobs\new.js" />
-    <Content Remove="wwwroot\js\jobs\wizard.js" />
-    <Content Remove="appsettings.Development.json" />
-    <Content Remove="wwwroot\css\theme\bootstrap-social.min.css" />
-    <Content Remove="wwwroot\css\jobs\wizard.css" />
-    <Content Remove="wwwroot\js\i18n\az.js" />
-    <Content Remove="wwwroot\js\i18n\bg.js" />
-    <Content Remove="wwwroot\js\i18n\ca.js" />
-    <Content Remove="wwwroot\js\i18n\cs.js" />
-    <Content Remove="wwwroot\js\i18n\da.js" />
-    <Content Remove="wwwroot\js\i18n\de.js" />
-    <Content Remove="wwwroot\js\i18n\en.js" />
-    <Content Remove="wwwroot\js\i18n\es.js" />
-    <Content Remove="wwwroot\js\i18n\et.js" />
-    <Content Remove="wwwroot\js\i18n\eu.js" />
-    <Content Remove="wwwroot\js\i18n\fa.js" />
-    <Content Remove="wwwroot\js\i18n\fi.js" />
-    <Content Remove="wwwroot\js\i18n\fr.js" />
-    <Content Remove="wwwroot\js\i18n\gl.js" />
-    <Content Remove="wwwroot\js\i18n\he.js" />
-    <Content Remove="wwwroot\js\i18n\hi.js" />
-    <Content Remove="wwwroot\js\i18n\hr.js" />
-    <Content Remove="wwwroot\js\i18n\hu.js" />
-    <Content Remove="wwwroot\js\i18n\id.js" />
-    <Content Remove="wwwroot\js\i18n\is.js" />
-    <Content Remove="wwwroot\js\i18n\it.js" />
-    <Content Remove="wwwroot\js\i18n\ja.js" />
-    <Content Remove="wwwroot\js\i18n\ko.js" />
-    <Content Remove="wwwroot\js\i18n\lt.js" />
-    <Content Remove="wwwroot\js\i18n\lv.js" />
-    <Content Remove="wwwroot\js\i18n\mk.js" />
-    <Content Remove="wwwroot\js\i18n\nb.js" />
-    <Content Remove="wwwroot\js\i18n\nl.js" />
-    <Content Remove="wwwroot\js\i18n\pl.js" />
-    <Content Remove="wwwroot\js\i18n\pt-BR.js" />
-    <Content Remove="wwwroot\js\i18n\pt.js" />
-    <Content Remove="wwwroot\js\i18n\ro.js" />
-    <Content Remove="wwwroot\js\i18n\ru.js" />
-    <Content Remove="wwwroot\js\i18n\sk.js" />
-    <Content Remove="wwwroot\js\i18n\sr.js" />
-    <Content Remove="wwwroot\js\i18n\sv.js" />
-    <Content Remove="wwwroot\js\i18n\th.js" />
-    <Content Remove="wwwroot\js\i18n\tr.js" />
-    <Content Remove="wwwroot\js\i18n\uk.js" />
-    <Content Remove="wwwroot\js\i18n\vi.js" />
-    <Content Remove="wwwroot\js\i18n\zh-CN.js" />
-    <Content Remove="wwwroot\js\i18n\zh-TW.js" />
-    <Content Remove="wwwroot\js\i18n\parsley\es.js" />
-    <Content Remove="wwwroot\js\parsley.min.js" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\flat%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\flat\yellow%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\futurico\futurico%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\line\line%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\yellow%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\polaris\polaris%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\aero%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\blue%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\minimal%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\minimal\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\grey%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\green%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\orange%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\pink%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\purple%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\square%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\red%402x.png" />
+    <Content Remove="wwwroot\lib\icheck\skins\square\yellow%402x.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="appsettings.json.template" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="wwwroot\js\jobs\likes.js" />
-    <None Include="wwwroot\js\jobs\new.js" />
-    <None Include="wwwroot\js\jobs\wizard.js" />
-    <None Include="wwwroot\css\theme\bootstrap-social.min.css" />
-    <None Include="wwwroot\css\jobs\wizard.css" />
-    <None Include="wwwroot\js\i18n\az.js" />
-    <None Include="wwwroot\js\i18n\bg.js" />
-    <None Include="wwwroot\js\i18n\ca.js" />
-    <None Include="wwwroot\js\i18n\cs.js" />
-    <None Include="wwwroot\js\i18n\da.js" />
-    <None Include="wwwroot\js\i18n\de.js" />
-    <None Include="wwwroot\js\i18n\en.js" />
-    <None Include="wwwroot\js\i18n\es.js" />
-    <None Include="wwwroot\js\i18n\et.js" />
-    <None Include="wwwroot\js\i18n\eu.js" />
-    <None Include="wwwroot\js\i18n\fa.js" />
-    <None Include="wwwroot\js\i18n\fi.js" />
-    <None Include="wwwroot\js\i18n\fr.js" />
-    <None Include="wwwroot\js\i18n\gl.js" />
-    <None Include="wwwroot\js\i18n\he.js" />
-    <None Include="wwwroot\js\i18n\hi.js" />
-    <None Include="wwwroot\js\i18n\hr.js" />
-    <None Include="wwwroot\js\i18n\hu.js" />
-    <None Include="wwwroot\js\i18n\id.js" />
-    <None Include="wwwroot\js\i18n\is.js" />
-    <None Include="wwwroot\js\i18n\it.js" />
-    <None Include="wwwroot\js\i18n\ja.js" />
-    <None Include="wwwroot\js\i18n\ko.js" />
-    <None Include="wwwroot\js\i18n\lt.js" />
-    <None Include="wwwroot\js\i18n\lv.js" />
-    <None Include="wwwroot\js\i18n\mk.js" />
-    <None Include="wwwroot\js\i18n\nb.js" />
-    <None Include="wwwroot\js\i18n\nl.js" />
-    <None Include="wwwroot\js\i18n\pl.js" />
-    <None Include="wwwroot\js\i18n\pt-BR.js" />
-    <None Include="wwwroot\js\i18n\pt.js" />
-    <None Include="wwwroot\js\i18n\ro.js" />
-    <None Include="wwwroot\js\i18n\ru.js" />
-    <None Include="wwwroot\js\i18n\sk.js" />
-    <None Include="wwwroot\js\i18n\sr.js" />
-    <None Include="wwwroot\js\i18n\sv.js" />
-    <None Include="wwwroot\js\i18n\th.js" />
-    <None Include="wwwroot\js\i18n\tr.js" />
-    <None Include="wwwroot\js\i18n\uk.js" />
-    <None Include="wwwroot\js\i18n\vi.js" />
-    <None Include="wwwroot\js\i18n\zh-CN.js" />
-    <None Include="wwwroot\js\i18n\zh-TW.js" />
-    <None Include="wwwroot\js\i18n\parsley\es.js" />
-    <None Include="wwwroot\js\parsley.min.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="appsettings.json.template">
-      <DependentUpon>appsettings.json</DependentUpon>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Framework\Helpers\EnumHelper.cs" />
+    <Folder Include="wwwroot\img\banners\" />
   </ItemGroup>
 </Project>

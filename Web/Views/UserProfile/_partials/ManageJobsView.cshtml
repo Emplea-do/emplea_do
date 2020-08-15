@@ -1,0 +1,88 @@
+﻿@model List<Domain.Entities.Job>
+
+<!-- Manage jobs -->
+<div class="tab-pane show active" id="manage-jobs">
+
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="ti-file"></i> Manejar empleos</h4>
+        </div>
+
+        <div class="tr-single-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    @if(Model == null || Model.Count == 0)
+                    {
+                        <span>No tienes empleos publicados, <a href="@Url.Action("Wizard", "Jobs")"><b style=" text-decoration: underline !important;">haz click aquí</b></a> para crear una posición</span>
+                    }
+                    else
+                    {
+                        @foreach (var job in Model)
+                        {
+                            <div class="manage-list" id="job-@job.Id">
+                                <div class="mg-list-wrap">
+                                    <div class="mg-list-thumb">
+                                        <img class="img-fluid rounded-circle" src="@job.Company.LogoUrl"  alt="@job.Company.Name"/>
+                                    </div>
+                                    <div class="mg-list-caption">
+                                        @if (job.IsApproved)
+                                        {
+                                            <a asp-controller="jobs" asp-action="details" asp-route-id="@job.Id">
+                                                <h4 class="mg-title">@job.Title</h4>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="jobs" asp-action="details" asp-route-id="@job.Id" asp-route-ispreview="true">
+                                                <h4 class="mg-title">@job.Title</h4>
+                                            </a>
+                                        }
+                                        <span class="mg-subtitle">Web Designer</span>
+                                        @if (job.IsApproved)
+                                        {
+                                            <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="mg-action">
+                                    @if (job.IsApproved)
+                                    {
+                                        <span class="badge badge-success">Publicado</span>
+
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-danger">Sin publicar</span>
+
+                                    }
+
+                                <div class="btn-group ml-2">
+                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
+
+                                    @if (job.IsApproved)
+                                    {
+                                        <a href="#" class="btn-hide btn btn-light" data-jobid="@job.Id">
+                                            @if (job.IsHidden)
+                                            {
+                                                <i class="eye-icon icofont-eye-blocked"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="eye-icon icofont-eye-alt"></i>
+                                            }
+                                        </a>
+                                    }
+                                        <a href="#" class="btn btn-danger btn-delete" data-jobid="@job.Id"><i class="ti-trash"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

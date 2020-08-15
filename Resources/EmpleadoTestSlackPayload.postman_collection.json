@@ -1,0 +1,46 @@
+{
+	"info": {
+		"_postman_id": "8ea78177-4efe-4ea8-9599-5e32fccb4602",
+		"name": "EmpleadoTest Payload",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://localhost:44343/Jobs/Validate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n\t\"callback_id\": \"15\",\n\t\"actions\":[{\n\t\t\"value\":\"approve\"\n\t}],\n\t\"response_url\": \"https://hooks.slack.com/services/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\",\n\t\"user\":{\n\t\t\"id\": \"0\"\t\n\t },\n\t \"token\":\"xoxb-18096409686-967005203559-fdTRWW0hMUpW73lDwTVY1P5r\"\n}\n\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:44343/Jobs/Validate",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44343",
+					"path": [
+						"Jobs",
+						"Validate"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

@@ -1,162 +1,118 @@
-﻿using System;
-using System.Net.Http;
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using AppService.Framework.Social;
-using AppService.Services;
-using Data.Repositories;
+using AppServices.Services;
+using Domain.Entities;
+using ElmahCore;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
-using Web.Framework;
 using Web.Framework.Extensions;
 using Web.Framework.Helpers.Alerts;
 
 namespace Web.Controllers
 {
+    [AllowAnonymous]
     public class AccountController : BaseController
     {
-        IUserRepository _userRepository;
-        ISecurityService _securityService;
-
-        public AccountController(IOptions<SocialKeys> socialKeys, ISecurityService securityService, IUserRepository userRepository) : base(socialKeys)
+        readonly IUsersService _userService;
+        readonly ILoginsService _loginService;
+        public AccountController(IUsersService userService, ILoginsService loginService)
         {
-            _userRepository = userRepository;
-            _securityService = securityService;
+            _userService = userService;
+            _loginService = loginService;
         }
 
-        [AllowAnonymous]
-        public ActionResult Login(string returnUrl)
+        [HttpGet("/Account/Login")]
+        public async Task<IActionResult> Login(string returnUrl = "/")
         {
+            if (HttpContext.User != null && HttpContext.User.Identity.IsAuthenticated)
+                return RedirectToAction("Index", "Home");
+
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return View("Login", await HttpContext.GetExternalProvidersAsync());
         }
 
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult Login()
+        [HttpPost("/Account/Login")]
+        public async Task<IActionResult> Login([FromForm] string provider, [FromForm] string returnUrl)
         {
-            //Confirm the credentials
-            //Redirect
-            return View();
-        }
-
-        [AllowAnonymous]
-        [HttpPost]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            var redirectUrl = string.Empty;
-            switch(provider)
+            if (string.IsNullOrWhiteSpace(provider))
             {
-                case "facebook":
-                    redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
-                    return Redirect($"https://www.facebook.com/v3.1/dialog/oauth?client_id={_socialKeys.FacebookAppId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
-                case "google":
-                    redirectUrl = Url.AbsoluteAction("GoogleCallback", "Account");
-                    return Redirect($"https://accounts.google.com/o/oauth2/v2/auth?response_type=code&client_id={_socialKeys.GoogleClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}&scope=https://www.googleapis.com/auth/userinfo.profile%20https://www.googleapis.com/auth/plus.me%20https://www.googleapis.com/auth/userinfo.email");  
-                case "linkedin":
-                    redirectUrl = Url.AbsoluteAction("LinkedinCallback", "Account");
-                    return Redirect($"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={_socialKeys.LinkedInClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}");
-                case "microsoft":
-                    redirectUrl = Url.AbsoluteAction("MicrosoftCallback", "Account");
-                    return Redirect($"https://login.live.com/oauth20_authorize.srf?response_type=code&client_id={_socialKeys.MsClientId}&state={_socialKeys.LocalVerificationToken}&redirect_uri={redirectUrl}&scope=wl.signin%20wl.basic");//%20mail.read");
+                return BadRequest();
             }
+
+            if (!await HttpContext.IsProviderSupportedAsync(provider))
+            {
+                return BadRequest();
+            }
+
+            return Challenge(new AuthenticationProperties { RedirectUri = returnUrl }, provider); // Url.Action("OnPostConfirmation", "Account", new { returnUrl, provider } )}, provider);
+        }
+
+        [HttpGet]
+        public IActionResult HandleExternalLogin()
+        {
+            return Redirect("/");
+        }
+
+        [HttpGet("/Account/Logout"), HttpPost("/Account/Logout")]
+        public IActionResult LogOut()
+        {
+            return SignOut(new AuthenticationProperties { RedirectUri = "/" },
+                CookieAuthenticationDefaults.AuthenticationScheme);
+        }
+
+        public async Task<IActionResult> OnPostConfirmation(string returnUrl, string provider)
+        {
             
-            return RedirectToAction("Login").WithError(provider);
-        }
-
-        public async Task<ActionResult> FacebookCallback(string code, string state, string returnUrl)
-        {
-            if (state == _socialKeys.LocalVerificationToken)
+            try
             {
-                var redirectUrl = Url.AbsoluteAction("FacebookCallback", "Account");
-                var result = await _securityService.FacebookLogin(code, redirectUrl);
-                if (result.ExecutedSuccesfully)
+                if (string.IsNullOrWhiteSpace(provider))
                 {
-                    await SignIn(result.User);
+                    return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme).WithError("Ocurrió un error autenticando tu cuenta");
+                }
+                var loginInfo = _loginService.GetLogin(provider.ToLower(), _currentUser.SocialId);
+                if(loginInfo == null) //Create new account
+                {
+                    var newUser = new User {
+                        Email = _currentUser.Email,
+                        Name = _currentUser.Name,
+                    };
+                    var result = _userService.Create(newUser);
+
+                    if (result.Success)
+                    {
+                        var newLogin = new Login
+                        {
+                            LoginProvider = provider.ToLower(),
+                            ProviderKey = _currentUser.SocialId,
+                            UserId = newUser.Id
+                        };
+                        _loginService.Create(newLogin);
+                        HttpContext.Session.SetInt32("UserId", newUser.Id);
+                    }
+                    else
+                        return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme).WithError(result.Messages);
                 }
                 else
                 {
-                    return RedirectToAction("Login", "Account").WithError(result.Message);
+                    HttpContext.Session.SetInt32("UserId",loginInfo.UserId);
                 }
             }
-            return RedirectToAction("New", "Jobs");
-        }
-
-        public async Task<ActionResult> LinkedinCallback(string code, string state, string returnUrl)
-        {
-            if (state == _socialKeys.LocalVerificationToken)
+            catch(Exception ex)
             {
-                var redirectUrl = Url.AbsoluteAction("LinkedinCallback", "Account");
-                var result = await _securityService.LinkedInLogin(code, redirectUrl);
-                if (result.ExecutedSuccesfully)
-                {
-                    await SignIn(result.User);
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Account").WithError(result.Message);
-                }
+                HttpContext.RiseError(ex);
+                if (ex.InnerException != null)
+                    HttpContext.RiseError(ex.InnerException);
+
+                return SignOut(new AuthenticationProperties { RedirectUri = "/" }, CookieAuthenticationDefaults.AuthenticationScheme).WithError(ex.Message);
             }
-            return RedirectToAction("New", "Jobs");
-        }
+            returnUrl = returnUrl ?? Url.Content("~/");
 
-
-        public async Task<ActionResult> GoogleCallback(string code, string state, string returnUrl)
-        {
-            if (state == _socialKeys.LocalVerificationToken)
-            {
-                var redirectUrl = Url.AbsoluteAction("GoogleCallback", "Account");
-                var result = await _securityService.GoogleLogin(code, redirectUrl);
-                if (result.ExecutedSuccesfully)
-                {
-                    await SignIn(result.User);
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Account").WithError(result.Message);
-                }
-            }
-            return RedirectToAction("New", "Jobs");
-        }
-
-
-        public async Task<ActionResult> MicrosoftCallback(string code, string state, string returnUrl)
-        {
-            if (state == _socialKeys.LocalVerificationToken)
-            {
-                var redirectUrl = Url.AbsoluteAction("MicrosoftCallback", "Account");
-                var result = await _securityService.MicrosoftLogin(code, redirectUrl);
-                if (result.ExecutedSuccesfully)
-                {
-                    await SignIn(result.User);
-                }
-                else
-                {
-                    return RedirectToAction("Login", "Account").WithError(result.Message);
-                }
-            }
-            return RedirectToAction("New", "Jobs");
-        }
-
-
-        public async Task<ActionResult> LogOff()
-        {
-            await SignOut();
-            return RedirectToAction("Index", "Home");
-        }
-
-        [Authorize]
-        public IActionResult Index()
-        {
-            return RedirectToAction("Profile");
-        }
-
-        [Authorize]
-        public IActionResult Profile()
-        {
-            var user = _userRepository.GetById(_applicationUser.RawId);
-            return View(user);
+            return Redirect(returnUrl);
         }
     }
 }

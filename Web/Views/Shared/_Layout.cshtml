@@ -1,19 +1,19 @@
-﻿@using Web.Framework.Extensions
+﻿@inject Microsoft.ApplicationInsights.AspNetCore.JavaScriptSnippet JavaScriptSnippet
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     @{
         const string branch = "Emplea.do";
         var title = string.IsNullOrWhiteSpace(ViewBag.Title) ? branch : $"{ViewBag.Title} - {branch}";
     }
     <title>@title</title>
     @{
-        var ogTitle = String.IsNullOrWhiteSpace(@ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
-        var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La mejor manera de encontrar un empleo en el área de tecnología" : ViewBag.Description;
-        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? new Uri(Context.Request.Host.ToUriComponent() + "/images/logo.png") : ViewBag.ImageUrl;
+        var ogTitle = String.IsNullOrWhiteSpace(ViewBag.Title) ? "Emplea.do" : @ViewBag.Title + " - Emplea.do";
+        var ogDescription = String.IsNullOrWhiteSpace(ViewBag.Description) ? "La manera más fácil de encontrar un empleo en el área de tecnología." : ViewBag.Description;
+        var defaultImage = "https://" + this.Context.Request.Host.ToUriComponent()+"/img/logo.png";
+        var ogImage = String.IsNullOrWhiteSpace(ViewBag.ImageUrl) ? defaultImage : ViewBag.ImageUrl;
     }
     <meta property="og:title" content="@ogTitle">
     <meta property="og:description" content="@ogDescription">
@@ -21,149 +21,37 @@
     <meta property="og:url" content="@Context.Request.Host">
     <meta property="og:image" content="@ogImage">
 
-    <script src="~/js/theme/modernizr.custom.79639.js" type="text/javascript"></script>
+    <link href="~/css/site.min.css" rel="stylesheet">
+    <link href="~/css/styles.css" rel="stylesheet">
 
-    <environment include="Development">
-        <link rel="stylesheet" href="~/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="~/css/theme/select2.min.css" />
-        <link rel="stylesheet" href="~/css/theme/jquery.flexmenu.css" />
-        <link rel="stylesheet" href="~/css/theme/owl.carousel.css" />
-        <link rel="stylesheet" href="~/css/theme/animate.css" />
-        <link rel="stylesheet" href="~/css/theme/jquery.nouislider.css" />
-        <link rel="stylesheet" href="~/css/theme/sweetalert2.min.css" />
-        <link rel="stylesheet" href="~/css/theme/flat/green.css" />
-        <link rel="stylesheet" href="~/css/theme/font-awesome.min.css" />
-        <link rel="stylesheet" href="~/css/theme/bootstrap-social.min.css" />
-        <link rel="stylesheet" href="~/css/theme/style.css" />
-        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    </environment>
-    <environment exclude="Development">
-        <partial name="_GoogleAnalytics" />
-        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-    </environment>
-
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Montserrat:700" rel="stylesheet" />
-    <style>
-        #menu-action-icon {
-            margin-right: 18px;
-        }
-    </style>
-    @RenderSection("styles", required: false)
+    @RenderSection("Styles", required: false)
+    @Html.Raw(JavaScriptSnippet.FullScript)
 </head>
-<body id="home">
-    <div class="layout">
-        <!-- Pre-loader -->
-        <div id="loader">
-            <i class="fa fa-cog fa-4x fa-spin"></i>
-        </div>
+<body>
+    <div class="Loader"></div>
+    <div id="main-wrapper">
+        <!-- ============================================================== -->
+        <!-- Top header  -->
+        <!-- ============================================================== -->
+        <partial name="_Navigationbar" />
+        <div class="clearfix"></div>
+        <!-- ============================================================== -->
+        <partial name="_Alerts" />
+        <!-- Top header  -->
+        @RenderBody()
 
-        <div class="fm-container">
-            <!-- Menu -->
-            <div class="menu">
-                <div class="button-close text-right">
-                    <a class="fm-button"><i class="fa fa-close fa-2x"></i></a>
-                </div>
-                <ul class="nav">
-                    @if (User == null || !User.Identity.IsAuthenticated)
-                    {
-                        <li class="@Html.IsSelected("Account", "Login" )"><a href="@Url.Action("Login", "Account" )">Iniciar sesión</a></li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="@Url.Action("Profile", "Account" )">Mi perfil</a>
-                            <ul><li><a href="@Url.Action("LogOff","Account")">Cerrar sesión</a></li></ul>
-                        </li>
-                    }
-                    <li class="@Html.IsSelected("Home", "Index" )"><a href="@Url.Action("Index", "Home" )">Home</a></li>
-                    <li class="@Html.IsSelected("Jobs", "Index" )"><a href="@Url.Action("Index", "Jobs" )">Lista de Empleos</a></li>
-                    <li class="@Html.IsSelected("Jobs", "New" )"><a href="@Url.Action("New", "Jobs" )">Publicar un Empleo</a></li>
-                    <li class="@Html.IsSelected("Credits", "Index" )"><a href="@Url.Action("Index", "Credits" )">Agradecimientos</a></li>
-                </ul>
-            </div>
-            <!-- end Menu -->
-        </div>
-
-        <!-- Header -->
-        <header class="layout__header">
-            <div id="header-background"></div>
-            <div class="container">
-                <div class="pull-left">
-                    <div>
-                        <a id="menu-action-icon" class="fm-button"><i class="fa fa-bars fa-lg"></i></a>
-                        <span><a href="@Url.Action("Index", "Home" )"><i class="fa fa-users fa-2x"></i> Emplea.do { beta }</a></span>
-                    </div>
-                </div>
-                <div class="pull-right hidden-xs">
-                    <div>
-                        <a class="btn btn-default" href="@Url.Action("New", "Jobs")"><i class="fa fa-user"></i> Publicar un Empleo</a>
-                    </div>
-                </div>
-            </div>
-        </header>
-
-        <!-- Content -->
-        <main class="layout__content">
-            <partial name="_Alerts" />
-            @RenderBody()
-        </main>
-
-        <!-- Footer -->
-        <footer class="layout__footer">
-            <div id="prefooter">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6" id="newsletter">
-                            <h2>Emplea.do</h2>
-                            <a href="https://www.facebook.com/empleadonet" class="btn btn-default"><i class="fa fa-facebook"></i></a>
-                            <a href="https://twitter.com/emplea_do" class="btn btn-default"><i class="fa fa-twitter"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="credits">
-                <div class="container text-center">
-                    <div class="row">
-                        <div class="col-sm-3 hidden-xs">
-                            <a class="btn btn-default pull-left" href="https://github.com/developersdo/empleo-dot-net" target="_blank"><i class="fa fa-github"></i> Fork us on github</a>
-                        </div>
-                        <div class="col-sm-6">
-                            &copy; @DateTime.Today.Year Emplea.do<br>
-                            Made with <i class="fa fa-heart fa-inverse"></i> by <a href="@Url.Action("Index", "Credits" )">all of us</a><br>
-                            Sponsored by <a href="http://www.megsoftconsulting.com/">Megsoft Consulting, Inc., Xamarin Specialists</a>
-                            <br /><span>ver. @Html.AssemblyVersion()</span>
-
-                            <div class="text-center hidden-lg hidden-sm hidden-md">
-                                <br />
-                                <a class="btn btn-default" href="https://github.com/developersdo/empleo-dot-net" target="_blank"><i class="fa fa-github"></i> Fork us on github</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </footer>
+        <!-- ============================ Footer Start ================================== -->
+        <partial name="_Footer" />
+        <!-- ============================ Footer End ================================== -->
     </div>
-
-    <environment include="Development">
-        <script src="~/js/jquery.min.js"></script>
-        <script src="~/js/bootstrap.min.js"></script>
-        <script src="~/js/respond.min.js"></script>
-        <script src="~/js/theme/owl.carousel.min.js"></script>
-        <script src="~/js/theme/select2.full.min.js"></script>
-        <script src="~/js/theme/jquery.nouislider.all.min.js"></script>
-        <script src="~/js/theme/jquery.flexmenu.js"></script>
-        <script src="~/js/theme/icheck.min.js"></script>
-        <script src="~/js/theme/bootstrap3-wysihtml5.all.min.js"></script>
-        <script src="~/js/theme/sweetalert2.all.min.js"></script>
-
-        <script src="~/js/theme/settings.js"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
+    <partial name="_Analytics" />
+    <environment include="Development,Production">
+        <script>
+        var base_url = '@(this.Context.Request.Scheme +"://" + this.Context.Request.Host.ToUriComponent())';
+        </script>
+        <script src="~/js/site.min.js"></script>
     </environment>
-    <environment exclude="Development">
-        <script src="~/js/site.min.js" asp-append-version="true"></script>
-    </environment>
-
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>

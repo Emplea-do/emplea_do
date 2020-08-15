@@ -1,32 +1,22 @@
-<Project Sdk="Microsoft.NET.Sdk">
-  <Target Name="Migrate">
-    <Message Text="Starting FluentMigrator Migration" />
-    <Migrate Database="sqlite" Connection="Data Source=./Empleado.db;Version=3;" Target="./Migrations/bin/Debug/Migrations.dll" Output="True" OutputFilename="generated.sql">
-    </Migrate>
-  </Target>
-  
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType></DebugType>
-  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="FluentMigrator.Generator" Version="1.0.5">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentMigrator.Runner" Version="3.2.7" />
+    <PackageReference Include="FluentMigrator" Version="3.2.7" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="FluentMigrator.Tools" Version="3.0.0" />
-    <PackageReference Include="FluentMigrator.Runner.SQLite" Version="3.0.0" />
-    <PackageReference Include="FluentMigrator.Runner.SqlServer" Version="3.0.0" />
-    <PackageReference Include="FluentMigrator" Version="3.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scripts\" />
-    <Folder Include="Scripts\Mac\" />
     <Folder Include="Framework\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="SqlScripts\CompanyDataImport.sql" />
+    <Folder Include="Scripts\" />
   </ItemGroup>
 </Project>

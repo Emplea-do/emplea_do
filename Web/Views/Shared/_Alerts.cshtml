@@ -1,7 +1,7 @@
 ﻿@using Web.Framework.Helpers.Alerts
 @if (TempData.GetAlerts().Any())
 {
-    <div class="container padding-top-80">
+    <div class="container" style="margin-top:10px">
         @foreach (var alert in TempData.GetAlerts())
         {
             <div class="alert @alert.AlertClass alert-dismissable">

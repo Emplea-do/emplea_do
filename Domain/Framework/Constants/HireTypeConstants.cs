@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Domain.Framework.Constants
 {
-    public class HireTypeConstants
+    public static class HireTypeConstants
     {
         public const int NotApplicable = 1;
 

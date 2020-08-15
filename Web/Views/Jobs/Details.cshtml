@@ -1,0 +1,418 @@
+﻿@model JobDetailsViewModel
+@using Microsoft.AspNetCore.Html
+@inject IUrlHelper urlHelper;
+<section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
+    <div class="container">
+        <div class="row m-0 align-items-end detail-swap">
+            <div class="tr-list-wrap">
+                <div class="tr-list-detail">
+                    <div class="tr-list-thumb">
+                        <img src="@Model.Job.Company.LogoUrl" class="img-responsive" alt="" />
+                    </div>
+                    <div class="tr-list-info" style="max-width:80%">
+                        <span class='badge badge-primary'>@Model.Job.HireType.Name</span>
+                        @if (Model.Job.IsRemote)
+                        {
+                            <span class="badge badge-warning">Remoto</span>
+                        }
+                        <h4 class="mb-1">@Model.Job.Title</h4>
+                        <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
+                    </div>
+                </div>
+                <feature name="@FeatureFlags.EnableApplyForJob">
+                    <div class="listing-detail_right">
+                        <div class="listing-detail-item">
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-list full-width mb-2 text-warning"><i class="ti-email mr-2"></i> Apply To This Job</a><br>
+                            <a href="#" class="btn btn-list full-width color--linkedin"><i class="ti-linkedin mr-2"></i> Apply With linkedin</a>
+                        </div>
+                    </div>
+                </feature>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="tr-single-detail gray-bg">
+    <div class="container">
+        <feature name="@FeatureFlags.ShowPreviewWarning">
+            @if (Model.IsPreview && !Model.Job.IsApproved)
+            {
+                <div class="alert alert-warning">
+                    <b>Esta vacante no ha sido aprobada. Revise de nuevo más tarde.</b>
+                </div>
+            }
+        </feature>
+
+        <div class="row">
+
+            <div class="col-md-8 col-sm-12">
+
+                <!-- Job Overview -->
+                <div class="tr-single-box">
+                    <div class="tr-single-header">
+                        <h4><i class="ti-info"></i>Descripción</h4>
+                    </div>
+                    <div class="tr-single-body preserve-spaces">
+                        @Html.Raw(Model.Job.Description.Trim())
+                    </div>
+                </div>
+
+                <!-- Job Qualifications -->
+                <div class="tr-single-box mb-4">
+                    <div class="tr-single-header">
+                        <h4><i class="ti-book"></i>Como aplicar</h4>
+                    </div>
+                    <div class="tr-single-body preserve-spaces">
+                        @Html.Raw(Model.Job.HowToApply.Trim())
+                    </div>
+                </div>
+                <feature name="@FeatureFlags.EnableApplyForJob">
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#apply" class="btn btn-info full-width mb-2"> Apply This Job</a>
+                </feature>
+            </div>
+
+            <!-- Sidebar Start -->
+            <div class="col-md-4 col-sm-12">
+                <feature name="@FeatureFlags.AllowBookmarking">
+                    <div class="offer-btn-wrap mb-4">
+                        <a href="#" class="btn btn-info btn-md full-width"><i class="mr-2 ti-bookmark"></i>Bookmark This Job</a>
+                    </div>
+                </feature>
+
+                <!-- Maintenance -->
+                @if (Model.IsJobOwner)
+                {
+                    <div class="tr-single-box">
+                        <div class="tr-single-header">
+                            <h4><i class="ti-panel"></i>Mantenimiento</h4>
+                        </div>
+                        <div class="tr-single-body">
+                            <a href="#" class="btn-hide" data-jobid="@Model.Job.Id">
+                            </a>
+                            <div class="mg-action">
+                                <div class="btn-group ml-2">
+                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@Model.Job.Id"><i class="ti-pencil-alt"></i></a>
+                                    @if (Model.Job.IsApproved)
+                                    {
+                                    <a href="#" class="btn-hide btn btn-light" data-jobid="@Model.Job.Id">
+                                        @if (Model.Job.IsHidden)
+                                        {
+                                            <i class="eye-icon icofont-eye-blocked"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="eye-icon icofont-eye-alt"></i>
+                                        }
+                                    </a>
+                                    }
+                                    <a href="#" class="btn btn-danger btn-delete" data-jobid="@Model.Job.Id"><i class="ti-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+                <!-- Share -->
+                <div class="tr-single-box">
+                    <div class="tr-single-header">
+                        <h4><i class="lni lni-share"></i>Compartir</h4>           
+                    </div>
+
+                    <div class="tr-single-body">
+                        <ul class="extra-service">
+                            <li>
+                                <div class="icon-box-icon-block">
+                                   <a href="http://twitter.com/intent/tweet?text=@Model.Job.Title @urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})" target="_blank">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-twitter-original"></i>
+                                        </div>
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            Twitter
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=@urlHelper.AbsoluteUrl("Details", "Jobs", new {Id = Model.Job.Id})&t=@Model.Job.Title" target="_blank">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-facebook-original"></i>
+                                        </div>
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            Facebook
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Company Address -->
+                <div class="tr-single-box">
+                    <div class="tr-single-header">
+                        <h4><i class="ti-direction"></i>Compañía</h4>
+                    </div>
+
+                    <div class="tr-single-body">
+                        <ul class="extra-service">
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="#">
+                                        <div class="icon-box-round">
+                                            <i class="lni-world"></i>
+                                        </div>
+                                        <div class="icon-box-text">
+                                            @Model.Job.Company.Name
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="#">
+                                        <div class="icon-box-round">
+                                            <i class="lni-map-marker"></i>
+                                        </div>
+                                        <div class="icon-box-text" style="width: 75%;">
+                                            @(Model.Job.Location?.Name??"N/A")
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="#">
+                                        <div class="icon-box-round">
+                                            <i class="lni-envelope"></i>
+                                        </div>
+                                        <div class="icon-box-text">
+                                            @Model.Job.Company.Email
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="icon-box-icon-block">
+                                    <a href="/company/@Html.Raw(Model.Job.CompanyId)">
+                                        <div class="icon-box-round">
+                                            <i class="lni lni-list"></i>
+                                        </div>
+                                        <div class="icon-box-text">
+                                            Ver más empleos de la compañía
+                                        </div>
+                                    </a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Share this
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="ti-share"></i> Share this Job</h4>
+        </div>
+
+        <div class="tr-single-body">
+            <ul class="extra-service half">
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-facebook"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Facebook
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-google-plus"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Google plus
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-twitter"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Twitter
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-linkedin"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                LinkedIn
+                            </div>
+                        </a>glyphicon-eye-close
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="lni-instagram"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Instagram
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="icon-box-icon-block">
+                        <a href="#">
+                            <div class="icon-box-round">
+                                <i class="fa fa-pinterest"></i>
+                            </div>
+                            <div class="icon-box-text">
+                                Pinterest
+                            </div>
+                        </a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+
+    </div> -->
+
+
+            </div>
+            <!-- /col-md-4 -->
+        </div>
+    
+        </div>
+</section>
+<!-- ============== Job Detail ====================== -->
+
+
+
+
+@section Scripts {
+    <script>
+    $(document).ready(function(){
+        $(".btn-hide").click(function (e) {
+            var titleMsg = "¿Seguro que deseas ocultar este registro?";
+            var textMsg = "¡Solo sera visible para tí!";
+            var respMsg = "Registro solo podra ser visto por tí";
+            var eyeClassToAdd = "icofont-eye-blocked";
+            var eyeClassToRemove = "icofont-eye-alt";
+            var confirmText = "Sí, ocúltalo";
+
+            if ($('.eye-icon').hasClass(eyeClassToAdd)) {
+                titleMsg = "¿Seguro que deseas mostrar este registro?";
+                textMsg = "¡Sera visible para todos!";
+                respMsg = "Registro sera visible para todos";
+                eyeClassToAdd = "icofont-eye-alt";
+                eyeClassToRemove = "icofont-eye-blocked";
+                confirmText = "Sí, muestralo";
+            } 
+
+            Swal.fire({
+                title: titleMsg,
+                text: textMsg,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: confirmText
+            }).then((result) => {
+                if (result.value) {
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/hide/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+                            Swal.fire(
+                                respMsg,
+                                response.messages,
+                                'success'
+                            );
+                           
+                            $('.eye-icon').removeClass(eyeClassToRemove);
+                            $('.eye-icon').addClass(eyeClassToAdd);  
+                        }
+                        else {
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+                        }
+                    }).fail(function () {
+                    });
+                }
+            });
+            return false;
+        });
+
+        $(".btn-delete").click(function(e){
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+
+                    var jobId = $(e.currentTarget).data("jobid");
+                    var url = base_url + '/jobs/delete/' + jobId
+                    $.post(url, function (response) {
+                        if (response.success) {
+
+                            Swal.fire({
+                                title: 'Registro eliminado',
+                                text: response.messages,
+                                 icon: 'success',
+                                 confirmButtonText: 'Ok'
+                            }).then((result) => {
+                                 window.location.replace(base_url);
+                            });
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
+                    });
+                }
+            });
+            return false;
+        });
+    });
+    </script>
+}

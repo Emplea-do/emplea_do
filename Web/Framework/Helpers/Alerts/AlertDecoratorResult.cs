@@ -1,29 +1,32 @@
-﻿using System.Web;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 
 namespace Web.Framework.Helpers.Alerts
 {
-    public class AlertDecoratorResult : ActionResult
+    public class AlertDecoratorResult : IActionResult
     {
-        public ActionResult InnerResult { get; set; }
+        public IActionResult InnerResult { get; set; }
         public string AlertClass { get; set; }
         public string Message { get; set; }
 
-        public AlertDecoratorResult(ActionResult innerResult, string alertClass, string message)
+        public AlertDecoratorResult(IActionResult innerResult, string alertClass, string message)
         {
             InnerResult = innerResult;
             AlertClass = alertClass;
             Message = message;
         }
 
-        public override void ExecuteResult(ActionContext context)
+        public async Task ExecuteResultAsync(ActionContext context)
         {
-            var factory = context.HttpContext.RequestServices.GetService(typeof(ITempDataDictionaryFactory)) as ITempDataDictionaryFactory;
-            var tempData = factory.GetTempData(context.HttpContext) as TempDataDictionary;
+            var factory = context.HttpContext.RequestServices.GetService<ITempDataDictionaryFactory>();
+            var tempData = factory.GetTempData(context.HttpContext);
             var alerts = tempData.GetAlerts();
             alerts.Add(new Alert(AlertClass, Message));
-            InnerResult.ExecuteResult(context);
+            tempData[AlertExtensions.Alerts] = JsonConvert.SerializeObject(alerts);
+            await InnerResult.ExecuteResultAsync(context);
         }
     }
 }

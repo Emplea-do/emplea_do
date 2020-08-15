@@ -1,43 +1,22 @@
-﻿(function () {
+﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+// for details on configuring this project to bundle and minify static web assets.
 
-    function onJobOpportunityDetailClick(element) {
-        var detailUrl = $(element).attr("data-url");
-        if (detailUrl) {
-            window.location = detailUrl;
-        }
-    };
+// Write your JavaScript code.
 
-    $('form[method="get"]').submit(function () {
-        var self = $(this);
-        var parameters = self.serialize();
-        parameters.split("&").forEach(function (val) {
-            var param = val.replace(/=\w+|=/, "");
-            var paramValue = val.replace(/\w+=/, "");
-            if (paramValue === "") {
-                var formElem = self.find("*[name=" + param + "]");
-                formElem.prop("disabled", true);
-            }
+
+$(document).ready(function () {
+    $('.select2').each(function () {
+        let placeholder = $(this).data('placeholder') || 'seleccione una opción';
+        let allowClear = $(this).data('allowClear') || $(this).attr('data-allowClear');;
+
+        $(this).select2({
+            placeholder: placeholder,
+            allowClear: allowClear
         });
     });
 
-    $("#confirm-delete").on("show.bs.modal", function (e) {
-        $(this)
-            .find(".modal-body")
-            .html("<h4>" + $(e.relatedTarget)
-            .data("title") + "</h4>");
-        $(this)
-           .find(".btn-ok")
-            .attr("href", $(e.relatedTarget)
-            .data("href"));
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-aero',
+        radioClass: 'iradio_square-aero'
     });
-
-    if ($(":checkbox").size() > 0) {
-        $(':checkbox').iCheck({
-            checkboxClass: 'icheckbox_flat-green',
-            radioClass: 'iradio_flat'
-        });
-    }
-
-    $(".select2").select2();
-
-})()
+});
