@@ -5044,10 +5044,9 @@ button.owl-prev, button.owl-next {
 /*-------------- Drizvato Component: Verticle Large New Job List -----------------*/
 .job-new-list{
     background-color: #ffffff;
-    border-left: 3px solid transparent;
     border-radius: 4px;
     margin-top: 30px;
-    padding: 30px 30px 25px;
+    padding: 30px 30px 45px;
 	position:relative;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
@@ -5102,12 +5101,12 @@ button.owl-prev, button.owl-next {
     font-size: 14px;
     color: #c4c8d0;
 }
-.job-new-list:hover, .job-new-list:focus{
-	border-color:#1ac790;
-	cursor:pointer;
-	box-shadow:0px 5px 10px 0px rgba(130,136,184,0.2);
-	-webkit-box-shadow:0px 5px 10px 0px rgba(130,136,184,0.2);
-}
+/*.job-new-list:hover, .job-new-list:focus{*/
+/*	border-color:#1ac790;*/
+/*	cursor:pointer;*/
+/*	box-shadow:0px 5px 10px 0px rgba(130,136,184,0.2);*/
+/*	-webkit-box-shadow:0px 5px 10px 0px rgba(130,136,184,0.2);*/
+/*}*/
 .job-new-list .vc-content .title>span {
     padding: 4px 10px;
     margin-left: 7px;
@@ -5116,6 +5115,28 @@ button.owl-prev, button.owl-next {
     font-family: 'Muli', sans-serif;
     font-weight: 600;
 }
+
+.job-view-more {
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #1ac790;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    position: absolute;
+    opacity: 0;
+}
+
+.job-new-list:hover .job-view-more {
+    visibility: visible;
+    bottom: -5%;
+    opacity: 1;
+}
+
 .skills span {
     background: #e7ebf1;
     margin: 5px;

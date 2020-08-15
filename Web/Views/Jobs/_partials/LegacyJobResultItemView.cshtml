@@ -29,12 +29,18 @@
             <li class="list-inline-item"><i class="ti-thumb-up mr-2"></i>@Model.Likes</li>
             <li class="list-inline-item"><i class="ti-eye mr-2"></i>@Model.ViewCount</li>
             <!-- <li class="list-inline-item">
-        <h5>Skills</h5>
-        <div class="skills">
-            <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
-        </div>
-    </li> -->
+                <h5>Skills</h5>
+                <div class="skills">
+                    <span>Html</span><span>Css3</span><span>photoshop</span><span>java</span><span>+3 more</span>
+                </div>
+            </li> -->
         </ul>
     </div>
-    <a class="btn btn-outline-info bn-det" href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isLegacy = true})">Ver más<i class="ti-arrow-right ml-1"></i></a>
+    <div class="float-right">
+        <ul class="vc-info-list">
+            <li class="list-inline-item"><i class="ti-thumb-up mr-2"></i>@Model.Likes</li>
+            <li class="list-inline-item"><i class="ti-eye mr-2"></i>@Model.ViewCount</li>
+        </ul>
+    </div>
+    <a class="btn job-view-more" href="@Url.Action("Details", "Jobs", new { Id=Model.Link, isLegacy = true})">Ver más<i class="ti-arrow-right ml-1"></i></a>
 </div>
