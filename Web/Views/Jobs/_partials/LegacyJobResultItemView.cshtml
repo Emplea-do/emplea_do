@@ -26,8 +26,6 @@
         <ul class="vc-info-list">
             <li class="list-inline-item"><h5>Ubicación</h5> <i class="ti-location-pin mr-2"></i>@(string.IsNullOrWhiteSpace(Model.Location) ? "N/A" : Model.Location)</li>
             <li class="list-inline-item"><h5>Publicado</h5>@Model.PublishedDate.ToDominicanFormat()</li>
-            <li class="list-inline-item"><i class="ti-thumb-up mr-2"></i>@Model.Likes</li>
-            <li class="list-inline-item"><i class="ti-eye mr-2"></i>@Model.ViewCount</li>
             <!-- <li class="list-inline-item">
                 <h5>Skills</h5>
                 <div class="skills">
