@@ -5,7 +5,6 @@ dotnet tool install -g FluentMigrator.DotNet.Cli --version 3.2.1
 ::# Update Fluent Migrator CLI
 dotnet tool upgrade -g FluentMigrator.DotNet.Cli 
 
-
 ::#Getting libman CLI for js package management
 dotnet tool install -g Microsoft.Web.LibraryManager.Cli 
 
