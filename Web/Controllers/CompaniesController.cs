@@ -31,7 +31,7 @@ namespace Web.Controllers
             return View(companies);
         }
         
-                [Authorize]
+        [Authorize]
         public IActionResult Wizard(int? id)
         {
             var model = new CompanyViewModel();
@@ -58,7 +58,7 @@ namespace Web.Controllers
             return View(model);
         }
 
-         [Authorize]
+        [Authorize]
         [HttpPost]
         public IActionResult Wizard(CompanyViewModel model)
         {
