@@ -25,14 +25,14 @@ namespace Web.Controllers
         public IActionResult Index()
         {
             var filteredJobsByUserProfile = _jobsService.GetByUser(_currentUser.UserId);
-            //var filteredCompaniesByUserProfile = _companiesService.GetByUserId(_currentUser.UserId);
             var filteredCompaniesByUserProfile = _companiesService.GetByUserId(_currentUser.UserId);
             var filteredBannersByUserProfile = _bannersService.GetByUserId(_currentUser.UserId);
 
             var viewModel = new UserProfileViewModel
             {
                 Jobs = filteredJobsByUserProfile,
-                Companies = filteredCompaniesByUserProfile
+                Companies = filteredCompaniesByUserProfile,
+                Banners = filteredBannersByUserProfile
             };
 
             return View(viewModel);

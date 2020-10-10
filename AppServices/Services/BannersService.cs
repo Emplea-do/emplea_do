@@ -13,12 +13,12 @@ namespace AppServices.Services
 
         public List<Banner> GetByUserId(int userId)
         {
-            return _mainRepository.Get(x=>x.IsActive && x.UserId == userId).ToList();
+            return _mainRepository.Get(x=> x.UserId == userId).ToList();
         }
 
         public Banner GetById(int id)
         {
-            return _mainRepository.Get(x=>x.IsActive && x.Id == id).FirstOrDefault();
+            return _mainRepository.Get(x=> x.Id == id).FirstOrDefault();
         }
 
         protected override TaskResult<Banner> ValidateOnCreate(Banner entity)
