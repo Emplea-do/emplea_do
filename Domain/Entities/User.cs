@@ -15,5 +15,6 @@ namespace Domain.Entities
         public IList<Job> Jobs { get; set; }
         public IList<Company> Companies { get; set; }
         public IList<Role> Roles { get; set; }
+        public IList<Banner> Banners { get; set; }
     }
 }
