@@ -4,7 +4,6 @@ using Migrations.Framework;
 
 namespace Migrations
 {
-
     [Migration(20190906108)]
     public class _20190906108_adding_role_tbl : Migration
     {
@@ -21,6 +20,3 @@ namespace Migrations
         }
     }
 }
-
-
-

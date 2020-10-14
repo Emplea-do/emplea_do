@@ -35,8 +35,8 @@ namespace Web.Framework.Filters
                 context.Result = new RedirectToRouteResult(
                     new RouteValueDictionary
                     {
-                        { "controller", "UnderMaintenance"},
-                        { "action", "Index"}
+                        { "controller", "UnderMaintenance" },
+                        { "action", "Index" }
                     });
             }
 

@@ -20,14 +20,13 @@ namespace Web.Controllers
         {
             // It's not call directly from AJAX due to CORS.
             var resultString = WebRequestHelper("https://opencollective.com/emplea_do/members/" + members);
-            //var resultObject = JsonConvert.DeserializeObject<dynamic>(resultString);
+            // var resultObject = JsonConvert.DeserializeObject<dynamic>(resultString);
 
             return resultString;
         }
 
         public string WebRequestHelper(string endpoint)
         {
-
             WebRequest request = WebRequest.Create(endpoint);
 
             WebResponse response = request.GetResponse();
@@ -39,6 +38,7 @@ namespace Web.Controllers
                 StreamReader reader = new StreamReader(dataStream);
                 responseFromServer = reader.ReadToEnd();
             }
+
             response.Close();
 
             return responseFromServer;

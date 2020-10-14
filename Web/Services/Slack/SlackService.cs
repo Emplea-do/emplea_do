@@ -23,7 +23,7 @@ namespace Web.Services.Slack
         public SlackService(IConfiguration configuration)
         {
             var slackWebhookEndpoint = configuration["Slack:WebhookEndpoint"];
-            _slackWebhookUrl = slackWebhookEndpoint; //"https://hooks.slack.com/services/" + slackWebhookEndpoint;
+            _slackWebhookUrl = slackWebhookEndpoint; // "https://hooks.slack.com/services/" + slackWebhookEndpoint;
         }
 
         public async Task PostJobErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl)
@@ -40,7 +40,7 @@ namespace Web.Services.Slack
                         callback_id = "0",
                         color = "danger",
                         attachment_type = "default"
-                    }}
+                    } }
                 };
                 await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
             }
@@ -56,7 +56,7 @@ namespace Web.Services.Slack
                         callback_id = jobOpportunity?.Id.ToString(),
                         color = "danger",
                         attachment_type = "default"
-                    }}
+                    } }
                 };
                 await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
             }
@@ -68,11 +68,11 @@ namespace Web.Services.Slack
                 return;
 
             var descriptionLength = 124;
-            var trimmedDescription = Regex.Replace(jobOpportunity.Description, "<.*?>", String.Empty).TrimStart();
+            var trimmedDescription = Regex.Replace(jobOpportunity.Description, "<.*?>", string.Empty).TrimStart();
             var limitedDescription = trimmedDescription.Length > descriptionLength
                 ? trimmedDescription.Substring(0, descriptionLength) + "..."
                 : trimmedDescription;
-            //var action = UrlExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title);
+            // var action = UrlExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title);
             var action = UrlExtensions.SeoUrl("details", jobOpportunity.Id);
 
             var approvedMessage = approved ? "approved" : "rejected";
@@ -95,8 +95,8 @@ namespace Web.Services.Slack
                         title = "",
                         value = ":ballot_box_with_check: <@" + userId + "> *" + approvedMessage + " this request*",
                         @short = false
-                    }}
-                }}
+                    } }
+                } }
             };
 
             await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
@@ -108,11 +108,11 @@ namespace Web.Services.Slack
                 return;
 
             var descriptionLength = 124;
-            var trimmedDescription = Regex.Replace(jobOpportunity.Description, "<.*?>", String.Empty).TrimStart();
+            var trimmedDescription = Regex.Replace(jobOpportunity.Description, "<.*?>", string.Empty).TrimStart();
             var limitedDescription = trimmedDescription.Length > descriptionLength
                 ? trimmedDescription.Substring(0, descriptionLength) + "..."
                 : trimmedDescription;
-           // var action = UrlExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title);
+            // var action = UrlExtensions.SeoUrl(jobOpportunity.Id, jobOpportunity.Title);
             var action = UrlExtensions.SeoUrl("details", jobOpportunity.Id);
 
             var payloadObject = new PayloadRequestDto()
@@ -141,8 +141,8 @@ namespace Web.Services.Slack
                         style = "default",
                         type = "button",
                         value = "reject"
-                    }}
-                }}
+                    } }
+                } }
             };
 
             await PostNotification(payloadObject, _slackWebhookUrl).ConfigureAwait(false);

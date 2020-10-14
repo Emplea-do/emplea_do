@@ -17,7 +17,6 @@ namespace AppServices.Framework
             _messages = new List<string>();
         }
 
-
         public void AddErrorMessage(string message)
         {
             _success = false;

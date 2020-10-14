@@ -19,17 +19,19 @@ namespace Migrations
                 .Row(new { Id = -1, Name = "Claudio", Email = "claudio@megsoftconsulting.com" });
 
             Insert.IntoTable(TableConstants.Companies).WithIdentityInsert()
-                .Row(new  { 
-                    Id= -1,
-                    Name = "Megsoft", 
-                    CreatedAt= DateTime.UtcNow, 
+                .Row(new
+                {
+                    Id = -1,
+                    Name = "Megsoft",
+                    CreatedAt = DateTime.UtcNow,
                     Email = "claudio@megsoftconsulting.com",
-                    Url ="https://megsoftconsulting.com",
-                LogoUrl= "https://megsoftconsulting.com/wp-content/uploads/2018/08/my_business.png",
-                    UserId =-1});
+                    Url = "https://megsoftconsulting.com",
+                    LogoUrl = "https://megsoftconsulting.com/wp-content/uploads/2018/08/my_business.png",
+                    UserId = -1
+                });
 
             Insert.IntoTable(TableConstants.Jobs).WithIdentityInsert()
-                .Row(new 
+                .Row(new
                 {
                     Id = -1,
                     Title = "Web Developer wanted",
@@ -40,13 +42,12 @@ namespace Migrations
                     CategoryId = 1,
                     HireTypeId = 1,
                     HowToApply = "just apply",
-                    IsRemote = true, 
-                    CompanyId= -1,
+                    IsRemote = true,
+                    CompanyId = -1,
                     ViewCount = 0,
                     Likes = 0,
                     PublishedDate = DateTime.UtcNow,
-                    UserId= -1
-
+                    UserId = -1
                 })
                 .Row(new
                 {
@@ -65,9 +66,7 @@ namespace Migrations
                     Likes = 0,
                     PublishedDate = DateTime.UtcNow,
                     UserId = -1
-
-                }
-                );
+                });
         }
     }
 }

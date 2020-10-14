@@ -9,6 +9,6 @@ namespace Web.ViewModels
         public bool IsPreview { get; set; }
         public bool IsJobOwner { get; set; }
         public Job Job { get; set; }
-        public JobCardDTO JobCard {get;set;}
+        public JobCardDTO JobCard { get; set; }
     }
 }

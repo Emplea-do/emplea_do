@@ -9,7 +9,6 @@ public static class FeatureFlags
     public static readonly string EnableApplyForJob = "jobscontroller-enable-apply-for-job";
     public static readonly string ShowPreviewWarning = "jobscontroller-show-preview-warning";
     public static readonly string AllowBookmarking = "jobscontroller-allow-bookmarking";
-    
 
     public static class LegacyClient
     {

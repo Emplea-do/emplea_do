@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace Web.Framework.Helpers
 {
     public static class CookiesExtensions
-    {   
+    {
         public static void SetCookie(this HttpContext context, string key, string value)
         {
             context.Response.Cookies.Append(key, value);
@@ -14,7 +14,7 @@ namespace Web.Framework.Helpers
         public static string GetCookie(this HttpContext context, string key)
         {
             var cookie = context.Request.Cookies[key];
-            return !string.IsNullOrWhiteSpace(cookie) ? WebUtility.HtmlEncode(cookie).Trim() : String.Empty;
+            return !string.IsNullOrWhiteSpace(cookie) ? WebUtility.HtmlEncode(cookie).Trim() : string.Empty;
         }
 
         public static bool CookieExists(this HttpContext context, string key)

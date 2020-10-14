@@ -121,7 +121,6 @@ namespace Web.Controllers
                     var companyId = model.CompanyId;
                     if (model.CreateNewCompany)
                     {
-
                         var company = new Company
                         {
                             Name = model.CompanyName,
@@ -139,6 +138,7 @@ namespace Web.Controllers
                         {
                             company.LogoUrl = $"{this.Request.Scheme}://{this.Request.Host}{Constants.DefaultLogoUrl}";
                         }
+
                         _companiesService.Create(company);
                         companyId = company.Id;
                     }
@@ -148,7 +148,6 @@ namespace Web.Controllers
                         var originalJob = _jobsService.GetById(model.Id.Value);
                         if (originalJob.UserId == _currentUser.UserId)
                         {
-
                             originalJob.CategoryId = model.CategoryId;
                             originalJob.HireTypeId = model.JobTypeId;
                             originalJob.CompanyId = companyId.Value;
@@ -167,6 +166,7 @@ namespace Web.Controllers
                                     Latitude = model.LocationLatitude
                                 };
                             }
+
                             var result = _jobsService.Update(originalJob);
                             if (result.Success)
                             {
@@ -178,6 +178,7 @@ namespace Web.Controllers
                                 {
                                     HttpContext.RiseError(ex);
                                 }
+
                                 return RedirectToAction("Wizard", new { Id = model.Id.Value }).WithSuccess("Posición editada exitosamente");
                             }
 
@@ -228,7 +229,6 @@ namespace Web.Controllers
 
                         throw new Exception(result.Messages);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -236,15 +236,16 @@ namespace Web.Controllers
                     return View(model).WithError(ex.Message);
                 }
             }
+
             return View(model);
         }
 
         public async Task<IActionResult> Details(string Id, bool isPreview = false, bool isLegacy = false)
         {
-            if (String.IsNullOrEmpty(Id))
+            if (string.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
 
-            int jobId = Int32.Parse(Id);
+            int jobId = int.Parse(Id);
             Job job = new Job();
             if (isLegacy)
             {
@@ -296,15 +297,15 @@ namespace Web.Controllers
 
             if (!isLegacy)
             {
-                //Get the list of jobs visited in the cookie
-                //Format: comma separated jobs Id
-                //Naming: appname_meanfulname
+                // Get the list of jobs visited in the cookie
+                // Format: comma separated jobs Id
+                // Naming: appname_meanfulname
                 var visitedJobs = Request.Cookies["empleado_visitedjobs"];
 
-                //If cookie value is null (not set) use empty string to avoid NullReferenceException
+                // If cookie value is null (not set) use empty string to avoid NullReferenceException
                 var visitedJobsList = (visitedJobs ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-                //If jobs has not be visited update ViewCount & add job Id to cookie
+                // If jobs has not be visited update ViewCount & add job Id to cookie
                 if (!visitedJobsList.Contains(Id))
                 {
                     job.ViewCount++;
@@ -321,13 +322,14 @@ namespace Web.Controllers
                 viewModel.IsPreview = isPreview;
                 return View(viewModel);
             }
+
             return View(viewModel);
         }
 
         private int GetJobIdFromTitle(string title)
         {
             var url = title.Split('-');
-            if (String.IsNullOrEmpty(title) || title.Length == 0 || !int.TryParse(url[0], out int id))
+            if (string.IsNullOrEmpty(title) || title.Length == 0 || !int.TryParse(url[0], out int id))
                 return 0;
             return id;
         }
@@ -359,6 +361,7 @@ namespace Web.Controllers
                 HttpContext.RiseError(ex);
                 result.AddErrorMessage(ex.Message);
             }
+
             return Json(result);
         }
 
@@ -396,9 +399,9 @@ namespace Web.Controllers
                 HttpContext.RiseError(ex);
                 result.AddErrorMessage(ex.Message);
             }
+
             return Json(result);
         }
-
 
         /// <summary>
         /// Validates the payload response that comes from the Slack interactive message actions
@@ -467,6 +470,5 @@ namespace Web.Controllers
                     HttpContext.RiseError(ex.InnerException);
             }
         }
-
     }
 }

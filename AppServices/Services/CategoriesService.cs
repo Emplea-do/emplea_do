@@ -29,6 +29,5 @@ namespace AppServices.Services
 
     public interface ICategoriesService : IBaseService<Category, ICategoriesRepository>
     {
-
     }
 }

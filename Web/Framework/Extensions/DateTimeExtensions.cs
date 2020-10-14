@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 namespace Web.Framework.Extensions
-{   
+{
     public static class DateTimeExtensions
     {
         /// <summary>

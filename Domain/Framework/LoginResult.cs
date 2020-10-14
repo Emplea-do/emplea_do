@@ -24,10 +24,12 @@ namespace Domain.Framework
                         AddErrorMessage(Exception.InnerException.ToString());
                     }
                 }
+
                 if (Messages.Count == 1)
                 {
                     return Messages[0];
                 }
+
                 if (Messages.Count > 0)
                 {
                     result = string.Join(",", Messages);
@@ -38,6 +40,7 @@ namespace Domain.Framework
                 {
                     result = "";
                 }
+
                 return result;
             }
         }
@@ -51,6 +54,7 @@ namespace Domain.Framework
             ExecutedSuccesfully = false;
             Messages.Add(errorMessage);
         }
+
         public void AddMessage(string message)
         {
             Messages.Add(message);

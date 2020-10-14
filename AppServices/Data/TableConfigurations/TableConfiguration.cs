@@ -15,6 +15,7 @@ namespace AppServices.Data.TableConfigurations
             builder.Property(p => p.CreatedAt).IsRequired();
             builder.Property(p => p.IsActive).IsRequired();
         }
+
         public abstract void Configure(EntityTypeBuilder<T> builder);
     }
 }

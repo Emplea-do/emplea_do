@@ -11,6 +11,10 @@
     </PackageReference>
     <PackageReference Include="FluentMigrator.Runner" Version="3.2.7" />
     <PackageReference Include="FluentMigrator" Version="3.2.7" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />

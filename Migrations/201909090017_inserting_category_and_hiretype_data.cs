@@ -15,7 +15,7 @@ namespace Migrations
         public override void Up()
         {
             Insert.IntoTable(TableConstants.Categories).WithIdentityInsert()
-                .Row(new { id = 1, Name = "Diseño Gráfico", Description="", IsActive = true, CreatedAt = DateTime.UtcNow })
+                .Row(new { id = 1, Name = "Diseño Gráfico", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { id = 2, Name = "Desarrollo Web", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { id = 3, Name = "Desarrollo para Móviles", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })
                 .Row(new { id = 4, Name = "Desarrollo de Software", Description = "", IsActive = true, CreatedAt = DateTime.UtcNow })

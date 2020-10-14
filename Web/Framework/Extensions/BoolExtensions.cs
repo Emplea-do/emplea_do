@@ -5,11 +5,12 @@ namespace Web.Framework.Extensions
     {
         public static string ToYesNoString(this bool val)
         {
-            return (val) ? "Si" : "No";
+            return val ? "Si" : "No";
         }
+
         public static string ToCheckTimesString(this bool val)
         {
-            return (val) ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
+            return val ? "<i class='fa fa-check text-success'></i>" : "<i class='fa fa-times text-danger'></i>";
         }
     }
 }

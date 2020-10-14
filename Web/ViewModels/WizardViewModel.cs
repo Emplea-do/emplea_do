@@ -6,7 +6,7 @@ using Domain.Entities;
 
 namespace Web.ViewModels
 {
-    public class WizardViewModel: BaseViewModel
+    public class WizardViewModel : BaseViewModel
     {
         public int? Id { get; set; }
 
@@ -17,7 +17,6 @@ namespace Web.ViewModels
         [Required(ErrorMessage = "Debes seleccionar una localidad válida")]
         public string LocationPlaceId { get; set; }
 
-
         public bool CreateNewCompany { get; set; } = true;
         [Display(Name = "Compañía")]
         public int? CompanyId { get; set; }
@@ -25,7 +24,6 @@ namespace Web.ViewModels
         [Required(ErrorMessage = "El campo título es requerido."), StringLength(int.MaxValue)]
         [Display(Name = "Título. ¿Qué estás buscando?")]
         public string Title { get; set; }
-
 
         [Required(ErrorMessage = "Debes especificar al menos un requisito."), StringLength(int.MaxValue)]
         [Display(Name = "Requisitos para aplicar")]
@@ -35,7 +33,7 @@ namespace Web.ViewModels
         [Display(Name = "¿Cómo Aplicar?")]
         public string HowToApply { get; set; }
 
-        //[Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
+        // [Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
         [Display(Name = "Nombre de la empresa")]
         public string CompanyName { get; set; }
 
@@ -43,11 +41,10 @@ namespace Web.ViewModels
         [Display(Name = "Sitio Web (opcional)")]
         public string CompanyUrl { get; set; }
 
-        //[Required(ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
+        // [Required(ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
         [Display(Name = "Correo electrónico"),]
         [DataType(DataType.EmailAddress)]
         public string CompanyEmail { get; set; }
-
 
         [StringLength(int.MaxValue), Url(ErrorMessage = "El logo de la compañía debe ser un Url válido.")]
         [Display(Name = "Logo de la empresa (.jpg, .png) (opcional)")]

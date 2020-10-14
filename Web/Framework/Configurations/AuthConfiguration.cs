@@ -16,7 +16,6 @@ namespace Web.Framework.Configurations
     {
         public static void Init(IConfiguration configuration, IServiceCollection services)
         {
-
             var featureManager = services.BuildServiceProvider().GetService<IFeatureManager>();
             services.AddAuthentication(options =>
             {
@@ -29,7 +28,7 @@ namespace Web.Framework.Configurations
                 options.LogoutPath = "/account/logout";
                 options.SlidingExpiration = true;
             });
-            if(featureManager.IsEnabledAsync(FeatureFlags.UseGoogleAuthentication).Result)
+            if (featureManager.IsEnabledAsync(FeatureFlags.UseGoogleAuthentication).Result)
                 services.AddAuthentication().AddGoogle(googleOptions =>
                 {
                     googleOptions.ClientId = configuration["Authentication:Google:ClientId"];
@@ -43,50 +42,54 @@ namespace Web.Framework.Configurations
                     googleOptions.ClaimActions.MapJsonKey("urn:google:profile", "link");
                     googleOptions.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
                     googleOptions.SaveTokens = true;
-                    googleOptions.Events.OnCreatingTicket = ctx => {
+                    googleOptions.Events.OnCreatingTicket = ctx =>
+                    {
                         return ProcessUser(ctx, "Google", services);
                     };
                 });
-            
-            if(featureManager.IsEnabledAsync(FeatureFlags.UseFacebookAuthentication).Result)
+
+            if (featureManager.IsEnabledAsync(FeatureFlags.UseFacebookAuthentication).Result)
                 services.AddAuthentication().AddFacebook(facebookOptions =>
                 {
                     facebookOptions.AppId = configuration["Authentication:Facebook:AppId"];
                     facebookOptions.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-                    facebookOptions.Events.OnCreatingTicket = ctx => {
+                    facebookOptions.Events.OnCreatingTicket = ctx =>
+                    {
                         return ProcessUser(ctx, "Facebook", services);
                     };
                 });
-            if(featureManager.IsEnabledAsync(FeatureFlags.UseMicrosoftAuthentication).Result)
+            if (featureManager.IsEnabledAsync(FeatureFlags.UseMicrosoftAuthentication).Result)
                 services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
                 {
                     microsoftOptions.ClientId = configuration["Authentication:Microsoft:ClientId"];
                     microsoftOptions.ClientSecret = configuration["Authentication:Microsoft:ClientSecret"];
-                    microsoftOptions.Events.OnCreatingTicket = ctx => {
+                    microsoftOptions.Events.OnCreatingTicket = ctx =>
+                    {
                         return ProcessUser(ctx, "Microsoft", services);
                     };
                 });
-            if(featureManager.IsEnabledAsync(FeatureFlags.UseLinkedInAuthentication).Result)
+            if (featureManager.IsEnabledAsync(FeatureFlags.UseLinkedInAuthentication).Result)
                 services.AddAuthentication().AddLinkedIn(linkedinOptions =>
                 {
                     linkedinOptions.ClientId = configuration["Authentication:LinkedIn:ClientId"];
                     linkedinOptions.ClientSecret = configuration["Authentication:LinkedIn:ClientSecret"];
-                    linkedinOptions.Events.OnCreatingTicket = ctx => {
+                    linkedinOptions.Events.OnCreatingTicket = ctx =>
+                    {
                         return ProcessUser(ctx, "linkedin", services);
                     };
                 });
-            if(featureManager.IsEnabledAsync(FeatureFlags.UseGithubAuthentication).Result)
+            if (featureManager.IsEnabledAsync(FeatureFlags.UseGithubAuthentication).Result)
                 services.AddAuthentication().AddGitHub(githubOptions =>
                     {
-                    githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
-                    githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
-                    githubOptions.Scope.Add("user:email");
-                    githubOptions.Events.OnCreatingTicket = ctx => {
-                        return ProcessUser(ctx, "github", services);
-                    };
-                });
+                        githubOptions.ClientId = configuration["Authentication:Github:ClientId"];
+                        githubOptions.ClientSecret = configuration["Authentication:Github:ClientSecret"];
+                        githubOptions.Scope.Add("user:email");
+                        githubOptions.Events.OnCreatingTicket = ctx =>
+                        {
+                            return ProcessUser(ctx, "github", services);
+                        };
+                    });
         }
-
 
         public static Task ProcessUser(OAuthCreatingTicketContext ctx, string provider, IServiceCollection services)
         {
@@ -97,7 +100,7 @@ namespace Web.Framework.Configurations
             var currentUser = ctx.Identity;
             var socialId = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
             var loginInfo = loginService.GetLogin(provider.ToLower(), socialId);
-            if (loginInfo == null) //Create new account
+            if (loginInfo == null) // Create new account
             {
                 var newUser = new User
                 {
@@ -124,6 +127,7 @@ namespace Web.Framework.Configurations
                 var userIdClaim = new Claim("UserId", loginInfo.UserId.ToString());
                 ctx.Identity.AddClaim(userIdClaim);
             }
+
             return Task.CompletedTask;
         }
     }

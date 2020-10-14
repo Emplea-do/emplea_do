@@ -19,7 +19,6 @@ namespace Migrations
                 .WithCommonColumns()
                      .WithColumn("Name").AsString().NotNullable()
                      .WithColumn("Email").AsString().NotNullable();
-
         }
     }
 }

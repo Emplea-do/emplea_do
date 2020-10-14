@@ -20,7 +20,6 @@ namespace Migrations
                 .WithColumn("Name").AsString().NotNullable()
                 .WithColumn("Latitude").AsString().NotNullable()
                 .WithColumn("Longitude").AsString().NotNullable();
-
         }
     }
 }

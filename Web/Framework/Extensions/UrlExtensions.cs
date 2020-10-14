@@ -29,7 +29,6 @@ namespace Web.Framework.Extensions
             return $"{SanitizeUrl(actionName)}/{id}";
         }
 
-
         public static bool IsValidImageUrl(string imageUrl)
         {
             var regex = new Regex("^(http|https)://(.+).(png|jpg)$");
@@ -52,6 +51,7 @@ namespace Web.Framework.Extensions
                 return false;
             }
         }
+
         /// <summary>
         /// Generates a fully qualified URL to an action method by using
         /// the specified action name, controller name and route values.

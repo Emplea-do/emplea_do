@@ -29,6 +29,5 @@ namespace AppServices.Services
 
     public interface IUsersService : IBaseService<User, IUsersRepository>
     {
-
     }
 }
