@@ -13,7 +13,7 @@ namespace AppServices.Services
 
         public List<Banner> GetByUserId(int userId)
         {
-            return _mainRepository.Get(x=> x.UserId == userId).ToList();
+            return _mainRepository.Get(x=> x.UserId == userId && x.DeletedAt == null).ToList();
         }
 
         public Banner GetById(int id)

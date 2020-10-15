@@ -10,18 +10,29 @@ using System.IO;
 using Microsoft.AspNetCore.Http;
 using Domain.Entities;
 using ElmahCore;
+using Web.Services.Slack;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net;
+using Web.Models.Slack;
+using System.Linq;
+using Microsoft.Extensions.Configuration;
 
 namespace Web.Controllers
 {
     public class BannersController : BaseController
     {
         private readonly IBannersService _bannersService;
-        private readonly IWebHostEnvironment _webHostEnvironment;  
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ISlackService _slackService;
+         private readonly IConfiguration _configuration;
 
-        public  BannersController(IBannersService bannersService, IWebHostEnvironment webHostEnvironment)
+        public  BannersController(IBannersService bannersService, IWebHostEnvironment webHostEnvironment, ISlackService slackService, IConfiguration configuration)
         {
             _bannersService = bannersService;
-            _webHostEnvironment = webHostEnvironment;  
+            _webHostEnvironment = webHostEnvironment;
+            _slackService = slackService;
+            _configuration = configuration;
         }
 
         public IActionResult Index()
@@ -57,14 +68,19 @@ namespace Web.Controllers
 
         [Authorize]
         [HttpPost]
-        public IActionResult Wizard(BannerViewModel model)
+        public async Task<IActionResult> Wizard(BannerViewModel model)
         {
             if (!ModelState.IsValid)
                 return View(model);
-
+            
             try
             {
-                var fileName = UploadedFile(model.ImageUrl);
+                var fileName = "";
+
+                if (HttpContext.Request.Form.Files != null && HttpContext.Request.Form.Files[0] != null)
+                {
+                    fileName = UploadedFile(HttpContext.Request.Form.Files[0]);
+                }
 
                 if(model.Id > 0) 
                 {
@@ -101,6 +117,15 @@ namespace Web.Controllers
 
                     if(result.Success)
                     {
+                        try
+                        {
+                            await _slackService.PostBanner(banner, Url).ConfigureAwait(false);
+                        }
+                        catch (Exception ex)
+                        {
+                            HttpContext.RiseError(ex);
+                        }
+
                         return RedirectToAction("Index", "UserProfile").WithSuccess("Banner creada exitosamente");
                     }
 
@@ -114,7 +139,6 @@ namespace Web.Controllers
             }
             
         }
-
 
         [Authorize]
         [HttpPost]
@@ -153,7 +177,7 @@ namespace Web.Controllers
   
             if (file != null)  
             {  
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img\banners");  
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "img/banners");  
                 
                 uniqueFileName = $"{Guid.NewGuid().ToString()}_{file.FileName}";  
                 
@@ -166,6 +190,60 @@ namespace Web.Controllers
             }
 
             return uniqueFileName;  
-        }  
+        }
+
+         /// <summary>
+        /// Validates the payload response that comes from the Slack interactive message actions
+        /// </summary>
+        /// <param name="payload"></param>
+        /// <returns></returns>s
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task Validate([FromForm] string payload)
+        {
+try
+            {
+                var data = JsonConvert.DeserializeObject<PayloadResponseDto>(payload);
+
+                if (data == null)
+                {
+                    throw new Exception($"Payload is null, Body: {payload}");
+                }
+
+                int bannerId = Convert.ToInt32(data.callback_id);
+                var banner = _bannersService.GetById(bannerId);
+                var isJobApproved = data.actions.FirstOrDefault()?.value == "approve";
+                var isJobRejected = data.actions.FirstOrDefault()?.value == "reject";
+                var isTokenValid = data.token == _configuration["Slack:VerificationToken"];
+
+                if (isTokenValid && isJobApproved)
+                {
+                    banner.IsApproved = true;
+                    _bannersService.Update(banner);
+                    await _slackService.PostBannerResponse(banner, Url, data.response_url, data?.user?.id, true);
+                }
+                else if (isTokenValid && isJobRejected)
+                {
+                    if (banner == null)
+                    {
+                        await _slackService.PostBannerErrorResponse(banner, Url, data.response_url);
+                    }
+                    else
+                    {
+                        await _slackService.PostBannerResponse(banner, Url, data.response_url, data?.user?.id, false);
+                    }
+                }
+                else
+                {
+                    Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                }
+            }
+            catch (Exception ex)
+            {
+                HttpContext.RiseError(ex);
+                if (ex.InnerException != null)
+                    HttpContext.RiseError(ex.InnerException);
+            }
+        }
     }
 }

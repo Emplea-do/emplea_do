@@ -1,11 +1,11 @@
 @model List<Domain.Entities.Banner>
 
-<div class="tab-pane" id="c-profile">
+<div class="tab-pane" id="manage-banners">
 
     <div class="tr-single-box">
         <div class="tr-single-header">
             <h4><i class="ti-image"></i>Banners</h4>
-             <a class="btn btn-primary" asp-controller="banners" asp-action="wizard"><i class="ti-plus"></i></a>
+             <a class="btn btn-primary btn-sm" asp-controller="banners" asp-action="wizard"><i class="ti-plus"></i></a>
         </div>
 
         <div class="tr-single-body">
@@ -23,10 +23,10 @@
                             <div class="manage-list" id="job-@banner.Id">
                                 <div class="mg-list-wrap">
                                     <div class="mg-list-thumb">
-                                        <img class="img-fluid rounded-circle" src="@banner.ImageUrl"  alt=""/>
+                                        <img class="img-fluid" src="/img/banners/@banner.ImageUrl" alt="" />
                                     </div>
                                     <div class="mg-list-caption">
-                                        <a asp-controller="jobs" asp-action="details" asp-route-id="@banner.Id" asp-route-ispreview="true">
+                                        <a href="@banner.DestinationUrl" target="_blank">
                                             <h4 class="mg-title">Destino</h4>
                                         </a>
                                         <span class="mg-subtitle">@banner.DestinationUrl</span>
@@ -35,8 +35,8 @@
 
                                 <div class="mg-action">
                                     <div class="btn-group ml-2">
-                                        <a class="btn btn-info" asp-controller="companies" asp-action="wizard" asp-route-id="@banner.Id"><i class="ti-pencil-alt"></i></a>
-                                        <a href="#" class="btn btn-danger btn-delete-company" data-jobid="@banner.Id"><i class="ti-trash"></i></a>
+                                        <a class="btn btn-info" asp-controller="banners" asp-action="wizard" asp-route-id="@banner.Id"><i class="ti-pencil-alt"></i></a>
+                                        <a href="#" class="btn btn-danger btn-delete-banner" data-bannerid="@banner.Id"><i class="ti-trash"></i></a>
 
                                     </div>
                                 </div>

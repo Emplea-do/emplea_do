@@ -13,7 +13,8 @@ namespace Web.ViewModels
 
         [StringLength(int.MaxValue), Url(ErrorMessage = "La Url debe ser un Url válido.")]
         [Display(Name = "Banner")]
-        public IFormFile ImageUrl { get; set; }
+        public FormFile ImageUrl { get; set; }
+
         public string DisplayImageUrl { get; set; }
 
         public int? UserId { get; set; }
