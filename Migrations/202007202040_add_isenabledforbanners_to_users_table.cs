@@ -14,7 +14,7 @@ namespace Migrations
         public override void Up()
         {
             Alter.Table(TableConstants.Users).AddColumn("IsEnabledForBanners")
-            .AsBoolean().WithDefaultValue(false);
+            .AsBoolean().NotNullable().WithDefaultValue(false);
         }
     }
 }

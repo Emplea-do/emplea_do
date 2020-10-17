@@ -202,14 +202,12 @@ namespace Web.Controllers
         [AllowAnonymous]
         public async Task Validate([FromForm] string payload)
         {
-try
+            try
             {
                 var data = JsonConvert.DeserializeObject<PayloadResponseDto>(payload);
 
                 if (data == null)
-                {
                     throw new Exception($"Payload is null, Body: {payload}");
-                }
 
                 int bannerId = Convert.ToInt32(data.callback_id);
                 var banner = _bannersService.GetById(bannerId);
@@ -220,7 +218,9 @@ try
                 if (isTokenValid && isJobApproved)
                 {
                     banner.IsApproved = true;
+
                     _bannersService.Update(banner);
+
                     await _slackService.PostBannerResponse(banner, Url, data.response_url, data?.user?.id, true);
                 }
                 else if (isTokenValid && isJobRejected)

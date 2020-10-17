@@ -1,3 +1,5 @@
+using System;
+
 namespace Domain.Entities
 {
     public class Banner : Entity
@@ -11,5 +13,7 @@ namespace Domain.Entities
         public string DestinationUrl { get; set; }
 
         public bool IsApproved { get; set; }
+
+        public DateTime ExpirationDay { get; set; } = DateTime.UtcNow.AddDays(30); 
     }
 }

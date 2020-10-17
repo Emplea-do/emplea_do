@@ -20,7 +20,8 @@ namespace Migrations
                 .WithColumn("UserId").AsInt32().NotNullable()
                 .WithColumn("ImageUrl").AsString().NotNullable()
                 .WithColumn("DestinationUrl").AsString().NotNullable()
-                .WithColumn("IsApproved").AsBoolean().WithDefaultValue(false);
+                .WithColumn("IsApproved").AsBoolean().WithDefaultValue(false)
+                .WithColumn("ExpirationDay").AsDateTime().NotNullable();
         }
     }
 }

@@ -23,8 +23,7 @@ namespace Web.Services.Slack
 
         public SlackService(IConfiguration configuration)
         {
-            var slackWebhookEndpoint = configuration["Slack:WebhookEndpoint"];
-            _slackWebhookUrl = slackWebhookEndpoint;
+            _slackWebhookUrl = configuration["Slack:WebhookEndpoint"];
             _slackBannersWebhookUrl = configuration["Slack:BannersWebhookEndpoint"];
         }
 
@@ -211,11 +210,11 @@ namespace Web.Services.Slack
             {
                 var payloadObject = new PayloadRequestDto()
                 {
-                    text = "A new job posting has been created!",
+                    text = "A new Banner posting has been created!",
                     replace_original = true,
                     attachments = new List<Attachment> { new Attachment {
-                        fallback = "Oops! Looks like this job was removed by its author.",
-                        text = "Oops! Looks like this job was removed by its author.",
+                        fallback = "Oops! Looks like this Banner was removed by its author.",
+                        text = "Oops! Looks like this Banner was removed by its author.",
                         callback_id = "0",
                         color = "danger",
                         attachment_type = "default"
