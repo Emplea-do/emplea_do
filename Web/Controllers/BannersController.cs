@@ -119,7 +119,9 @@ namespace Web.Controllers
                     {
                         try
                         {
-                            await _slackService.PostBanner(banner, Url).ConfigureAwait(false);
+                            var newBanner = _bannersService.GetById(banner.Id);
+
+                            await _slackService.PostBanner(newBanner, Url).ConfigureAwait(false);
                         }
                         catch (Exception ex)
                         {
@@ -170,7 +172,6 @@ namespace Web.Controllers
             return Json(result);
         }
 
-
         private string UploadedFile(IFormFile file)  
         {  
             string uniqueFileName = null;  
@@ -189,7 +190,7 @@ namespace Web.Controllers
                 }  
             }
 
-            return uniqueFileName;  
+            return "https://emplea.do//img/banners/" + uniqueFileName;  
         }
 
          /// <summary>
@@ -214,7 +215,7 @@ try
                 var banner = _bannersService.GetById(bannerId);
                 var isJobApproved = data.actions.FirstOrDefault()?.value == "approve";
                 var isJobRejected = data.actions.FirstOrDefault()?.value == "reject";
-                var isTokenValid = data.token == _configuration["Slack:VerificationToken"];
+                var isTokenValid = data.token == _configuration["Slack:BannersVerificationToken"];
 
                 if (isTokenValid && isJobApproved)
                 {

@@ -19,11 +19,13 @@ namespace Web.Services.Slack
     public class SlackService : ISlackService
     {
         private readonly string _slackWebhookUrl;
+        private readonly string _slackBannersWebhookUrl;
 
         public SlackService(IConfiguration configuration)
         {
             var slackWebhookEndpoint = configuration["Slack:WebhookEndpoint"];
-            _slackWebhookUrl = slackWebhookEndpoint; //"https://hooks.slack.com/services/" + slackWebhookEndpoint;
+            _slackWebhookUrl = slackWebhookEndpoint;
+            _slackBannersWebhookUrl = configuration["Slack:BannersWebhookEndpoint"];
         }
 
         public async Task PostJobErrorResponse(Job jobOpportunity, IUrlHelper urlHelper, string responseUrl)
@@ -176,9 +178,11 @@ namespace Web.Services.Slack
                 replace_original = false,
                 attachments = new List<Attachment> { new Attachment {
                     fallback = "Check the new posted banner",
-                    title = "New Banner",
-                    text = "",
-                    thumb_url = "https://emplea.do//img/banners/" + banner.ImageUrl,
+                    author_name = "Autor: " + banner.User.Name,
+                    title = "Destino: " + banner.DestinationUrl,
+                    title_link = banner.DestinationUrl,
+                    text = "Correo Electronico: " + banner.User.Email,
+                    thumb_url = banner.ImageUrl,
                     callback_id = banner.Id.ToString(),
                     color = "#3AA3E3",
                     attachment_type = "default",
@@ -198,44 +202,44 @@ namespace Web.Services.Slack
                 }}
             };
 
-            await PostNotification(payloadObject, _slackWebhookUrl).ConfigureAwait(false);
+            await PostNotification(payloadObject, _slackBannersWebhookUrl).ConfigureAwait(false);
         }
     
         public async Task PostBannerErrorResponse(Banner banner, IUrlHelper urlHelper, string responseUrl)
+        {
+            if (banner == null)
             {
-                if (banner == null)
+                var payloadObject = new PayloadRequestDto()
                 {
-                    var payloadObject = new PayloadRequestDto()
-                    {
-                        text = "A new job posting has been created!",
-                        replace_original = true,
-                        attachments = new List<Attachment> { new Attachment {
-                            fallback = "Oops! Looks like this job was removed by its author.",
-                            text = "Oops! Looks like this job was removed by its author.",
-                            callback_id = "0",
-                            color = "danger",
-                            attachment_type = "default"
-                        }}
-                    };
-                    await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
-                }
-                else
-                {
-                    var payloadObject = new PayloadRequestDto()
-                    {
-                        text = "A new job posting has been created!",
-                        replace_original = true,
-                        attachments = new List<Attachment> { new Attachment {
-                            fallback = "Oops! Looks like something went wrong with this job posting. Log in and check " + urlHelper.AbsoluteUrl("", "elmah.axd") + " for more details.",
-                            text = "Oops! Looks like something went wrong with this job posting. Log in and check " + urlHelper.AbsoluteUrl("", "elmah.axd") + " for more details.",
-                            callback_id = banner?.Id.ToString(),
-                            color = "danger",
-                            attachment_type = "default"
-                        }}
-                    };
-                    await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
-                }
+                    text = "A new job posting has been created!",
+                    replace_original = true,
+                    attachments = new List<Attachment> { new Attachment {
+                        fallback = "Oops! Looks like this job was removed by its author.",
+                        text = "Oops! Looks like this job was removed by its author.",
+                        callback_id = "0",
+                        color = "danger",
+                        attachment_type = "default"
+                    }}
+                };
+                await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
             }
+            else
+            {
+                var payloadObject = new PayloadRequestDto()
+                {
+                    text = "A new job posting has been created!",
+                    replace_original = true,
+                    attachments = new List<Attachment> { new Attachment {
+                        fallback = "Oops! Looks like something went wrong with this job posting. Log in and check " + urlHelper.AbsoluteUrl("", "elmah.axd") + " for more details.",
+                        text = "Oops! Looks like something went wrong with this job posting. Log in and check " + urlHelper.AbsoluteUrl("", "elmah.axd") + " for more details.",
+                        callback_id = banner?.Id.ToString(),
+                        color = "danger",
+                        attachment_type = "default"
+                    }}
+                };
+                await PostNotification(payloadObject, responseUrl).ConfigureAwait(false);
+            }
+        }
 
         public async Task PostBannerResponse(Banner banner, IUrlHelper urlHelper, string responseUrl, string userId, bool approved)
         {
@@ -249,13 +253,15 @@ namespace Web.Services.Slack
                 text = "A new job posting has been created!",
                 replace_original = true,
                 attachments = new List<Attachment> { new Attachment {
-                        fallback = "Check the new posted banner",
-                        title = "New Banner",
-                        text = "",
-                        thumb_url = "https://emplea.do//img/banners/" + banner.ImageUrl,
-                        callback_id = banner.Id.ToString(),
-                        color = "#3AA3E3",
-                        attachment_type = "default",
+                    fallback = "Check the new posted banner",
+                    author_name = "Autor: " + banner.User.Name,
+                    title = "Destino: " + banner.DestinationUrl,
+                    title_link = banner.DestinationUrl,
+                    text = "Correo Electronico: " + banner.User.Email,
+                    thumb_url = banner.ImageUrl,
+                    callback_id = banner.Id.ToString(),
+                    color = "#3AA3E3",
+                    attachment_type = "default",
                     fields = new List<AttachmentField> { new AttachmentField {
                         title = "",
                         value = ":ballot_box_with_check: <@" + userId + "> *" + approvedMessage + " this request*",
