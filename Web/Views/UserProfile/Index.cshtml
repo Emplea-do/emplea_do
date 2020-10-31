@@ -52,6 +52,9 @@
                         <li class="nav-item">
                             <a class="nav-link active" data-toggle="tab" href="#manage-jobs"><i class="ti-file"></i>Manejar empleos</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#manage-banners"><i class="ti-image"></i>Manejar Banners</a>
+                        </li>
                     </ul>
 
                 </div>
@@ -65,7 +68,7 @@
                     @*<partial name="_partials/CompanyProfileView"  model="@Model.Company" />*@
                     <partial name="_partials/ManageCompaniesView"  model="@Model.Companies" />
                     <partial name="_partials/ManageJobsView" model="@Model.Jobs" />
-
+                    <partial name="_partials/ManageBannersView" model="@Model.Banners" />
                 </div>
             </div>
 
@@ -214,6 +217,47 @@
             });
             return false;
         });
+
+        $(".btn-delete-banner").click(function (e) {
+            Swal.fire({
+                title: '¿Seguro que deseas eliminar este registro?',
+                text: "¡Esta operación es irreversible!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, elimínalo'
+            }).then((result) => {
+                if (result.value) {
+                    var bannerId = $(e.currentTarget).data("bannerid");
+                    var url = base_url + '/banners/delete/' + bannerId
+
+                    $.post(url, function (response) {
+                        if (response.success) {
+
+                            Swal.fire(
+                                'Registro eliminado',
+                                response.messages,
+                                'success'
+                            );
+                        }
+                        else {
+
+                            Swal.fire(
+                                '¡Oh no! Sucedió algo terrible',
+                                response.messages,
+                                'error'
+                            );
+
+                        }
+                    }).fail(function () {
+
+                    });
+                }
+            });
+
+            return false;
+         });
     });
     </script>
 }

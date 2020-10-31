@@ -23,8 +23,8 @@ namespace Web.Models.Slack
         public string callback_id { get; set; }
         public string color { get; set; }
         public string attachment_type { get; set; }
-        public IEnumerable<AttachmentAction> actions { get; set; }
-        public IEnumerable<AttachmentField> fields { get; set; }
+        public IEnumerable<AttachmentAction> actions { get; set; } = new List<AttachmentAction>();
+        public IEnumerable<AttachmentField> fields { get; set; } = new List<AttachmentField>();
     }
 
     public class AttachmentAction

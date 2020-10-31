@@ -1,0 +1,71 @@
+﻿@model Web.ViewModels.BannerViewModel
+
+<section class="wizard-container">
+    <div class="container">
+        @using (Html.BeginForm("Wizard", "Banners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+            <div id="newBannerDetails" class="home-2">
+                <div class="form-group">
+                    <label class="control-label" asp-for="DestinationUrl"></label>
+                    <input asp-for="DestinationUrl" class="form-control" type="url" placeholder="Escriba la URL de destino..." />
+                    <br />
+                    <span class="text-danger">
+                        @Html.ValidationMessageFor(m => m.DestinationUrl)
+                    </span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="ImageUrl"></label>
+                    <div class="custom-file">
+                        <input asp-for="ImageUrl" class="custom-file-input" type="file" />
+                        <label class="custom-file-label" for="ImageUrl">Seleccione la imagen del banner...</label>
+                        <span class="text-danger">
+                            @Html.ValidationMessageFor(m => m.ImageUrl)
+                        </span>
+                    </div>
+                </div>
+                <img class="img-fluid" width="400px" id="banner-preview" src="" />
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
+        }
+    </div>
+</section>
+
+@section Styles {
+    <style type="text/css">
+        .ql-container {
+            font-size: 16px;
+            font-family: 'Muli', sans-serif;
+            max-height: 450px;
+            min-height: 300px;
+        }
+    </style>
+}
+
+@section Scripts {
+    <script>
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+            var reader = new FileReader();
+    
+                reader.onload = function (e) {
+                  $("#banner-preview").attr("src", e.target.result);
+                }
+    
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function () {
+            $("#ImageUrl").change(function () {
+                readURL(this);
+
+
+            });
+        });
+       
+    </script>
+}

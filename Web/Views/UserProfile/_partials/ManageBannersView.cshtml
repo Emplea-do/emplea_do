@@ -1,0 +1,50 @@
+@model List<Domain.Entities.Banner>
+
+<div class="tab-pane" id="manage-banners">
+
+    <div class="tr-single-box">
+        <div class="tr-single-header">
+            <h4><i class="ti-image"></i>Banners</h4>
+             <a class="btn btn-primary btn-sm" asp-controller="banners" asp-action="wizard"><i class="ti-plus"></i></a>
+        </div>
+
+        <div class="tr-single-body">
+            <div class="row">
+
+                <div class="col-md-12">
+                    @if(Model == null || Model.Count == 0)
+                    {
+                        <span> No has agregado ningún Banner todavía, <a href="@Url.Action("Wizard", "Banners")"><b style=" text-decoration: underline !important;">haz click aquí</b></a> para agregar uno</span>
+                    }
+                    else
+                    {
+                        @foreach (var banner in Model)
+                        {
+                            <div class="manage-list" id="job-@banner.Id">
+                                <div class="mg-list-wrap">
+                                    <div class="mg-list-thumb">
+                                        <img class="img-fluid" src="@banner.ImageUrl" alt="" />
+                                    </div>
+                                    <div class="mg-list-caption">
+                                        <a href="@banner.DestinationUrl" target="_blank">
+                                            <h4 class="mg-title">Destino</h4>
+                                        </a>
+                                        <span class="mg-subtitle">@banner.DestinationUrl</span>
+                                    </div>
+                                </div>
+
+                                <div class="mg-action">
+                                    <div class="btn-group ml-2">
+                                        <a class="btn btn-info" asp-controller="banners" asp-action="wizard" asp-route-id="@banner.Id"><i class="ti-pencil-alt"></i></a>
+                                        <a href="#" class="btn btn-danger btn-delete-banner" data-bannerid="@banner.Id"><i class="ti-trash"></i></a>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }  
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

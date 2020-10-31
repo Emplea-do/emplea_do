@@ -35,7 +35,9 @@ namespace Web.Controllers
         private readonly ICompaniesService _companiesService;
         private readonly ISlackService _slackService;
 
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService, ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration, ICompaniesService companiesService, ISlackService slackService)
+        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService,
+            ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration,
+            ICompaniesService companiesService, ISlackService slackService)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
@@ -467,6 +469,5 @@ namespace Web.Controllers
                     HttpContext.RiseError(ex.InnerException);
             }
         }
-
     }
 }
