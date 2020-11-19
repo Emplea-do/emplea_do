@@ -38,7 +38,7 @@
                                                 <h4 class="mg-title">@job.Title</h4>
                                             </a>
                                         }
-                                        <span class="mg-subtitle">Web Designer</span>
+                                        <span class="mg-subtitle">@job.Category.Name</span>
                                         @if (job.IsApproved)
                                         {
                                             <span><em>Fecha de publicación</em> @job.PublishedDate.ToString("dd/MM/yyyy")</span>
