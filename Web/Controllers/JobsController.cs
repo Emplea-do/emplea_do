@@ -1,43 +1,52 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
-using AppServices;
+﻿using AppServices.Framework;
 using AppServices.Services;
-using Web.ViewModels;
-using Domain;
-using Microsoft.AspNetCore.Authorization;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Web.Framework.Helpers.Alerts;
 using Domain.Entities;
-using AppServices.Framework;
-using System.Linq;
-using System.Collections.Generic;
-using Web.Services.Slack;
-using Newtonsoft.Json;
-using Web.Models.Slack;
-using System.Net;
-using System.IO;
-using System.Text;
-using Web.Framework;
 using ElmahCore;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using Web.Framework;
 using Web.Framework.Extensions;
+using Web.Framework.Helpers.Alerts;
+using Web.Models.Slack;
+using Web.Services.Slack;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
     public class JobsController : BaseController
     {
         private readonly IJobsService _jobsService;
+
         private readonly ICategoriesService _categoriesService;
+
         private readonly IHireTypesService _hiretypesService;
+
         private readonly ITwitterService _twitterService;
+
         private readonly LegacyApiClient _apiClient;
+
         private readonly IConfiguration _configuration;
+
         private readonly ICompaniesService _companiesService;
+
         private readonly ISlackService _slackService;
 
-        public JobsController(IJobsService jobsService, ICategoriesService categoriesService, IHireTypesService hiretypesService,
-            ITwitterService twitterService, LegacyApiClient apiClient, IConfiguration configuration,
-            ICompaniesService companiesService, ISlackService slackService)
+        public JobsController(
+            IJobsService jobsService,
+            ICategoriesService categoriesService,
+            IHireTypesService hiretypesService,
+            ITwitterService twitterService,
+            LegacyApiClient apiClient,
+            IConfiguration configuration,
+            ICompaniesService companiesService,
+            ISlackService slackService)
         {
             _jobsService = jobsService;
             _categoriesService = categoriesService;
@@ -51,18 +60,13 @@ namespace Web.Controllers
 
         public IActionResult Index(JobSeachViewModel model)
         {
-            if (model == null)
-            {
-                model = new JobSeachViewModel();
-            }
+            model ??= new JobSeachViewModel();
 
             bool? isOnlyRemotes = null;
             if (model.IsRemote)
                 isOnlyRemotes = model.IsRemote;
 
-            var jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, isOnlyRemotes);
-
-            model.Jobs = jobs;
+            model.Jobs = _jobsService.Search(model.Keyword, model.CategoryId, model.HireTypeId, isOnlyRemotes);
 
             model.Categories = _categoriesService.GetAll();
             model.HireTypes = _hiretypesService.GetAll();
@@ -123,7 +127,6 @@ namespace Web.Controllers
                     var companyId = model.CompanyId;
                     if (model.CreateNewCompany)
                     {
-
                         var company = new Company
                         {
                             Name = model.CompanyName,
@@ -139,7 +142,7 @@ namespace Web.Controllers
                              !company.LogoUrl.EndsWith(".jpeg") &&
                              !company.LogoUrl.EndsWith(".png")))
                         {
-                            company.LogoUrl = $"{this.Request.Scheme}://{this.Request.Host}{Constants.DefaultLogoUrl}";
+                            company.LogoUrl = $"{Request.Scheme}://{Request.Host}{Constants.DefaultLogoUrl}";
                         }
                         _companiesService.Create(company);
                         companyId = company.Id;
@@ -150,7 +153,6 @@ namespace Web.Controllers
                         var originalJob = _jobsService.GetById(model.Id.Value);
                         if (originalJob.UserId == _currentUser.UserId)
                         {
-
                             originalJob.CategoryId = model.CategoryId;
                             originalJob.HireTypeId = model.JobTypeId;
                             originalJob.CompanyId = companyId.Value;
@@ -230,7 +232,6 @@ namespace Web.Controllers
 
                         throw new Exception(result.Messages);
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -243,10 +244,10 @@ namespace Web.Controllers
 
         public async Task<IActionResult> Details(string Id, bool isPreview = false, bool isLegacy = false)
         {
-            if (String.IsNullOrEmpty(Id))
+            if (string.IsNullOrEmpty(Id))
                 return RedirectToAction(nameof(this.Index));
 
-            int jobId = Int32.Parse(Id);
+            int jobId = int.Parse(Id);
             Job job = new Job();
             if (isLegacy)
             {
@@ -282,7 +283,7 @@ namespace Web.Controllers
             }
             else
             {
-                job = this._jobsService.GetDetails(jobId, isPreview);
+                job = _jobsService.GetDetails(jobId, isPreview);
             }
 
             if (job == null)
@@ -290,6 +291,7 @@ namespace Web.Controllers
 
             ViewBag.Title = job.Title;
             ViewBag.Description = job.Description;
+
             var viewModel = new JobDetailsViewModel
             {
                 Job = job,
@@ -298,15 +300,15 @@ namespace Web.Controllers
 
             if (!isLegacy)
             {
-                //Get the list of jobs visited in the cookie
-                //Format: comma separated jobs Id
-                //Naming: appname_meanfulname
+                // Get the list of jobs visited in the cookie
+                // Format: comma separated jobs Id
+                // Naming: appname_meanfulname
                 var visitedJobs = Request.Cookies["empleado_visitedjobs"];
 
-                //If cookie value is null (not set) use empty string to avoid NullReferenceException
+                // If cookie value is null (not set) use empty string to avoid NullReferenceException
                 var visitedJobsList = (visitedJobs ?? string.Empty).Split(',', StringSplitOptions.RemoveEmptyEntries);
 
-                //If jobs has not be visited update ViewCount & add job Id to cookie
+                // If jobs has not be visited update ViewCount & add job Id to cookie
                 if (!visitedJobsList.Contains(Id))
                 {
                     job.ViewCount++;
@@ -324,14 +326,6 @@ namespace Web.Controllers
                 return View(viewModel);
             }
             return View(viewModel);
-        }
-
-        private int GetJobIdFromTitle(string title)
-        {
-            var url = title.Split('-');
-            if (String.IsNullOrEmpty(title) || title.Length == 0 || !int.TryParse(url[0], out int id))
-                return 0;
-            return id;
         }
 
         [Authorize]
@@ -401,12 +395,10 @@ namespace Web.Controllers
             return Json(result);
         }
 
-
         /// <summary>
         /// Validates the payload response that comes from the Slack interactive message actions
         /// </summary>
         /// <param name="payload"></param>
-        /// <returns></returns>s
         [HttpPost]
         [AllowAnonymous]
         public async Task Validate([FromForm] string payload)
@@ -465,6 +457,7 @@ namespace Web.Controllers
             catch (Exception ex)
             {
                 HttpContext.RiseError(ex);
+
                 if (ex.InnerException != null)
                     HttpContext.RiseError(ex.InnerException);
             }
