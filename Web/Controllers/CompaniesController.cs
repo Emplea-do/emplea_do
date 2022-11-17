@@ -43,7 +43,7 @@ namespace Web.Controllers
                     model.Id = company.Id;
                     model.Name = company.Name;
                     model.Url = company.Url;
-                    model.LogoUrl = model.LogoUrl;
+                    model.LogoUrl = company.LogoUrl;
                     model.UserId = _currentUser.UserId;
                     model.Email = company.Email;
                 }
