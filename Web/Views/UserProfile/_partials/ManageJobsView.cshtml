@@ -5,7 +5,8 @@
 
     <div class="tr-single-box">
         <div class="tr-single-header">
-            <h4><i class="ti-file"></i> Manejar empleos</h4>
+            <h4><i class="ti-file"></i>Manejar empleos</h4>
+            <a class="btn btn-primary btn-sm" asp-controller="Jobs" asp-action="Wizard"><i class="ti-plus"></i></a>
         </div>
 
         <div class="tr-single-body">
@@ -59,7 +60,7 @@
                                     }
 
                                 <div class="btn-group ml-2">
-                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
+                                    <a class="btn btn-info" asp-controller="Jobs" asp-action="Wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
 
                                     @if (job.IsApproved)
                                     {
