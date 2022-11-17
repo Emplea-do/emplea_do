@@ -16,7 +16,11 @@
                             <span class="badge badge-warning">Remoto</span>
                         }
                         <h4 class="mb-1">@Model.Job.Title</h4>
-                        <h6 class="font-14"><a href="@Model.Job.Company.LogoUrl" class="text-warning">@Model.Job.Company.Name</a></h6>
+                        <h6 class="font-14">
+                            <a href="/company/@Html.Raw(Model.Job.CompanyId)" class="text-warning">
+                                @Model.Job.Company.Name
+                            </a>
+                        </h6>
                     </div>
                 </div>
                 <feature name="@FeatureFlags.EnableApplyForJob">
@@ -158,43 +162,54 @@
 
                     <div class="tr-single-body">
                         <ul class="extra-service">
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-world"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            Visita el sitio web de @Model.Job.Company.Name
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-map-marker"></i>
-                                        </div>
-                                        <div class="icon-box-text" style="width: 75%;">
-                                            @(Model.Job.Location?.Name??"N/A")
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
+                            @if (!string.IsNullOrWhiteSpace(@Model.Job.Company.Url))
+                            {
+                                <li>
+                                    <div class="icon-box-icon-block">
+                                        <a href="@Model.Job.Company.Url" target="_blank" rel="noopener noreferrer">
+                                            <div class="icon-box-round">
+                                                <i class="lni-world"></i>
+                                            </div>
+                                            <div class="icon-box-text">
+                                                Visita el sitio web de @Model.Job.Company.Name
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            }
 
-                            <li>
-                                <div class="icon-box-icon-block">
-                                    <a href="#">
-                                        <div class="icon-box-round">
-                                            <i class="lni-envelope"></i>
-                                        </div>
-                                        <div class="icon-box-text">
-                                            @Model.Job.Company.Email
-                                        </div>
-                                    </a>
-                                </div>
-                            </li>
+                            @if (!string.IsNullOrWhiteSpace(Model.Job.Location?.Name))
+                            {
+                                <li>
+                                    <div class="icon-box-icon-block">
+                                        <a href="https://www.google.com/maps/place/?q=place_id:@Model.Job.Location?.PlaceId" target="_blank" rel="noopener noreferrer">
+                                            <div class="icon-box-round">
+                                                <i class="lni-map-marker"></i>
+                                            </div>
+                                            <div class="icon-box-text" style="width: 75%;">
+                                                @Model.Job.Location?.Name
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+
+                            @if (!string.IsNullOrWhiteSpace(@Model.Job.Company.Email))
+                            {
+                                <li>
+                                    <div class="icon-box-icon-block">
+                                        <a href="mailto:@Model.Job.Company.Email">
+                                            <div class="icon-box-round">
+                                                <i class="lni-envelope"></i>
+                                            </div>
+                                            <div class="icon-box-text">
+                                                @Model.Job.Company.Email
+                                            </div>
+                                        </a>
+                                    </div>
+                                </li>
+                            }
+
                             <li>
                                 <div class="icon-box-icon-block">
                                     <a href="/company/@Html.Raw(Model.Job.CompanyId)">
@@ -210,98 +225,6 @@
                         </ul>
                     </div>
                 </div>
-
-                <!-- Share this
-    <div class="tr-single-box">
-        <div class="tr-single-header">
-            <h4><i class="ti-share"></i> Share this Job</h4>
-        </div>
-
-        <div class="tr-single-body">
-            <ul class="extra-service half">
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="lni-facebook"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                Facebook
-                            </div>
-                        </a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="lni-google-plus"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                Google plus
-                            </div>
-                        </a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="lni-twitter"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                Twitter
-                            </div>
-                        </a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="lni-linkedin"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                LinkedIn
-                            </div>
-                        </a>glyphicon-eye-close
-                    </div>
-                </li>
-
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="lni-instagram"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                Instagram
-                            </div>
-                        </a>
-                    </div>
-                </li>
-
-                <li>
-                    <div class="icon-box-icon-block">
-                        <a href="#">
-                            <div class="icon-box-round">
-                                <i class="fa fa-pinterest"></i>
-                            </div>
-                            <div class="icon-box-text">
-                                Pinterest
-                            </div>
-                        </a>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-
-    </div> -->
-
 
             </div>
             <!-- /col-md-4 -->
