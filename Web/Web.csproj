@@ -68,6 +68,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\img\banners\" />
-    <Folder Include="Views\Banners\" />
   </ItemGroup>
 </Project>

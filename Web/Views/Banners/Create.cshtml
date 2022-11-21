@@ -2,7 +2,7 @@
 
 <section class="wizard-container">
     <div class="container">
-        @using (Html.BeginForm("Wizard", "Banners", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Create", "Banners", FormMethod.Post, new { enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
 
@@ -26,7 +26,7 @@
                         </span>
                     </div>
                 </div>
-                <img class="img-fluid" width="400px" id="banner-preview" src="" />
+                <img class="img-fluid" width="400" id="banner-preview" src="" />
             </div>
             <br />
             <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
@@ -66,6 +66,5 @@
 
             });
         });
-       
     </script>
 }

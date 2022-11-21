@@ -2,7 +2,7 @@
 
 <section class="wizard-container">
     <div class="container">
-        @using (Html.BeginForm("Wizard", "Companies", FormMethod.Post, new { role = "form" }))
+        @using (Html.BeginForm("Create", "Companies", FormMethod.Post, new { role = "form" }))
         {
             @Html.AntiForgeryToken()
 
