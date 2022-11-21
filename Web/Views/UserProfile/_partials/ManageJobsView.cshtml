@@ -5,7 +5,8 @@
 
     <div class="tr-single-box">
         <div class="tr-single-header">
-            <h4><i class="ti-file"></i> Manejar empleos</h4>
+            <h4><i class="ti-file"></i>Manejar empleos</h4>
+            <a class="btn btn-primary btn-sm" asp-controller="Jobs" asp-action="Wizard"><i class="ti-plus"></i></a>
         </div>
 
         <div class="tr-single-body">
@@ -58,12 +59,12 @@
 
                                     }
 
-                                <div class="btn-group ml-2">
-                                    <a class="btn btn-info" asp-controller="jobs" asp-action="wizard" asp-route-id="@job.Id"><i class="ti-pencil-alt"></i></a>
+                                    <div class="btn-group ml-2">
+                                        <a class="btn btn-info" asp-controller="Jobs" asp-action="Wizard" asp-route-id="@job.Id" data-toggle="tooltip" data-placement="top" title="Editar"><i class="ti-pencil-alt"></i></a>
 
                                     @if (job.IsApproved)
                                     {
-                                        <a href="#" class="btn-hide btn btn-light" data-jobid="@job.Id">
+                                        <a href="#" class="btn-hide btn btn-light" data-jobid="@job.Id" data-toggle="tooltip" data-placement="top" title="Visualizar / Ocultar">
                                             @if (job.IsHidden)
                                             {
                                                 <i class="eye-icon icofont-eye-blocked"></i>
@@ -74,7 +75,7 @@
                                             }
                                         </a>
                                     }
-                                        <a href="#" class="btn btn-danger btn-delete" data-jobid="@job.Id"><i class="ti-trash"></i></a>
+                                        <a href="#" class="btn btn-danger btn-delete" data-jobid="@job.Id" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="ti-trash"></i></a>
 
                                     </div>
                                 </div>
