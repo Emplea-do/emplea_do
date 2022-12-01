@@ -43,11 +43,7 @@ namespace Web
             // Registers the standard IFeatureManager implementation, which utilizes the .NET Standard configuration system.
             //Read more https://andrewlock.net/introducing-the-microsoft-featuremanagement-library-adding-feature-flags-to-an-asp-net-core-app-part-1/
 
-#if DEBUG
-            services.AddDbContext<EmpleaDbContext>(options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-            #else
-                services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            #endif
+            services.AddDbContext<EmpleaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<AppServices.Services.TwitterConfig>(Configuration.GetSection("TwitterConfig"));
             services.Configure<LegacyApiClient>(Configuration);
