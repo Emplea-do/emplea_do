@@ -11,6 +11,6 @@ docker ps -q --filter "name=empleado-db" | grep -q . && docker stop empleado-db 
 printf "\n"
 
 printGreenWithBorder "Cleaning Migrations project"
-dotnet clean
+dotnet clean Migrations/Migrations.csproj
 
 printf "\n\n"
