@@ -1,24 +1,58 @@
+@ECHO OFF
 
-::# Getting Fluent Migrator CLI to Run Migrations
-dotnet tool install -g FluentMigrator.DotNet.Cli --version 3.2.1
+@REM Clean up Migrations project
+cd Migrations\Scripts\
+call cleanup.bat
 
-::# Update Fluent Migrator CLI
-dotnet tool upgrade -g FluentMigrator.DotNet.Cli 
+@ECHO [92m--------------------------------------------------------------------------------[0m
+@ECHO [92mInstalling Fluent Migrator CLI to Run Migrations[0m
+@ECHO [92m--------------------------------------------------------------------------------[0m
 
-::#Getting libman CLI for js package management
-dotnet tool install -g Microsoft.Web.LibraryManager.Cli 
+dotnet tool install -g FluentMigrator.DotNet.Cli --version 3.2.7
 
-::#Ignore changes made to the appsettings.Development.json file
+@ECHO.
+
+@ECHO [92m--------------------------------------------------------------------------------[0m
+@ECHO [92mInstalling Libman CLI for js package management[0m
+@ECHO [92m--------------------------------------------------------------------------------[0m
+
+dotnet tool install -g Microsoft.Web.LibraryManager.Cli
+
+@ECHO.
+
+@REM Moves the project's base path
+CD ..\..\
+
+@REM Ignore changes made to the appsettings.Development.json file
 git update-index --assume-unchanged Web/appsettings.Development.json
 
-::#Moves to web project
+@REM Moves to the Web project
 cd Web/
-::#Restore js dependencies
+
+@ECHO [92m--------------------------------------------------------------------------------[0m
+@ECHO [92mRestoring js dependencies[0m
+@ECHO [92m--------------------------------------------------------------------------------[0m
 libman restore
 
-cd ../Migrations
+@REM @ECHO.
+
+CD ../Migrations/Scripts/
+call dockerize-db.bat
+
+@ECHO [92m--------------------------------------------------------------------------------[0m
+@ECHO [92mRestoring, building and running Migrations[0m
+@ECHO [92m--------------------------------------------------------------------------------[0m
+
+@REM Moves to the Migrations project's folder
+CD ..
+
 dotnet restore Migrations.csproj
 dotnet build Migrations.csproj
-dotnet fm migrate -p sqlite -c "Data Source=../mydb.db" -a "bin/Debug/netcoreapp2.2/Migrations.dll"
+dotnet fm migrate -p sqlserver -c "Data Source=localhost,1439;Initial Catalog=EmpleadoDB;User id=sa;Password=MyPass@word;" -a "bin/Debug/netcoreapp3.1/Migrations.dll"
 
-cd ../
+@ECHO.
+
+@REM Moves the project's base path
+CD ..
+
+PAUSE
