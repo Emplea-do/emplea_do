@@ -101,7 +101,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="Description"></label>
-                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Model.Description</div>
+                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Html.Raw(Model.Description)</div>
                 <input type="hidden" asp-for="Description" />
 
                 @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "text-danger" })
@@ -115,7 +115,7 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="HowToApply"></label>
-                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Model.HowToApply</div>
+                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Html.Raw(Model.HowToApply)</div>
                 <input type="hidden" asp-for="HowToApply" />
 
                 @Html.ValidationMessageFor(m => m.HowToApply, string.Empty, new { @class = "text-danger" })
@@ -184,36 +184,49 @@
             $(".form-check-input").on("ifChanged", function () {
                 toggleCompanySelect();
             });
+            
+            let toolbarOptions = [
+                [{ 'size': ['small', false, 'large', 'huge'] }],
+
+                [{ 'color': [] }, { 'background': [] }],
+                
+                ['bold', 'italic', 'underline', 'strike'],
+
+                ['link'],
+
+                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+
+                [{ 'indent': '-1' }, { 'indent': '+1' }],
+
+                ['blockquote', 'code-block'],
+
+                ['clean']
+            ];
 
             var descriptionBox = new Quill('#Description-editor', {
                 modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                    ]
+                    toolbar: toolbarOptions
                 },
-                placeholder: '',
                 theme: 'snow'
             });
 
             descriptionBox.on('text-change', function (delta) {
-                $("#Description").val(descriptionBox.getText(0));
+                $("#Description").val(descriptionBox.root.innerHTML);
             });
+
             var applyBox = new Quill('#HowToApply-editor', {
                 modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                    ]
+                    toolbar: toolbarOptions
                 },
-                placeholder: '',
-                theme: 'snow'  // or 'bubble'
+                theme: 'snow'
             });
 
             applyBox.on('text-change', function (delta) {
-                $("#HowToApply").val(applyBox.getText(0));
+                $("#HowToApply").val(applyBox.root.innerHTML);
             });
         });
     </script>
 
 }
 
-<partial name="_ValidationScriptsPartial" />
+@*<partial name="_ValidationScriptsPartial" />*@

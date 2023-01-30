@@ -1,6 +1,11 @@
 ﻿@model JobDetailsViewModel
 @using Microsoft.AspNetCore.Html
 @inject IUrlHelper urlHelper;
+
+@section Styles {
+    <link href="~/css/jobs/details.css" rel="stylesheet">
+}
+
 <section class="page-title-banner" style="background-color:rgb(20, 177, 187)">
     <div class="container">
         <div class="row m-0 align-items-end detail-swap">
