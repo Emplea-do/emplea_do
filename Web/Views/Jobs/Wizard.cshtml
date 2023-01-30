@@ -162,7 +162,7 @@
             });
         });
 
-        var toggleCompanySelect = function () {
+        let toggleCompanySelect = function () {
 
             if ($("#CreateNewCompany[value=true]")[0].checked) {
                 $("#newCompanyDetails").show();
@@ -181,52 +181,48 @@
 
         $(document).ready(function () {
             toggleCompanySelect();
+
             $(".form-check-input").on("ifChanged", function () {
                 toggleCompanySelect();
             });
-            
-            let toolbarOptions = [
-                [{ 'size': ['small', false, 'large', 'huge'] }],
 
-                [{ 'color': [] }, { 'background': [] }],
-                
-                ['bold', 'italic', 'underline', 'strike'],
-
-                ['link'],
-
-                [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-
-                [{ 'indent': '-1' }, { 'indent': '+1' }],
-
-                ['blockquote', 'code-block'],
-
-                ['clean']
-            ];
-
-            var descriptionBox = new Quill('#Description-editor', {
+            let quillEditorConfiguration = {
                 modules: {
-                    toolbar: toolbarOptions
+                    toolbar: [
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+
+                        [{ 'color': [] }, { 'background': [] }],
+
+                        ['bold', 'italic', 'underline', 'strike'],
+
+                        ['link'],
+
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+
+                        [{ 'indent': '-1' }, { 'indent': '+1' }],
+
+                        ['blockquote', 'code-block'],
+
+                        ['clean']
+                    ]
                 },
                 theme: 'snow'
+            };
+
+            let descriptionEditor = new Quill('#Description-editor', quillEditorConfiguration);
+
+            descriptionEditor.on('text-change', function (delta) {
+                $("#Description").val(descriptionEditor.root.innerHTML);
             });
 
-            descriptionBox.on('text-change', function (delta) {
-                $("#Description").val(descriptionBox.root.innerHTML);
-            });
+            let howToApplyEditor = new Quill('#HowToApply-editor', quillEditorConfiguration);
 
-            var applyBox = new Quill('#HowToApply-editor', {
-                modules: {
-                    toolbar: toolbarOptions
-                },
-                theme: 'snow'
-            });
-
-            applyBox.on('text-change', function (delta) {
-                $("#HowToApply").val(applyBox.root.innerHTML);
+            howToApplyEditor.on('text-change', function (delta) {
+                $("#HowToApply").val(howToApplyEditor.root.innerHTML);
             });
         });
     </script>
 
 }
 
-@*<partial name="_ValidationScriptsPartial" />*@
+<partial name="_ValidationScriptsPartial" />

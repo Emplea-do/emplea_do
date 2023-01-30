@@ -1,6 +1,7 @@
 ﻿using Domain.Entities;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Web.Framework.Attributes;
 
 namespace Web.ViewModels
 {
@@ -13,11 +14,11 @@ namespace Web.ViewModels
         [Display(Name = "Compañía")]
         public int? CompanyId { get; set; }
 
-        [Required(ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
+        [RequiredIfTrue(nameof(CreateNewCompany), ErrorMessage = "El nombre de la empresa es requerido."), StringLength(50)]
         [Display(Name = "Nombre de la empresa")]
         public string CompanyName { get; set; }
 
-        [Required(ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
+        [RequiredIfTrue(nameof(CreateNewCompany), ErrorMessage = "El campo correo electrónico es requerido"), StringLength(int.MaxValue), EmailAddress(ErrorMessage = "Correo electrónico inválido.")]
         [Display(Name = "Correo electrónico")]
         [DataType(DataType.EmailAddress)]
         public string CompanyEmail { get; set; }
