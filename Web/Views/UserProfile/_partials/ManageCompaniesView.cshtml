@@ -26,7 +26,8 @@
                                         <img class="img-fluid rounded-circle" src="@company.LogoUrl"  alt="@company.Name"/>
                                     </div>
                                     <div class="mg-list-caption">
-                                        <a asp-controller="jobs" asp-action="details" asp-route-id="@company.Id" asp-route-ispreview="true">
+                                        <a asp-controller="Companies" asp-action="Jobs" asp-route-id="@company.Id">
+
                                             <h4 class="mg-title">@company.Name</h4>
                                         </a>
                                         <span class="mg-subtitle">@company.Email</span>
