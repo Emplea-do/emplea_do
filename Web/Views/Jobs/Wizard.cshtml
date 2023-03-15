@@ -25,17 +25,13 @@
                     <input asp-for="@Model.CompanyName" class="form-control" placeholder="CompanyX, SRL." />
                     <span><b>Tip:</b> Los mejores candidatos tienden a hacer caso omiso de propuestas an&oacute;nimas</span>
                     <br />
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(m => m.CompanyName)
-                    </span>
+                    @Html.ValidationMessageFor(m => m.CompanyName, string.Empty, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     <label class="control-label" asp-for="CompanyEmail"></label>
                     <input asp-for="CompanyEmail" class="form-control" placeholder="email@companyx.com" />
 
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(m => m.CompanyEmail)
-                    </span>
+                    @Html.ValidationMessageFor(m => m.CompanyEmail, string.Empty, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     <label class="control-label" asp-for="CompanyUrl"></label>
@@ -46,9 +42,8 @@
                         o crees que necesita unas mejoras, considera buscar un web developer aquí mismo.
                     </span>
                     <br />
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(m => m.CompanyUrl)
-                    </span>
+
+                    @Html.ValidationMessageFor(m => m.CompanyUrl, string.Empty, new { @class = "text-danger" })
                 </div>
                 <div class="form-group">
                     <label class="control-label" asp-for="CompanyLogoUrl"></label>
@@ -58,9 +53,8 @@
                         Si no sabes que es eso, no te preocupes, sube el logo a <b><a href="https://imgur.com" target="_blank">imgur</a></b> y pega la url aqu&iacute;
                     </span>
                     <br />
-                    <span class="text-danger">
-                        @Html.ValidationMessageFor(m => m.CompanyLogoUrl)
-                    </span>
+
+                    @Html.ValidationMessageFor(m => m.CompanyLogoUrl, string.Empty, new { @class = "text-danger" })
                 </div>
                 <span>Al agregar una compañía aceptas que tienes permiso de parte de la compañía para publicar posiciones en su nombre</span>
             </div>
@@ -68,7 +62,8 @@
                 <div class="form-group">
                     <label class="control-label" asp-for="CompanyId"></label>
                     <select asp-for="CompanyId" asp-items="@(new SelectList(Model.Companies, "Id", "Name"))" class="form-control select2"></select>
-                    <span class="text-danger">@Html.ValidationMessageFor(m => m.CompanyId)</span>
+
+                    @Html.ValidationMessageFor(m => m.CompanyId, string.Empty, new { @class = "text-danger" })
                 </div>
             </div>
             <hr />
@@ -76,17 +71,19 @@
                 <label class="control-label" asp-for="Title"></label>
                 <input asp-for="Title" class="form-control" placeholder="ejemp. Se busca Web Designer" />
 
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.Title)</span>
+                @Html.ValidationMessageFor(m => m.Title, string.Empty, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="CategoryId"></label>
                 <select asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories, "Id", "Name"))" class="form-control select2"></select>
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.CategoryId)</span>
+
+                @Html.ValidationMessageFor(m => m.CategoryId, string.Empty, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="JobTypeId"></label>
                 <select asp-for="JobTypeId" asp-items="@(new SelectList(Model.JobTypes, "Id", "Name"))" class="form-control select2"></select>
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.JobTypeId)</span>
+
+                @Html.ValidationMessageFor(m => m.JobTypeId, string.Empty, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="LocationName"></label>
@@ -94,8 +91,9 @@
                 <input type="hidden" asp-for="LocationLatitude" />
                 <input type="hidden" asp-for="LocationLongitude" />
                 <input type="hidden" asp-for="LocationPlaceId" />
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.LocationName)</span>
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.LocationPlaceId)</span>
+
+                @Html.ValidationMessageFor(m => m.LocationName, string.Empty, new { @class = "text-danger" })
+                @Html.ValidationMessageFor(m => m.LocationPlaceId, string.Empty, new { @class = "text-danger" })
             </div>
             <div class="form-group">
                 <input type="checkbox" class="i-checks" asp-for="IsRemote" />
@@ -103,9 +101,13 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="Description"></label>
-                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Model.Description</div>
+                <div id="Description-editor"  class="form-control" placeholder="Escribe los requerimientos de tu candidato ideal.">@Html.Raw(Model.Description)</div>
                 <input type="hidden" asp-for="Description" />
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.Description)</span>
+
+                @Html.ValidationMessageFor(m => m.Description, string.Empty, new { @class = "text-danger" })
+
+                <br />
+
                 <span>
                     <b>Tip:</b> Se lo más explícito posible, si eres de recursos humanos consulta con una persona de
                     tecnología sobre cuales son los requerimientos técnicos.
@@ -113,9 +115,10 @@
             </div>
             <div class="form-group">
                 <label class="control-label" asp-for="HowToApply"></label>
-                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Model.HowToApply</div>
+                <div id="HowToApply-editor" name="HowToApply" class="form-control" placeholder="Agrega los pasos que un candidato debe realizar para aplicar a el puesto, no hay que proporcionar el correo en este campo.">@Html.Raw(Model.HowToApply)</div>
                 <input type="hidden" asp-for="HowToApply" />
-                <span class="text-danger">@Html.ValidationMessageFor(m => m.HowToApply)</span>
+
+                @Html.ValidationMessageFor(m => m.HowToApply, string.Empty, new { @class = "text-danger" })
             </div>
             <button type="submit" class="btn btn-primary btn-lg">Guardar información</button>
         }
@@ -138,7 +141,7 @@
 @section Scripts{
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=@(Configuration["GoogleMapsApiKey"])&libraries=places"></script>
     <script type="text/javascript">
-google.maps.event.addDomListener(window, 'load', function () {
+        google.maps.event.addDomListener(window, 'load', function () {
             var places = new google.maps.places.Autocomplete(document.getElementById('LocationName'));
             google.maps.event.addListener(places, 'place_changed', function () {
                 var place = places.getPlace();
@@ -159,7 +162,7 @@ google.maps.event.addDomListener(window, 'load', function () {
             });
         });
 
-        var toggleCompanySelect = function () {
+        let toggleCompanySelect = function () {
 
             if ($("#CreateNewCompany[value=true]")[0].checked) {
                 $("#newCompanyDetails").show();
@@ -178,36 +181,48 @@ google.maps.event.addDomListener(window, 'load', function () {
 
         $(document).ready(function () {
             toggleCompanySelect();
+
             $(".form-check-input").on("ifChanged", function () {
                 toggleCompanySelect();
             });
 
-            var descriptionBox = new Quill('#Description-editor', {
+            let quillEditorConfiguration = {
                 modules: {
                     toolbar: [
-                        ['bold', 'italic', 'underline'],
+                        [{ 'size': ['small', false, 'large', 'huge'] }],
+
+                        [{ 'color': [] }, { 'background': [] }],
+
+                        ['bold', 'italic', 'underline', 'strike'],
+
+                        ['link'],
+
+                        [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+
+                        [{ 'indent': '-1' }, { 'indent': '+1' }],
+
+                        ['blockquote', 'code-block'],
+
+                        ['clean']
                     ]
                 },
-                placeholder: '',
                 theme: 'snow'
+            };
+
+            let descriptionEditor = new Quill('#Description-editor', quillEditorConfiguration);
+
+            descriptionEditor.on('text-change', function (delta) {
+                $("#Description").val(descriptionEditor.root.innerHTML);
             });
 
-            descriptionBox.on('text-change', function (delta) {
-                $("#Description").val(descriptionBox.getText(0));
-            });
-            var applyBox = new Quill('#HowToApply-editor', {
-                modules: {
-                    toolbar: [
-                        ['bold', 'italic', 'underline'],
-                    ]
-                },
-                placeholder: '',
-                theme: 'snow'  // or 'bubble'
-            });
+            let howToApplyEditor = new Quill('#HowToApply-editor', quillEditorConfiguration);
 
-            applyBox.on('text-change', function (delta) {
-                $("#HowToApply").val(applyBox.getText(0));
+            howToApplyEditor.on('text-change', function (delta) {
+                $("#HowToApply").val(howToApplyEditor.root.innerHTML);
             });
-        });</script>
+        });
+    </script>
 
 }
+
+<partial name="_ValidationScriptsPartial" />
